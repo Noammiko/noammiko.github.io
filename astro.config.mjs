@@ -8,6 +8,12 @@ import svelte from '@astrojs/svelte';
 
 // https://astro.build/config
 export default defineConfig({
-  site: 'https://noam.shalit.name',
-  integrations: [react(), tailwind(), svelte()],
+    site: 'https://noam.shalit.name',
+    integrations: [
+        react(),
+        tailwind({
+            applyBaseStyles: false,
+        }),
+        svelte()
+    ],
 });
