@@ -16,6 +16,6 @@ export default defineConfig({
     }), svelte(), opengraphImages({
         options: {
         },
-        render: presets.blackAndWhite
+        render: presets.simpleBlog
     })],
 });
