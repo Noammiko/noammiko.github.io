@@ -1,51 +1,17 @@
 ---
 import Layout from "@/layouts/Layout.astro";
+import Spinner from "@/components/SpinnerCard.astro"
 ---
 
 <Layout title="Noam Miko Studio", description="Homepage for Noam Miko Studio.\nWork in progress coming soon!">
     <main class="flex h-full justify-center">
-        <div
-            class="spinner text-center place-self-center p-6 drop-shadow-md rounded-sm bg-secondary font-sans"
+        <Spinner
+            class="text-center place-self-center p-6 drop-shadow-md rounded-sm bg-secondary font-sans"
         >
             <h1 class="text-8xl pb-4">Noam Miko Studio</h1>
             <p class="text-3xl underline text-stone-300">
                 More info coming soon...
             </p>
-        </div>
+        </Spinner>
     </main>
 </Layout>
-
-<style>
-    .spinner {
-        position: relative;
-        overflow: hidden;
-    }
-    .spinner::after {
-        z-index: -1;
-        content: "";
-        position: absolute;
-        inset: 5px;
-        border-radius: inherit;
-        background-color: inherit;
-    }
-    .spinner::before {
-        z-index: -2;
-        content: "";
-        top: 50%;
-        position: absolute;
-        height: 500%;
-        width: 20px;
-        background-color: rgb(252 211 77);
-        transform-origin: top;
-        animation: 3s linear infinite rot;
-    }
-
-    @keyframes rot {
-        0% {
-            transform: rotate(0);
-        }
-        100% {
-            transform: rotate(360deg);
-        }
-    }
-</style>

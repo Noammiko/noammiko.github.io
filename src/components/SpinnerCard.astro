@@ -1,0 +1,57 @@
+---
+interface Props {
+    colour?: string;
+    width?: string;
+    length?: string;
+    revolutionSeconds?: number;
+    class: string;
+}
+
+const {
+    class: className,
+    colour = "rgb(252 211 77)",
+    width = "5px",
+    length = "20px",
+    revolutionSeconds = 3,
+    ...rest
+} = Astro.props;
+---
+
+<div class=`spinner ${className}` {...rest}>
+    <slot />
+</div>
+
+<style define:vars={{ spinnerColour: colour, width, length, revolutionSeconds }}>
+    .spinner {
+        position: relative;
+        overflow: hidden;
+    }
+    .spinner::after {
+        z-index: -1;
+        content: "";
+        position: absolute;
+        inset: var(--width);
+        border-radius: inherit;
+        background-color: inherit;
+    }
+    .spinner::before {
+        z-index: -2;
+        content: "";
+        top: 50%;
+        position: absolute;
+        height: 500%;
+        width: var(--length);
+        background-color: var(--spinnerColour);
+        transform-origin: top;
+        animation: calc(var(--revolutionSeconds)*1s) linear infinite rot;
+    }
+
+    @keyframes rot {
+        0% {
+            transform: rotate(0);
+        }
+        100% {
+            transform: rotate(360deg);
+        }
+    }
+</style>
