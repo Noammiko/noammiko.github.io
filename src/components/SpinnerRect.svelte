@@ -13,7 +13,7 @@
      * children:Snippet 
      * }} */
     let {
-        class:classNames = "bg-white",
+        classNames = "bg-white",
         width = 300,
         height = 200,
         cornerRadius = 20,
@@ -45,25 +45,38 @@
         2 * (width + height - 2 * lineWidth) - 8 * cornerRadius + 2 * Math.PI * cornerRadius,
     );
     const dashLength = $derived((pathLength * lineLength) / 100);
+    
+    let container;
+    $effect(()=>{
+        if (!container) return;
+        const smap = window.getComputedStyle(container);
+        
+        cornerRadius = parseFloat(smap.borderRadius);
+    })
 </script>
 
-<!-- <svelte:window bind:innerWidth={width} bind:innerHeight={height} /> -->
-
 <div class="relative {classNames}"
- style:width={width+"px"} 
-style:height={height+"px"} 
-style:border-radius={cornerRadius+"px"}
+bind:clientHeight={height}
+bind:clientWidth={width}
+bind:this={container}
 >
     <!-- Container div with rounded corners and path -->
     <div
-        class="absolute inset-0 bg-inherit"
+        class="absolute inset-0 bg-transparent"
         style:border-radius={cornerRadius+"px"}
         style:border-width={lineWidth+"px"}
         style:border-color={showPath?borderColour:"transparent"}
     >
-    {#if children}
-        {@render children()}        
-    {/if}
+    </div>
+
+    <div
+        class="w-full h-full"
+        style:border-width={lineWidth+"px"}
+        style:border-color="transparent"
+    >
+        {#if children}
+            {@render children()}        
+        {/if}
     </div>
 
     <!-- SVG Spinner -->
