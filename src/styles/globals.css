@@ -60,7 +60,10 @@
   * {
     @apply border-border;
   }
-  /* body {
+  html, body {
+    @apply h-full m-0 p-0
+  }
+  body {
     @apply bg-background text-foreground;
-  } */
+  }
 }
