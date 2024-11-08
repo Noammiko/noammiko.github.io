@@ -33,7 +33,14 @@ const openGraphImageUrl = getImagePath({ url, site });
                 optional:{
                     description: description
                 }
-            }}
+            }},
+           twitter={{
+            card: "summary_large_image",
+            title: title,
+            description: description,
+            image: openGraphImageUrl,
+            site: site
+          }}
             extend={{
                 // extending the default link tags
                 link: [
