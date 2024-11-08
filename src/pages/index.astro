@@ -21,12 +21,12 @@ import Layout from "@/layouts/Layout.astro";
         overflow: hidden;
     }
     .spinner::after {
-        z-index: -2;
+        z-index: -1;
         content: "";
         position: absolute;
         inset: 5px;
-        border-radius: calc(var(--radius) - 4px);
-        background-color: hsl(var(--secondary));;
+        border-radius: inherit;
+        background-color: inherit;
     }
     .spinner::before {
         z-index: -2;
