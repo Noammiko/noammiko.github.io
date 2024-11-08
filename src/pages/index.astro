@@ -1,17 +1,34 @@
 ---
 import Layout from "@/layouts/Layout.astro";
 import Spinner from "@/components/SpinnerCard.astro"
+import Spinner2 from "@/components/SpinnerRect.svelte"
 ---
 
 <Layout title="Noam Miko Studio", description="Homepage for Noam Miko Studio.\nWork in progress coming soon!">
     <main class="flex h-full justify-center">
-        <Spinner
+        <!-- <Spinner
             class="text-center place-self-center p-6 drop-shadow-md rounded-sm bg-secondary font-sans"
         >
             <h1 class="text-8xl pb-4">Noam Miko Studio</h1>
             <p class="text-3xl underline text-stone-300">
                 More info coming soon...
             </p>
-        </Spinner>
+        </Spinner> -->
+        <!-- client:load -->
+        <Spinner2 
+        revolutionTimeSeconds={6}
+         lineWidth={5}
+          lineLength={5} 
+          showPath={false} 
+          width={1000}
+          height={180}
+          cornerRadius={8}
+          class="text-center place-self-center p-6 drop-shadow-md bg-secondary font-sans" 
+          lineColour="rgb(252 211 77)" >
+            <h1 class="text-8xl pb-4">Noam Miko Studio</h1>
+            <p class="text-3xl underline text-stone-300">
+                More info coming soon...
+            </p>
+        </Spinner2>
     </main>
 </Layout>
