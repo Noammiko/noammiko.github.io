@@ -15,7 +15,15 @@ export default defineConfig({
         applyBaseStyles: false,
     }), svelte(), opengraphImages({
         options: {
+            fonts: [
+                {
+                    name: "Roboto",
+                    weight: 400,
+                    style: "normal",
+                    data: fs.readFileSync("node_modules/@fontsource/roboto/files/roboto-latin-400-normal.woff"),
+                },
+            ],
         },
-        render: presets.simpleBlog
+        render: presets.blackAndWhite
     })],
 });
