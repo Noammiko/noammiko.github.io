@@ -3,7 +3,6 @@
      * classNames: string, 
      * width: number,
      * height:number, 
-     * cornerRadius:number,
      * lineLength:number, 
      * lineWidth:number, 
      * lineColour:string, 
@@ -16,7 +15,6 @@
         classNames = "bg-white",
         width = 300,
         height = 200,
-        cornerRadius = 20,
         lineLength = 15,
         lineWidth = 4,
         lineColour = "#3B82F6",
@@ -25,24 +23,26 @@
         borderColour = "rgb(229 231 235)",
         children,
     } = $props();
+    let cornerRadius = $state(20);
 
     // Create the path that follows the rounded rectangle, have it be derived so it can change on the fly
     // line is also stroke-alignement: inner
+    const offset = $derived(-lineWidth / 2)
     const roundedRectPath = $derived(`
-      M ${cornerRadius + lineWidth/2} ${lineWidth/2}
-      H ${width - cornerRadius - lineWidth/2}
-      A ${cornerRadius} ${cornerRadius} 0 0 1 ${width - lineWidth/2} ${cornerRadius + lineWidth/2}
-      V ${height - cornerRadius - lineWidth/2}
-      A ${cornerRadius} ${cornerRadius} 0 0 1 ${width - cornerRadius - lineWidth/2} ${height - lineWidth/2}
-      H ${cornerRadius + lineWidth/2}
-      A ${cornerRadius} ${cornerRadius} 0 0 1 ${lineWidth/2} ${height - cornerRadius - lineWidth/2}
-      V ${cornerRadius + lineWidth/2}
-      A ${cornerRadius} ${cornerRadius} 0 0 1 ${cornerRadius + lineWidth/2} ${lineWidth/2}
+      M ${cornerRadius + offset} ${offset}
+      H ${width - cornerRadius - offset}
+      A ${cornerRadius} ${cornerRadius} 0 0 1 ${width - offset} ${cornerRadius + offset}
+      V ${height - cornerRadius - offset}
+      A ${cornerRadius} ${cornerRadius} 0 0 1 ${width - cornerRadius - offset} ${height - offset}
+      H ${cornerRadius + offset}
+      A ${cornerRadius} ${cornerRadius} 0 0 1 ${offset} ${height - cornerRadius - offset}
+      V ${cornerRadius + offset}
+      A ${cornerRadius} ${cornerRadius} 0 0 1 ${cornerRadius + offset} ${offset}
     `);
 
     // Calculate total path length for proper dash sizing
     const pathLength = $derived(
-        2 * (width + height - 2 * lineWidth) - 8 * cornerRadius + 2 * Math.PI * cornerRadius,
+        2 * (width + height - offset*4) - 8 * cornerRadius + 2 * Math.PI * cornerRadius,
     );
     const dashLength = $derived((pathLength * lineLength) / 100);
     
@@ -59,7 +59,14 @@
 bind:clientHeight={height}
 bind:clientWidth={width}
 bind:this={container}
+style:border-width={lineWidth+"px"}
+style:border-color="transparent"
 >
+    {#if children}
+        {@render children()}        
+    {/if}
+
+
     <!-- Container div with rounded corners and path -->
     <div
         class="absolute inset-0 bg-transparent"
@@ -67,12 +74,6 @@ bind:this={container}
         style:border-width={lineWidth+"px"}
         style:border-color={showPath?borderColour:"transparent"}
     >
-    </div>
-
-    <div>
-        {#if children}
-            {@render children()}        
-        {/if}
     </div>
 
     <!-- SVG Spinner -->
