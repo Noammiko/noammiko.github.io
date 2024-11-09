@@ -69,11 +69,7 @@ bind:this={container}
     >
     </div>
 
-    <div
-        class="w-full h-full"
-        style:border-width={lineWidth+"px"}
-        style:border-color="transparent"
-    >
+    <div>
         {#if children}
             {@render children()}        
         {/if}
