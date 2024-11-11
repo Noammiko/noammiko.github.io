@@ -1,15 +1,16 @@
 ---
 import "@/styles/globals.css";
+import PostHog from "@/components/posthog.astro"
 
 import { SEO } from "astro-seo";
 import { getImagePath } from "astro-opengraph-images";
 
 interface Props {
     title: string;
-    description?:string
+    description:string
 }
 
-const { title, description = "Page description goes here, can be long but needs keywards" } = Astro.props;
+const { title, description } = Astro.props;
 const { url, site } = Astro;
 const openGraphImageUrl = getImagePath({ url, site });
 ---
@@ -59,6 +60,8 @@ const openGraphImageUrl = getImagePath({ url, site });
                 ],
             }}
         />
+
+        <PostHog />
     </head>
     <body>
         <slot />
