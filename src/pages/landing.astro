@@ -1,0 +1,28 @@
+---
+import Layout from "@/layouts/Layout.astro";
+
+import { FaSpotify } from "react-icons/fa";
+import { SiApplemusic } from "react-icons/si";
+import { FaTiktok } from "react-icons/fa";
+import { FaInstagram } from "react-icons/fa";
+import { FaYoutube } from "react-icons/fa";
+---
+
+<Layout title="Noam Miko" , description="Guelph recording and editing Studio">
+  <main
+    class="flex h-full justify-center bg-black bg-gradient-to-tl from-black from-20% to-80% to-black via-red-950"
+  >
+    <div class="w-full h-full backdrop-blur-xl">
+      <h1 class="text-center text-6xl text-white m-4">
+        Noam Miko
+      </h1>
+      <div class="flex gap-4 justify-center text-white text-4xl">
+        <a href="?"><FaTiktok /></a>
+        <a aria-disabled="true"><FaYoutube className="text-white/30" /></a>
+        <a href="?"><FaSpotify /></a>
+        <a href="?"><SiApplemusic /></a>
+        <a href="?"><FaInstagram /></a>
+      </div>
+    </div>
+  </main>
+</Layout>
