@@ -14,7 +14,7 @@ import { FaYoutube } from "react-icons/fa";
   <main
     class="flex h-full justify-center bg-black bg-gradient-to-tl from-black from-20% to-80% to-black via-red-950"
   >
-    <div class="w-full h-full backdrop-blur-xl text-center text-white">
+    <div class="w-full h-full backdrop-blur-xl text-center text-white relative">
       <h1 class="text-6xl m-4">Noam Miko</h1>
 
       <div class="flex max-w-80 mx-auto justify-between text-white text-4xl">
@@ -27,9 +27,49 @@ import { FaYoutube } from "react-icons/fa";
         <a href="?" aria-label="Instagram"><FaInstagram /></a>
       </div>
 
-      <h2 class="text-4xl mt-8">My Music</h2>
-      <div class="h-24 m-2">
-        <SongDemo client:idle="svelte" />
+      <div class="flex flex-col md:px-2 md:flex-row place-content-between md:items-baseline">
+        <div>
+          <h2 class="text-4xl mt-8">My Music</h2>
+          <div class="h-24 m-2 md:min-w-80">
+            <SongDemo client:idle="svelte" />
+          </div>
+        </div>
+
+        <div>
+          <h2 class="text-4xl mt-4">Miko recording studio</h2>
+          <div class="h-96 m-2 blur">
+            <div
+              class="bg-slate-400 h-full text-6xl select-none content-center"
+            >
+              temporary
+            </div>
+          </div>
+        </div>
+
+        <div
+          class="grid grid-cols-2 md:grid-cols-1 gap-4 p-2 absolute md:relative md:max-w-96 md:justify-self-center bottom-0 left-0 right-0"
+        >
+          <div
+            class="h-28 min-w-32 bg-black/40 border-gray-700 border-4 rounded-xl place-content-center"
+          >
+            Book Session
+          </div>
+          <div
+            class="h-28 min-w-32 bg-black/40 border-gray-700 border-4 rounded-xl place-content-center"
+          >
+            Record Session
+          </div>
+          <div
+            class="h-28 min-w-32 bg-black/40 border-gray-700 border-4 rounded-xl place-content-center"
+          >
+            Mix Session
+          </div>
+          <div
+            class="h-28 min-w-32 bg-black/40 border-gray-700 border-4 rounded-xl place-content-center"
+          >
+            Master Session
+          </div>
+        </div>
       </div>
     </div>
   </main>

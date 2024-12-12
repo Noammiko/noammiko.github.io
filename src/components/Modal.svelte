@@ -16,7 +16,7 @@
 
 <!-- svelte-ignore a11y_click_events_have_key_events, a11y_no_noninteractive_element_interactions -->
 <dialog
-  class="p-0 rounded-sm max-w-[32em] bg-inherit shadow-2xl"
+  class="p-0 rounded-sm max-w-[32em] bg-black/70 shadow-2xl"
   bind:this={dialog}
   onclose={() => (showModal = false)}
   onclick={(e) => {
