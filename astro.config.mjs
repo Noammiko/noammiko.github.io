@@ -26,4 +26,9 @@ export default defineConfig({
         },
         render: presets.blackAndWhite
     })],
+    vite:{
+      resolve:{
+        conditions: ['browser'],
+      }
+    }
 });

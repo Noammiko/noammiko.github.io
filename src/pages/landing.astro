@@ -1,6 +1,8 @@
 ---
 import Layout from "@/layouts/Layout.astro";
 
+import SongDemo from "@/components/songDemo.svelte";
+
 import { FaSpotify } from "react-icons/fa";
 import { SiApplemusic } from "react-icons/si";
 import { FaTiktok } from "react-icons/fa";
@@ -12,16 +14,22 @@ import { FaYoutube } from "react-icons/fa";
   <main
     class="flex h-full justify-center bg-black bg-gradient-to-tl from-black from-20% to-80% to-black via-red-950"
   >
-    <div class="w-full h-full backdrop-blur-xl">
-      <h1 class="text-center text-6xl text-white m-4">
-        Noam Miko
-      </h1>
+    <div class="w-full h-full backdrop-blur-xl text-center text-white">
+      <h1 class="text-6xl m-4">Noam Miko</h1>
+
       <div class="flex max-w-80 mx-auto justify-between text-white text-4xl">
-        <a href="?"><FaTiktok /></a>
-        <a aria-disabled="true"><FaYoutube className="text-white/30" /></a>
-        <a href="?"><FaSpotify /></a>
-        <a href="?"><SiApplemusic /></a>
-        <a href="?"><FaInstagram /></a>
+        <a href="?" aria-label="TikTok"><FaTiktok /></a>
+        <a aria-disabled="true" aria-label="YouTube"
+          ><FaYoutube className="text-white/30" /></a
+        >
+        <a href="?" aria-label="Spotify"><FaSpotify /></a>
+        <a href="?" aria-label="Apple Music"><SiApplemusic /></a>
+        <a href="?" aria-label="Instagram"><FaInstagram /></a>
+      </div>
+
+      <h2 class="text-4xl mt-8">My Music</h2>
+      <div class="h-24 m-2">
+        <SongDemo client:idle="svelte" />
       </div>
     </div>
   </main>
