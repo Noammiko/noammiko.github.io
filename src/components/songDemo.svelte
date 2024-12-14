@@ -15,9 +15,9 @@
 </script>
 
 <div class="h-full flex gap-2">
-  <div class=" bg-gray-600 grow rounded">{providers[$provider]}</div> 
+  <div class=" bg-red-700 grow rounded">{providers[$provider]}</div> 
   <button
-    class="w-8 bg-gray-600 rounded content-center"
+    class="w-8 bg-red-700 rounded content-center"
     onclick={() => (showProviders = true)}
   >
     <span class="[writing-mode:vertical-lr] [text-orientation:mixed]"
@@ -33,7 +33,7 @@
   <div class="flex flex-col gap-2">
     {#each Object.entries(providers) as [key, value]}
       <button
-        class="w-full bg-gray-600 rounded content-center"
+        class="w-full bg-red-600 rounded content-center"
         onclick={() => {
           provider.set(key);
           showProviders = false;
