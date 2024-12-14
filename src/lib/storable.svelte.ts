@@ -4,7 +4,7 @@ interface Storable<T> {
   value: T;
 }
 
-export function storable<T extends any>(
+export function storable<T extends object|string|number|boolean>(
   key: string | number,
   value: T,
   storage: Storage = null,
