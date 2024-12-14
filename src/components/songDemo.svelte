@@ -43,7 +43,7 @@
     {/if}
   </div>
   <button
-    class="w-8 bg-red-700 rounded content-center"
+    class="w-8 bg-red-700 rounded content-center border-red-600 border-2"
     onclick={() => (showProviders = true)}
   >
     <span class="[writing-mode:vertical-lr] [text-orientation:mixed]"
