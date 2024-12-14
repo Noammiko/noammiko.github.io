@@ -8,6 +8,8 @@ import svelte from '@astrojs/svelte';
 
 import opengraphImages, { presets } from 'astro-opengraph-images';
 
+import icon from 'astro-icon';
+
 // https://astro.build/config
 export default defineConfig({
     site: 'https://noam.shalit.name',
@@ -25,7 +27,7 @@ export default defineConfig({
             ],
         },
         render: presets.blackAndWhite
-    })],
+    }), icon()],
     vite:{
       resolve:{
         conditions: ['browser'],

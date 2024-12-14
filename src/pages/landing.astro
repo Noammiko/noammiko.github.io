@@ -3,12 +3,7 @@ import Layout from "@/layouts/Layout.astro";
 
 import SongDemo from "@/components/songDemo.svelte";
 import Spinner from "@/components/SpinnerRect.svelte";
-
-import { FaSpotify } from "react-icons/fa";
-import { SiApplemusic } from "react-icons/si";
-import { FaTiktok } from "react-icons/fa";
-import { FaInstagram } from "react-icons/fa";
-import { FaYoutube } from "react-icons/fa";
+import { Icon } from 'astro-icon/components'
 ---
 
 <Layout title="Noam Miko" , description="Guelph recording and editing Studio">
@@ -30,13 +25,13 @@ import { FaYoutube } from "react-icons/fa";
           classNames="bg-inherit p-5 drop-shadow-md rounded-md w-full flex justify-between text-white text-4xl"
           lineColour="rgb(69 10 10)"
         >
-          <a href="?" aria-label="TikTok"><FaTiktok /></a>
+          <a href="?" aria-label="TikTok"><Icon name="fa-brands:tiktok" /></a>
           <a aria-disabled="true" aria-label="YouTube"
-            ><FaYoutube className="text-white/30" /></a
+            ><Icon name="fa-brands:youtube" class="text-white/30" /></a
           >
-          <a href="?" aria-label="Spotify"><FaSpotify /></a>
-          <a href="?" aria-label="Apple Music"><SiApplemusic /></a>
-          <a href="?" aria-label="Instagram"><FaInstagram /></a>
+          <a href="?" aria-label="Spotify"><Icon name="fa-brands:spotify" /></a>
+          <a href="?" aria-label="Apple Music"><Icon name="simple-icons:applemusic" /></a>
+          <a href="?" aria-label="Instagram"><Icon name="fa-brands:instagram" /></a>
         </Spinner>
       </div>
 
