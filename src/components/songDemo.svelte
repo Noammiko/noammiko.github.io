@@ -1,6 +1,7 @@
 <script lang="ts">
   import { storable } from "@/lib/storable.svelte";
-  import Modal from "@/components/Modal.svelte";
+  import Modal from "./Modal.svelte";
+  import { onMount } from "svelte";
 
   const providers = {
     spotify: "Spotify",
@@ -12,10 +13,21 @@
 
   const provider = storable("musicProvider", "spotify");
   let showProviders = $state(false);
+
+  let loaded = $state(false);
+  onMount(() => {
+    loaded = true;
+  });
 </script>
 
 <div class="h-full flex gap-2">
-  <div class=" bg-red-700 grow rounded">{providers[$provider]}</div> 
+  <div class=" bg-red-700 grow rounded">
+    {#if loaded}
+      {providers[$provider]}
+    {:else}
+      loading...
+    {/if}
+  </div>
   <button
     class="w-8 bg-red-700 rounded content-center"
     onclick={() => (showProviders = true)}
