@@ -5,6 +5,7 @@
      * height:number, 
      * lineLength:number, 
      * lineWidth:number, 
+     * cornerRadius:number,
      * lineColour:string, 
      * revolutionTimeSeconds:number, 
      * showPath: bool
@@ -17,13 +18,13 @@
         height = 200,
         lineLength = 15,
         lineWidth = 4,
+        cornerRadius = 20,
         lineColour = "#3B82F6",
         revolutionTimeSeconds = 2,
         showPath = true,
         borderColour = "rgb(229 231 235)",
         children,
     } = $props();
-    let cornerRadius = $state(20);
 
     // Create the path that follows the rounded rectangle, have it be derived so it can change on the fly
     // line is also stroke-alignement: inner
