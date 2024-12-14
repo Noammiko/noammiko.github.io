@@ -70,7 +70,7 @@ style:border-color="transparent"
 
     <!-- Container div with rounded corners and path -->
     <div
-        class="absolute inset-0 bg-transparent"
+        class="absolute inset-0 bg-transparent pointer-events-none"
         style:border-radius={cornerRadius+"px"}
         style:border-width={lineWidth+"px"}
         style:border-color={showPath?borderColour:"transparent"}
@@ -78,7 +78,7 @@ style:border-color="transparent"
     </div>
 
     <!-- SVG Spinner -->
-    <svg class="absolute inset-0" {width} {height} style:overflow="visible">
+    <svg class="absolute inset-0 pointer-events-none" {width} {height} style:overflow="visible">
         <!-- Animated line segment -->
         <path
             d={roundedRectPath}
