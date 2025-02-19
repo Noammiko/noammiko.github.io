@@ -51,9 +51,10 @@ import { Icon } from "astro-icon/components";
       <div
         class="flex flex-col md:flex-row place-content-between md:items-baseline"
       >
-        <div>
+        <div class="mb-16">
           <h2 class="text-4xl mt-8">My Music</h2>
           <div class="h-24 m-2 md:min-w-80 md:h-64">
+
             <div class="hidden md:block">
               <div style="max-width:100%;">
                 <div
@@ -71,6 +72,7 @@ import { Icon } from "astro-icon/components";
                 </div>
               </div>
             </div>
+            
             <div class="block md:hidden">
               <iframe
                 width="100%"
@@ -85,11 +87,10 @@ import { Icon } from "astro-icon/components";
         </div>
 
         <div class="pointer-events-none">
-          <h2 class="text-4xl mt-20">Miko recording studio</h2>
-        </div>
+          <h2 class="text-4xl mt-4">Miko recording studio</h2>
 
         <div
-          class="grid grid-cols-2 md:grid-cols-1 gap-4 p-2 md:max-w-96 md:justify-self-center"
+          class="grid grid-cols-2 gap-4 p-2 md:max-w-96 md:justify-self-center"
         >
           <a
             href="?"
@@ -121,6 +122,7 @@ import { Icon } from "astro-icon/components";
           </a>
         </div>
       </div>
+    </div>
     </div>
   </main>
 </Layout>
