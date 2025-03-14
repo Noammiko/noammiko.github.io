@@ -7,10 +7,10 @@
 <div class="grid grid-cols-2 gap-4 p-2 md:max-w-96 md:justify-self-center">
   <button
     onclick={() => (showBundleModal = true)}
-    aria-label="Rate and Bundles"
+    aria-label="Current Prices"
     class="h-28 min-w-32 bg-black/40 border-red-950 border-4 rounded-xl place-content-center"
   >
-    Rate<br />and<br />Bundles
+    Current Prices
   </button>
   <a
     href="mailto:Noamtoven@gmail.com?subject=Studio%20session%20booking%20request"
@@ -43,18 +43,17 @@
   <div class="text-white">
     <div>
       <b class="text-xl">1 SONG BUNDLE</b>
-      <p>
-        $119.50 Includes 2 hours of studio time + Pro Mix + Pro master ($150
-        value)
-      </p>
+      <p>$119.50</p>
+      <p>Includes 2 hours of studio time + Pro Mix + Pro master ($150 value)</p>
     </div>
     <br />
 
     <div>
       <b class="text-xl">2 SONGS BUNDLE</b>
+      <p>$199.50</p>
       <p>
-        $199.50 Includes 3 hours of studio time + 2 Pro mix’s + 2 Pro masters
-        ($270 value)
+        Includes 3 hours of studio time + 2 Pro mix’s + 2 Pro masters ($270
+        value)
       </p>
     </div>
     <br />
@@ -72,6 +71,7 @@
       <b class="text-xl">Mix and master combo discount</b>
       <p>$75 includes Mix and master ($90 value)</p>
 
+      <b class="text-xl">Instrumentals/Beats</b>
       <p>$50 for an existing beat</p>
 
       <p>$100 for custom beat</p>
