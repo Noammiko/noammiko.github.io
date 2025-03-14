@@ -28,7 +28,7 @@
     Portfolio
   </a>
   <a
-    href="?"
+    href="/gallery"
     aria-label="Gallary"
     class="h-28 min-w-32 bg-black/40 border-red-950 border-4 rounded-xl place-content-center"
   >

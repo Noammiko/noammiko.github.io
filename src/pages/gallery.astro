@@ -1,0 +1,51 @@
+---
+import Layout from "@/layouts/Layout.astro";
+import DynamicImage from "@/components/dynamicImage.astro";
+
+---
+
+<Layout title="Noam Miko - Gallery" , description="Guelph recording and editing Studio Gallery">
+  <main
+    class="flex h-full min-h-screen justify-center bg-gradient-to-tl bg-repeat bg-scroll overflow-y-auto scrollbar-hide scrollbar-custom from-black from-20% via-40% to-80% to-black via-red-950"
+  >
+    <div class="w-full h-full md:px-2 text-center text-white">
+      <h1 class="pointer-events-none text-6xl m-4">Noam Miko Studio Gallery</h1>
+
+      <div class="grid grid-cols-3 gap-4 w-4/5 mx-auto">
+      <DynamicImage imagePath="/src/assets/galary/1.jpeg" altText="Noam Miko" />
+      <DynamicImage imagePath="/src/assets/galary/2.jpeg" altText="Noam Miko" />
+      <DynamicImage imagePath="/src/assets/galary/3.jpeg" altText="Noam Miko" />
+      <DynamicImage imagePath="/src/assets/galary/4.jpeg" altText="Noam Miko" />
+      <DynamicImage imagePath="/src/assets/galary/5.jpeg" altText="Noam Miko" />
+      <DynamicImage imagePath="/src/assets/galary/6.jpeg" altText="Noam Miko" />
+      <DynamicImage imagePath="/src/assets/galary/7.jpeg" altText="Noam Miko" />
+      </div>
+    </div>
+  </main>
+</Layout>
+
+<style>
+  /* Custom scrollbar for Chrome, Safari, and Opera */
+  .scrollbar-custom::-webkit-scrollbar {
+    width: 12px; /* Width of the scrollbar */
+  }
+
+  .scrollbar-custom::-webkit-scrollbar-track {
+    background: #f1f1f1; /* Background of the scrollbar track */
+  }
+
+  .scrollbar-custom::-webkit-scrollbar-thumb {
+    background: #888; /* Color of the scrollbar thumb */
+    border-radius: 10px; /* Rounded corners for the thumb */
+  }
+
+  .scrollbar-custom::-webkit-scrollbar-thumb:hover {
+    background: #555; /* Color of the thumb on hover */
+  }
+
+  /* Custom scrollbar for Firefox */
+  .scrollbar-custom {
+    scrollbar-width: thin; /* Make the scrollbar thin */
+    scrollbar-color: #888 #f1f1f1; /* Thumb color and track color */
+  }
+</style>
