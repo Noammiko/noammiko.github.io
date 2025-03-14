@@ -16,7 +16,7 @@
 
 <!-- svelte-ignore a11y_click_events_have_key_events, a11y_no_noninteractive_element_interactions -->
 <dialog
-  class="p-0 rounded-sm max-w-[32em] bg-black/70 shadow-2xl"
+  class="p-0 rounded-sm max-w-[32em] bg-black/90 shadow-2xl"
   bind:this={dialog}
   onclose={() => (showModal = false)}
   onclick={(e) => {
@@ -39,7 +39,7 @@
 
 <style>
   dialog::backdrop {
-    background: rgba(0, 0, 0, 0.3);
+    background: rgba(0, 0, 0, 0.5);
   }
   dialog[open] {
     animation: zoom 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
