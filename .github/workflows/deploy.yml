@@ -20,6 +20,10 @@ jobs:
     steps:
       - name: Checkout your repository using git
         uses: actions/checkout@v4
+        with:
+          lfs: true
+      - name: Checkout LFS objects
+        run: git lfs checkout
       - name: Install, build, and upload your site
         uses: withastro/action@v3
         with:
