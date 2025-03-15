@@ -6,6 +6,8 @@ import Spinner from "@/components/SpinnerRect.svelte";
 import { Icon } from "astro-icon/components";
 import RecordingStudioButtons from "@/components/RecordingStudioButtons.svelte";
 import SongLink from "@/components/OdesliEmbed.astro";
+
+const songId = "1771197405";
 ---
 
 <Layout title="Noam Miko" , description="Guelph recording and editing Studio">
@@ -64,11 +66,11 @@ import SongLink from "@/components/OdesliEmbed.astro";
           <h2 class="text-4xl mt-8">My Music</h2>
           <div class="h-24 m-2 md:min-w-80 md:h-64">
             <div class="hidden md:block">
-              <SongLink id="1771197405" size="large" dark={true} />
+              <SongLink id={songId} size="large" dark={true} />
             </div>
             
             <div class="block md:hidden">
-              <SongLink id="1771197405" size="medium" dark={true} />
+              <SongLink id={songId} size="medium" dark={true} />
             </div>
           </div>
         </div>
