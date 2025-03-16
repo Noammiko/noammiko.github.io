@@ -1,15 +1,15 @@
 ---
 import "@/styles/globals.css";
-import PostHog from "@/components/posthog.astro"
+import PostHog from "@/components/posthog.astro";
 
-import josefinWoff2 from '@fontsource/josefin-sans/files/josefin-sans-latin-400-normal.woff2';
+import josefinWoff2 from "@fontsource/josefin-sans/files/josefin-sans-latin-400-normal.woff2";
 
 import { SEO } from "astro-seo";
 import { getImagePath } from "astro-opengraph-images";
 
 interface Props {
     title: string;
-    description:string
+    description: string;
 }
 
 const { title, description } = Astro.props;
@@ -23,11 +23,17 @@ const openGraphImageUrl = getImagePath({ url, site });
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width" />
         <meta name="theme-color" content="#000000" />
-        {[
-            josefinWoff2,
-        ].map(href => (
-            <link rel="preload" as="font" type="font/woff2" href={href} crossorigin="anonymous" />
-        ))}
+        {
+            [josefinWoff2].map((href) => (
+                <link
+                    rel="preload"
+                    as="font"
+                    type="font/woff2"
+                    href={href}
+                    crossorigin="anonymous"
+                />
+            ))
+        }
 
         <SEO
             title={title}
@@ -39,17 +45,18 @@ const openGraphImageUrl = getImagePath({ url, site });
                     image: openGraphImageUrl,
                     url: url,
                 },
-                optional:{
-                    description: description
-                }
-            }},
-           twitter={{
-            card: "summary_large_image",
-            title: title,
-            description: description,
-            image: openGraphImageUrl,
-            site: site.host
-          }}
+                optional: {
+                    description: description,
+                },
+            }}
+            ,
+            twitter={{
+                card: "summary_large_image",
+                title: title,
+                description: description,
+                image: openGraphImageUrl,
+                site: site.host,
+            }}
             extend={{
                 // extending the default link tags
                 link: [

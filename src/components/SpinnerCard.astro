@@ -21,7 +21,8 @@ const {
     <slot />
 </div>
 
-<style define:vars={{ spinnerColour: colour, width, length, revolutionSeconds }}>
+<style define:vars={{ spinnerColour: colour, width, length, revolutionSeconds }}
+>
     .spinner {
         position: relative;
         overflow: hidden;
@@ -43,7 +44,7 @@ const {
         width: var(--length);
         background-color: var(--spinnerColour);
         transform-origin: top;
-        animation: calc(var(--revolutionSeconds)*1s) linear infinite rot;
+        animation: calc(var(--revolutionSeconds) * 1s) linear infinite rot;
     }
 
     @keyframes rot {

@@ -1,7 +1,6 @@
 ---
 import Layout from "@/layouts/Layout.astro";
 
-import SongDemo from "@/components/songDemo.svelte";
 import UserLinks from "@/components/userLinks.svelte";
 import RecordingStudioButtons from "@/components/RecordingStudioButtons.svelte";
 import SongLink from "@/components/OdesliEmbed.astro";
@@ -9,32 +8,48 @@ import SongLink from "@/components/OdesliEmbed.astro";
 const songId = "1771197405";
 ---
 
-<Layout title="Noam Miko" , description="Guelph recording and editing Studio">
+<Layout title="Noam Miko" description="Guelph recording and editing Studio">
   <main
     class="flex h-full min-h-screen justify-center bg-gradient-to-tl bg-repeat bg-scroll overflow-y-auto scrollbar-hide scrollbar-custom from-black from-20% via-40% to-80% to-black via-red-950"
   >
     <div class="w-full h-full md:px-2 text-center text-white">
       <h1 class="pointer-events-none text-6xl m-4">Noam Miko</h1>
 
-
       <div class="max-w-80 mx-auto">
-        <UserLinks client:idle="svelte" links={[
-          { href: "https://www.tiktok.com/@noam.mikomusic?_t=ZM-8u3YhR5AXLC&_r=1", type: "tiktok" },
-          { type: "youtube"},
-          { href: "https://open.spotify.com/artist/0gUcy53MSITsECduF7jt2l?si=y6q6aBEaSkabScRdjv4Twg", type: "spotify" },
-          { href: "https://music.apple.com/ca/artist/noam-miko/1770122422", type: "apple" },
-          { href: "https://www.instagram.com/noam.mikomusic/", type: "instagram" },
-        ]}/>
+        <UserLinks
+          client:idle="svelte"
+          links={[
+            {
+              href: "https://www.tiktok.com/@noam.mikomusic?_t=ZM-8u3YhR5AXLC&_r=1",
+              type: "tiktok",
+            },
+            { type: "youtube" },
+            {
+              href: "https://open.spotify.com/artist/0gUcy53MSITsECduF7jt2l?si=y6q6aBEaSkabScRdjv4Twg",
+              type: "spotify",
+            },
+            {
+              href: "https://music.apple.com/ca/artist/noam-miko/1770122422",
+              type: "apple",
+            },
+            {
+              href: "https://www.instagram.com/noam.mikomusic/",
+              type: "instagram",
+            },
+          ]}
+        />
       </div>
 
       <div
         class="flex flex-col md:flex-row place-content-between md:items-baseline"
       >
         <div class="mb-4">
-          <h2 class="pointer-events-none text-4xl mt-4">Miko recording studio</h2>
+          <h2 class="pointer-events-none text-4xl mt-4">
+            Miko recording studio
+          </h2>
 
           <RecordingStudioButtons client:load="svelte" />
-      </div>
+        </div>
 
         <div>
           <h2 class="text-4xl mt-8">My Music</h2>
@@ -42,14 +57,13 @@ const songId = "1771197405";
             <div class="hidden md:block">
               <SongLink id={songId} size="large" dark={true} />
             </div>
-            
+
             <div class="block md:hidden">
               <SongLink id={songId} size="medium" dark={true} />
             </div>
           </div>
         </div>
-
-    </div>
+      </div>
     </div>
   </main>
 </Layout>
