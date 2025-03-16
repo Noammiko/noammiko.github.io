@@ -1,15 +1,15 @@
 <script>
     /** @type {{ 
-     * classNames: string, 
-     * width: number,
-     * height:number, 
-     * lineLength:number, 
-     * lineWidth:number, 
-     * cornerRadius:number,
-     * lineColour:string, 
-     * revolutionTimeSeconds:number, 
-     * showPath: bool
-     * borderColour:string, 
+     * classNames?: string, 
+     * width?: number,
+     * height?:number, 
+     * lineLength?:number, 
+     * lineWidth?:number, 
+     * cornerRadius?:number,
+     * lineColour?:string, 
+     * revolutionTimeSeconds?:number, 
+     * showPath?: bool
+     * borderColour?:string, 
      * children:Snippet 
      * }} */
     let {
