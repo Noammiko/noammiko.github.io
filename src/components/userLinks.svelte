@@ -49,9 +49,3 @@
     {/if}
   {/each}
 </Spinner>
-
-<style>
-  a {
-    height: 48px;
-  }
-</style>
