@@ -39,13 +39,15 @@
         <iconify-icon class="align-middle" inline={true} icon={brands[value.type].icon}></iconify-icon>
       </a>
     {:else}
-      <a
+      <span
         aria-disabled="true"
+        role="button"
         aria-label={value.ariaLabel ?? brands[value.type].ariaLabel}
+        class="pointer-events-none"
       >
         <iconify-icon class="text-white/30 align-middle" inline={true} icon={brands[value.type].icon}
         ></iconify-icon>
-      </a>
+      </span>
     {/if}
   {/each}
 </Spinner>
