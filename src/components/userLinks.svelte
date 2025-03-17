@@ -36,14 +36,14 @@
         href={value.href}
         aria-label={value.ariaLabel ?? brands[value.type].ariaLabel}
       >
-        <iconify-icon class="align-middle" icon={brands[value.type].icon}></iconify-icon>
+        <iconify-icon class="align-middle" inline={true} icon={brands[value.type].icon}></iconify-icon>
       </a>
     {:else}
       <a
         aria-disabled="true"
         aria-label={value.ariaLabel ?? brands[value.type].ariaLabel}
       >
-        <iconify-icon class="text-white/30 align-middle" icon={brands[value.type].icon}
+        <iconify-icon class="text-white/30 align-middle" inline={true} icon={brands[value.type].icon}
         ></iconify-icon>
       </a>
     {/if}
