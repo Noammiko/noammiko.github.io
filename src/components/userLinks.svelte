@@ -26,7 +26,7 @@
   lineLength={25}
   cornerRadius={6}
   showPath={false}
-  classNames="bg-inherit p-5 drop-shadow-md rounded-md w-full flex justify-between text-white text-4xl"
+  classNames="bg-inherit p-5 rounded-md w-full flex justify-between text-white text-4xl"
   height={76}
   lineColour="rgb(69 10 10)"
 >
