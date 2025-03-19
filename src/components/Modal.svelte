@@ -1,16 +1,46 @@
-<script>
+<script lang="ts">
+  import { onMount } from "svelte";
+
   let {
     showModal = $bindable(),
+    id = "modal",
     header,
     children,
     closeMessage = "close modal",
+  }: {
+    showModal: boolean;
+    id?: string;
+    header?: () => any;
+    children?: () => any;
+    closeMessage?: string;
   } = $props();
 
-  let dialog = $state(); // HTMLDialogElement
+  let dialog: HTMLDialogElement = $state();
 
   $effect(() => {
     if (showModal) dialog.showModal();
     else dialog.close();
+  });
+
+  $effect(() => {
+    // update url state
+    const urlParams = new URLSearchParams(window.location.search);
+    if (showModal) {
+      urlParams.set(id, "open");
+    } else {
+      urlParams.delete(id);
+    }
+    window.history.replaceState(
+      {},
+      "",
+      `${window.location.pathname}?${urlParams.toString()}`,
+    );
+  });
+
+  onMount(() => {
+    // read url state
+    const urlParams = new URLSearchParams(window.location.search);
+    showModal = urlParams.get("modal") === "open";
   });
 </script>
 
@@ -25,7 +55,7 @@
 >
   <div class="p-2">
     {@render header?.()}
-    <hr class="my-2"/>
+    <hr class="my-2" />
     {@render children?.()}
     <hr class="my-2" />
     <!-- svelte-ignore a11y_autofocus -->
