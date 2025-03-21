@@ -1,8 +1,6 @@
 <script lang="ts">
-  import { onMount } from "svelte";
-
   let {
-    showModal = $bindable(),
+    showModal = $bindable(false),
     id = "modal",
     header,
     children,
@@ -22,9 +20,15 @@
     else dialog.close();
   });
 
+  let firstLoad = true;
   $effect(() => {
     // update url state
     const urlParams = new URLSearchParams(window.location.search);
+    if (firstLoad) {
+      firstLoad = false;
+      showModal = urlParams.get(id) === "open";
+    }
+
     if (showModal) {
       urlParams.set(id, "open");
     } else {
@@ -35,12 +39,6 @@
       "",
       `${window.location.pathname}?${urlParams.toString()}`,
     );
-  });
-
-  onMount(() => {
-    // read url state
-    const urlParams = new URLSearchParams(window.location.search);
-    showModal = urlParams.get("modal") === "open";
   });
 </script>
 

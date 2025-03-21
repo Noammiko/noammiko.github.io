@@ -6,6 +6,7 @@
     aria_label,
     closeMessage = "hide",
     classNames,
+    id,
     header,
     children,
   }: {
@@ -13,6 +14,7 @@
     aria_label?: string;
     closeMessage?: string;
     classNames?: string;
+    id?: string;
     header?: () => any;
     children?: () => any;
   } = $props();
@@ -28,4 +30,4 @@
   {text}
 </button>
 
-<Modal bind:showModal {closeMessage} {children} {header} />
+<Modal bind:showModal {closeMessage} {children} {header} {id} />
