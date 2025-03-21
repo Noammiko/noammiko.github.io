@@ -5,6 +5,16 @@ import UserLinks from "@/components/userLinks.svelte";
 import RecordingStudioButtons from "@/components/RecordingStudioButtons.astro";
 import SongLink from "@/components/OdesliEmbed.astro";
 
+import { getImages } from "@/assets/galary/images";
+import Gallery from "@/components/Gallery.tsx";
+
+const images = await getImages({
+  densities: [1.5, 2],
+  imageTransform: {
+    format: "webp",
+  },
+});
+
 const songId = "1771197405";
 ---
 
@@ -49,6 +59,14 @@ const songId = "1771197405";
           </h2>
 
           <RecordingStudioButtons />
+        </div>
+
+        <div class="hidden ll:block self-center">
+          <h2 class="pointer-events-none text-4xl mt-4">
+            Gallery
+          </h2>
+
+        <Gallery images={images} client:visible="react" />
         </div>
 
         <div>
