@@ -1,7 +1,14 @@
 ---
 import Layout from "@/layouts/Layout.astro";
-import DynamicImage from "@/components/dynamicImage.astro";
-// import images from "@/assets/galary/images";
+import { getImages } from "@/assets/galary/images";
+import Gallery from "@/components/Gallery.tsx";
+
+const images = await getImages({
+  densities: [1.5, 2],
+  imageTransform: {
+    format: "webp",
+  },
+});
 ---
 
 <Layout
@@ -15,37 +22,8 @@ import DynamicImage from "@/components/dynamicImage.astro";
     <div class="w-full h-full md:px-2 text-center text-white">
       <h1 class="pointer-events-none text-6xl m-4">Noam Miko Studio Gallery</h1>
 
-      <div
-        class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 w-4/5 mx-auto"
-      >
-        <DynamicImage
-          imagePath="/src/assets/galary/1.jpeg"
-          alt="Noam Miko"
-        />
-        <DynamicImage
-          imagePath="/src/assets/galary/2.jpeg"
-          alt="Noam Miko"
-        />
-        <DynamicImage
-          imagePath="/src/assets/galary/3.jpeg"
-          alt="Noam Miko"
-        />
-        <DynamicImage
-          imagePath="/src/assets/galary/4.jpeg"
-          alt="Noam Miko"
-        />
-        <DynamicImage
-          imagePath="/src/assets/galary/5.jpeg"
-          alt="Noam Miko"
-        />
-        <DynamicImage
-          imagePath="/src/assets/galary/6.jpeg"
-          alt="Noam Miko"
-        />
-        <DynamicImage
-          imagePath="/src/assets/galary/7.jpeg"
-          alt="Noam Miko"
-        />
+      <div class="mx-auto w-2/3">
+        <Gallery images={images} client:idle="react" />
       </div>
     </div>
   </main>
