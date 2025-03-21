@@ -52,7 +52,7 @@ const images = await getImages({
   >
     <slot name="header" />
     <div class="px-16">
-      <Gallery images={images} client:visible="react" />
+      <Gallery images={images} client:visible />
     </div>
   </ModalButton>
 </div>
