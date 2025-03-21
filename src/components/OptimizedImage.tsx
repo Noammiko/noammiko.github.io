@@ -7,7 +7,7 @@ export interface OptimizedImageProps {
 }
 
 const OptimizedImage: React.FC<OptimizedImageProps> = ({ OptimizedImage, className }) => {
-	console.log(OptimizedImage);
+	// console.log(OptimizedImage);
 	return (
 		<img
 			className={className}

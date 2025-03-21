@@ -1,6 +1,16 @@
 ---
 import RatesAndBundles from "./RatesAndBundles.astro";
 import ModalButton from "./ModalButton.svelte";
+
+import { getImages } from "@/assets/galary/images";
+import Gallery from "@/components/Gallery.tsx";
+
+const images = await getImages({
+  densities: [1.5, 2],
+  imageTransform: {
+    format: "webp",
+  },
+});
 ---
 
 <div class="grid grid-cols-2 gap-4 p-2 md:max-w-96 md:justify-self-center">
@@ -33,11 +43,16 @@ import ModalButton from "./ModalButton.svelte";
   >
     Portfolio
   </a>
-  <a
-    href="/gallery"
-    aria-label="Gallary"
-    class="h-28 min-w-32 bg-black/40 border-red-950 border-4 rounded-xl place-content-center"
+  <ModalButton
+    aria_label="Gallery"
+    classNames="h-28 min-w-32 bg-black/40 border-red-950 border-4 rounded-xl place-content-center"
+    text="Gallery"
+    id="gallery"
+    client:visible="svelte"
   >
-    Gallary
-  </a>
+    <slot name="header" />
+    <div class="px-16">
+      <Gallery images={images} client:visible="react" />
+    </div>
+  </ModalButton>
 </div>
