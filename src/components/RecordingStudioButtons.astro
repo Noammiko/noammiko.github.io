@@ -51,8 +51,11 @@ const images = await getImages({
     client:visible="svelte"
   >
     <slot name="header" />
-    <div class="px-16">
-      <Gallery images={images} className="lg:max-w-xl" client:idle />
+    <div class="block lg:hidden px-2">
+      <Gallery images={images} buttons={false} className="max-w-xl" client:visible />
+    </div>
+    <div class="hidden lg:block px-16">
+      <Gallery images={images} buttons={true} className="max-w-xl" client:visible />
     </div>
   </ModalButton>
 </div>

@@ -12,9 +12,10 @@ import type { GetImageResult } from "astro";
 interface CarouselItemProps {
 	images: Array<GetImageResult>;
 	className?: string;
+	buttons?: boolean;
 }
 
-export default function CarouselComponent({ images, className }: CarouselItemProps) {
+export default function CarouselComponent({ images, className, buttons = true }: CarouselItemProps) {
 	if (images === undefined || images.length === 0) return (<></>);
 
 	return (
@@ -28,8 +29,10 @@ export default function CarouselComponent({ images, className }: CarouselItemPro
 					</CarouselItem>
 				))}
 			</CarouselContent>
-			<CarouselPrevious />
-			<CarouselNext />
+			{buttons && <>
+				<CarouselPrevious />
+				<CarouselNext />
+			</>}
 		</Carousel>
 	)
 }
