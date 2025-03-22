@@ -19,7 +19,7 @@ const images = await getImages({
     classNames="h-28 min-w-32 bg-black/40 border-red-950 border-4 rounded-xl place-content-center"
     text="Current Prices"
     id="ratesAndBundles"
-    client:visible="svelte"
+    client:idle="svelte"
   >
     <slot name="header">
       <h2 class="text-white text-2xl">Rates And Bundles</h2>
@@ -48,7 +48,7 @@ const images = await getImages({
     classNames="h-28 min-w-32 bg-black/40 border-red-950 border-4 rounded-xl place-content-center"
     text="Gallery"
     id="gallery"
-    client:visible="svelte"
+    client:idle="svelte"
   >
     <slot name="header" />
     <div class="block lg:hidden px-2">
