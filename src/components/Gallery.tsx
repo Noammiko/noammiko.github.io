@@ -11,13 +11,14 @@ import type { GetImageResult } from "astro";
 
 interface CarouselItemProps {
 	images: Array<GetImageResult>;
+	className?: string;
 }
 
-export default function CarouselComponent({ images }: CarouselItemProps) {
+export default function CarouselComponent({ images, className }: CarouselItemProps) {
 	if (images === undefined || images.length === 0) return (<></>);
 
 	return (
-		<Carousel className="w-full max-w-xs">
+		<Carousel className={`w-full max-w-xs ${className}`}>
 			<CarouselContent>
 				{images.map((image, index) => (
 					<CarouselItem key={index}>
