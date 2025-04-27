@@ -17,6 +17,7 @@
     spotify: { icon: "fa-brands:spotify", ariaLabel: "Spotify" },
     tiktok: { icon: "fa-brands:tiktok", ariaLabel: "TikTok" },
     youtube: { icon: "fa-brands:youtube", ariaLabel: "YouTube" },
+    location: {icon:"tabler:map-share", ariaLabel: "Location"},
   } as const;
 </script>
 
