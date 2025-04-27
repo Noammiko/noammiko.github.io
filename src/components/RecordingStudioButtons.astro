@@ -1,6 +1,9 @@
 ---
 import RatesAndBundles from "./RatesAndBundles.astro";
 import ModalButton from "./ModalButton.svelte";
+import { Image } from 'astro:assets';
+
+import ratesImage from "../assets/Prices and Bundles.png"
 
 import { getImages } from "@/assets/galary/images";
 import Gallery from "@/components/Gallery.tsx";
@@ -21,12 +24,13 @@ const images = await getImages({
     id="ratesAndBundles"
     client:idle="svelte"
   >
-    <slot name="header">
-      <h2 class="text-white text-2xl">Rates And Bundles</h2>
-    </slot>
-    <div class="text-white">
-      <RatesAndBundles />
-    </div>
+  <div class="p-4 overflow-hidden">
+    <Image 
+      src={ratesImage} 
+      alt="Current prices and bundles" 
+      class="max-h-[80vh] max-w-[90vw] w-full h-auto  object-contain" 
+    />  
+  </div>
   </ModalButton>
   <a
     href="mailto:Noamtoven@gmail.com?subject=Studio%20session%20booking%20request"
