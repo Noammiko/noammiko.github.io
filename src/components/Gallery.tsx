@@ -1,4 +1,6 @@
 import OptimizedImage from "@/components/OptimizedImage";
+import Autoplay from "embla-carousel-autoplay"
+
 
 import {
 	Carousel,
@@ -19,7 +21,12 @@ export default function CarouselComponent({ images, className, buttons = true }:
 	if (images === undefined || images.length === 0) return (<></>);
 
 	return (
-		<Carousel className={`w-full max-w-xs ${className}`}>
+		<Carousel className={`w-full max-w-xs ${className}`}
+			plugins={[
+				Autoplay({
+					delay: 2000,
+				}),
+			]}>
 			<CarouselContent>
 				{images.map((image, index) => (
 					<CarouselItem key={index}>
