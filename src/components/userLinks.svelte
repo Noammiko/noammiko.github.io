@@ -8,7 +8,7 @@
     ariaLabel?: string;
   }
 
-  let { links }: { links: Link[] } = $props();
+  let { links }: { links: (Link | "br")[] } = $props();
 
   const brands = {
     apple: { icon: "simple-icons:applemusic", ariaLabel: "Apple Music" },
@@ -29,10 +29,12 @@
   showPath={false}
   classNames="bg-inherit p-5 rounded-md w-full flex justify-between text-white text-4xl"
   height={76}
-  lineColour="rgb(69 10 10)"
+  lineColour="rgb(117 17 150)"
 >
   {#each links as value}
-    {#if value.href}
+    {#if value === "br"}
+    <br>
+    {:else if value.href}
       <a
         href={value.href}
         aria-label={value.ariaLabel ?? brands[value.type].ariaLabel}
