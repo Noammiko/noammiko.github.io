@@ -1,0 +1,38 @@
+---
+import { getSongData } from "@/lib/songlink";
+import type { components } from "@/lib/songlink/v1-alpha.1";
+
+const songlink = "https://open.spotify.com/track/1oVkgKH3hOvflNq43leLBi";
+
+// const res = await getSongData({
+//   url: songlink,
+//   userCountry: "CA",
+// });
+import example from "./_example.json";
+const res = example;
+
+let mainPlatform: components["schemas"]["PlatformLink"] | undefined;
+if ("appleMusic" in res.linksByPlatform) {
+  mainPlatform = res.linksByPlatform["appleMusic"];
+} else {
+  mainPlatform = res.linksByPlatform[Object.keys(res.linksByPlatform)[0]];
+}
+if (!mainPlatform) {
+  throw new Error("No main platform found");
+}
+
+const icon: components["schemas"]["Entity"] =
+  res.entitiesByUniqueId[mainPlatform.entityUniqueId];
+---
+
+<img src={icon.thumbnailUrl} alt={icon.title} />
+
+<h1>{icon.title}</h1>
+
+<p>{icon.artistName}</p>
+
+<pre>
+  <code>
+{JSON.stringify(res, null, 2)}
+  </code>
+</pre>
