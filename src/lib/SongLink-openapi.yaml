@@ -1,0 +1,251 @@
+openapi: 3.0.0
+info:
+  title: Songlink API
+  description: >
+    This is the documentation for Songlink API version 1-alpha.1.
+
+    The API request and response structures may change.
+
+    In the case of breaking changes, a new version of the API will be supported.
+
+
+    Please properly attribute your integration with our API by displaying to
+    your users that your feature or product is powered by Songlink.
+
+    Use of our API is governed by our [API Terms of
+    Service](https://song.link/api-terms).
+  version: 1-alpha.1
+servers:
+  - url: 'https://api.song.link/v1-alpha.1'
+    description: Production server (v1-alpha.1)
+paths:
+  /links:
+    get:
+      summary: Fetch matching links for a given streaming entity.
+      description: >
+        This is the main endpoint that allows you to fetch the matching links
+        for a given streaming entity.
+
+        For example, with this endpoint you can provide the URL of an Apple
+        Music track and receive the URLs and data for that song on Spotify,
+        YouTube, Tidal and more.
+      parameters:
+        - in: query
+          name: url
+          description: >-
+            The URL of a valid song or album from any of our supported
+            platforms. It is safest to encode the URL, e.g. with
+            `encodeURIComponent()`
+          schema:
+            type: string
+        - in: query
+          name: userCountry
+          description: >-
+            Two-letter country code. Specifies the country/location we use when
+            searching streaming catalogs. Optional. Defaults to `US`.
+          schema:
+            type: string
+        - in: query
+          name: songIfSingle
+          description: >-
+            Defaults to `false`. Pass in `true` if you’d like us to use/return
+            song data for single-song albums (i.e. “singles”). We often do
+            better matching if we use the song instead of the album/single, so
+            this is highly recommend.
+          schema:
+            type: boolean
+        - in: query
+          name: platform
+          description: >-
+            The platform of the entity you'd like to match. See above section
+            for supported platforms. If `url` is not provided, you must provide
+            `platform`, `type` and `id`.
+          schema:
+            type: string
+            enum:
+              - spotify
+              - itunes
+              - appleMusic
+              - youtube
+              - youtubeMusic
+              - google
+              - googleStore
+              - pandora
+              - deezer
+              - tidal
+              - amazonStore
+              - amazonMusic
+              - soundcloud
+              - napster
+              - yandex
+              - spinrilla
+              - audius
+              - anghami
+              - boomplay
+              - audiomack
+        - in: query
+          name: type
+          description: >-
+            The type of streaming entity. We support `song` and `album`. If
+            `url` is not provided, you must provide `platform`, `type` and `id`.
+          schema:
+            type: string
+            enum:
+              - song
+              - album
+        - in: query
+          name: id
+          description: >-
+            The unique identifier of the streaming entity, e.g. `1443109064`
+            which is an iTunes ID. If `url` is not provided, you must provide
+            `platform`, `type` and `id`.
+          schema:
+            type: string
+        - in: query
+          name: key
+          description: API Key for higher rate limits and preferred support.
+          schema:
+            type: string
+      responses:
+        '200':
+          description: A successful response with matching links and entity data.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Response'
+        4XX:
+          description: Client-side error.
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: Invalid input
+        5XX:
+          description: Server-side error.
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: Internal server error
+components:
+  schemas:
+    Response:
+      type: object
+      properties:
+        entityUniqueId:
+          type: string
+          description: The unique ID for the input entity that was supplied in the request.
+        userCountry:
+          type: string
+          description: The userCountry query param that was supplied in the request.
+        pageUrl:
+          type: string
+          description: A URL that will render the Songlink page for this entity.
+        linksByPlatform:
+          type: object
+          description: >-
+            A collection of objects. Each key is a platform, and each value is
+            an object that contains data for linking to the match.
+          additionalProperties:
+            $ref: '#/components/schemas/PlatformLink'
+        entitiesByUniqueId:
+          type: object
+          description: >-
+            A collection of objects. Each key is a unique identifier for a
+            streaming entity, and each value is an object that contains data for
+            that entity.
+          additionalProperties:
+            $ref: '#/components/schemas/Entity'
+    PlatformLink:
+      type: object
+      properties:
+        entityUniqueId:
+          type: string
+          description: The unique ID for this entity.
+        url:
+          type: string
+          description: The URL for this match.
+        nativeAppUriMobile:
+          type: string
+          nullable: true
+          description: >-
+            The native app URI that can be used on mobile devices to open this
+            entity directly in the native app.
+        nativeAppUriDesktop:
+          type: string
+          nullable: true
+          description: >-
+            The native app URI that can be used on desktop devices to open this
+            entity directly in the native app.
+    Entity:
+      type: object
+      properties:
+        id:
+          type: string
+          description: >-
+            This is the unique identifier on the streaming platform/API
+            provider.
+        type:
+          type: string
+          enum:
+            - song
+            - album
+        title:
+          type: string
+          nullable: true
+        artistName:
+          type: string
+          nullable: true
+        thumbnailUrl:
+          type: string
+          nullable: true
+        thumbnailWidth:
+          type: integer
+          nullable: true
+        thumbnailHeight:
+          type: integer
+          nullable: true
+        apiProvider:
+          type: string
+          enum:
+            - spotify
+            - itunes
+            - youtube
+            - google
+            - pandora
+            - deezer
+            - tidal
+            - amazon
+            - soundcloud
+            - napster
+            - yandex
+            - spinrilla
+            - audius
+            - audiomack
+            - anghami
+            - boomplay
+        platforms:
+          type: array
+          items:
+            type: string
+            enum:
+              - spotify
+              - itunes
+              - appleMusic
+              - youtube
+              - youtubeMusic
+              - google
+              - googleStore
+              - pandora
+              - deezer
+              - tidal
+              - amazonStore
+              - amazonMusic
+              - soundcloud
+              - napster
+              - yandex
+              - spinrilla
+              - audius
+              - audiomack
+              - anghami
+              - boomplay

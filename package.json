@@ -7,7 +7,9 @@
     "start": "astro dev",
     "build": "astro check && astro build",
     "preview": "astro preview",
-    "astro": "astro"
+    "astro": "astro",
+    "test:ts": "tsc --noEmit",
+    "songlink-api": "openapi-typescript ./src/lib/SongLink-openapi.yaml -o src/lib/songlink/v1-alpha.1.ts"
   },
   "dependencies": {
     "@astrojs/check": "^0.9.4",
@@ -30,6 +32,7 @@
     "embla-carousel-react": "^8.5.2",
     "iconify-icon": "^2.3.0",
     "lucide-react": "^0.468.0",
+    "openapi-fetch": "^0.13.5",
     "prettier": "^3.5.1",
     "prettier-plugin-astro": "^0.14.1",
     "prettier-plugin-tailwindcss": "^0.6.11",
@@ -49,6 +52,7 @@
     "@iconify-json/fa": "^1.2.1",
     "@iconify-json/fa-brands": "^1.2.1",
     "@iconify-json/mdi": "^1.2.3",
-    "@iconify-json/simple-icons": "^1.2.25"
+    "@iconify-json/simple-icons": "^1.2.25",
+    "openapi-typescript": "^7.6.1"
   }
 }
