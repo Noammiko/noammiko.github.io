@@ -9,7 +9,7 @@ type SongDataParamsIdentifier =
   | {
       id: string;
       type: paths["/links"]["get"]["parameters"]["query"]["type"];
-      platforms: paths["/links"]["get"]["parameters"]["query"]["platform"];
+      platform: paths["/links"]["get"]["parameters"]["query"]["platform"];
     }
   | { url: string };
 

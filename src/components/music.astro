@@ -1,0 +1,196 @@
+---
+import { getSongData } from "@/lib/songlink";
+import type { components } from "@/lib/songlink/v1-alpha.1";
+
+import brands from "@/lib/icons";
+
+import { Card, CardContent, CardFooter } from "@/components/ui/card";
+
+interface Props {
+  songlink?: string;
+  id?: string;
+  type?: "song" | "album";
+  platform?: components["schemas"]["Entity"]["platforms"][0];
+  data: components["schemas"]["Response"];
+  songIfSingle?: boolean;
+}
+
+const {
+  songlink,
+  id,
+  type = "song",
+  platform,
+  data,
+  songIfSingle = false,
+} = Astro.props;
+
+let res: components["schemas"]["Response"];
+if (!songlink && !id && !data) {
+  throw new Error("Must provide either songlink, id");
+} else if (data) {
+  res = data;
+} else if (songlink) {
+  res = await getSongData({
+    url: songlink,
+    userCountry: "CA",
+    songIfSingle,
+  });
+} else {
+  if (!(id && type && platform)) {
+    throw new Error("Must provide id, type and platform");
+  }
+  res = await getSongData({
+    userCountry: "CA",
+    id,
+    type,
+    platform,
+    songIfSingle,
+  });
+}
+
+if (!res) {
+  throw new Error("No response");
+}
+
+const song = getEntity(res);
+const items = getMusicProviders(res);
+
+////
+
+function getEntity(
+  data: components["schemas"]["Response"],
+): components["schemas"]["Entity"] {
+  let mainPlatform: components["schemas"]["PlatformLink"];
+  if ("spotify" in data.linksByPlatform) {
+    mainPlatform = data.linksByPlatform["spotify"];
+  } else if ("appleMusic" in data.linksByPlatform) {
+    mainPlatform = data.linksByPlatform["appleMusic"];
+  } else {
+    mainPlatform = data.linksByPlatform[Object.keys(res.linksByPlatform)[0]];
+  }
+  if (!mainPlatform) {
+    throw new Error("No main platform found");
+  }
+
+  return data.entitiesByUniqueId[mainPlatform.entityUniqueId];
+}
+
+function getMusicProviders(
+  data: components["schemas"]["Response"],
+  preferedOrder: string[] = [
+    "spotify",
+    "appleMusic",
+    "youtubeMusic",
+    "deezer",
+    "amazonMusic",
+  ],
+): { provider: string; url: string; nativeUrl?: string }[] {
+  return Object.entries(data.linksByPlatform)
+    .map(([key, value]) => ({
+      provider: key,
+      url: value.url,
+      nativeUrl:
+        value.nativeAppUriDesktop ?? value.nativeAppUriMobile ?? undefined,
+    }))
+    .sort((a, b) => {
+      const aIndex = preferedOrder.indexOf(a.provider);
+      const bIndex = preferedOrder.indexOf(b.provider);
+      if (aIndex === -1) return 1;
+      if (bIndex === -1) return -1;
+      return aIndex - bIndex;
+    });
+}
+
+function getYoutubeEmbedId(data: components["schemas"]["Response"]): string {
+  const youtubePlatform =
+    data.linksByPlatform["youtubeMusic"] ?? data.linksByPlatform["youtube"];
+  if (!youtubePlatform) throw new Error("No youtube platform found");
+  const entity = data.entitiesByUniqueId[youtubePlatform.entityUniqueId];
+  if (!entity.id) throw new Error("No youtube entity id found");
+  return entity.id;
+}
+
+function lookupBrand(brand: string) {
+  return brands[brand];
+}
+---
+
+<Card className="overflow-hidden">
+  <CardContent className="p-0">
+    <div class="grid md:grid-cols-2 lg:grid-cols-5 gap-4">
+      {/* Album art and song info for mobile */}
+      <div class="flex flex-col md:hidden p-4">
+        <div class="flex items-center gap-4">
+          <img
+            src={song.thumbnailUrl || "/albumPlaceholder.svg"}
+            alt={`${song.title} by ${song.artistName}`}
+            width={80}
+            height={80}
+            class="rounded-md object-cover"
+          />
+          <div>
+            <h3 class="font-semibold text-lg">{song.title}</h3>
+            <p class="text-muted-foreground">{song.artistName}</p>
+          </div>
+        </div>
+      </div>
+
+      {/* YouTube embed for desktop */}
+      <div
+        class="hidden md:block aspect-[4/3] lg:aspect-square w-full h-full min-h-[300px] lg:col-span-2"
+      >
+        <iframe
+          width="100%"
+          height="100%"
+          src={`https://www.youtube.com/embed/${getYoutubeEmbedId(res)}?fs=0&modestbranding=1&playsinline=1&color=white`}
+          title={`${song.title} by ${song.artistName}`}
+          frameborder="0"
+          allow="clipboard-write; encrypted-media"
+          allowfullscreen
+          class="w-full h-full"></iframe>
+      </div>
+
+      {/* Song info and streaming links for desktop */}
+      <div class="p-4 sm:p-6 flex flex-col justify-between lg:col-span-3">
+        <div class="hidden md:flex items-start gap-4 mb-6">
+          <img
+            src={song.thumbnailUrl || "/albumPlaceholder.svg"}
+            alt={`${song.title} by ${song.artistName}`}
+            width={100}
+            height={100}
+            class="rounded-md object-cover flex-shrink-0"
+          />
+          <div>
+            <h2 class="text-2xl font-bold">{song.title}</h2>
+            <p class="text-xl text-muted-foreground">{song.artistName}</p>
+          </div>
+        </div>
+
+        <div class="space-y-6">
+          <p>buttons</p>
+          <div class="grid gap-1 grid-cols-4 justify-items-center">
+            {
+              items.map((i) => (
+                <span class="bg-blue-400 rounded-full p-2">
+                  {lookupBrand(i.provider)?.label ?? i.provider}
+                </span>
+              ))
+            }
+          </div>
+        </div>
+      </div>
+    </div>
+  </CardContent>
+  <CardFooter
+    className="px-6 py-3 border-t text-xs text-muted-foreground justify-end"
+  >
+    <a
+      href={res.pageUrl ?? "https://odesli.co/"}
+      target="_blank"
+      rel="noopener noreferrer"
+      class="flex items-center hover:underline"
+    >
+      Powered by Songlink/Odesli
+    </a>
+  </CardFooter>
+</Card>
