@@ -3,6 +3,8 @@ import { getSongData } from "@/lib/songlink";
 import type { components } from "@/lib/songlink/v1-alpha.1";
 import "@/styles/globals.css";
 
+import brands from "@/lib/icons"
+
 import { Card, CardContent, CardFooter } from "@/components/ui/card";
 
 const songlink = "https://open.spotify.com/track/1oVkgKH3hOvflNq43leLBi";
@@ -71,16 +73,20 @@ function getYoutubeEmbedId(data: components["schemas"]["Response"]): string {
   if (!entity.id) throw new Error("No youtube entity id found");
   return entity.id;
 }
+
+function lookupBrand(brand:string){
+  return brands[brand];
+}
 ---
 
 <Card className="overflow-hidden">
   <CardContent className="p-0">
-    <div class="grid md:grid-cols-5 gap-4">
+    <div class="grid md:grid-cols-2 lg:grid-cols-5 gap-4">
       {/* Album art and song info for mobile */}
       <div class="flex flex-col md:hidden p-4">
         <div class="flex items-center gap-4">
           <img
-            src={song.thumbnailUrl || "/placeholder.svg"}
+            src={song.thumbnailUrl || "/albumPlaceholder.svg"}
             alt={`${song.title} by ${song.artistName}`}
             width={80}
             height={80}
@@ -95,10 +101,9 @@ function getYoutubeEmbedId(data: components["schemas"]["Response"]): string {
 
       {/* YouTube embed for desktop */}
       <div
-        class="hidden md:block aspect-square h-full min-h-[300px] col-span-2"
+        class="hidden md:block aspect-[4/3] lg:aspect-square w-full h-full min-h-[300px] lg:col-span-2"
       >
         <iframe
-          type="text/html"
           width="100%"
           height="100%"
           src={`https://www.youtube.com/embed/${getYoutubeEmbedId(res)}?fs=0&modestbranding=1&playsinline=1&color=white`}
@@ -110,10 +115,10 @@ function getYoutubeEmbedId(data: components["schemas"]["Response"]): string {
       </div>
 
       {/* Song info and streaming links for desktop */}
-      <div class="p-4 sm:p-6 flex flex-col justify-between">
+      <div class="p-4 sm:p-6 flex flex-col justify-between lg:col-span-3">
         <div class="hidden md:flex items-start gap-4 mb-6">
           <img
-            src={song.thumbnailUrl || "/placeholder.svg"}
+            src={song.thumbnailUrl || "/albumPlaceholder.svg"}
             alt={`${song.title} by ${song.artistName}`}
             width={100}
             height={100}
@@ -125,7 +130,13 @@ function getYoutubeEmbedId(data: components["schemas"]["Response"]): string {
           </div>
         </div>
 
-        <div class="space-y-6">buttons</div>
+        <div class="space-y-6">
+          <p>buttons</p>
+          <div class="grid gap-1 grid-cols-4 justify-items-center">
+          {items.map((i)=><span class="bg-blue-400 rounded-full p-2">{lookupBrand(i.provider)?.label??i.provider}</span>)}
+          </div>
+
+        </div>
       </div>
     </div>
   </CardContent>
