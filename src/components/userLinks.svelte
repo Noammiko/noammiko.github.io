@@ -2,6 +2,8 @@
   import "iconify-icon";
   import Spinner from "./SpinnerRect.svelte";
 
+  import brands from "@/lib/icons";
+
   interface Link {
     href?: string;
     type: keyof typeof brands;
@@ -10,15 +12,7 @@
 
   let { links }: { links: (Link | "br")[] } = $props();
 
-  const brands = {
-    apple: { icon: "simple-icons:applemusic", ariaLabel: "Apple Music" },
-    deezer: { icon: "fa-brands:deezer", ariaLabel: "Deezer" },
-    instagram: { icon: "fa-brands:instagram", ariaLabel: "Instagram" },
-    spotify: { icon: "fa-brands:spotify", ariaLabel: "Spotify" },
-    tiktok: { icon: "fa-brands:tiktok", ariaLabel: "TikTok" },
-    youtube: { icon: "fa-brands:youtube", ariaLabel: "YouTube" },
-    location: {icon:"gis:map-route", ariaLabel: "Location"},
-  } as const;
+
 </script>
 
 <Spinner
@@ -37,7 +31,7 @@
     {:else if value.href}
       <a
         href={value.href}
-        aria-label={value.ariaLabel ?? brands[value.type].ariaLabel}
+        aria-label={value.ariaLabel ?? brands[value.type].label}
       >
         <iconify-icon class="align-middle" inline={true} icon={brands[value.type].icon}></iconify-icon>
       </a>
@@ -45,7 +39,7 @@
       <span
         aria-disabled="true"
         role="button"
-        aria-label={value.ariaLabel ?? brands[value.type].ariaLabel}
+        aria-label={value.ariaLabel ?? brands[value.type].label}
         class="pointer-events-none"
       >
         <iconify-icon class="text-white/30 align-middle" inline={true} icon={brands[value.type].icon}
