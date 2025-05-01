@@ -5,8 +5,8 @@ import type { Platform, ResponseContent } from "./types";
 
 import { Card, CardContent, CardFooter } from "@/components/ui/card";
 
-import MainButton from "./musicMainButton.svelte"
-import ProviderButtons from "./musicButtons.svelte"
+import MainButton from "./musicMainButton.svelte";
+import ProviderButtons from "./musicButtons.svelte";
 
 interface Props {
   songlink?: string;
@@ -94,7 +94,7 @@ const items = getMusicProviders(res);
       </div>
 
       {/* Song info and streaming links for desktop */}
-      <div class="p-4 sm:p-6 flex flex-col justify-between">
+      <div class="p-4 sm:p-6 flex flex-col justify-between w-full">
         <div class="hidden md:flex items-start gap-4 mb-6">
           <img
             src={song.thumbnailUrl || "/albumPlaceholder.svg"}
@@ -109,7 +109,7 @@ const items = getMusicProviders(res);
           </div>
         </div>
 
-        <div class="grid gap-8"> 
+        <div class="grid gap-8">
           <MainButton client:load="svelte" items={items} />
           <ProviderButtons client:idle="svelte" items={items} />
         </div>
