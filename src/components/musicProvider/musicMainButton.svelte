@@ -16,7 +16,7 @@
 
   function handleClick(e: MouseEvent) {
     e.preventDefault();
-    handleOpenLink({ track: currentProvider });
+    handleOpenLink({ track: currentProvider }); //, preferredPlatform: "web" });
   }
 </script>
 
