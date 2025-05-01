@@ -1,5 +1,6 @@
 <script lang="ts">
   import Modal from "./Modal.svelte";
+  import Button from "./ui-svelte/button/button.svelte";
 
   const {
     text = "",
@@ -9,6 +10,7 @@
     id,
     header,
     children,
+    ...opts
   }: {
     text?: string;
     aria_label?: string;
@@ -22,12 +24,13 @@
   let showModal = $state(false);
 </script>
 
-<button
+<Button
   onclick={() => (showModal = true)}
   aria-label={aria_label}
   class={classNames}
+  {...opts}
 >
   {text}
-</button>
+</Button>
 
 <Modal bind:showModal {closeMessage} {children} {header} {id} />

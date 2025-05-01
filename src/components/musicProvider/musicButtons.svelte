@@ -64,6 +64,7 @@
       class="z-10 absolute left-0 top-1/2 -translate-y-1/2 {canScrollPrev
         ? ''
         : 'pointer-events-none'}"
+      variant="secondary"
       disabled={!canScrollPrev}
       onclick={() => emblaApi.scrollPrev()}><ChevronLeft /></Button
     >
@@ -108,6 +109,7 @@
       class="z-10 absolute right-0 top-1/2 -translate-y-1/2 {canScrollNext
         ? ''
         : 'pointer-events-none'}"
+      variant="secondary"
       onclick={() => emblaApi.scrollNext()}
       disabled={!canScrollNext}><ChevronRight /></Button
     >

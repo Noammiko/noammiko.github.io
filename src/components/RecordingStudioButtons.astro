@@ -2,6 +2,7 @@
 import RatesAndBundles from "./RatesAndBundles.astro";
 import ModalButton from "./ModalButton.svelte";
 import { Image } from 'astro:assets';
+import Button from "@/components/ui-svelte/button/button.svelte";
 
 import ratesImage from "../assets/Prices and Bundles.png"
 
@@ -22,6 +23,7 @@ const images = await getImages({
     classNames="h-28 min-w-32 bg-background/40 border-accent border-4 rounded-xl place-content-center"
     text="Prices and Bundles"
     id="ratesAndBundles"
+    variant="secondary"
     client:idle="svelte"
   >
   <div class="p-4 overflow-hidden">
@@ -32,23 +34,26 @@ const images = await getImages({
     />  
   </div>
   </ModalButton>
-  <a
+  <Button
     href="/book"
     aria-label="Book session"
     class="h-28 min-w-32 bg-background/40 border-accent border-4 rounded-xl place-content-center" 
+    variant="secondary"
   >
     Book Session
-  </a>
-  <a
+  </Button>
+  <Button
     href="https://www.dropbox.com/scl/fo/ax0yrpp4165iir4knepsc/ANeBbvSW7TndxePfg5WMwt8?rlkey=bth1wuyms1trg2it5eah3t26u&e=1&st=qu9wz6so&dl=0"
     aria-label="Portfolio"
     target="_blank"
+    variant="secondary"
     class="h-28 min-w-32 bg-background/40 border-accent border-4 rounded-xl place-content-center"
   >
     Portfolio
-  </a>
+  </Button>
   <ModalButton
     aria_label="Gallery"
+    variant="secondary"
     classNames="h-28 min-w-32 bg-background/40 border-accent border-4 rounded-xl place-content-center" 
     text="Gallery"
     id="gallery"
