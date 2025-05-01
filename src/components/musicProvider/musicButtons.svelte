@@ -38,7 +38,7 @@
     }, 210);
 
     const currentProvider = getSelectedProvider(items);
-    handleOpenLink(currentProvider.url, currentProvider.nativeUrl);
+    handleOpenLink({ track: currentProvider });
   }
 
   let canScrollNext = $state(true);
