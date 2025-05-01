@@ -136,4 +136,63 @@ function handleTransformError(error: unknown): void {
   console.error("Error in lucide-astro-optimizer plugin:", typedError);
 }
 
-export default createLucideAstroImportOptimizer;
+
+//
+
+import type { Plugin } from 'vite';
+import MagicString from 'magic-string';
+import { readFileSync } from 'fs';
+
+function lucideSvelteImportOptimizer(): Plugin {
+	const aliases = readFileSync('node_modules/@lucide/svelte/dist/aliases/aliases.d.ts', 'utf8');
+	return {
+		name: 'lucide-svelte optimizer',
+		transform(code, id) {
+			const ms = new MagicString(code, { filename: id });
+
+			ms.replace(
+				/([ \t]*)import\s+\{([^}]+)\}\s+from\s+["']@lucide\/svelte["'];/g, 
+				(match, whitespace: string, importNames: string) => {
+					const hasSemi = match.endsWith(';');
+
+					const imports = importNames
+						.split(',')
+						.map((v) => v.trim())
+						.map((name) => {
+							let path;
+							const alias = aliases.match(
+								new RegExp(`as ${name} } from '\\.\\/icons\\/(.+)\\.svelte';`),
+							);
+							if (alias) {
+								path = alias[1]!;
+							} else {
+								path = name
+									.split('')
+									.map((c, i) => {
+										const code = c.charCodeAt(0);
+										return (code >= 65 && code <= 90) || (code >= 48 && code <= 57)
+											? (i === 0 ? '' : '-') + c.toLowerCase()
+											: c;
+									})
+									.join('');
+							}
+
+							return `${whitespace}import ${name} from '@lucide/svelte/icons/${path}'${hasSemi ? ';' : ''}`; 
+						});
+
+					return imports.join('\n');
+				},
+			);
+
+			if (ms.hasChanged()) {
+				return {
+					code: ms.toString(),
+					map: ms.generateMap(),
+				};
+			}
+		},
+	};
+}
+
+
+export default {createLucideAstroImportOptimizer, lucideSvelteImportOptimizer};
