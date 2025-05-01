@@ -17,6 +17,7 @@ interface Props {
   songIfSingle?: boolean;
   webOnly?: boolean;
   bgColourClass?: string;
+  textColourClass?: string;
 }
 
 const {
@@ -27,7 +28,8 @@ const {
   data,
   songIfSingle = false,
   webOnly = false,
-  bgColourClass = "white"
+  bgColourClass = "bg-white",
+  textColourClass = "text-white"
 } = Astro.props;
 
 let res: ResponseContent;
@@ -62,7 +64,7 @@ const song = getEntity(res);
 const items = getMusicProviders(res);
 ---
 
-<Card className={`overflow-hidden bg-${bgColourClass}`}>  
+<Card className={`overflow-hidden ${bgColourClass}`}>  
   <CardContent className="p-0">
     <div class="flex md:flex-row flex-col">
       {/* Album art and song info for mobile */}
@@ -114,8 +116,8 @@ const items = getMusicProviders(res);
         </div>
 
         <div class="grid gap-8">
-          <MainButton client:load="svelte" items={items} webOnly={webOnly} bgColourClass={bgColourClass} />
-          <ProviderButtons client:idle="svelte" items={items} webOnly={webOnly} bgColourClass={bgColourClass} />
+          <MainButton client:load="svelte" items={items} webOnly={webOnly} textColourClass={textColourClass} />
+          <ProviderButtons client:idle="svelte" items={items} webOnly={webOnly} textColourClass={textColourClass} />
         </div>
       </div>
     </div>

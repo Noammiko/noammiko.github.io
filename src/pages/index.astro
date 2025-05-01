@@ -19,7 +19,10 @@ const songlink = "https://open.spotify.com/track/1oVkgKH3hOvflNq43leLBi";
 import example from "./_example.json";
 ---
 
-<Layout title="Noam Miko" description="Guelph audio recording and editing studio">
+<Layout
+  title="Noam Miko"
+  description="Guelph audio recording and editing studio"
+>
   <main
     class="flex h-full min-h-screen justify-center bg-gradient-to-tl bg-repeat bg-scroll overflow-y-auto scrollbar-hide scrollbar-custom from-black from-20% via-40% to-80% to-black via-red-950"
   >
@@ -34,10 +37,10 @@ import example from "./_example.json";
               href: "https://www.tiktok.com/@noam.mikomusic?_t=ZM-8u3YhR5AXLC&_r=1",
               type: "tiktok",
             },
-            { 
+            {
               type: "youtube",
-              href: "https://www.youtube.com/@NoamMiko"
-             },
+              href: "https://www.youtube.com/@NoamMiko",
+            },
             {
               href: "https://open.spotify.com/artist/0gUcy53MSITsECduF7jt2l?si=y6q6aBEaSkabScRdjv4Twg",
               type: "spotify",
@@ -55,9 +58,7 @@ import example from "./_example.json";
         />
       </div>
 
-      <div
-        class="flex flex-col place-content-between mt-1 md:mt-8"
-      >
+      <div class="flex flex-col place-content-between mt-1 md:mt-8">
         <div class="mb-4">
           <h2 class="pointer-events-none text-4xl mt-4">
             Miko Recording Studio Guelph
@@ -67,17 +68,22 @@ import example from "./_example.json";
         </div>
 
         <div class="hidden self-center">
-          <h2 class="pointer-events-none text-4xl mt-4">
-            Gallery
-          </h2>
+          <h2 class="pointer-events-none text-4xl mt-4">Gallery</h2>
 
-        <Gallery images={images} client:load />
+          <Gallery images={images} client:load />
         </div>
 
         <div>
           <h2 class="text-4xl mt-8">My Music</h2>
           <div class="m-2">
-            <MusicComponent songlink={songlink} data={example as any} webOnly={false} bgColourClass="emerald-300" /> <!-- rose-400 -->
+            <MusicComponent
+              songlink={songlink}
+              data={example as any}
+              webOnly={false}
+              bgColourClass="bg-emerald-300"
+              textColourClass="text-emerald-300"
+            />
+            <!-- rose-400 -->
           </div>
         </div>
       </div>
