@@ -9,7 +9,6 @@
   import Button from "../ui-svelte/button/button.svelte";
   import { flip } from "svelte/animate";
   import { fly } from "svelte/transition";
-  import { onMount } from "svelte";
 
   let emblaApi: EmblaCarouselType;
   let options: EmblaOptionsType = {
@@ -64,6 +63,7 @@
     >
 
     <!-- embla viewport -->
+    <!-- @ts-ignore --> 
     <div use:emblaCarouselSvelte={{ options }} onemblaInit={loadEmbla}>
       <!-- embla container -->
       <div class="flex gap-1 -z-10 mx-16">

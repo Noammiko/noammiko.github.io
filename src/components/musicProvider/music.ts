@@ -20,19 +20,21 @@ export function handleOpenLink({
   browser = undefined,
   timeout = 500,
 }: handleOpenLinkParams) {
-  if (
-    (!track.nativeUrlMobile && !track.nativeUrlDesktop) ||
-    preferredPlatform === "web"
-  ) {
-    window.open(track.url, "_blank");
-    return;
-  }
-
   if (!browser) {
     browser = detectPlatform();
   }
 
   const { isChrome, isSafari, isIOS } = browser;
+
+  const nativeUrl =
+    (browser.isMobile ? track.nativeUrlMobile : track.nativeUrlDesktop) ??
+    track.nativeUrlDesktop ??
+    track.nativeUrlMobile;
+
+  if (!nativeUrl || preferredPlatform === "web") {
+    window.open(track.url, "_blank");
+    return;
+  }
 
   // Special handling for iOS devices
   const isAppleMusic =
@@ -47,15 +49,6 @@ export function handleOpenLink({
   // For Chrome on iOS with Apple Music, direct assignment is needed
   if (track.nativeUrlMobile && isAppleMusic && isIOS && isChrome) {
     window.location.assign(track.nativeUrlMobile);
-    return;
-  }
-
-  const nativeUrl =
-    (browser.isMobile ? track.nativeUrlMobile : track.nativeUrlDesktop) ??
-    track.nativeUrlDesktop ??
-    track.nativeUrlMobile;
-  if (!nativeUrl) {
-    window.open(track.url, "_blank");
     return;
   }
 
@@ -121,6 +114,7 @@ function detectPlatform(): BrowserInfo {
     isMobile: false,
   };
 
+  // @ts-ignore
   const userAgent = navigator.userAgent || navigator.vendor || window.opera;
 
   // Mobile detection
@@ -129,6 +123,7 @@ function detectPlatform(): BrowserInfo {
   browserInfo.isMobile = mobileRegex.test(userAgent);
 
   // Browser & OS detection
+  // @ts-ignore
   browserInfo.isIOS = /iPad|iPhone|iPod/.test(userAgent) && !window.MSStream;
   browserInfo.isSafari = /^((?!chrome|android).)*safari/i.test(userAgent);
   browserInfo.isChrome = /CriOS/i.test(userAgent) || /Chrome/i.test(userAgent);
@@ -179,12 +174,15 @@ export function getMusicProviders(
   ],
 ): MusicProvider[] {
   return Object.entries(data.linksByPlatform)
-    .map(([key, value]) => ({
-      provider: key as Platform, // TODO: add a warning to verify this is correct
-      url: value.url,
-      nativeUrlDesktop: value.nativeAppUriDesktop,
-      nativeUrlMobile: value.nativeAppUriMobile,
-    } as MusicProvider))
+    .map(
+      ([key, value]) =>
+        ({
+          provider: key as Platform, // TODO: add a warning to verify this is correct
+          url: value.url,
+          nativeUrlDesktop: value.nativeAppUriDesktop,
+          nativeUrlMobile: value.nativeAppUriMobile,
+        }) as MusicProvider,
+    )
     .sort((a, b) => {
       const aIndex = preferedOrder.indexOf(a.provider);
       const bIndex = preferedOrder.indexOf(b.provider);
