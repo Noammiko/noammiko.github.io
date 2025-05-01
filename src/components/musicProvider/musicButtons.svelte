@@ -18,7 +18,8 @@
   const {
     items,
     webOnly = false,
-  }: { items: Array<MusicProvider>; webOnly?: boolean } = $props();
+    bgColourClass
+  }: { items: Array<MusicProvider>; webOnly?: boolean, bgColourClass?: string } = $props();
 
   const filteredItems = $derived(
     items.filter((item) => item.provider !== $provider),
@@ -61,7 +62,7 @@
   <!-- embla -->
   <div class="relative overflow-hidden">
     <Button
-      class="z-10 absolute left-0 top-1/2 -translate-y-1/2 {canScrollPrev
+      class="z-10 absolute left-0 top-1/2 -translate-y-1/2 text-{bgColourClass} {canScrollPrev
         ? ''
         : 'pointer-events-none'}"
       disabled={!canScrollPrev}
@@ -85,7 +86,7 @@
               target="_blank"
               variant="outline"
               size="sm"
-              class="whitespace-nowrap text-black bg-white mt-1"
+              class="whitespace-nowrap text-black bg-white/40 mt-1"
               onclick={(e) => {
                 e.preventDefault();
                 handleClick(item);
@@ -101,7 +102,7 @@
       </div>
     </div>
     <Button
-      class="z-10 absolute right-0 top-1/2 -translate-y-1/2 {canScrollNext
+      class="z-10 absolute right-0 top-1/2 -translate-y-1/2 text-{bgColourClass} {canScrollNext
         ? ''
         : 'pointer-events-none'}"
       onclick={() => emblaApi.scrollNext()}

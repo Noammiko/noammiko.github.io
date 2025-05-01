@@ -12,7 +12,8 @@
   const {
     items,
     webOnly = false,
-  }: { items: Array<MusicProvider>; webOnly?: boolean } = $props();
+    bgColourClass
+  }: { items: Array<MusicProvider>; webOnly?: boolean, bgColourClass?: string } = $props();
 
   let currentProvider = $derived(getSelectedProvider(items, $provider));
   const providerBrand = $derived(lookupBrand($provider));
@@ -35,7 +36,7 @@
     href={currentProvider.url}
     target="_blank"
     onclick={handleClick}
-    class="w-full gap-2 text-lg"
+    class="w-full gap-2 text-lg text-{bgColourClass}"
   >
     <iconify-icon icon={providerBrand.icon} class="sm:text-3xl text-2xl"
     ></iconify-icon>
