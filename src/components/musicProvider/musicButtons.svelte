@@ -56,7 +56,9 @@
   <!-- embla -->
   <div class="relative overflow-hidden">
     <Button
-      class="z-10 absolute left-0 top-1/2 -translate-y-1/2"
+      class="z-10 absolute left-0 top-1/2 -translate-y-1/2 {canScrollPrev
+        ? ''
+        : 'pointer-events-none'}"
       disabled={!canScrollPrev}
       onclick={() => emblaApi.scrollPrev()}><ChevronLeft /></Button
     >
@@ -88,7 +90,9 @@
       </div>
     </div>
     <Button
-      class="z-10 absolute right-0 top-1/2 -translate-y-1/2"
+      class="z-10 absolute right-0 top-1/2 -translate-y-1/2 {canScrollNext
+        ? ''
+        : 'pointer-events-none'}"
       onclick={() => emblaApi.scrollNext()}
       disabled={!canScrollNext}><ChevronRight /></Button
     >
