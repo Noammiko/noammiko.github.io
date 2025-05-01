@@ -9,14 +9,20 @@
   import Button from "../ui-svelte/button/button.svelte";
   import { ExternalLink } from "@lucide/svelte";
 
-  const { items }: { items: Array<MusicProvider> } = $props();
+  const {
+    items,
+    webOnly = false,
+  }: { items: Array<MusicProvider>; webOnly?: boolean } = $props();
 
   let currentProvider = $derived(getSelectedProvider(items, $provider));
   const providerBrand = $derived(lookupBrand($provider));
 
   function handleClick(e: MouseEvent) {
     e.preventDefault();
-    handleOpenLink({ track: currentProvider }); //, preferredPlatform: "web" });
+    handleOpenLink({
+      track: currentProvider,
+      preferredPlatform: webOnly ? "web" : "auto",
+    });
   }
 </script>
 

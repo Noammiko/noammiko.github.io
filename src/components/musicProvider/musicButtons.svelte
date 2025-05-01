@@ -15,7 +15,10 @@
     dragFree: true,
   };
 
-  const { items }: { items: Array<MusicProvider> } = $props();
+  const {
+    items,
+    webOnly = false,
+  }: { items: Array<MusicProvider>; webOnly?: boolean } = $props();
 
   const filteredItems = $derived(
     items.filter((item) => item.provider !== $provider),
@@ -37,7 +40,10 @@
     }, 210);
 
     const currentProvider = getSelectedProvider(items);
-    handleOpenLink({ track: currentProvider });
+    handleOpenLink({
+      track: currentProvider,
+      preferredPlatform: webOnly ? "web" : "auto",
+    });
   }
 
   let canScrollNext = $state(true);
@@ -63,7 +69,7 @@
     >
 
     <!-- embla viewport -->
-    <!-- @ts-ignore --> 
+    <!-- @ts-ignore -->
     <div use:emblaCarouselSvelte={{ options }} onemblaInit={loadEmbla}>
       <!-- embla container -->
       <div class="flex gap-1 -z-10 mx-16">
