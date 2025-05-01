@@ -25,8 +25,10 @@
   </Button>
 {:else}
   <Button onclick={handleClick} class="w-full gap-2 text-lg">
-    <iconify-icon icon={providerBrand.icon} class="text-3xl"></iconify-icon>
-    Open in {providerBrand.label}
-    <ExternalLink class="w-4 h-4 -mt-2" />
+    <iconify-icon icon={providerBrand.icon} class="sm:text-3xl text-2xl"></iconify-icon> 
+    <div class="sm:grow flex items-center justify-center gap-1">
+      Open in {providerBrand.label}
+      <ExternalLink class="w-4 h-4 -mt-2" />
+    </div>
   </Button>
 {/if}

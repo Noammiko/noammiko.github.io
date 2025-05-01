@@ -60,7 +60,7 @@ const items = getMusicProviders(res);
 
 <Card className="overflow-hidden">
   <CardContent className="p-0">
-    <div class="grid md:grid-cols-2 lg:grid-cols-5 gap-4">
+    <div class="flex md:flex-row flex-col">
       {/* Album art and song info for mobile */}
       <div class="flex flex-col md:hidden p-4">
         <div class="flex items-center gap-4">
@@ -80,7 +80,7 @@ const items = getMusicProviders(res);
 
       {/* YouTube embed for desktop */}
       <div
-        class="hidden md:block aspect-[4/3] lg:aspect-square w-full h-full min-h-[300px] lg:col-span-2"
+        class="hidden md:block aspect-[4/3] lg:aspect-square w-full h-full min-h-[300px] max-w-[480px]"
       >
         <iframe
           width="100%"
@@ -94,7 +94,7 @@ const items = getMusicProviders(res);
       </div>
 
       {/* Song info and streaming links for desktop */}
-      <div class="p-4 sm:p-6 flex flex-col justify-between lg:col-span-3">
+      <div class="p-4 sm:p-6 flex flex-col justify-between">
         <div class="hidden md:flex items-start gap-4 mb-6">
           <img
             src={song.thumbnailUrl || "/albumPlaceholder.svg"}
