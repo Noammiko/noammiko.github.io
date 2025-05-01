@@ -1,7 +1,7 @@
 import type {components, paths} from "@/lib/songlink/v1-alpha.1";
 
 export interface MusicProvider {
-  provider: string;
+  provider: Platform;
   url: string;
   nativeUrl?: string;
 }
