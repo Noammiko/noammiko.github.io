@@ -10,6 +10,8 @@ import opengraphImages, { presets } from 'astro-opengraph-images';
 
 import icon from 'astro-icon';
 
+import lucideAstroImportOptimizer from "./lucide.config";
+
 // https://astro.build/config
 export default defineConfig({
     site: 'https://noam.shalit.name',
@@ -29,6 +31,7 @@ export default defineConfig({
         render: presets.blackAndWhite
     }), icon()],
     vite:{
+      plugins: [lucideAstroImportOptimizer()],
       resolve:{
         conditions: ['browser'],
         alias: {
