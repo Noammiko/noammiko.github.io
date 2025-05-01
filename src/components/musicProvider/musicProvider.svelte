@@ -1,13 +1,13 @@
 <script lang="ts">
   import "iconify-icon";
-  import brands from "../../lib/icons";
+  import brands, { type AvailableIcons } from "../../lib/icons";
   import { cn } from "../../lib/utils";
   import { lookupBrand } from "./music";
 
   const {
     provider,
     className = "",
-  }: { provider: keyof Omit<typeof brands, "location">; className?: string } =
+  }: { provider: AvailableIcons; className?: string } =
     $props();
 
   let providing = $derived(lookupBrand(provider));

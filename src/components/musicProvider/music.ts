@@ -1,4 +1,4 @@
-import brands from "@/lib/icons";
+import brands, { type AvailableIcons, type Icon } from "@/lib/icons";
 import type { components } from "@/lib/songlink/v1-alpha.1";
 import type { BrowserInfo, MusicProvider } from "./types";
 
@@ -141,8 +141,15 @@ export function getSelectedProvider(
   return items.find((item) => item.provider === selected);
 }
 
-export function lookupBrand(brand: string) {
-  return brands[brand];
+export function lookupBrand(brand: AvailableIcons | string): Icon {
+  if (brand in brands) {
+    return brands[brand];
+  }
+
+  return {
+    icon: undefined,
+    label: brand,
+  };
 }
 
 export function getEntity(

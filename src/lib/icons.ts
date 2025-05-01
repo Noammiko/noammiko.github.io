@@ -1,6 +1,11 @@
 // TOOD: default colurs
 
-export default {
+export interface Icon {
+  icon: string;
+  label: string;
+}
+
+const icons = {
   appleMusic: { icon: "simple-icons:applemusic", label: "Apple Music" },
   itunes: { icon: "simple-icons:itunes", label: "iTunes" },
   deezer: { icon: "cbi:deezer-logo", label: "Deezer" },
@@ -12,11 +17,15 @@ export default {
   pandora: { icon: "simple-icons:pandora", label: "Pandora" },
   tidal: { icon: "simple-icons:tidal", label: "Tidal" },
   amazonStore: { icon: "simple-icons:amazon", label: "Amazon Store" },
-  amazonMusic: { icon: "simple-icons:amazonmusic", label: "Amazon Music"},
-  soundcloud: {icon: "simple-icons:soundcloud", label: "Soundcloud"},
-  napster: {icon: "fa-brands:napster", label: "Napster"},
-  audiomack: {icon: "simple-icons:audiomack", label: "Audiomack"},
-  anghami: {icon:"arcticons:anghami", label: "Anghami"},
-  boomplay: {icon:"arcticons:boomplay", label: "Boomplay"},
+  amazonMusic: { icon: "simple-icons:amazonmusic", label: "Amazon Music" },
+  soundcloud: { icon: "simple-icons:soundcloud", label: "Soundcloud" },
+  napster: { icon: "fa-brands:napster", label: "Napster" },
+  audiomack: { icon: "simple-icons:audiomack", label: "Audiomack" },
+  anghami: { icon: "arcticons:anghami", label: "Anghami" },
+  boomplay: { icon: "arcticons:boomplay", label: "Boomplay" },
   location: { icon: "gis:map-route", label: "Location" },
 } as const;
+
+export type AvailableIcons = keyof typeof icons;
+
+export default icons as { [key: string]: Icon } ;
