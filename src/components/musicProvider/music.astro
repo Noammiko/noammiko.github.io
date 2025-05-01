@@ -1,17 +1,19 @@
 ---
 import { getSongData } from "@/lib/songlink";
-import type { components } from "@/lib/songlink/v1-alpha.1";
-
-import brands from "@/lib/icons";
+import { getEntity, getMusicProviders, getYoutubeEmbedId } from "./music";
+import type { Platform, ResponseContent } from "./types";
 
 import { Card, CardContent, CardFooter } from "@/components/ui/card";
+
+import MainButton from "./musicMainButton.svelte"
+import ProviderButtons from "./musicButtons.svelte"
 
 interface Props {
   songlink?: string;
   id?: string;
   type?: "song" | "album";
-  platform?: components["schemas"]["Entity"]["platforms"][0];
-  data: components["schemas"]["Response"];
+  platform?: Platform;
+  data: ResponseContent;
   songIfSingle?: boolean;
 }
 
@@ -24,7 +26,7 @@ const {
   songIfSingle = false,
 } = Astro.props;
 
-let res: components["schemas"]["Response"];
+let res: ResponseContent;
 if (!songlink && !id && !data) {
   throw new Error("Must provide either songlink, id");
 } else if (data) {
@@ -54,65 +56,6 @@ if (!res) {
 
 const song = getEntity(res);
 const items = getMusicProviders(res);
-
-////
-
-function getEntity(
-  data: components["schemas"]["Response"],
-): components["schemas"]["Entity"] {
-  let mainPlatform: components["schemas"]["PlatformLink"];
-  if ("spotify" in data.linksByPlatform) {
-    mainPlatform = data.linksByPlatform["spotify"];
-  } else if ("appleMusic" in data.linksByPlatform) {
-    mainPlatform = data.linksByPlatform["appleMusic"];
-  } else {
-    mainPlatform = data.linksByPlatform[Object.keys(res.linksByPlatform)[0]];
-  }
-  if (!mainPlatform) {
-    throw new Error("No main platform found");
-  }
-
-  return data.entitiesByUniqueId[mainPlatform.entityUniqueId];
-}
-
-function getMusicProviders(
-  data: components["schemas"]["Response"],
-  preferedOrder: string[] = [
-    "spotify",
-    "appleMusic",
-    "youtubeMusic",
-    "deezer",
-    "amazonMusic",
-  ],
-): { provider: string; url: string; nativeUrl?: string }[] {
-  return Object.entries(data.linksByPlatform)
-    .map(([key, value]) => ({
-      provider: key,
-      url: value.url,
-      nativeUrl:
-        value.nativeAppUriDesktop ?? value.nativeAppUriMobile ?? undefined,
-    }))
-    .sort((a, b) => {
-      const aIndex = preferedOrder.indexOf(a.provider);
-      const bIndex = preferedOrder.indexOf(b.provider);
-      if (aIndex === -1) return 1;
-      if (bIndex === -1) return -1;
-      return aIndex - bIndex;
-    });
-}
-
-function getYoutubeEmbedId(data: components["schemas"]["Response"]): string {
-  const youtubePlatform =
-    data.linksByPlatform["youtubeMusic"] ?? data.linksByPlatform["youtube"];
-  if (!youtubePlatform) throw new Error("No youtube platform found");
-  const entity = data.entitiesByUniqueId[youtubePlatform.entityUniqueId];
-  if (!entity.id) throw new Error("No youtube entity id found");
-  return entity.id;
-}
-
-function lookupBrand(brand: string) {
-  return brands[brand];
-}
 ---
 
 <Card className="overflow-hidden">
@@ -167,16 +110,8 @@ function lookupBrand(brand: string) {
         </div>
 
         <div class="space-y-6">
-          <p>buttons</p>
-          <div class="grid gap-1 grid-cols-4 justify-items-center">
-            {
-              items.map((i) => (
-                <span class="bg-blue-400 rounded-full p-2">
-                  {lookupBrand(i.provider)?.label ?? i.provider}
-                </span>
-              ))
-            }
-          </div>
+          <MainButton client:load="svelte" items={items} />
+          <ProviderButtons client:idle="svelte" items={items} />
         </div>
       </div>
     </div>
@@ -190,7 +125,7 @@ function lookupBrand(brand: string) {
       rel="noopener noreferrer"
       class="flex items-center hover:underline"
     >
-      Powered by Songlink/Odesli
+      <span>Powered by <b>Songlink / Odesli</b></span>
     </a>
   </CardFooter>
 </Card>
