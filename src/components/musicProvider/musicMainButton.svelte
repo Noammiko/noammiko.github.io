@@ -12,8 +12,7 @@
   const {
     items,
     webOnly = false,
-    textColourClass
-  }: { items: Array<MusicProvider>; webOnly?: boolean, textColourClass?: string } = $props();
+  }: { items: Array<MusicProvider>; webOnly?: boolean } = $props();
 
   let currentProvider = $derived(getSelectedProvider(items, $provider));
   const providerBrand = $derived(lookupBrand($provider));
@@ -28,7 +27,7 @@
 </script>
 
 {#if !currentProvider}
-  <Button onclick={handleClick} disabled class="w-full text-lg text-red-200">
+  <Button class="w-full text-lg bg-accent-foreground pointer-events-none cursor-default">
     No provider selected
   </Button>
 {:else}
@@ -36,7 +35,7 @@
     href={currentProvider.url}
     target="_blank"
     onclick={handleClick}
-    class="w-full gap-2 text-lg {textColourClass}"
+    class="w-full gap-2 text-lg"
   >
     <iconify-icon icon={providerBrand.icon} class="sm:text-3xl text-2xl"
     ></iconify-icon>

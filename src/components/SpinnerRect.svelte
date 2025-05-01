@@ -13,7 +13,7 @@
      * children:Snippet 
      * }} */
     let {
-        classNames = "bg-white",
+        classNames = "bg-primary",
         width = 300,
         height = 200,
         lineLength = 15,

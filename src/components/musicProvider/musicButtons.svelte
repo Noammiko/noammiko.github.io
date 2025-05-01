@@ -18,8 +18,7 @@
   const {
     items,
     webOnly = false,
-    textColourClass
-  }: { items: Array<MusicProvider>; webOnly?: boolean, textColourClass?: string } = $props();
+  }: { items: Array<MusicProvider>; webOnly?: boolean } = $props();
 
   const filteredItems = $derived(
     items.filter((item) => item.provider !== $provider),
@@ -62,7 +61,7 @@
   <!-- embla -->
   <div class="relative overflow-hidden">
     <Button
-      class="z-10 absolute left-0 top-1/2 -translate-y-1/2 {textColourClass} {canScrollPrev
+      class="z-10 absolute left-0 top-1/2 -translate-y-1/2 {canScrollPrev
         ? ''
         : 'pointer-events-none'}"
       disabled={!canScrollPrev}
@@ -71,7 +70,11 @@
 
     <!-- embla viewport -->
     <!-- @ts-ignore -->
-    <div use:emblaCarouselSvelte={{ options }} onemblaInit={loadEmbla} class="mx-4 rounded-full overflow-hidden">
+    <div
+      use:emblaCarouselSvelte={{ options }}
+      onemblaInit={loadEmbla}
+      class="mx-4 rounded-full overflow-hidden"
+    >
       <!-- embla container -->
       <div class="flex gap-1 -z-10 mx-11">
         {#each filteredItems as item (item.provider)}
@@ -86,7 +89,7 @@
               target="_blank"
               variant="outline"
               size="sm"
-              class="whitespace-nowrap text-black bg-white/40 mt-1"
+              class="whitespace-nowrap mt-1"
               onclick={(e) => {
                 e.preventDefault();
                 handleClick(item);
@@ -102,7 +105,7 @@
       </div>
     </div>
     <Button
-      class="z-10 absolute right-0 top-1/2 -translate-y-1/2 {textColourClass} {canScrollNext
+      class="z-10 absolute right-0 top-1/2 -translate-y-1/2 {canScrollNext
         ? ''
         : 'pointer-events-none'}"
       onclick={() => emblaApi.scrollNext()}

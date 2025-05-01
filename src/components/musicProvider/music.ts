@@ -52,7 +52,7 @@ export function handleOpenLink({
     return;
   }
 
-  const { isWindowBlurred, controller } = windowBlurDetector(false);
+  const { isWindowBlurred, controller } = windowBlurDetector();
 
   // Create hidden iframe to launch app
   const iframe = document.createElement("iframe");

@@ -21,7 +21,7 @@
   lineLength={25}
   cornerRadius={6}
   showPath={false}
-  classNames="bg-inherit p-5 rounded-md w-full flex justify-between text-white text-4xl"
+  classNames="bg-inherit p-5 rounded-md w-full flex justify-between text-primary text-4xl"
   height={76}
   lineColour="rgb(117 17 150)"
 >
@@ -42,7 +42,7 @@
         aria-label={value.ariaLabel ?? brands[value.type].label}
         class="pointer-events-none"
       >
-        <iconify-icon class="text-white/30 align-middle" inline={true} icon={brands[value.type].icon}
+        <iconify-icon class="text-primary/30 align-middle" inline={true} icon={brands[value.type].icon}
         ></iconify-icon>
       </span>
     {/if}
