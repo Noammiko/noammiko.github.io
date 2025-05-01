@@ -3,21 +3,16 @@
   import MusicProviderComp from "./musicProvider.svelte";
   import type { MusicProvider } from "./types";
   import emblaCarouselSvelte from "embla-carousel-svelte";
-  import type { EmblaOptionsType } from "embla-carousel";
+  import type { EmblaCarouselType, EmblaOptionsType } from "embla-carousel";
 
   import Button from "../ui-svelte/button/button.svelte";
   import { flip } from "svelte/animate";
   import { fly } from "svelte/transition";
 
-  let emblaApi;
+  let emblaApi: EmblaCarouselType;
   let options: EmblaOptionsType = {
     dragFree: true,
   };
-
-  function onInit(event) {
-    emblaApi = event.detail;
-    console.log(emblaApi.slideNodes()); // Access API
-  }
 
   const { items }: { items: Array<MusicProvider> } = $props();
 
@@ -26,7 +21,20 @@
   );
 
   function handleClick(selectedProvider: MusicProvider) {
+    const last = $provider;
     $provider = selectedProvider.provider;
+
+    setTimeout(() => {
+      const idx = items
+        .map((item) => item.provider)
+        .filter((item) => item !== selectedProvider.provider)
+        .indexOf(last);
+
+      if (emblaApi.slidesInView().indexOf(idx) === -1) {
+        emblaApi.scrollTo(idx);
+      }
+    }, 210);
+
     const currentProvider = getSelectedProvider(items);
     handleOpenLink(currentProvider.url, currentProvider.nativeUrl);
   }
@@ -36,7 +44,7 @@
   <div
     class="overflow-hidden"
     use:emblaCarouselSvelte={{ options }}
-    onemblaInit={onInit}
+    onemblaInit={(event) => (emblaApi = event.detail)}
   >
     <div class="flex gap-1">
       {#each filteredItems as item (item.provider)}

@@ -109,7 +109,7 @@ const items = getMusicProviders(res);
           </div>
         </div>
 
-        <div class="space-y-6">
+        <div class="grid gap-8"> 
           <MainButton client:load="svelte" items={items} />
           <ProviderButtons client:idle="svelte" items={items} />
         </div>

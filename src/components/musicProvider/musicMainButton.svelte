@@ -1,5 +1,10 @@
 <script lang="ts">
-  import { handleOpenLink, lookupBrand, provider, getSelectedProvider } from "./music";
+  import {
+    handleOpenLink,
+    lookupBrand,
+    provider,
+    getSelectedProvider,
+  } from "./music";
   import type { MusicProvider } from "./types";
   import Button from "../ui-svelte/button/button.svelte";
 
@@ -14,9 +19,12 @@
 </script>
 
 {#if !currentProvider}
-  <span>No provider selected</span>
+  <Button onclick={handleClick} disabled class="w-full text-lg text-red-200">
+    No provider selected
+  </Button>
 {:else}
-  <Button onclick={handleClick} class="w-full">
-    <span>Open in {providerBrand.label}</span>
+  <Button onclick={handleClick} class="w-full gap-2">
+    <iconify-icon icon={providerBrand.icon} class="text-3xl"></iconify-icon>
+    Open in {providerBrand.label}
   </Button>
 {/if}
