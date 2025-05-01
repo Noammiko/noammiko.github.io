@@ -75,10 +75,15 @@
             animate:flip={{ duration: 200, delay: 0 }}
           >
             <Button
+              href={item.url}
+              target="_blank"
               variant="outline"
               size="sm"
               class="whitespace-nowrap text-black bg-white mt-1"
-              onclick={() => handleClick(item)}
+              onclick={(e) => {
+                e.preventDefault();
+                handleClick(item);
+              }}
             >
               <MusicProviderComp
                 provider={item.provider}

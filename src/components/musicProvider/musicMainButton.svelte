@@ -14,7 +14,8 @@
   let currentProvider = $derived(getSelectedProvider(items, $provider));
   const providerBrand = $derived(lookupBrand($provider));
 
-  function handleClick() {
+  function handleClick(e: MouseEvent) {
+    e.preventDefault();
     handleOpenLink(currentProvider.url, currentProvider.nativeUrl);
   }
 </script>
@@ -24,7 +25,7 @@
     No provider selected
   </Button>
 {:else}
-  <Button onclick={handleClick} class="w-full gap-2 text-lg">
+  <Button href={currentProvider.url} target="_blank" onclick={handleClick} class="w-full gap-2 text-lg">
     <iconify-icon icon={providerBrand.icon} class="sm:text-3xl text-2xl"></iconify-icon> 
     <div class="sm:grow flex items-center justify-center gap-1">
       Open in {providerBrand.label}

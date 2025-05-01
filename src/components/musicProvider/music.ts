@@ -9,6 +9,11 @@ import { get } from "svelte/store";
 export const provider = storable<Platform>("musicProvider", "spotify");
 
 export function handleOpenLink(link: string, nativeAppUri?: string) {
+  if (!nativeAppUri) { 
+    window.open(link, "_blank");
+    return;
+  }
+  
   throw new Error("Function not implemented.");
 }
 
