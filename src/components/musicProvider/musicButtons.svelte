@@ -4,10 +4,12 @@
   import type { MusicProvider } from "./types";
   import emblaCarouselSvelte from "embla-carousel-svelte";
   import type { EmblaCarouselType, EmblaOptionsType } from "embla-carousel";
+  import { ChevronLeft, ChevronRight } from "@lucide/svelte";
 
   import Button from "../ui-svelte/button/button.svelte";
   import { flip } from "svelte/animate";
   import { fly } from "svelte/transition";
+  import { onMount } from "svelte";
 
   let emblaApi: EmblaCarouselType;
   let options: EmblaOptionsType = {
@@ -38,34 +40,57 @@
     const currentProvider = getSelectedProvider(items);
     handleOpenLink(currentProvider.url, currentProvider.nativeUrl);
   }
+
+  let canScrollNext = $state(true);
+  let canScrollPrev = $state(false);
+  function loadEmbla(detail: CustomEvent<EmblaCarouselType>) {
+    emblaApi = detail.detail;
+    emblaApi.on("scroll", (event) => {
+      canScrollNext = event.canScrollNext();
+      canScrollPrev = event.canScrollPrev();
+    });
+  }
 </script>
 
 {#if items.length > 0}
-  <div
-    class="overflow-hidden"
-    use:emblaCarouselSvelte={{ options }}
-    onemblaInit={(event) => (emblaApi = event.detail)}
-  >
-    <div class="flex gap-1">
-      {#each filteredItems as item (item.provider)}
-        <div
-          class="flex-shirnk-0"
-          in:fly={{ y: 150, duration: 170, delay: 30 }}
-          animate:flip={{ duration: 200, delay: 0 }}
-        >
-          <Button
-            variant="outline"
-            size="sm"
-            class="whitespace-nowrap text-black bg-white align-center"
-            onclick={() => handleClick(item)}
+  <!-- embla -->
+  <div class="relative overflow-hidden">
+    <Button
+      class="z-10 absolute left-0 top-1/2 -translate-y-1/2"
+      disabled={!canScrollPrev}
+      onclick={() => emblaApi.scrollPrev()}><ChevronLeft /></Button
+    >
+
+    <!-- embla viewport -->
+    <div use:emblaCarouselSvelte={{ options }} onemblaInit={loadEmbla}>
+      <!-- embla container -->
+      <div class="flex gap-1 -z-10 mx-16">
+        {#each filteredItems as item (item.provider)}
+          <!-- embla slide -->
+          <div
+            class="flex-shirnk-0 h-full"
+            in:fly={{ y: 150, duration: 170, delay: 30 }}
+            animate:flip={{ duration: 200, delay: 0 }}
           >
-            <MusicProviderComp
-              provider={item.provider}
-              className="items-center"
-            />
-          </Button>
-        </div>
-      {/each}
+            <Button
+              variant="outline"
+              size="sm"
+              class="whitespace-nowrap text-black bg-white mt-1"
+              onclick={() => handleClick(item)}
+            >
+              <MusicProviderComp
+                provider={item.provider}
+                className="items-center"
+              />
+            </Button>
+          </div>
+        {/each}
+      </div>
     </div>
+    <Button
+      class="z-10 absolute right-0 top-1/2 -translate-y-1/2"
+      onclick={() => emblaApi.scrollNext()}
+      disabled={!canScrollNext}><ChevronRight /></Button
+    >
   </div>
 {/if}
