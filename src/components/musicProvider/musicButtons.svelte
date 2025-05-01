@@ -71,9 +71,9 @@
 
     <!-- embla viewport -->
     <!-- @ts-ignore -->
-    <div use:emblaCarouselSvelte={{ options }} onemblaInit={loadEmbla}>
+    <div use:emblaCarouselSvelte={{ options }} onemblaInit={loadEmbla} class="mx-4 rounded-full overflow-hidden">
       <!-- embla container -->
-      <div class="flex gap-1 -z-10 mx-16">
+      <div class="flex gap-1 -z-10 mx-11">
         {#each filteredItems as item (item.provider)}
           <!-- embla slide -->
           <div
