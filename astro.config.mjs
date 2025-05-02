@@ -11,34 +11,29 @@ import opengraphImages, { presets } from "astro-opengraph-images";
 import icon from "astro-icon";
 
 import plguins from "./lucide.config";
+import sitemap from "@astrojs/sitemap";
 const { createLucideAstroImportOptimizer: lucideAstroImportOptimizer, lucideSvelteImportOptimizer } = plguins;
 
 // https://astro.build/config
 export default defineConfig({
   site: "https://miko-recordingstudio.ca",
-  integrations: [
-    react(),
-    tailwind({
-      applyBaseStyles: false,
-    }),
-    svelte(),
-    opengraphImages({
-      options: {
-        fonts: [
-          {
-            name: "Roboto",
-            weight: 400,
-            style: "normal",
-            data: fs.readFileSync(
-              "node_modules/@fontsource/roboto/files/roboto-latin-400-normal.woff",
-            ),
-          },
-        ],
-      },
-      render: presets.blackAndWhite,
-    }),
-    icon(),
-  ],
+  integrations: [react(), tailwind({
+    applyBaseStyles: false,
+  }), svelte(), opengraphImages({
+    options: {
+      fonts: [
+        {
+          name: "Roboto",
+          weight: 400,
+          style: "normal",
+          data: fs.readFileSync(
+            "node_modules/@fontsource/roboto/files/roboto-latin-400-normal.woff",
+          ),
+        },
+      ],
+    },
+    render: presets.blackAndWhite,
+  }), icon(), sitemap()],
   vite: {
     plugins: [
       lucideAstroImportOptimizer(),
