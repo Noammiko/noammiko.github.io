@@ -15,8 +15,8 @@ const images = await getImages({
   },
 });
 
+// const songlink = "https://open.spotify.com/album/3iTc5FAM86crv2Pvwf881Y";
 const songlink = "https://open.spotify.com/track/1oVkgKH3hOvflNq43leLBi";
-import example from "./_example.json";
 ---
 
 <Layout
@@ -78,7 +78,6 @@ import example from "./_example.json";
           <div class="m-2">
             <MusicComponent
               songlink={songlink}
-              data={example as any}
               webOnly={false}
             />
             <!-- emerald-300 rose-200 -->

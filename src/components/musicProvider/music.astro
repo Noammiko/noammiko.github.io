@@ -2,6 +2,7 @@
 import { getSongData } from "@/lib/songlink";
 import { getEntity, getMusicProviders, getYoutubeEmbedId } from "./music";
 import type { Platform, ResponseContent } from "./types";
+import { YouTube } from "astro-embed";
 
 import { Card, CardContent, CardFooter } from "@/components/ui/card";
 
@@ -13,7 +14,7 @@ interface Props {
   id?: string;
   type?: "song" | "album";
   platform?: Platform;
-  data: ResponseContent;
+  data?: ResponseContent;
   songIfSingle?: boolean;
   webOnly?: boolean;
 }
@@ -58,9 +59,10 @@ if (!res) {
 
 const song = getEntity(res);
 const items = getMusicProviders(res);
+const youtubeId = getYoutubeEmbedId(res); // TODO: improve album representation
 ---
 
-<Card className="overflow-hidden bg-card/40 border-accent border-4">  
+<Card className="overflow-hidden bg-card/40 border-accent border-4">
   <CardContent className="p-0">
     <div class="flex md:flex-row flex-col">
       {/* Album art and song info for mobile */}
@@ -81,19 +83,17 @@ const items = getMusicProviders(res);
       </div>
 
       {/* YouTube embed for desktop */}
-      <div
-        class="hidden md:block aspect-[4/3] lg:aspect-square w-full h-full min-h-[300px] max-w-[480px]"
+      {(youtubeId && <div
+        class="hidden md:block aspect-square w-full h-full min-h-[300px] max-w-[480px]"
       >
-        <iframe
-          width="100%"
-          height="100%"
-          src={`https://www.youtube.com/embed/${getYoutubeEmbedId(res)}?fs=0&modestbranding=1&playsinline=1&color=white`}
-          title={`${song.title} by ${song.artistName}`}
-          frameborder="0"
-          allow="clipboard-write; encrypted-media"
-          allowfullscreen
-          class="w-full h-full"></iframe>
+        <YouTube
+          id={youtubeId}
+          class="w-full h-full"
+          params="?fs=0&modestbranding=1&playsinline=1&color=white"
+          poster={song.thumbnailUrl}
+        />
       </div>
+      )}
 
       {/* Song info and streaming links for desktop */}
       <div class="p-4 sm:p-6 flex flex-col justify-between w-full">
@@ -113,7 +113,11 @@ const items = getMusicProviders(res);
 
         <div class="grid gap-8">
           <MainButton client:load="svelte" items={items} webOnly={webOnly} />
-          <ProviderButtons client:idle="svelte" items={items} webOnly={webOnly} />
+          <ProviderButtons
+            client:idle="svelte"
+            items={items}
+            webOnly={webOnly}
+          />
         </div>
       </div>
     </div>

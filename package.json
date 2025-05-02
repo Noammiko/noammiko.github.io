@@ -24,6 +24,7 @@
     "@types/react": "^18.3.20",
     "@types/react-dom": "^18.3.7",
     "astro": "5.0.5",
+    "astro-embed": "^0.9.0",
     "astro-icon": "^1.1.5",
     "astro-opengraph-images": "^1.12.3",
     "astro-seo": "^0.8.4",

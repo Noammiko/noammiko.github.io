@@ -207,5 +207,10 @@ export function getYoutubeEmbedId(
   if (!youtubePlatform) throw new Error("No youtube platform found");
   const entity = data.entitiesByUniqueId[youtubePlatform.entityUniqueId];
   if (!entity.id) throw new Error("No youtube entity id found");
+
+  if (entity.type === "album") {
+    return undefined; 
+  }
+
   return entity.id;
 }
