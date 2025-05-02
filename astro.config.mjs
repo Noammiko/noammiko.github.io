@@ -15,7 +15,7 @@ const { createLucideAstroImportOptimizer: lucideAstroImportOptimizer, lucideSvel
 
 // https://astro.build/config
 export default defineConfig({
-  site: "https://noam.shalit.name",
+  site: "https://miko-recordingstudio.ca",
   integrations: [
     react(),
     tailwind({
