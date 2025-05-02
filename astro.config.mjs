@@ -37,14 +37,12 @@ export default defineConfig({
   vite: {
     plugins: [
       lucideAstroImportOptimizer(),
-      lucideSvelteImportOptimizer(),
+      // lucideSvelteImportOptimizer(),
     ],
     resolve: {
       conditions: ["browser"],
       alias: {
         // Force resolution to the Svelte build file
-        "bits-ui": "node_modules/bits-ui/dist/index.js",
-        "@melt-ui/svelte": "node_modules/@melt-ui/svelte/dist/index.js",
       },
     },
   },
