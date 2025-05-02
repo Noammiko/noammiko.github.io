@@ -1,0 +1,17 @@
+---
+import NavigationBar from "./Navbar.astro";
+
+interface Props {
+  currentPage: string;
+}
+
+const { currentPage } = Astro.props;
+---
+
+<header class="grow-0">
+  {/* Navigation */}
+  <NavigationBar currentPage={currentPage} />
+
+  {/* Black Bar - Added extra top padding to account for fixed navbar */}
+  <div class="w-full bg-black h-2 relative z-10 mt-[72px]"></div>
+</header>

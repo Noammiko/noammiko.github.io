@@ -66,13 +66,61 @@
   body {
     @apply m-0 h-full p-0;
   }
-  body {
-    overscroll-behavior: contain;
-    @apply bg-background text-foreground;
-  }
   iconify-icon {
     display: inline-block;
     width: 1em;
     height: 1em;
+  }
+}
+
+@font-face {
+  font-family: 'Bentham';
+  src: url('/fonts/Bentham-Regular.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+body {
+  color: rgb(var(--foreground-rgb));
+  background: linear-gradient(to bottom, rgb(var(--background-start-rgb)), rgb(var(--background-end-rgb))) fixed;
+}
+
+.glitch-text {
+  position: relative;
+  color: white;
+  text-shadow: 3px 3px 0 rgba(255, 0, 0, 0.4), -3px -3px 0 rgba(0, 255, 255, 0.4);
+  animation: glitch 2s infinite;
+}
+
+@keyframes glitch {
+  0% {
+    text-shadow: 3px 3px 0 rgba(255, 0, 0, 0.4), -3px -3px 0 rgba(0, 255, 255, 0.4);
+  }
+  1% {
+    text-shadow: 3px 3px 0 rgba(255, 0, 0, 0.4), -3px -3px 0 rgba(0, 255, 255, 0.4);
+  }
+  2% {
+    text-shadow: 3px -3px 0 rgba(255, 0, 0, 0.4), -3px 3px 0 rgba(0, 255, 255, 0.4);
+  }
+  3% {
+    text-shadow: 3px -3px 0 rgba(255, 0, 0, 0.4), -3px 3px 0 rgba(0, 255, 255, 0.4);
+  }
+  4% {
+    text-shadow: -3px -3px 0 rgba(255, 0, 0, 0.4), 3px 3px 0 rgba(0, 255, 255, 0.4);
+  }
+  5% {
+    text-shadow: -3px -3px 0 rgba(255, 0, 0, 0.4), 3px 3px 0 rgba(0, 255, 255, 0.4);
+  }
+  6% {
+    text-shadow: -3px 3px 0 rgba(255, 0, 0, 0.4), 3px -3px 0 rgba(0, 255, 255, 0.4);
+  }
+  7% {
+    text-shadow: -3px 3px 0 rgba(255, 0, 0, 0.4), 3px -3px 0 rgba(0, 255, 255, 0.4);
+  }
+  8% {
+    text-shadow: 3px 3px 0 rgba(255, 0, 0, 0.4), -3px -3px 0 rgba(0, 255, 255, 0.4);
+  }
+  100% {
+    text-shadow: 3px 3px 0 rgba(255, 0, 0, 0.4), -3px -3px 0 rgba(0, 255, 255, 0.4);
   }
 }

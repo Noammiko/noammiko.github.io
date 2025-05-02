@@ -1,0 +1,22 @@
+---
+import StudioTitle from "@/components/StudioTitle.astro";
+---
+
+<footer class="bg-black/50 py-8 mt-12 relative z-10 grow-0">
+  <div class="container mx-auto px-4">
+    <div class="flex flex-col md:flex-row justify-between items-center">
+      <div class="mb-4 md:mb-0">
+        <div class="flex flex-col mb-2 items-center">
+          <StudioTitle size="lg" />
+        </div>
+        <p>Professional audio production services</p>
+      </div>
+      <div class="flex gap-6">
+        <a href="/contact" class="hover:text-red-300 transition"> Contact </a>
+      </div>
+    </div>
+    <div class="mt-6 text-center text-sm text-gray-400">
+      © {new Date().getFullYear()} MIKO Recording Studio. All rights reserved.
+    </div>
+  </div>
+</footer>

@@ -1,0 +1,42 @@
+---
+import Layout from "./Layout.astro";
+import Footer from "./Footer.astro";
+import Header from "./Header.astro";
+
+import { Image } from "astro:assets";
+
+import mikoLogo from "@/assets/logo.png";
+
+interface Props {
+  title: string;
+  description: string;
+  currentPage: string;
+}
+
+const { title, description, currentPage } = Astro.props;
+---
+
+<Layout title={title} description={description}>
+  <section
+    class="min-h-screen bg-gradient-to-b from-[#200000] to-[#100000] text-white relative overflow-hidden"
+  >
+    {/* Background Logo */}
+    <div
+      class="absolute inset-0 flex items-center justify-center pointer-events-none opacity-10 z-0"
+    >
+      <Image
+        src={mikoLogo}
+        alt="Miko Recording Studio Logo Background"
+        className="w-[800px] h-auto transform translate-y-[-30%]"
+      />
+    </div>
+
+    <section class="h-full flex flex-col">
+      <Header currentPage={currentPage} />
+      <main class="grow">
+        <slot />
+      </main>
+      <Footer />
+    </section>
+  </section>
+</Layout>
