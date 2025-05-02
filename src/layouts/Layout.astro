@@ -8,8 +8,8 @@ import { SEO } from "astro-seo";
 import { getImagePath } from "astro-opengraph-images";
 
 interface Props {
-    title: string;
-    description: string;
+  title: string;
+  description: string;
 }
 
 const { title, description } = Astro.props;
@@ -19,67 +19,85 @@ const openGraphImageUrl = getImagePath({ url, site });
 
 <!doctype html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8" />
-        <meta name="viewport" content="width=device-width" />
-        <meta name="theme-color" content="#0a0a0a" />
-        <link rel="sitemap" href="/sitemap-index.xml" />
-        {
-            [josefinWoff2].map((href) => (
-                <link
-                    rel="preload"
-                    as="font"
-                    type="font/woff2"
-                    href={href}
-                    crossorigin="anonymous"
-                />
-            ))
-        }
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width" />
+    <meta name="theme-color" content="#0a0a0a" />
+    <link rel="sitemap" href="/sitemap-index.xml" />
 
-        <SEO
-            title={title}
-            description={description}
-            openGraph={{
-                basic: {
-                    title: title,
-                    type: "website",
-                    image: openGraphImageUrl,
-                    url: url,
-                },
-                optional: {
-                    description: description,
-                },
-            }}
-            ,
-            twitter={{
-                card: "summary_large_image",
-                title: title,
-                description: description,
-                image: openGraphImageUrl,
-                site: site.host,
-            }}
-            extend={{
-                // extending the default link tags
-                link: [
-                    {
-                        rel: "icon",
-                        type: "image/svg+xml",
-                        href: "/favicon.svg",
-                    },
-                ],
-                // extending the default meta tags
-                meta: [
-                    {
-                        name: "generator",
-                        content: Astro.generator,
-                    },
-                ],
-            }}
+    <!-- Favicon for browsers -->
+    <link rel="shortcut icon" href="/favicon/favicon.ico" type="image/x-icon" />
+    <link rel="icon" sizes="16x16 32x32 48x48" href="/favicon/favicon.ico" />
+
+    <!-- Apple Touch Icons -->
+    <link
+      rel="apple-touch-icon"
+      sizes="180x180"
+      href="/favicon/apple-touch-icon.png"
+    />
+    <!-- Optionally, if you created additional Apple touch icons -->
+    <link
+      rel="apple-touch-icon"
+      sizes="152x152"
+      href="/favicon/apple-touch-icon-152x152.png"
+    />
+
+    <!-- Android Chrome icons -->
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="192x192"
+      href="/favicon/android-chrome-192x192.png"
+    />
+
+    {
+      [josefinWoff2].map((href) => (
+        <link
+          rel="preload"
+          as="font"
+          type="font/woff2"
+          href={href}
+          crossorigin="anonymous"
         />
+      ))
+    }
 
-        <PostHog />
-    </head>
-    <body class="dark">
-        <slot />
-    </body>
+    <SEO
+      title={title}
+      description={description}
+      openGraph={{
+        basic: {
+          title: title,
+          type: "website",
+          image: openGraphImageUrl,
+          url: url,
+        },
+        optional: {
+          description: description,
+        },
+      }}
+      ,
+      twitter={{
+        card: "summary_large_image",
+        title: title,
+        description: description,
+        image: openGraphImageUrl,
+        site: site.host,
+      }}
+      extend={{
+        // extending the default meta tags
+        meta: [
+          {
+            name: "generator",
+            content: Astro.generator,
+          },
+        ],
+      }}
+    />
+
+    <PostHog />
+  </head>
+  <body class="dark">
+    <slot />
+  </body>
 </html>
