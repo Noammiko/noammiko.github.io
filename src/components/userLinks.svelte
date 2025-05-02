@@ -32,6 +32,7 @@
       <a
         href={value.href}
         aria-label={value.ariaLabel ?? brands[value.type].label}
+        target="_blank"
         class="hover:-translate-y-0.5"
       >
         <iconify-icon class="align-middle" inline={true} icon={brands[value.type].icon}></iconify-icon>
