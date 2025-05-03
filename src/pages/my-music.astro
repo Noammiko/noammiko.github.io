@@ -9,6 +9,9 @@ import album from "@/assets/album-cover.jpeg";
 
 import MusicEmbed from "@/components/musicProvider/music.astro";
 
+import platforms from "@/lib/platforms";
+import PlatformIcon from "@/components/platformIcon.astro";
+
 const albumLink = "https://open.spotify.com/album/3iTc5FAM86crv2Pvwf881Y";
 const tracks = [
   "https://open.spotify.com/track/1oVkgKH3hOvflNq43leLBi",
@@ -40,10 +43,38 @@ const tracks = [
       <main class="grow container mx-auto px-4 py-12 relative z-10">
         <div>
           <h1
-            class="text-center text-5xl sm:text-7xl md:text-8xl font-bold mb-64 tracking-wider uppercase"
+            class="text-center text-5xl sm:text-7xl md:text-8xl font-bold mb-4 tracking-wider uppercase"
           >
             Noam Miko
           </h1>
+
+          {/* Social Icons */}
+          <div class="flex justify-center gap-6 mb-60">
+            <a
+              href={platforms.tiktok.href}
+              class="text-white hover:text-red-300 transition"
+            >
+              <PlatformIcon platform="tiktok" text={false} class="w-8 h-8" />
+            </a>
+            <a
+              href={platforms.youtube.href}
+              class="text-white hover:text-red-300 transition"
+            >
+              <PlatformIcon platform="youtube" text={false} class="w-8 h-8" />
+            </a>
+            <a
+              href={platforms.spotify.href}
+              class="text-white hover:text-red-300 transition"
+            >
+              <PlatformIcon platform="spotify" text={false} class="w-8 h-8" />
+            </a>
+            <a
+              href={platforms.instagram.href}
+              class="text-white hover:text-red-300 transition"
+            >
+              <PlatformIcon platform="instagram" text={false} class="w-8 h-8" />
+            </a>
+          </div>
 
           <h2
             class="text-center text-xl md:text-5xl text-shadow-lg text-shadow-red-600 uppercase"
