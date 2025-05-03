@@ -6,8 +6,8 @@
     getSelectedProvider,
   } from "./music";
   import type { MusicProvider } from "./types";
-  import Button from "../ui-svelte/button/button.svelte";
-  import { ExternalLink } from "@lucide/svelte";
+  import Button from "@/components/ui-svelte/button/button.svelte";
+  // import { ExternalLink } from "@lucide/svelte";
 
   const {
     items,
@@ -41,7 +41,7 @@
     ></iconify-icon>
     <div class="sm:grow flex items-center justify-center gap-1">
       Open in {providerBrand.label}
-      <ExternalLink class="w-4 h-4 -mt-2" />
+      <!-- <ExternalLink class="w-4 h-4 -mt-2" /> -->
     </div>
   </Button>
 {/if}

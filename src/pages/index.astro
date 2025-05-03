@@ -1,0 +1,123 @@
+---
+import Page from "@/layouts/Page.astro";
+import Gallery from "@/components/Gallery.tsx";
+import { getImages } from "@/assets/galary/images";
+
+const images = await getImages({
+  densities: [1.5, 2],
+  imageTransform: {
+    format: "webp",
+  },
+});
+
+import StudioTitle from "@/components/StudioTitle.astro";
+---
+
+<Page title="Home" description="Guelph audio recording and editing studio" currentPage="home">
+  {/* Hero Section */}
+  <div class="container mx-auto px-4 py-12 text-center relative z-10">
+    <div class="flex justify-center mb-6">
+      <StudioTitle size="lg" />
+    </div>
+    <div class="w-32 h-1 bg-red-500 mx-auto mb-8"></div>
+
+    {/* Social Icons */}
+    <div class="flex justify-center gap-6 mb-16">
+      <a href="#" class="text-white hover:text-red-300 transition">
+        <!-- <TiktokIcon className="w-8 h-8" /> -->
+      </a>
+      <a href="#" class="text-white hover:text-red-300 transition">
+        <!-- <YoutubeIcon className="w-8 h-8" /> -->
+      </a>
+      <a href="#" class="text-white hover:text-red-300 transition">
+        <!-- <SpotifyIcon className="w-8 h-8" /> -->
+      </a>
+      <a href="#" class="text-white hover:text-red-300 transition">
+        <!-- <InstagramIcon className="w-8 h-8" /> -->
+      </a>
+      <a href="#" class="text-white hover:text-red-300 transition">
+        <!-- <BookIcon className="w-8 h-8" /> -->
+      </a>
+    </div>
+
+    <h2 class="text-3xl md:text-4xl font-bold mb-12 border-b-2 border-red-500 pb-2 glitch-text inline-block">
+      PROFESSIONAL RECORDING STUDIO IN GUELPH
+    </h2>
+
+    {/* Main Navigation Buttons */}
+    <div class="grid md:grid-cols-2 gap-6 max-w-4xl mx-auto mb-16">
+      <a href="/prices-and-bundles" class="block">
+        <div class="border border-red-500/50 hover:border-red-500 rounded-lg p-8 transition-all hover:bg-black/20 backdrop-blur-sm">
+          <h3 class="text-2xl font-bold mb-2">Prices and Bundles</h3>
+          <p class="text-gray-300">View our recording packages and rates</p>
+        </div>
+      </a>
+      <a href="/prices-and-bundles#book-session" class="block">
+        <div class="border border-red-500/50 hover:border-red-500 rounded-lg p-8 transition-all hover:bg-black/20 backdrop-blur-sm">
+          <h3 class="text-2xl font-bold mb-2">Book a Session</h3>
+          <p class="text-gray-300">Schedule your recording time</p>
+        </div>
+      </a>
+      <a href="/portfolio" class="block">
+        <div class="border border-red-500/50 hover:border-red-500 rounded-lg p-8 transition-all hover:bg-black/20 backdrop-blur-sm">
+          <h3 class="text-2xl font-bold mb-2">Portfolio</h3>
+          <p class="text-gray-300">Listen to our production work</p>
+        </div>
+      </a>
+      <a href="/my-music" class="block">
+        <div class="border border-red-500/50 hover:border-red-500 rounded-lg p-8 transition-all hover:bg-black/20 backdrop-blur-sm">
+          <h3 class="text-2xl font-bold mb-2">My Music</h3>
+          <p class="text-gray-300">Listen to my original music</p>
+        </div>
+      </a>
+    </div>
+
+    {/* Gallery Section */}
+    <h2 id="gallery" class="text-4xl font-bold mb-8 border-b-2 border-red-500 pb-2 glitch-text inline-block">
+      GALLERY
+    </h2>
+    <div class="max-w-4xl mx-auto mb-16">
+      <Gallery images={images} client:idle />
+    </div>
+
+    {/* Location Section */}
+    <h2 id="location" class="text-4xl font-bold mb-8 border-b-2 border-red-500 pb-2 glitch-text inline-block">
+      LOCATION
+    </h2>
+    <div class="max-w-4xl mx-auto mb-16">
+      <div class="rounded-lg overflow-hidden shadow-lg border border-red-500/30">
+        <iframe
+          width="100%"
+          height="450"
+          frameborder="0"
+          scrolling="no"
+          marginheight={0}
+          marginwidth={0}
+          src="https://maps.google.com/maps?width=100%25&amp;height=600&amp;hl=en&amp;q=502%20kortright%20rd%20w+(Miko%20recording%20Studio)&amp;t=&amp;z=14&amp;ie=UTF8&amp;iwloc=B&amp;output=embed"
+          title="Miko Recording Studio Location"
+          class="w-full"
+          aria-label="Google Maps showing Miko Recording Studio location"
+        ></iframe>
+      </div>
+      <div class="mt-4 text-xl">
+        <p>502 Kortright Rd W, Guelph, ON</p>
+        <p class="mt-2">
+          <a
+            href="https://maps.google.com/maps?q=502%20kortright%20rd%20w"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="text-red-300 hover:text-red-400 transition underline"
+          >
+            Get Directions
+          </a>
+        </p>
+      </div>
+    </div>
+
+    {/* Reviews Section - Added under Location */}
+    <div class="mb-16">
+      <!-- <ReviewsSection subtitle="See what our clients have to say about their experience" /> -->
+    </div>
+  </div>
+  <!-- <LocalBusinessStructuredData /> TODO: research what this is -->
+</Page>

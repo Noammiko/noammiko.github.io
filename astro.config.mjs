@@ -4,14 +4,13 @@ import react from "@astrojs/react";
 
 import tailwind from "@astrojs/tailwind";
 
-import svelte from "@astrojs/svelte";
-
 import opengraphImages, { presets } from "astro-opengraph-images";
 
 import icon from "astro-icon";
 
 import plguins from "./lucide.config";
 import sitemap from "@astrojs/sitemap";
+import svelte from "@astrojs/svelte";
 const { createLucideAstroImportOptimizer: lucideAstroImportOptimizer, lucideSvelteImportOptimizer } = plguins;
 
 // https://astro.build/config
@@ -19,7 +18,7 @@ export default defineConfig({
   site: "https://miko-recordingstudio.ca",
   integrations: [react(), tailwind({
     applyBaseStyles: false,
-  }), svelte(), opengraphImages({
+  }), opengraphImages({
     options: {
       fonts: [
         {
@@ -33,7 +32,7 @@ export default defineConfig({
       ],
     },
     render: presets.blackAndWhite,
-  }), icon(), sitemap()],
+  }), icon(), sitemap(), svelte()],
   vite: {
     plugins: [
       lucideAstroImportOptimizer(),
@@ -42,7 +41,6 @@ export default defineConfig({
     resolve: {
       conditions: ["browser"],
       alias: {
-        // Force resolution to the Svelte build file
       },
     },
   },

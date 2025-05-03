@@ -1,6 +1,7 @@
 ---
 import {Link} from "@/components/ui/link.tsx";
 import StudioTitle from "@/components/StudioTitle.astro";
+import {NavigationBar as MobileNav} from "./NavbarMobile.tsx";
 
 interface Props {
   currentPage: string;
@@ -16,15 +17,15 @@ const menuItems = [
     label: "Prices and Bundles",
     active: currentPage === "prices",
   },
-  {
-    href: "/portfolio",
-    label: "Portfolio",
-    active: currentPage === "portfolio",
-  },
+  // {
+  //   href: "/portfolio",
+  //   label: "Portfolio",
+  //   active: currentPage === "portfolio",
+  // },
   { href: "/#gallery", label: "Gallery", active: false },
   { href: "/faq", label: "FAQ", active: currentPage === "faq" },
   // { href: "/my-music", label: "My Music", active: currentPage === "music" },
-  { href: "/contact", label: "Contact", active: currentPage === "contact" },
+  // { href: "/contact", label: "Contact", active: currentPage === "contact" },
 ];
 ---
 
@@ -75,88 +76,7 @@ const menuItems = [
     >
       Book a Session
   </Link>
-    {/* Mobile Menu */}
-    <!-- <Sheet>
-      <SheetTrigger asChild>
-        <Button
-          variant="outline"
-          size="icon"
-          className="md:hidden text-white border-white/30"
-        >
-          <Menu className="h-6 w-6" />
-          <span className="sr-only">Toggle menu</span>
-        </Button>
-      </SheetTrigger>
-      <SheetContent
-        side="right"
-        className="bg-red-950 text-white border-red-900"
-      >
-        <div className="grid gap-6 py-6">
-          <h2 className="text-xl font-bold border-b border-red-800 pb-2">
-            Menu
-          </h2>
-
-          {/* Mobile Menu Items - Same as Desktop */}
-          {
-            menuItems.map((item, index) => (
-              <Link
-                key={index}
-                href={item.href}
-                className="flex w-full items-center py-2 text-lg font-semibold hover:text-red-300 transition"
-              >
-                {item.label}
-              </Link>
-            ))
-          }
-
-          {/* Book Session Button for Mobile */}
-          <Link
-            href="/prices-and-bundles#book-session"
-            className="flex w-full items-center py-2 text-lg font-semibold hover:text-red-300 transition text-red-300"
-          >
-            Book a Session
-          </Link>
-
-          {/* Social Links Section */}
-          <div className="py-2">
-            <h3
-              className="text-lg font-semibold mb-2 border-b border-red-800/50 pb-2"
-            >
-              Socials and Links
-            </h3>
-            <div className="grid gap-2 pl-4">
-              <a
-                href="#"
-                className="hover:text-red-300 transition flex items-center gap-2"
-              >
-                <TiktokIcon className="w-5 h-5" />
-                <span>TikTok</span>
-              </a>
-              <a
-                href="#"
-                className="hover:text-red-300 transition flex items-center gap-2"
-              >
-                <YoutubeIcon className="w-5 h-5" />
-                <span>YouTube</span>
-              </a>
-              <a
-                href="#"
-                className="hover:text-red-300 transition flex items-center gap-2"
-              >
-                <SpotifyIcon className="w-5 h-5" />
-                <span>Spotify</span>
-              </a>
-              <a
-                href="#"
-                className="hover:text-red-300 transition flex items-center gap-2"
-              >
-                <InstagramIcon className="w-5 h-5" />
-                <span>Instagram</span>
-              </a>
-            </div>
-          </div>
-        </div>
-      </SheetContent>
-    </Sheet> -->
+   
+  <MobileNav menuItems={menuItems} client:load/>
   </div>
 </nav>

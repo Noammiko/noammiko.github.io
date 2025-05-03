@@ -1,4 +1,4 @@
-import { vitePreprocess,  } from '@astrojs/svelte';
+import { vitePreprocess } from '@astrojs/svelte';
 
 /**
  * @type {import('@sveltejs/vite-plugin-svelte').Options}

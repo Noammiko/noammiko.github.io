@@ -9,12 +9,11 @@ const content = await faqs.compiledContent();
 // split content on h1 headings, get the content, the id and heading into ab object in an array
 // using the regex /<h1 id="([\w-]+)">([^<]+)<\/h1> (.+?)(?: (?=<h)|$)/gm
 const re = /<h1 id="([\w-]+)">([^<]+)<\/h1> (.+?)(?: (?=<h1)|$)/gm;
-const faqList = [
-  ...content
-    .replaceAll(">\n", "> ")
-    .matchAll(re)
-    .map((m) => ({ id: m[1], question: m[2], answer: m[3] })),
-];
+const faqList = [...content.replaceAll(">\n", "> ").matchAll(re)].map((m) => ({
+  id: m[1],
+  question: m[2],
+  answer: m[3],
+}));
 ---
 
 <Page title="FAQ" description="Frequently Asked Questions" currentPage="faq">
@@ -37,8 +36,7 @@ const faqList = [
               <h2 class="text-2xl font-bold mb-4 text-red-300">
                 {faq.question}
               </h2>
-              <div class="text-lg text-gray-200" set:html={faq.answer}>
-              </div>
+              <div class="text-lg text-gray-200" set:html={faq.answer}></div>
             </div>
           ))
         }
@@ -68,13 +66,13 @@ const faqList = [
 <style is:global lang="scss">
   div#faq {
     ul {
-      @apply list-disc pl-6 mt-2 space-y-2;
+      @apply mt-2 list-disc space-y-2 pl-6;
     }
     p {
       @apply mt-2;
     }
     a {
-      @apply text-red-300 hover:text-red-400 underline;
+      @apply text-red-300 underline hover:text-red-400;
     }
     strong {
       @apply font-bold text-red-300;

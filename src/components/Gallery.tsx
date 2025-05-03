@@ -20,19 +20,19 @@ export default function CarouselComponent({ images, className, buttons = true }:
   if (images === undefined || images.length === 0) return (<></>);
 
   return (
-    <Carousel className={`w-full max-w-xs ${className}`}
+    <Carousel className={`w-full ${className}`}
       opts={{
         loop: true,
       }}
       plugins={[
         Autoplay({
-          delay: 2000,
+          delay: 4000,
         }),
       ]}>
       <CarouselContent>
         {images.map((image, index) => (
           <CarouselItem key={index}>
-            <div className="p-1">
+            <div className="p-1 flex justify-center">
               <OptimizedImage OptimizedImage={image} className="rounded-lg" />
             </div>
           </CarouselItem>
