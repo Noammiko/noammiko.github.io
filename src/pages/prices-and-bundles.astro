@@ -7,7 +7,7 @@ import { Image } from "astro:assets";
 
 import { Mail, Phone, ChevronUp } from "lucide-react";
 
-import {ReviewsSection} from "@/components/Reviews.tsx";
+import { ReviewsSection } from "@/components/Reviews.tsx";
 
 import logo from "@/assets/logo.png";
 ---
@@ -27,6 +27,10 @@ import logo from "@/assets/logo.png";
     >
       PRICES AND BUNDLES
     </h1>
+
+    <div class="uppercase text-4xl text-yellow-500 font-bold text-center mb-12">
+      <h2>Limited time Spring Sale!</h2>
+    </div>
 
     {/* Bundles Section */}
     <div class="grid md:grid-cols-3 gap-8 mb-16">
@@ -292,14 +296,14 @@ import logo from "@/assets/logo.png";
         </div>
       </div>
 
-       {/* Reviews Section - Added under Book Session */}
-          <div class="max-w-4xl mx-auto mb-16">
-            <ReviewsSection
-              title="CLIENT TESTIMONIALS"
-              subtitle="Don't just take our word for it - hear what our clients have to say"
-              client:visible
-            />
-          </div> 
+      {/* Reviews Section - Added under Book Session */}
+      <div class="max-w-4xl mx-auto mb-16">
+        <ReviewsSection
+          title="CLIENT TESTIMONIALS"
+          subtitle="Don't just take our word for it - hear what our clients have to say"
+          client:visible
+        />
+      </div>
     </div>
   </div>
 </Page>
