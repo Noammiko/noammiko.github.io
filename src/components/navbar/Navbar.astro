@@ -1,6 +1,7 @@
 ---
 import { Link } from "@/components/ui/link.tsx";
 import StudioTitle from "@/components/StudioTitle.astro";
+import { SocialDropdown } from "./socialDropdown";
 
 interface Props {
   menuItems: Array<{ href: string; label: string; active: boolean }>;
@@ -26,7 +27,7 @@ const { menuItems } = Astro.props;
         </a>
       ))
     }
-    <!-- <SocialDropdown /> TODO: -->
+    <SocialDropdown client:idle />
   </div>
 
   <div class="flex items-center gap-2">
