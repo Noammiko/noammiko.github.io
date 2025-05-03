@@ -6,14 +6,44 @@ import { Link } from "@/components/ui/link.tsx";
 import * as faqs from "./_faq.md";
 
 const content = await faqs.compiledContent();
-// split content on h1 headings, get the content, the id and heading into ab object in an array
-// using the regex /<h1 id="([\w-]+)">([^<]+)<\/h1> (.+?)(?: (?=<h)|$)/gm
-const re = /<h1 id="([\w-]+)">([^<]+)<\/h1> (.+?)(?: (?=<h1)|$)/gm;
-const faqList = [...content.replaceAll(">\n", "> ").matchAll(re)].map((m) => ({
+
+const re = /<h1 id="([\w-]+)">([^<]+)<\/h1>/gm;
+const sections = [...content.replaceAll(">\n", "> ").matchAll(re)].map((m) => ({
   id: m[1],
   question: m[2],
-  answer: m[3],
+  sectionQuestionStart: m.index,
+  sectionAnswerStart: m.index + m[0].length,
 }));
+
+const faqList: Array<{
+  id: string;
+  question: string;
+  answer: string;
+}> = [];
+
+for (let i = 0; i < sections.length; i++) {
+  const section = sections[i];
+  const nextSection = sections[i + 1];
+
+  let faq= {
+    id: section.id,
+    question: section.question,
+    answer: "",
+  };
+
+  if (nextSection) {
+    faq.answer = content.substring(
+      section.sectionAnswerStart,
+      nextSection.sectionQuestionStart,
+    );
+  } else {
+    faq.answer = content.substring(section.sectionAnswerStart);
+  }
+
+  faqList.push(faq);
+}
+
+console.log("FAQ LIST", content.replaceAll(">\n", "> "));
 ---
 
 <Page title="FAQ" description="Frequently Asked Questions" currentPage="faq">
