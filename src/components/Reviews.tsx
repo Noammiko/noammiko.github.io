@@ -45,7 +45,7 @@ export function ReviewsSection({ title = "REVIEWS", subtitle }: ReviewsSectionPr
 
   return (
     <div className="w-full py-8">
-      <h2 className="text-4xl font-bold mb-4 border-b-2 border-red-500 pb-2 glitch-text inline-block text-center">
+      <h2 className="text-4xl font-bold mb-4 border-b-2 border-red-500 pb-2 inline-block text-center">
         {title}
       </h2>
       {subtitle && <p className="text-xl text-center mb-8">{subtitle}</p>}

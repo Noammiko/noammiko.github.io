@@ -5,7 +5,9 @@ export default {
   theme: {
     extend: {
       fontFamily: {
-        sans: ["Josefin Sans", "sans-serif"],
+        jose: ["Josefin Sans", "sans-serif"],
+        bentham: ["Bentham", "serif"],
+        matchbox: ["Matchbox", "serif"],
       },
       borderRadius: {
         lg: "var(--radius)",
