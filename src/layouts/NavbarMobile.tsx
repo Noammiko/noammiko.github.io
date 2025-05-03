@@ -40,70 +40,66 @@ function Platform({ platform, className }: { platform: AvailableIcons, className
 }
 
 
-
 export function NavigationBar({ menuItems }: NavigationBarProps) {
   const [open, setOpen] = useState(false);
 
   return (
-    <>
-      {/* Mobile Menu */}
-      <Sheet open={open} onOpenChange={setOpen}>
-        <SheetTrigger asChild>
-          <Button variant="ghost" size="icon" className="md:hidden">
-            <Menu className="h-6 w-6" />
-            <span className="sr-only">Toggle menu</span>
-          </Button>
-        </SheetTrigger>
-        <SheetContent side="right" className="bg-red-950 text-white border-red-900 z-[150]">
-          <div className="grid gap-6 py-6">
-            <h2 className="text-xl font-bold border-b border-red-800 pb-2">Menu</h2>
+    <Sheet open={open} onOpenChange={setOpen}>
+      <SheetTrigger asChild>
+        <Button variant="ghost" size="icon" className="md:hidden">
+          <Menu className="h-6 w-6" />
+          <span className="sr-only">Toggle menu</span>
+        </Button>
+      </SheetTrigger>
+      <SheetContent side="right" className="bg-red-950 text-white border-red-900 z-[150] min-h-screen h-auto overflow-y-auto">
+        <div className="grid gap-6 py-6">
+          <h2 className="text-xl font-bold border-b border-red-800 pb-2">Menu</h2>
 
-            {/* Mobile Menu Items - Same as Desktop */}
-            {menuItems.map((item, index) => (
-              <a
-                onClick={() => {
-                  setOpen(false);
-                }}
-                key={index}
-                href={item.href}
-                className="flex w-full items-center py-2 text-lg font-semibold hover:text-red-300 transition"
-              >
-                {item.label}
-              </a>
-            ))}
-
-            {/* Book Session Button for Mobile */}
+          {/* Mobile Menu Items - Same as Desktop */}
+          {menuItems.map((item, index) => (
             <a
-              href="/prices-and-bundles#book-session"
-              className="flex w-full items-center py-2 text-lg font-semibold hover:text-red-300 transition text-red-300"
+              onClick={() => {
+                setOpen(false);
+              }}
+              key={index}
+              href={item.href}
+              className="flex w-full items-center py-2 text-lg font-semibold hover:text-red-300 transition"
             >
-              Book a Session
+              {item.label}
             </a>
+          ))}
 
-            {/* Social Links Section */}
-            <div className="py-2">
-              <h3 className="text-lg font-semibold mb-2 border-b border-red-800/50 pb-2">Socials and Links</h3>
-              <div className="grid gap-2 pl-4">
-                <a href={platforms.tiktok.href} className="hover:text-red-300 transition">
-                  <Platform platform="tiktok" />
-                </a>
-                <a href={platforms.youtube.href} className="hover:text-red-300 transition">
-                  <Platform platform="youtube" />
-                </a>
-                <a href={platforms.spotify.href} className="hover:text-red-300 transition">
-                  <Platform platform="spotify" />
-                </a>
-                <a href={platforms.instagram.href} className="hover:text-red-300 transition">
-                  <Platform platform="instagram" />
-                </a>
-                <a href={platforms.location.href} className="hover:text-red-300 transition">
-                  <Platform platform="location" />
-                </a>
-              </div>
+          {/* Book Session Button for Mobile */}
+          <a
+            href="/prices-and-bundles#book-session"
+            className="flex w-full items-center py-2 text-lg font-semibold hover:text-red-300 transition text-red-300"
+          >
+            Book a Session
+          </a>
+
+          {/* Social Links Section */}
+          <div className="py-2">
+            <h3 className="text-lg font-semibold mb-2 border-b border-red-800/50 pb-2">Socials and Links</h3>
+            <div className="grid gap-2 pl-4">
+              <a href={platforms.tiktok.href} className="hover:text-red-300 transition">
+                <Platform platform="tiktok" />
+              </a>
+              <a href={platforms.youtube.href} className="hover:text-red-300 transition">
+                <Platform platform="youtube" />
+              </a>
+              <a href={platforms.spotify.href} className="hover:text-red-300 transition">
+                <Platform platform="spotify" />
+              </a>
+              <a href={platforms.instagram.href} className="hover:text-red-300 transition">
+                <Platform platform="instagram" />
+              </a>
+              <a href={platforms.location.href} className="hover:text-red-300 transition">
+                <Platform platform="location" />
+              </a>
             </div>
           </div>
-        </SheetContent>
-      </Sheet>
-    </>
+        </div>
+      </SheetContent>
+    </Sheet>
   )
 }
