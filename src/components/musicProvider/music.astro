@@ -101,13 +101,17 @@ const youtubeId = getYoutubeEmbedId(res); // TODO: improve album representation
       {/* Song info and streaming links for desktop */}
       <div class="p-4 sm:p-6 flex flex-col justify-between w-full">
         <div class="hidden md:flex items-start gap-4 mb-6">
-          <img
-            src={song.thumbnailUrl || "/albumPlaceholder.svg"}
-            alt={`${song.title} by ${song.artistName}`}
-            width={100}
-            height={100}
-            class="rounded-md object-cover flex-shrink-0"
-          />
+          {
+            song.type === "album" && (
+              <img
+                src={song.thumbnailUrl || "/albumPlaceholder.svg"}
+                alt={`${song.title} by ${song.artistName}`}
+                width={100}
+                height={100}
+                class="rounded-md object-cover flex-shrink-0"
+              />
+            )
+          }
           <div class="text-start">
             <h2 class="text-2xl font-bold">{song.title}</h2>
             <p class="text-xl text-gray-200">{song.artistName}</p>

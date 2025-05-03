@@ -46,10 +46,13 @@
     });
   }
 
-  let canScrollNext = $state(true);
+  let canScrollNext = $state(false);
   let canScrollPrev = $state(false);
   function loadEmbla(detail: CustomEvent<EmblaCarouselType>) {
     emblaApi = detail.detail;
+    canScrollPrev= emblaApi.canScrollPrev()
+    canScrollNext= emblaApi.canScrollNext()
+
     emblaApi.on("scroll", (event) => {
       canScrollNext = event.canScrollNext();
       canScrollPrev = event.canScrollPrev();

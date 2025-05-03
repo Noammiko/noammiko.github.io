@@ -1,5 +1,12 @@
 ---
-import Page from "@/layouts/Page.astro";
+import Layout from "@/layouts/Layout.astro";
+import Footer from "@/layouts/Footer.astro";
+import Header from "@/layouts/Header.astro";
+
+import { Image } from "astro:assets";
+
+import album from "@/assets/album-cover.jpeg";
+
 import MusicEmbed from "@/components/musicProvider/music.astro";
 
 const albumLink = "https://open.spotify.com/album/3iTc5FAM86crv2Pvwf881Y";
@@ -11,6 +18,60 @@ const tracks = [
 ];
 ---
 
-<Page title="My Music" description="Again And Again ep" currentPage="music">
-  <MusicEmbed songlink={albumLink} />
-</Page>
+<Layout title="My Music" description="Again And Again ep">
+  <section
+    class="min-h-screen flex flex-col relative overflow-hidden text-white"
+  >
+    <div class="fixed inset-0 z-0">
+      <Image
+        src={album}
+        alt="Noam Miko playing guitar by a stream"
+        class="object-cover w-full h-full absolute inset-0 text-transparent"
+        priority
+      />
+      <div
+        class="absolute inset-0 bg-gradient-to-b from-black/70 via-transparent to-black/90"
+      >
+      </div>
+    </div>
+
+    <section class="min-h-screen h-full flex flex-col">
+      <Header currentPage="music" seperator={false} />
+      <main class="grow container mx-auto px-4 py-12 relative z-10">
+        <div>
+          <h1
+            class="text-center text-5xl sm:text-7xl md:text-8xl font-bold mb-64 tracking-wider uppercase font-['Bentham']"
+          >
+            Noam Miko
+          </h1>
+
+          <h2
+            class="text-center text-xl md:text-5xl text-shadow-lg text-shadow-red-600 uppercase"
+          >
+            Again And Again EP
+          </h2>
+          <p
+            class="text-center text-xl md:text-2xl mt-4 text-gray-200 text-shadow-md text-shadow-red-600 mb-6 uppercase"
+          >
+            Out now
+          </p>
+          <MusicEmbed songlink={albumLink} />
+        </div>
+
+        <div class="mt-10">
+          <div class="grid xl:grid-cols-2 gap-4">
+            {
+              tracks.map((track, index) => (
+                <div>
+                  <h2 class="text-xl font-bold mt-4 mb-2">Track {index + 1}</h2>
+                  <MusicEmbed songlink={track} />
+                </div>
+              ))
+            }
+          </div>
+        </div>
+      </main>
+      <Footer />
+    </section>
+  </section>
+</Layout>

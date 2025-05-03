@@ -3,9 +3,10 @@ import NavigationBar from "./Navbar.astro";
 
 interface Props {
   currentPage: string;
+  seperator?: boolean;
 }
 
-const { currentPage } = Astro.props;
+const { currentPage, seperator = true } = Astro.props;
 ---
 
 <header class="grow-0">
@@ -13,5 +14,8 @@ const { currentPage } = Astro.props;
   <NavigationBar currentPage={currentPage} />
 
   {/* Black Bar - Added extra top padding to account for fixed navbar */}
-  <div class="w-full bg-black h-2 relative z-10 mt-[72px]"></div>
+  <div
+    class={`w-full ${seperator ? "bg-black" : "bg-inherit"} h-2 relative z-10 mt-[72px]`}
+  >
+  </div>
 </header>
