@@ -5,7 +5,7 @@ pageId: about-me
 layout: ../layouts/MarkdownLayout.astro
 ---
 
-![Noam Miko](/albumPlaceholder.svg)
+<img src="/logo.png" alt="Noam Miko" class="w-64 h-64 mb-8" />
 
 Hi, I’m Noam, a 21-year-old audio engineer, music producer, and founder of **Miko Recording Studio**, based in **Guelph, Ontario**. With over 6 years of experience in audio production, I’ve been helping artists record, mix, and master high-quality music since launching my studio in 2023 at just 18 years old.
 
