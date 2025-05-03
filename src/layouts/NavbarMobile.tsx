@@ -3,6 +3,7 @@
 import { Button } from "@/components/ui/button"
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 import { Menu } from "lucide-react"
+import { useState } from 'react';
 import { Icon } from "@iconify/react";
 import { cn } from "@/lib/utils";
 import brands, { type AvailableIcons, type Icon as BrandIcon } from "@/lib/icons";
@@ -10,7 +11,7 @@ import platforms from "@/lib/platforms";
 // import { TiktokIcon, YoutubeIcon, SpotifyIcon, InstagramIcon } from "./social-icons"
 
 interface NavigationBarProps {
-  menuItems: Array<{href: string, label: string, active: boolean}>
+  menuItems: Array<{ href: string, label: string, active: boolean }>
 }
 
 function lookupBrand(brand: AvailableIcons | string): BrandIcon {
@@ -40,13 +41,15 @@ function Platform({ platform, className }: { platform: AvailableIcons, className
 
 
 
-export function NavigationBar({  menuItems }: NavigationBarProps) {
+export function NavigationBar({ menuItems }: NavigationBarProps) {
+  const [open, setOpen] = useState(false);
+
   return (
     <>
       {/* Mobile Menu */}
-      <Sheet>
+      <Sheet open={open} onOpenChange={setOpen}>
         <SheetTrigger asChild>
-          <Button variant="outline" size="icon" className="md:hidden text-white border-white/30">
+          <Button variant="ghost" size="icon" className="md:hidden">
             <Menu className="h-6 w-6" />
             <span className="sr-only">Toggle menu</span>
           </Button>
@@ -58,6 +61,9 @@ export function NavigationBar({  menuItems }: NavigationBarProps) {
             {/* Mobile Menu Items - Same as Desktop */}
             {menuItems.map((item, index) => (
               <a
+                onClick={() => {
+                  setOpen(false);
+                }}
                 key={index}
                 href={item.href}
                 className="flex w-full items-center py-2 text-lg font-semibold hover:text-red-300 transition"
@@ -79,7 +85,7 @@ export function NavigationBar({  menuItems }: NavigationBarProps) {
               <h3 className="text-lg font-semibold mb-2 border-b border-red-800/50 pb-2">Socials and Links</h3>
               <div className="grid gap-2 pl-4">
                 <a href={platforms.tiktok.href} className="hover:text-red-300 transition">
-                  <Platform platform="tiktok"/>
+                  <Platform platform="tiktok" />
                 </a>
                 <a href={platforms.youtube.href} className="hover:text-red-300 transition">
                   <Platform platform="youtube" />
