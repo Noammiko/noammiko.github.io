@@ -33,7 +33,7 @@ const { title, description, currentPage } = Astro.props;
 
     <section class="min-h-screen h-full flex flex-col" >
       <Header currentPage={currentPage} />
-      <main class="grow">
+      <main class="grow container mx-auto px-4 py-12 relative z-10">
         <slot />
       </main>
       <Footer />
