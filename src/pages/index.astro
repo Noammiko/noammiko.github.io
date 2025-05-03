@@ -12,6 +12,7 @@ const images = await getImages({
 
 import StudioTitle from "@/components/StudioTitle.astro";
 import PlatformIcon from "@/components/platformIcon.astro";
+import {ReviewsSection} from "@/components/Reviews.tsx";
 import platforms from "@/lib/platforms";
 ---
 
@@ -138,7 +139,7 @@ import platforms from "@/lib/platforms";
 
     {/* Reviews Section - Added under Location */}
     <div class="mb-16">
-      <!-- <ReviewsSection subtitle="See what our clients have to say about their experience" /> TODO: -->
+      <ReviewsSection client:visible subtitle="See what our clients have to say about their experience" />
     </div>
   </div>
   <!-- <LocalBusinessStructuredData /> TODO: research if this is needed for SEO -->
