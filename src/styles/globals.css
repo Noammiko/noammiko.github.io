@@ -77,7 +77,7 @@
     scrollbar-width: thin; /*Standard */
 
     /* scrollbar-gutter: stable both-edges; */
-    scrollbar-gutter: stable;
+    /* scrollbar-gutter: stable; */
     background-color: #200000;
     margin: 0;
     padding: 0;
