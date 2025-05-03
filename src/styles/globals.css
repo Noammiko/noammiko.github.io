@@ -1,8 +1,6 @@
 @import '@fontsource/josefin-sans/400.css';
 
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss";
 @layer base {
   :root {
     --background: 0 0% 98%;
@@ -59,12 +57,11 @@
   }
 }
 @layer base {
-  * {
-    @apply border-border;
-  }
   html,
   body {
-    @apply m-0 h-full p-0;
+    margin: 0;
+    padding: 0;
+    height: 100%;
   }
   iconify-icon {
     display: inline-block;

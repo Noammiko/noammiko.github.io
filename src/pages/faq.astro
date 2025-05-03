@@ -66,16 +66,23 @@ const faqList = [...content.replaceAll(">\n", "> ").matchAll(re)].map((m) => ({
 <style is:global lang="scss">
   div#faq {
     ul {
-      @apply mt-2 list-disc space-y-2 pl-6;
+      margin-top: 0.5rem /* 8px */;
+      padding-left: 1.5rem /* 24px */;
+      list-style-type: disc;
     }
     p {
-      @apply mt-2;
+      margin-top: 0.5rem /* 8px */;
     }
     a {
-      @apply text-red-300 underline hover:text-red-400;
+      text-decoration-line: underline;
+      color: #fca5a5;
+      &:hover {
+        color: #f87171;
+      }
     }
     strong {
-      @apply font-bold text-red-300;
+      font-weight: bold;
+      color: #fca5a5;
     }
   }
 </style>
