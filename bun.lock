@@ -47,6 +47,7 @@
       "devDependencies": {
         "@iconify-json/fa": "^1.2.1",
         "@iconify-json/fa-brands": "^1.2.1",
+        "@iconify-json/gis": "^1.2.3",
         "@iconify-json/mdi": "^1.2.3",
         "@iconify-json/simple-icons": "^1.2.33",
         "@iconify/react": "^6.0.0",
@@ -247,6 +248,8 @@
     "@iconify-json/fa": ["@iconify-json/fa@1.2.1", "", { "dependencies": { "@iconify/types": "*" } }, "sha512-aY2+tQNWq5ch+ShtAz3KKbNrFfwf4BPrXvyN7S4/lcf6Wms+kIxsd7C7KortzHZhoBnbhVN+qo+YUWLW7rLs9Q=="],
 
     "@iconify-json/fa-brands": ["@iconify-json/fa-brands@1.2.1", "", { "dependencies": { "@iconify/types": "*" } }, "sha512-v5wVXoWIusAU1n0GGctIY+VyINIFXaD/WWHiwS+TFX74C0pFZrmrwUkqZDDCclu7zxuhlixPO+VLyDqNtoppfA=="],
+
+    "@iconify-json/gis": ["@iconify-json/gis@1.2.3", "", { "dependencies": { "@iconify/types": "*" } }, "sha512-Y7oob/i9ggnfa8HuBM78vb/H/w86ky9w4R/0TpVzrHJUVWVbJPaLJexyW2NFSNu7MJvCZguv+1WZA4cK7hGGUw=="],
 
     "@iconify-json/mdi": ["@iconify-json/mdi@1.2.3", "", { "dependencies": { "@iconify/types": "*" } }, "sha512-O3cLwbDOK7NNDf2ihaQOH5F9JglnulNDFV7WprU2dSoZu3h3cWH//h74uQAB87brHmvFVxIOkuBX2sZSzYhScg=="],
 

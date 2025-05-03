@@ -6,6 +6,7 @@ import { Menu } from "lucide-react"
 import { Icon } from "@iconify/react";
 import { cn } from "@/lib/utils";
 import brands, { type AvailableIcons, type Icon as BrandIcon } from "@/lib/icons";
+import platforms from "@/lib/platforms";
 // import { TiktokIcon, YoutubeIcon, SpotifyIcon, InstagramIcon } from "./social-icons"
 
 interface NavigationBarProps {
@@ -77,17 +78,20 @@ export function NavigationBar({  menuItems }: NavigationBarProps) {
             <div className="py-2">
               <h3 className="text-lg font-semibold mb-2 border-b border-red-800/50 pb-2">Socials and Links</h3>
               <div className="grid gap-2 pl-4">
-                <a href="#" className="hover:text-red-300 transition">
+                <a href={platforms.tiktok.href} className="hover:text-red-300 transition">
                   <Platform platform="tiktok"/>
                 </a>
-                <a href="#" className="hover:text-red-300 transition">
+                <a href={platforms.youtube.href} className="hover:text-red-300 transition">
                   <Platform platform="youtube" />
                 </a>
-                <a href="#" className="hover:text-red-300 transition"> {/* TODO: add platform links */}
+                <a href={platforms.spotify.href} className="hover:text-red-300 transition">
                   <Platform platform="spotify" />
                 </a>
-                <a href="#" className="hover:text-red-300 transition">
+                <a href={platforms.instagram.href} className="hover:text-red-300 transition">
                   <Platform platform="instagram" />
+                </a>
+                <a href={platforms.location.href} className="hover:text-red-300 transition">
+                  <Platform platform="location" />
                 </a>
               </div>
             </div>

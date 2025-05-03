@@ -1,0 +1,30 @@
+---
+import { cn } from "@/lib/utils";
+import brands, { type AvailableIcons } from "@/lib/icons";
+import { Icon } from "astro-icon/components";
+
+interface Props {
+  platform: AvailableIcons;
+  text?: boolean;
+  class?: string;
+}
+
+const { platform, class: className, text = true } = Astro.props;
+
+const classes = cn(text ? "flex gap-1" : undefined, className);
+
+const provider = brands[platform];
+---
+
+{
+  text ? (
+    <span class={classes}>
+      <Icon name={provider.icon} class="w-6 h-6" />
+      <span>{provider.label}</span>
+    </span>
+  ) : (
+    <>
+      <Icon name={provider.icon} class={classes} />
+    </>
+  )
+}

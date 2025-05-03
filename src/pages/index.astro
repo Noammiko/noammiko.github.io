@@ -11,6 +11,8 @@ const images = await getImages({
 });
 
 import StudioTitle from "@/components/StudioTitle.astro";
+import PlatformIcon from "@/components/platformIcon.astro";
+import platforms from "@/lib/platforms";
 ---
 
 <Page
@@ -27,20 +29,20 @@ import StudioTitle from "@/components/StudioTitle.astro";
 
     {/* Social Icons */}
     <div class="flex justify-center gap-6 mb-16">
-      <a href="#" class="text-white hover:text-red-300 transition">
-        <!-- <TiktokIcon className="w-8 h-8" /> -->
+      <a href={platforms.tiktok.href} class="text-white hover:text-red-300 transition">
+        <PlatformIcon platform="tiktok" text={false} class="w-8 h-8" />
       </a>
-      <a href="#" class="text-white hover:text-red-300 transition">
-        <!-- <YoutubeIcon className="w-8 h-8" /> -->
+      <a href={platforms.youtube.href} class="text-white hover:text-red-300 transition">
+        <PlatformIcon platform="youtube" text={false} class="w-8 h-8" />
       </a>
-      <a href="#" class="text-white hover:text-red-300 transition">
-        <!-- <SpotifyIcon className="w-8 h-8" /> -->
+      <a href={platforms.spotify.href} class="text-white hover:text-red-300 transition">
+          <PlatformIcon platform="spotify" text={false} class="w-8 h-8" />  
       </a>
-      <a href="#" class="text-white hover:text-red-300 transition">
-        <!-- <InstagramIcon className="w-8 h-8" /> -->
+      <a href={platforms.instagram.href} class="text-white hover:text-red-300 transition">
+        <PlatformIcon platform="instagram" text={false} class="w-8 h-8" />
       </a>
-      <a href="#" class="text-white hover:text-red-300 transition">
-        <!-- <BookIcon className="w-8 h-8" /> -->
+      <a href={platforms.location.href} class="text-white hover:text-red-300 transition">
+        <PlatformIcon platform="location" text={false} class="w-8 h-8" />
       </a>
     </div>
 
