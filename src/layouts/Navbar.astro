@@ -1,7 +1,7 @@
 ---
-import {Link} from "@/components/ui/link.tsx";
+import { Link } from "@/components/ui/link.tsx";
 import StudioTitle from "@/components/StudioTitle.astro";
-import {NavigationBar as MobileNav} from "./NavbarMobile.tsx";
+import { NavigationBar as MobileNav } from "./NavbarMobile.tsx";
 
 interface Props {
   currentPage: string;
@@ -36,20 +36,21 @@ const menuItems = [
 >
   <script>
     const navbar = document.getElementById("navbar");
+    const scrolledClasses = ["bg-black/80", "backdrop-blur-md"];
+    const notScrolledClasses = ["bg-transparent"];
 
     function updateScroll() {
       const scrolled = window.scrollY > 50;
-      if (scrolled) {
-        navbar.classList.add("bg-black/80", "backdrop-blur-md");
-        navbar.classList.remove("bg-transparent");
-      } else {
-        navbar.classList.remove("bg-black/80", "backdrop-blur-md");
-        navbar.classList.add("bg-transparent");
-      }
+      navbar.classList.add(
+        ...(scrolled ? scrolledClasses : notScrolledClasses),
+      );
+      navbar.classList.remove(
+        ...(scrolled ? notScrolledClasses : scrolledClasses),
+      );
     }
 
     window.addEventListener("scroll", updateScroll);
-    updateScroll(); 
+    updateScroll();
   </script>
   <a href="/">
     <StudioTitle size="sm" />
@@ -76,8 +77,8 @@ const menuItems = [
       className="bg-red-600 hover:bg-red-700 text-white"
     >
       Book a Session
-  </Link>
-   
-  <MobileNav menuItems={menuItems} client:load/>
+    </Link>
+
+    <MobileNav menuItems={menuItems} client:load />
   </div>
 </nav>
