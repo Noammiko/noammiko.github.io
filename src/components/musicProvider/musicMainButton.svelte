@@ -7,7 +7,7 @@
   } from "./music";
   import type { MusicProvider } from "./types";
   import Button from "@/components/ui-svelte/button/button.svelte";
-  // import { ExternalLink } from "@lucide/svelte";
+  import { ExternalLink } from "@lucide/svelte";
 
   const {
     items,
@@ -27,7 +27,7 @@
 </script>
 
 {#if !currentProvider}
-  <Button class="w-full text-lg bg-accent-foreground pointer-events-none cursor-default">
+  <Button class="w-full text-lg bg-red-400 pointer-events-none cursor-default">
     No provider selected
   </Button>
 {:else}
@@ -41,7 +41,7 @@
     ></iconify-icon>
     <div class="sm:grow flex items-center justify-center gap-1">
       Open in {providerBrand.label}
-      <!-- <ExternalLink class="w-4 h-4 -mt-2" /> -->
+      <ExternalLink class="w-4 h-4 -mt-2" />
     </div>
   </Button>
 {/if}

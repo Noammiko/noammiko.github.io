@@ -1,0 +1,16 @@
+---
+import Page from "@/layouts/Page.astro";
+import MusicEmbed from "@/components/musicProvider/music.astro";
+
+const albumLink = "https://open.spotify.com/album/3iTc5FAM86crv2Pvwf881Y";
+const tracks = [
+  "https://open.spotify.com/track/1oVkgKH3hOvflNq43leLBi",
+  "https://open.spotify.com/track/2YQtkRFLosMP8QftKl6x5S",
+  "https://open.spotify.com/track/7zrcENB3eO3mgwvmeeBOft",
+  "https://open.spotify.com/track/1o5a7KiDrLS2N2EGY8o34o",
+];
+---
+
+<Page title="My Music" description="Again And Again ep" currentPage="music">
+  <MusicEmbed songlink={albumLink} />
+</Page>

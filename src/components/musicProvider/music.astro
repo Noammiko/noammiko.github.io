@@ -62,7 +62,9 @@ const items = getMusicProviders(res);
 const youtubeId = getYoutubeEmbedId(res); // TODO: improve album representation
 ---
 
-<Card className="overflow-hidden bg-card/40 border-accent border-4">
+<Card
+  className="overflow-hidden relative bg-black/30 backdrop-blur-sm rounded-lg group border border-red-500/30 hover:border-red-500/50 transition"
+>
   <CardContent className="p-0">
     <div class="flex md:flex-row flex-col">
       {/* Album art and song info for mobile */}
@@ -77,23 +79,24 @@ const youtubeId = getYoutubeEmbedId(res); // TODO: improve album representation
           />
           <div class="text-start">
             <h3 class="font-semibold text-lg">{song.title}</h3>
-            <p class="text-muted-foreground">{song.artistName}</p>
+            <p class="text-gray-200">{song.artistName}</p>
           </div>
         </div>
       </div>
 
       {/* YouTube embed for desktop */}
-      {(youtubeId && <div
-        class="hidden md:block aspect-square w-full h-full min-h-[300px] max-w-[480px]"
-      >
-        <YouTube
-          id={youtubeId}
-          class="w-full h-full"
-          params="?fs=0&modestbranding=1&playsinline=1&color=white"
-          poster={song.thumbnailUrl}
-        />
-      </div>
-      )}
+      {
+        youtubeId && (
+          <div class="hidden md:block aspect-square w-full h-full min-h-[300px] max-w-[480px]">
+            <YouTube
+              id={youtubeId}
+              class="w-full h-full"
+              params="?fs=0&modestbranding=1&playsinline=1&color=white"
+              poster={song.thumbnailUrl}
+            />
+          </div>
+        )
+      }
 
       {/* Song info and streaming links for desktop */}
       <div class="p-4 sm:p-6 flex flex-col justify-between w-full">
@@ -107,7 +110,7 @@ const youtubeId = getYoutubeEmbedId(res); // TODO: improve album representation
           />
           <div class="text-start">
             <h2 class="text-2xl font-bold">{song.title}</h2>
-            <p class="text-xl text-muted-foreground">{song.artistName}</p>
+            <p class="text-xl text-gray-200">{song.artistName}</p>
           </div>
         </div>
 
@@ -123,7 +126,7 @@ const youtubeId = getYoutubeEmbedId(res); // TODO: improve album representation
     </div>
   </CardContent>
   <CardFooter
-    className="px-6 py-3 border-t text-xs text-muted-foreground justify-end"
+    className="px-6 py-3 border-t text-xs text-gray-200 border-red-500/30 group-hover:border-red-500/50 transition justify-end"
   >
     <a
       href={res.pageUrl ?? "https://odesli.co/"}

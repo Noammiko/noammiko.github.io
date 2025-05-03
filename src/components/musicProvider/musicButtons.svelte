@@ -4,7 +4,7 @@
   import type { MusicProvider } from "./types";
   import emblaCarouselSvelte from "embla-carousel-svelte";
   import type { EmblaCarouselType, EmblaOptionsType } from "embla-carousel";
-  // import { ChevronLeft, ChevronRight } from "@lucide/svelte";
+  import { ChevronLeft, ChevronRight } from "@lucide/svelte";
 
   import Button from "../ui-svelte/button/button.svelte";
   import { flip } from "svelte/animate";
@@ -66,13 +66,13 @@
         : 'pointer-events-none'}"
       variant="secondary"
       disabled={!canScrollPrev}
-      onclick={() => emblaApi.scrollPrev()}>ChevronLeft</Button
+      onclick={() => emblaApi.scrollPrev()}><ChevronLeft /></Button
     >
 
     <!-- embla viewport -->
     <!-- @ts-ignore -->
     <div
-      use:emblaCarouselSvelte={{ options }}
+      use:emblaCarouselSvelte={{ options } as any}
       onemblaInit={loadEmbla}
       class="mx-4 rounded-full overflow-hidden"
     >
@@ -111,7 +111,7 @@
         : 'pointer-events-none'}"
       variant="secondary"
       onclick={() => emblaApi.scrollNext()}
-      disabled={!canScrollNext}>ChevronRight</Button
+      disabled={!canScrollNext}><ChevronRight /></Button
     >
   </div>
 {/if}
