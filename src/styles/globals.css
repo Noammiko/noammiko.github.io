@@ -67,6 +67,9 @@
   h1, h2, h3, h4, h5, h6 {
     font-family: var(--font-matchbox);
   }
+  html {
+    scroll-padding-top: 80px;
+  }
 }
 @layer base {
   html,

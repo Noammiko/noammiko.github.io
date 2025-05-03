@@ -2,6 +2,7 @@
 import Page from "@/layouts/Page.astro";
 
 import { Link } from "@/components/ui/link.tsx";
+import { Icon } from 'astro-icon/components'
 
 import * as faqs from "./_faq.md";
 
@@ -25,7 +26,7 @@ for (let i = 0; i < sections.length; i++) {
   const section = sections[i];
   const nextSection = sections[i + 1];
 
-  let faq= {
+  let faq = {
     id: section.id,
     question: section.question,
     answer: "",
@@ -49,9 +50,7 @@ console.log("FAQ LIST", content.replaceAll(">\n", "> "));
 <Page title="FAQ" description="Frequently Asked Questions" currentPage="faq">
   {/* FAQ Content */}
   <div>
-    <h1
-      class="text-center text-5xl md:text-7xl font-bold mb-16 tracking-wider"
-    >
+    <h1 class="text-center text-5xl md:text-7xl font-bold mb-16 tracking-wider">
       FREQUENTLY ASKED QUESTIONS
     </h1>
 
@@ -64,9 +63,10 @@ console.log("FAQ LIST", content.replaceAll(">\n", "> "));
               class="bg-black/30 backdrop-blur-sm p-6 rounded-lg border border-red-500/30 hover:border-red-500/50 transition"
             >
               <h2 class="text-2xl font-bold mb-4 text-red-300">
+                <a href={`#${faq.id}`}><Icon name="mdi:link" class="rotate-90" /></a>
                 {faq.question}
               </h2>
-              <div class="text-lg text-gray-200" set:html={faq.answer}></div>
+              <div class="text-lg text-gray-200" set:html={faq.answer} />
             </div>
           ))
         }
@@ -113,6 +113,57 @@ console.log("FAQ LIST", content.replaceAll(">\n", "> "));
     strong {
       font-weight: bold;
       color: #fca5a5;
+    }
+
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6 {
+      display: flex;
+      align-items: baseline;
+
+      > a:nth-child(1) {
+        text-decoration-line: none;
+        @apply self-center fill-none stroke-2 leading-none;
+        border-color: var(--color-emerald-300)
+          /* oklch(84.5% 0.143 164.978) = #5ee9b5  border-emerald-300 */;
+
+        opacity: 0;
+      }
+      &:hover > a,
+      & > a:focus {
+        opacity: 1;
+      }
+
+      @media only screen and (min-width: 640px) {
+        white-space: pre-wrap;
+
+        > a:nth-child(1) {
+          @apply hover:border-l-4;
+          margin-left: calc(var(--spacing) * -8) /* -1.75rem = -28px */;
+          margin-top: calc(var(--spacing) * -2) /* -0.5rem = -8px */;
+          &:hover {
+            @media (hover: hover) {
+              margin-left: calc(var(--spacing) * -9) /* -2rem = -32px */;
+            }
+          }
+        }
+      }
+
+      @media only screen and (max-width: 640px) {
+        flex-direction: row-reverse;
+
+        > a:nth-child(1) {
+          @apply ml-auto hover:border-r-4;
+          &:hover {
+            @media (hover: hover) {
+              margin-right: calc(var(--spacing) * -1) /* -0.25rem = -4px */;
+            }
+          }
+        }
+      }
     }
   }
 </style>
