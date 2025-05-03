@@ -2,6 +2,7 @@
 @import '@fontsource/bentham/400.css';
 
 @import "tailwindcss";
+/* @import "tailwindcss-animate"; */
 
 @theme {
   --font-jose: "Josefin Sans", sans-serif;
@@ -81,9 +82,6 @@
     background-color: #200000;
     margin: 0;
     padding: 0;
-  }
-  body[style*='overflow: hidden'] {
-    /* padding-right: 17px; Adjust 17px if needed */
   }
 
   html::-webkit-scrollbar {
