@@ -1,7 +1,7 @@
 "use client"
 
 import { Button } from "@/components/ui/button"
-import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
+import { Sheet, SheetContent, SheetDescription, SheetTitle, SheetTrigger } from "@/components/ui/sheet"
 import { Menu } from "lucide-react"
 import { useState } from 'react';
 import { SocialPlatform } from "./socials";
@@ -14,14 +14,16 @@ export function NavigationBar({ menuItems }: NavigationBarProps) {
   const [open, setOpen] = useState(false);
 
   return (
-    <Sheet open={open} onOpenChange={setOpen}>
+    <Sheet open={open} onOpenChange={setOpen} >
       <SheetTrigger asChild>
         <Button variant="ghost" size="icon" className="md:hidden">
           <Menu className="h-6 w-6" />
           <span className="sr-only">Toggle menu</span>
         </Button>
       </SheetTrigger>
-      <SheetContent side="right" className="bg-red-950 text-white border-red-900 z-[150] min-h-screen h-auto overflow-y-auto">
+      <SheetContent title="Menu"  aria-description="Mobile navigation menu" side="right" className="bg-red-950 text-white border-red-900 z-[150] min-h-screen h-auto overflow-y-auto">
+        <SheetTitle>Menu</SheetTitle>
+        <SheetDescription>Miko Recording Studio</SheetDescription>
         <div className="grid gap-6 py-6">
           {/* Mobile Menu Items - Same as Desktop */}
           {menuItems.map((item, index) => (
