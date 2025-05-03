@@ -8,16 +8,14 @@ Alternatively, you can [contact us](/contact) directly via email or phone to dis
 We offer several pricing options to fit different needs and budgets:
 
 - **1 Song Bundle**: $119.95 (includes 2 hours of studio time, 1 professional mix, and 1 professional master)
-- **2 Songs Bundle**: $199.95 (includes 3 hours of studio time, 2 professional mixes, and 2 professional masters)
+- **2 Songs Bundle**: $199.95 (includes 4 hours of studio time, 2 professional mixes, and 2 professional masters)
 - **Mix & Master Bundle**: $74.95 (includes 1 professional mix and 1 professional master)
 
 Individual rates are also available: $29.95 per hour of studio time, $59.95 per mix, and $29.95 per master. For more detailed pricing information, please visit our [Prices & Bundles](/prices-and-bundles) page.
 
 
 # How long until I get my mix back?
-Our standard turnaround time for mixes is 3-5 business days from the completion of your recording session or from when we receive your stems for mixing. For masters, we typically deliver within 1-2 business days after the mix is approved.
-
-Rush delivery options are available for an additional fee if you need your project completed sooner. Please let us know about any tight deadlines when booking your session, and we'll do our best to accommodate your schedule.
+Our standard turnaround time for mixes is 24-48 hours from the completion of your recording session.
 
 
 # Can I make changes to the mix after if I don't like it?
@@ -29,11 +27,30 @@ After receiving your initial mix, simply provide specific feedback about what yo
 # What equipment do you have in the studio?
 Miko Recording Studio is equipped with professional-grade recording and mixing equipment to ensure the highest quality sound for your project. Our studio features:
 
-- Professional condenser and dynamic microphones
-- High-end preamps and audio interfaces
-- Studio monitors and acoustic treatment
+- We use a range of condenser and dynamic microphones, including:
+    - Antelope Audio Edge Solo, which emulates classics like:
+        - Neumann U47 (Tube & FET)
+        - Neumann U67, U87, M49, U57, KM86, TLM103
+        - AKG C12, C414 (Brass Capsule), D112
+        - Telefunken ELA M 251 
+        - Sony C800G
+        - Neumann CMV563
+        - Shure SM57, SM7B
+        - Sennheiser MD441
+        - Electro-Voice RE20
+    - Shure Beta 58A
+    - SE V7 Chrome
+- Antelope audio ZEN Q audio interface
+- Adam audio Studio monitors 
+- Professional acoustic treatment
 - Industry-standard DAWs and plugins
-- Various instruments available for use during sessions
+- Various instruments available for use during sessions, including:
+    - Fender Strat Guitar
+    - Gretsch G5442TG Hallow Body Guitar
+    - Ibanez BTB 5 string Bass
+    - Ibanez SDGR 4 string Bass
+    - Midi keyboard
+    - Classical nylon string Guitar
 
 If you have specific equipment needs or questions, please don't hesitate to ask before booking your session.
 
