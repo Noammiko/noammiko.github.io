@@ -3,7 +3,7 @@ import Page from "@/layouts/Page.astro";
 
 import { Link } from "@/components/ui/link.tsx";
 
-import * as faqs from "@/assets/faq.md";
+import * as faqs from "./_faq.md";
 
 const content = await faqs.compiledContent();
 // split content on h1 headings, get the content, the id and heading into ab object in an array

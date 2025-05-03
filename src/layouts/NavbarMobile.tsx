@@ -83,7 +83,7 @@ export function NavigationBar({  menuItems }: NavigationBarProps) {
                 <a href="#" className="hover:text-red-300 transition">
                   <Platform platform="youtube" />
                 </a>
-                <a href="#" className="hover:text-red-300 transition">
+                <a href="#" className="hover:text-red-300 transition"> {/* TODO: add platform links */}
                   <Platform platform="spotify" />
                 </a>
                 <a href="#" className="hover:text-red-300 transition">

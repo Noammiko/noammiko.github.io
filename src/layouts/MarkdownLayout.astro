@@ -1,0 +1,29 @@
+---
+import BaseLayout from "./Page.astro";
+const { frontmatter } = Astro.props;
+const tags = frontmatter.tags || [];
+---
+
+<BaseLayout
+  title={frontmatter.title}
+  description={frontmatter.description}
+  currentPage={frontmatter.pageId}
+>
+  <section class="w-full lg:w-3/4 2xl:w-[800px] mx-auto p-8 text-xl flex flex-col gap-2" id="content">
+    <slot />
+  </section>
+</BaseLayout>
+
+<style is:global lang="scss">
+  section#content {
+    > * {
+      @apply self-center;
+    }
+    p {
+      @apply text-gray-200 pt-2;
+    }
+    p:first-child {
+      @apply pt-0;
+    }
+  }
+</style>

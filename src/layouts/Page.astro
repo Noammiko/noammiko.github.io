@@ -22,7 +22,7 @@ const { title, description, currentPage } = Astro.props;
   >
     {/* Background Logo */}
     <div
-      class="absolute inset-0 flex items-center justify-center pointer-events-none opacity-10 z-0"
+      class="absolute inset-0 flex items-center justify-center pointer-events-none opacity-10 z-0 h-full w-full"
     >
       <Image
         src={mikoLogo}
@@ -31,7 +31,7 @@ const { title, description, currentPage } = Astro.props;
       />
     </div>
 
-    <section class="h-full flex flex-col">
+    <section class="min-h-screen h-full flex flex-col" >
       <Header currentPage={currentPage} />
       <main class="grow">
         <slot />
