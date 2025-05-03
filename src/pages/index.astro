@@ -13,7 +13,11 @@ const images = await getImages({
 import StudioTitle from "@/components/StudioTitle.astro";
 ---
 
-<Page title="Home" description="Guelph audio recording and editing studio" currentPage="home">
+<Page
+  title="Home"
+  description="Guelph audio recording and editing studio"
+  currentPage="home"
+>
   {/* Hero Section */}
   <div class="container mx-auto px-4 py-12 text-center relative z-10">
     <div class="flex justify-center mb-6">
@@ -40,32 +44,42 @@ import StudioTitle from "@/components/StudioTitle.astro";
       </a>
     </div>
 
-    <h2 class="text-3xl md:text-4xl font-bold mb-12 border-b-2 border-red-500 pb-2 glitch-text inline-block">
+    <h2
+      class="text-3xl md:text-4xl font-bold mb-12 border-b-2 border-red-500 pb-2 glitch-text inline-block"
+    >
       PROFESSIONAL RECORDING STUDIO IN GUELPH
     </h2>
 
     {/* Main Navigation Buttons */}
     <div class="grid md:grid-cols-2 gap-6 max-w-4xl mx-auto mb-16">
       <a href="/prices-and-bundles" class="block">
-        <div class="border border-red-500/50 hover:border-red-500 rounded-lg p-8 transition-all hover:bg-black/20 backdrop-blur-sm">
+        <div
+          class="border border-red-500/50 hover:border-red-500 rounded-lg p-8 transition-all hover:bg-black/20 backdrop-blur-sm"
+        >
           <h3 class="text-2xl font-bold mb-2">Prices and Bundles</h3>
           <p class="text-gray-300">View our recording packages and rates</p>
         </div>
       </a>
       <a href="/prices-and-bundles#book-session" class="block">
-        <div class="border border-red-500/50 hover:border-red-500 rounded-lg p-8 transition-all hover:bg-black/20 backdrop-blur-sm">
+        <div
+          class="border border-red-500/50 hover:border-red-500 rounded-lg p-8 transition-all hover:bg-black/20 backdrop-blur-sm"
+        >
           <h3 class="text-2xl font-bold mb-2">Book a Session</h3>
           <p class="text-gray-300">Schedule your recording time</p>
         </div>
       </a>
       <a href="/portfolio" class="block">
-        <div class="border border-red-500/50 hover:border-red-500 rounded-lg p-8 transition-all hover:bg-black/20 backdrop-blur-sm">
+        <div
+          class="border border-red-500/50 hover:border-red-500 rounded-lg p-8 transition-all hover:bg-black/20 backdrop-blur-sm"
+        >
           <h3 class="text-2xl font-bold mb-2">Portfolio</h3>
           <p class="text-gray-300">Listen to our production work</p>
         </div>
       </a>
       <a href="/my-music" class="block">
-        <div class="border border-red-500/50 hover:border-red-500 rounded-lg p-8 transition-all hover:bg-black/20 backdrop-blur-sm">
+        <div
+          class="border border-red-500/50 hover:border-red-500 rounded-lg p-8 transition-all hover:bg-black/20 backdrop-blur-sm"
+        >
           <h3 class="text-2xl font-bold mb-2">My Music</h3>
           <p class="text-gray-300">Listen to my original music</p>
         </div>
@@ -73,7 +87,10 @@ import StudioTitle from "@/components/StudioTitle.astro";
     </div>
 
     {/* Gallery Section */}
-    <h2 id="gallery" class="text-4xl font-bold mb-8 border-b-2 border-red-500 pb-2 glitch-text inline-block">
+    <h2
+      id="gallery"
+      class="text-4xl font-bold mb-8 border-b-2 border-red-500 pb-2 glitch-text inline-block"
+    >
       GALLERY
     </h2>
     <div class="max-w-4xl mx-auto mb-16">
@@ -81,29 +98,32 @@ import StudioTitle from "@/components/StudioTitle.astro";
     </div>
 
     {/* Location Section */}
-    <h2 id="location" class="text-4xl font-bold mb-8 border-b-2 border-red-500 pb-2 glitch-text inline-block">
+    <h2
+      id="location"
+      class="text-4xl font-bold mb-8 border-b-2 border-red-500 pb-2 glitch-text inline-block"
+    >
       LOCATION
     </h2>
     <div class="max-w-4xl mx-auto mb-16">
-      <div class="rounded-lg overflow-hidden shadow-lg border border-red-500/30">
+      <div
+        class="rounded-lg overflow-hidden shadow-lg border border-red-500/30"
+      >
         <iframe
           width="100%"
           height="450"
-          frameborder="0"
-          scrolling="no"
-          marginheight={0}
-          marginwidth={0}
-          src="https://maps.google.com/maps?width=100%25&amp;height=600&amp;hl=en&amp;q=502%20kortright%20rd%20w+(Miko%20recording%20Studio)&amp;t=&amp;z=14&amp;ie=UTF8&amp;iwloc=B&amp;output=embed"
+          style="border:0;"
+          allowfullscreen=""
+          loading="lazy"
+          src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d1446.818467179641!2d-80.226072!3d43.509909!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x882bf77fb6007e8b%3A0x81459b0f458033f1!2sMiko%20Recording%20Studio!5e0!3m2!1sen!2sus!4v1746235360629!5m2!1sen!2sus"
           title="Miko Recording Studio Location"
-          class="w-full"
           aria-label="Google Maps showing Miko Recording Studio location"
-        ></iframe>
+          referrerpolicy="no-referrer-when-downgrade"></iframe>
       </div>
       <div class="mt-4 text-xl">
         <p>502 Kortright Rd W, Guelph, ON</p>
         <p class="mt-2">
           <a
-            href="https://maps.google.com/maps?q=502%20kortright%20rd%20w"
+            href="https://maps.google.com/maps?q=Miko+Recording+Studio"
             target="_blank"
             rel="noopener noreferrer"
             class="text-red-300 hover:text-red-400 transition underline"
