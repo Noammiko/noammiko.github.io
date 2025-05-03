@@ -5,7 +5,7 @@ import { SocialPlatform } from "./socials";
 
 export function SocialDropdown() {
   return (
-    <DropdownMenu>
+    <DropdownMenu modal={false}>
       <DropdownMenuTrigger className="hover:text-red-300 transition flex items-center gap-1">
         Socials and Links
         <ChevronDown className="h-4 w-4" />

@@ -70,6 +70,33 @@
   html {
     scroll-padding-top: 80px;
   }
+
+  html {
+    /* Apply standard or WebKit scrollbar styles here for the whole page */
+    scrollbar-color: #500 #200; /* Standard */
+    scrollbar-width: thin; /*Standard */
+
+    /* scrollbar-gutter: stable both-edges; */
+    scrollbar-gutter: stable;
+    background-color: #200000;
+    margin: 0;
+    padding: 0;
+  }
+  body[style*='overflow: hidden'] {
+    /* padding-right: 17px; Adjust 17px if needed */
+  }
+
+  html::-webkit-scrollbar {
+    width: 12px;
+  }
+  
+  html::-webkit-scrollbar-track {
+    background: #200;
+  }
+  
+  html::-webkit-scrollbar-thumb {
+    background-color: #500;
+  } 
 }
 @layer base {
   html,

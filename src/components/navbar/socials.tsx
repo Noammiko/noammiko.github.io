@@ -31,7 +31,7 @@ export function Platform({ platform, className }: { platform: AvailableIcons, cl
 export function SocialPlatform({ platform: platformName, className }: { platform: AvailableIcons, className?: string }) {
   const platform: { href: string } = platforms[platformName];
   return (
-    <a href={platform.href} className={cn("hover:text-red-300 transition", className)}>
+    <a href={platform.href} target="_blank" className={cn("hover:text-red-300 transition", className)}>
       <Platform platform={platformName} />
     </a>
   )
