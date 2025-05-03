@@ -1,5 +1,6 @@
 ---
 import StudioTitle from "@/components/StudioTitle.astro";
+import { Mail, Phone } from "lucide-react";
 ---
 
 <footer class="bg-black/50 py-8 mt-12 relative z-10 grow-0">
@@ -12,7 +13,16 @@ import StudioTitle from "@/components/StudioTitle.astro";
         <p>Professional audio production services</p>
       </div>
       <div class="flex gap-6">
-        <!-- <a href="/contact" class="hover:text-red-300 transition"> Contact </a> TODO: -->
+        <!-- phone -->
+          <a href="tel:+12266062452" class="text-gray-400 hover:text-red-300 transition flex gap-2 items-center">
+            <Phone className="w-4 h-4 text-red-400" />
+            (226) 606-2452
+          </a>
+        <!-- email -->
+        <a href="mailto:noamtoven@gmail.com" class="text-gray-400 hover:text-red-300 transition flex gap-2 items-center">
+          <Mail className="w-4 h-4 text-red-400" />
+          noamtoven@gmail.com
+        </a>
       </div>
     </div>
     <div class="mt-6 text-center text-sm text-gray-400">
