@@ -1,0 +1,302 @@
+---
+import Page from "@/layouts/Page.astro";
+import StudioTitle from "@/components/StudioTitle.astro";
+import { Button } from "@/components/ui/button.tsx";
+import { Badge } from "@/components/ui/badge.tsx";
+import { Image } from "astro:assets";
+
+import { Mail, Phone, ChevronUp } from "lucide-react";
+
+import logo from "@/assets/logo.png";
+---
+
+<Page
+  title="Prices and Bundles"
+  description="Guelph audio recording and editing studio"
+  currentPage="prices"
+>
+  {/* Hero Section */}
+  <div class="container mx-auto px-4 py-12 relative z-10">
+    <div class="flex justify-center mb-8">
+      <StudioTitle size="lg" />
+    </div>
+    <h1
+      class="text-center glitch-text text-5xl md:text-7xl font-bold mb-16 tracking-wider"
+    >
+      PRICES AND BUNDLES
+    </h1>
+
+    {/* Bundles Section */}
+    <div class="grid md:grid-cols-3 gap-8 mb-16">
+      {/* 1 Song Bundle */}
+      <div
+        class="bg-black/30 backdrop-blur-sm p-6 rounded-lg border border-red-500/30 hover:border-red-500/70 transition"
+      >
+        <h2 class="text-3xl font-bold text-center mb-2">1 Song Bundle</h2>
+        <div class="flex justify-center items-baseline gap-2 mb-4">
+          <span class="text-3xl font-bold text-green-400">$119.95</span>
+          <span class="text-xl text-yellow-400">($150 Value)</span>
+        </div>
+        <h3 class="text-2xl text-center mb-4 underline">Includes</h3>
+        <ul class="space-y-3">
+          <li class="flex items-start">
+            <span class="text-red-400 mr-2">•</span>
+            <span>2 hours of studio time</span>
+          </li>
+          <li class="flex items-start">
+            <span class="text-red-400 mr-2">•</span>
+            <span>1 Professional Mix</span>
+          </li>
+          <li class="flex items-start">
+            <span class="text-red-400 mr-2">•</span>
+            <span>1 Professional Master</span>
+          </li>
+          <li class="flex items-start">
+            <span class="text-red-400 mr-2">•</span>
+            <span>
+              <span class="text-red-400 underline">Unlimited</span> Mix & Master
+              Revisions
+            </span>
+          </li>
+        </ul>
+        <div class="mt-6">
+          <a href="#book-session">
+            <Button className="w-full bg-red-600 hover:bg-red-700"
+              >Book Now</Button
+            >
+          </a>
+        </div>
+      </div>
+
+      {/* 2 Songs Bundle */}
+      <div
+        class="bg-black/30 backdrop-blur-sm p-6 rounded-lg border-2 border-red-500/50 hover:border-red-500/90 transition transform scale-105 shadow-lg shadow-red-900/50 relative"
+      >
+        <Badge className="absolute -top-3 right-4 bg-red-600">POPULAR</Badge>
+        <h2 class="text-3xl font-bold text-center mb-2">2 Songs Bundle</h2>
+        <div class="flex justify-center items-baseline gap-2 mb-4">
+          <span class="text-3xl font-bold text-green-400">$199.95</span>
+          <span class="text-xl text-yellow-400">($270 Value)</span>
+        </div>
+        <h3 class="text-2xl text-center mb-4 underline">Includes</h3>
+        <ul class="space-y-3">
+          <li class="flex items-start">
+            <span class="text-red-400 mr-2">•</span>
+            <span>3 hours of studio time</span>
+          </li>
+          <li class="flex items-start">
+            <span class="text-red-400 mr-2">•</span>
+            <span>2 Professional Mixes</span>
+          </li>
+          <li class="flex items-start">
+            <span class="text-red-400 mr-2">•</span>
+            <span>2 Professional Masters</span>
+          </li>
+          <li class="flex items-start">
+            <span class="text-red-400 mr-2">•</span>
+            <span>
+              <span class="text-red-400 underline">Unlimited</span> Mix & Master
+              Revisions
+            </span>
+          </li>
+        </ul>
+        <div class="mt-6">
+          <a href="#book-session">
+            <Button className="w-full bg-red-600 hover:bg-red-700"
+              >Book Now</Button
+            >
+          </a>
+        </div>
+      </div>
+
+      {/* Mix & Master Bundle */}
+      <div
+        class="bg-black/30 backdrop-blur-sm p-6 rounded-lg border border-red-500/30 hover:border-red-500/70 transition"
+      >
+        <h2 class="text-3xl font-bold text-center mb-2">Mix & Master Bundle</h2>
+        <div class="flex justify-center items-baseline gap-2 mb-4">
+          <span class="text-3xl font-bold text-green-400">$74.95</span>
+          <span class="text-xl text-yellow-400">($90 Value)</span>
+        </div>
+        <h3 class="text-2xl text-center mb-4 underline">Includes</h3>
+        <ul class="space-y-3">
+          <li class="flex items-start">
+            <span class="text-red-400 mr-2">•</span>
+            <span>1 Professional Mix</span>
+          </li>
+          <li class="flex items-start">
+            <span class="text-red-400 mr-2">•</span>
+            <span>1 Professional Master</span>
+          </li>
+          <li class="flex items-start">
+            <span class="text-red-400 mr-2">•</span>
+            <span>
+              <span class="text-red-400 underline">Unlimited</span> Mix & Master
+              Revisions
+            </span>
+          </li>
+        </ul>
+        <div class="mt-6">
+          <a href="#book-session">
+            <Button className="w-full bg-red-600 hover:bg-red-700"
+              >Book Now</Button
+            >
+            <!-- TODO: make buttons change the email default text -->
+          </a>
+        </div>
+      </div>
+    </div>
+
+    {/* Current Rates Section */}
+    <div class="mb-16">
+      <h2
+        class="text-4xl font-bold mb-8 border-b-2 border-red-500 pb-2 glitch-text"
+      >
+        CURRENT RATES
+      </h2>
+      <ul class="space-y-4 text-xl">
+        <li class="flex items-start">
+          <span class="text-red-400 mr-2">•</span>
+          <span class="text-green-400 font-bold">$29.95</span>
+          <span class="ml-2">Per Hour of studio time</span>
+        </li>
+        <li class="flex items-start">
+          <span class="text-red-400 mr-2">•</span>
+          <span class="text-green-400 font-bold">$59.95</span>
+          <span class="ml-2">Per Mix</span>
+        </li>
+        <li class="flex items-start">
+          <span class="text-red-400 mr-2">•</span>
+          <span class="text-green-400 font-bold">$29.95</span>
+          <span class="ml-2">Per Master</span>
+        </li>
+      </ul>
+    </div>
+
+    {/* Instrumentals/Beats Section */}
+    <div class="mb-16">
+      <h2
+        class="text-4xl font-bold mb-8 border-b-2 border-red-500 pb-2 glitch-text"
+      >
+        INSTRUMENTALS / BEATS
+      </h2>
+      <ul class="space-y-4 text-xl">
+        <li class="flex items-start">
+          <span class="text-red-400 mr-2">•</span>
+          <span class="text-green-400 font-bold">$49.95</span>
+          <span class="ml-2">for an existing beat</span>
+        </li>
+        <li class="flex items-start">
+          <span class="text-red-400 mr-2">•</span>
+          <span class="text-green-400 font-bold">$99.95</span>
+          <span class="ml-2">for a custom beat</span>
+        </li>
+      </ul>
+      <p class="mt-4 text-xl">Exclusive prices are negotiable</p>
+    </div>
+
+    {/* Guarantee and Logo Section */}
+    <div
+      class="flex flex-col md:flex-row items-center justify-between gap-8 mb-16"
+    >
+      <div class="flex items-center gap-4">
+        <div class="w-32 h-32 relative">
+          <Image
+            src="/albumPlaceholder.svg"
+            alt="100% Satisfaction Guaranteed"
+            width={128}
+            height={128}
+            class="object-contain"
+          />
+        </div>
+        <div>
+          <h3 class="text-2xl font-bold">100% SATISFACTION</h3>
+          <h3 class="text-2xl font-bold">GUARANTEED</h3>
+        </div>
+      </div>
+      <div class="w-48 h-48 relative">
+        <Image
+          src={logo}
+          alt="MIKO Recording Studio Logo"
+          width={192}
+          height={192}
+          class="object-contain"
+        />
+      </div>
+    </div>
+
+    {/* Booking Section */}
+    <div id="booking" class="pt-16 mt-16 border-t-2 border-red-500/30">
+      <div
+        class="flex justify-center items-center mb-6 text-red-300 animate-pulse"
+      >
+        <ChevronUp className="h-5 w-5 mr-2" />
+        <span class="text-sm">Scroll up to see prices and bundles</span>
+      </div>
+      <h1
+        id="book-session"
+        class="text-center glitch-text text-5xl md:text-7xl font-bold mb-16 tracking-wider"
+      >
+        BOOK A SESSION
+      </h1>
+
+      {/* Contact Information */}
+      <div
+        id="contact"
+        class="max-w-4xl mx-auto mb-16 bg-black/30 backdrop-blur-sm p-8 rounded-lg border border-red-500/30"
+      >
+        <h2 class="text-3xl font-bold mb-6 border-b border-red-500/50 pb-2">
+          Contact Information
+        </h2>
+        <div class="grid md:grid-cols-2 gap-6">
+          <div class="flex items-center gap-3">
+            <Mail className="w-6 h-6 text-red-400" />
+            <a
+              href="mailto:Noamtoven@gmail.com?subject=Studio%20session%20booking%20request"
+              class="text-xl hover:text-red-300 transition"
+            >
+              noamtoven@gmail.com
+            </a>
+          </div>
+          <div class="flex items-center gap-3">
+            <Phone className="w-6 h-6 text-red-400" />
+            <a
+              href="tel:+12266062452"
+              class="text-xl hover:text-red-300 transition"
+            >
+              (226) 606-2452
+            </a>
+          </div>
+        </div>
+      </div>
+
+      {/* Calendar Booking */}
+      <div class="max-w-4xl mx-auto mb-16">
+        <h2
+          class="text-3xl font-bold mb-6 border-b border-red-500/50 pb-2 flex items-center gap-2"
+        >
+          <!-- <Calendar class="w-7 h-7 text-red-400" /> -->
+          Schedule Your Session
+        </h2>
+        <div class="bg-white rounded-lg overflow-hidden shadow-lg">
+          <!-- Google Calendar Appointment Scheduling begin -->
+          <iframe
+            src="https://calendar.google.com/calendar/appointments/schedules/AcZssZ0-Md8E3JHXqoEt4gYrOiezfBut-2jaVMB3MN66uZHvpMg9BptlFWqEdmfnZXdmuPplJH1Ww-Kl?gv=true"
+            style="border: 0"
+            width="100%"
+            height="600"
+            frameborder="0"></iframe>
+          <!-- end Google Calendar Appointment Scheduling -->
+        </div>
+      </div>
+
+      <!-- {/* Reviews Section - Added under Book Session */} TODO:
+          <div class="max-w-4xl mx-auto mb-16">
+            <ReviewsSection
+              title="CLIENT TESTIMONIALS"
+              subtitle="Don't just take our word for it - hear what our clients have to say"
+            />
+          </div> -->
+    </div>
+  </div>
+</Page>
