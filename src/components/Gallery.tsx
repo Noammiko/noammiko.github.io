@@ -43,5 +43,6 @@ export default function CarouselComponent({ images, className, buttons = true }:
         <CarouselNext variant="secondary" />
       </>}
     </Carousel>
+    // TODO: change the buttons to be huge paddles
   )
 }
