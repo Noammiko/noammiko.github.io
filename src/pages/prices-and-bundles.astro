@@ -23,13 +23,15 @@ import logo from "@/assets/logo.png";
       <StudioTitle size="lg" />
     </div>
     <h1
-    id="prices-and-bundles"
+      id="prices-and-bundles"
       class="text-center text-5xl md:text-7xl font-bold mb-16 tracking-wider"
     >
       PRICES AND BUNDLES
     </h1>
 
-    <div class="uppercase text-xl md:text-4xl text-yellow-500 font-bold text-center mb-6 md:mb-12 font-matchbox">
+    <div
+      class="uppercase text-xl md:text-4xl text-yellow-500 font-bold text-center mb-6 md:mb-12 font-matchbox"
+    >
       <h2>Limited time Spring Sale!</h2>
     </div>
 
@@ -156,9 +158,7 @@ import logo from "@/assets/logo.png";
 
     {/* Current Rates Section */}
     <div class="mb-16">
-      <h2
-        class="text-4xl font-bold mb-8 border-b-2 border-red-500 pb-2"
-      >
+      <h2 class="text-4xl font-bold mb-8 border-b-2 border-red-500 pb-2">
         CURRENT RATES
       </h2>
       <ul class="space-y-4 text-xl">
@@ -182,9 +182,7 @@ import logo from "@/assets/logo.png";
 
     {/* Instrumentals/Beats Section */}
     <div class="mb-16">
-      <h2
-        class="text-4xl font-bold mb-8 border-b-2 border-red-500 pb-2"
-      >
+      <h2 class="text-4xl font-bold mb-8 border-b-2 border-red-500 pb-2">
         INSTRUMENTALS / BEATS
       </h2>
       <ul class="space-y-4 text-xl">
@@ -234,13 +232,13 @@ import logo from "@/assets/logo.png";
 
     {/* Booking Section */}
     <div id="booking" class="pt-16 mt-16 border-t-2 border-red-500/30">
-      <a 
+      <a
         href="#prices-and-bundles"
         class="flex justify-center items-center mb-6 text-red-300 animate-pulse"
       >
         <ChevronUp className="h-5 w-5 mr-2" />
         <span class="text-sm">Scroll up to see prices and bundles</span>
-    </a>
+      </a>
       <h1
         id="book-session"
         class="text-center text-5xl md:text-7xl font-bold mb-16 tracking-wider"
@@ -309,3 +307,11 @@ import logo from "@/assets/logo.png";
     </div>
   </div>
 </Page>
+
+<style>
+  /* add more padding to include the up button */
+  #book-session:target {
+    padding-top: 50px; /* Adjust as needed */
+    margin-top: -50px; /* Counteract the padding to avoid shifting content */
+  }
+</style>
