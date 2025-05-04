@@ -1,0 +1,114 @@
+[
+  {
+    "client": "Josh",
+    "title": "Momento",
+    "file": "/portfolio/01. Josh.mp3",
+    "work": ["Mixed", "Mastered"],
+    "langauges": ["Romanian"],
+    "genres": ["RNB"]
+  },
+  {
+    "client": "Noam Miko",
+    "title": "Wanna See you Again",
+    "file": "/portfolio/02. Noam.mp3",
+    "work": ["Produced", "Mixed", "Mastered", "Written"],
+    "langauges": ["English"],
+    "genres": ["Pop Rock"]
+  },
+  {
+    "client": "GRANDVIEW",
+    "title": "Why Live For Later",
+    "file": "/portfolio/03. Grandview.mp3",
+    "work": ["Produced"],
+    "langauges": ["English"],
+    "genres": ["Hip Hop"]
+  },
+  {
+    "client": "Sharan",
+    "title": "Allta Gama",
+    "file": "/portfolio/04. Sharan.mp3",
+    "work": ["Mixed", "Mastered"],
+    "langauges": ["Punjabi"],
+    "genres": ["Rap"]
+  },
+  {
+    "client": "Niles Baby",
+    "title": "Who Are We",
+    "file": "/portfolio/05. Niles Baby.mp3",
+    "work": ["Produced", "Mixed", "Mastered"],
+    "langauges": ["English"],
+    "genres": ["Afro Beats"]
+  },
+  {
+    "client": "Noam Miko",
+    "title": "Love Again",
+    "file": "/portfolio/06. Noam.mp3",
+    "work": ["Produced", "Mixed", "Mastered", "Written"],
+    "langauges": ["English"],
+    "genres": ["Hip Hop"]
+  },
+  {
+    "client": "Alex",
+    "title": "Pull up",
+    "file": "/portfolio/07. Alex.mp3",
+    "work": ["Produced", "Mixed", "Mastered"],
+    "langauges": ["English"],
+    "genres": ["Rap"]
+  },
+  {
+    "client": "Josh",
+    "title": "Berders",
+    "file": "/portfolio/08. Josh.mp3",
+    "work": ["Mixed", "Mastered"],
+    "langauges": ["Romanian"],
+    "genres": ["RNB"]
+  },
+  {
+    "client": "Alex",
+    "title": "Face of a Model",
+    "file": "/portfolio/09. alex.mp3",
+    "work": ["Mixed", "Mastered"],
+    "langauges": ["English"],
+    "genres": ["Rap"]
+  },
+  {
+    "client": "IVY",
+    "title": "Healer",
+    "file": "/portfolio/10. IVY.mp3",
+    "work": ["Mixed", "Mastered"],
+    "langauges": ["English"],
+    "genres": ["Afro Beats"]
+  },
+  {
+    "client": "Noam Miko",
+    "title": "Page In Your Book",
+    "file": "/portfolio/11. noam.mp3",
+    "work": ["Produced", "Mixed", "Mastered", "Written"],
+    "langauges": ["English"],
+    "genres": ["Pop"]
+  },
+  {
+    "client": "Alex",
+    "title": "Save my soul",
+    "file": "/portfolio/12. Alex.mp3",
+    "work": ["Mixed", "Mastered"],
+    "langauges": ["English"],
+    "genres": ["RNB"]
+  },
+  {
+    "client": "Niles Baby",
+    "title": "Who are we (Noam Miko REMIX)",
+    "file": "/portfolio/13 Niles Baby.mp3",
+    "work": ["Produced", "Mixed", "Mastered"],
+    "langauges": ["English"],
+    "genres": ["EDM"]
+  },
+  {
+    "client": "Noam Miko",
+    "title": "The Moment Our Lips Touched",
+    "file": "/portfolio/14. noam.mp3",
+    "work": ["Produced", "Mixed", "Mastered", "Written"],
+    "langauges": ["English"],
+    "genres": ["Pop"]
+  }
+]
