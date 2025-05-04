@@ -3,23 +3,22 @@ import { type VariantProps, tv } from "tailwind-variants";
 import Root from "./button.svelte";
 
 const buttonVariants = tv({
-	base: "focus-visible:ring-ring inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 disabled:pointer-events-none disabled:opacity-50",
+	base: "ring-offset-background focus-visible:ring-ring inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50",
 	variants: {
 		variant: {
-			default: "bg-red-700 text-white hover:bg-red-700/90 shadow",
-			destructive:
-				"bg-destructive text-destructive-foreground hover:bg-destructive/90 shadow-sm",
+			default: "bg-primary text-primary-foreground hover:bg-primary/90",
+			destructive: "bg-destructive text-destructive-foreground hover:bg-destructive/90",
 			outline:
-				"border-red-500/30 hover:border-red-500/50 bg-transparent hover:bg-red-500/30 hover:text-red-200 border shadow-sm", 
-			secondary: "bg-slate-800 text-slate-200 hover:bg-slate-800/80 shadow-sm",
-			ghost: "hover:bg-red-500/30 hover:text-red-500/30",
-			link: "text-red-700 underline-offset-4 hover:underline",
+				"border-accent/30 hover:border-accent/50 bg-transparent hover:bg-accent/30 hover:text-accent-foreground border",
+			secondary: "bg-secondary text-secondary-foreground hover:bg-secondary/80",
+			ghost: "hover:bg-accent hover:text-accent-foreground",
+			link: "text-primary underline-offset-4 hover:underline",
 		},
 		size: {
-			default: "h-9 px-4 py-2",
-			sm: "h-8 rounded-md px-3 text-xs",
-			lg: "h-10 rounded-md px-8",
-			icon: "h-9 w-9",
+			default: "h-10 px-4 py-2",
+			sm: "h-9 rounded-md px-3",
+			lg: "h-11 rounded-md px-8",
+			icon: "h-10 w-10",
 		},
 	},
 	defaultVariants: {
