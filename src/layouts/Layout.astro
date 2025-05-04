@@ -105,6 +105,8 @@ const openGraphImageUrl = getImagePath({ url, site });
         anchor.addEventListener("click", function (e) {
           e.preventDefault();
 
+          // replace the history state
+          history.replaceState(null, null, this.href);
           document.querySelector(this.getAttribute("href")).scrollIntoView({
             behavior: "smooth",
           });
