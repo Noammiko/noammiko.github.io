@@ -19,14 +19,16 @@ export function AudioComponent({ }: AudioComponentProps) {
   }, [])
 
   return (
-    // (playingCurrent &&
+    (playingCurrent ?
       <AudioPlayer
         title={playingCurrent?.title ?? "Test"}
         src={playingCurrent?.file ?? "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3"}
         playOnStart={playingCurrent !== null}
         onClose={() => playing.set(null)}
-      />
-    // )
+      /> :
+      <div className="h-42 w-112 bg-slate-100/30 rounded-lg">
+      </div>
+    )
   )
 }
 

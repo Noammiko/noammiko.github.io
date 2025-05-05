@@ -13,7 +13,9 @@ const { songs } = Astro.props;
 ---
 
 <Table songs={songs} client:load />
+<div class="flex justify-end">
 <AudioComponent client:idle />
+</div>
 
 <style>
   h1,
