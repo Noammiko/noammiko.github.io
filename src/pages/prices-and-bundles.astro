@@ -46,9 +46,9 @@ import TimeRemaining from "@/components/TimeRemaining.svelte";
     <div class="grid md:grid-cols-3 gap-8 mb-16">
       {/* 1 Song Bundle */}
       <div
-        class="bg-black/30 backdrop-blur-sm p-6 rounded-lg border border-red-500/30 hover:border-red-500/70 transition relative"
+        class="bg-black/30 backdrop-blur-sm p-6 rounded-lg group border border-red-500/30 hover:border-red-500/70 transition relative"
       >
-        <Badge className="absolute -top-3 right-4 bg-red-500">POPULAR</Badge>
+  <Badge className="absolute -top-3 right-4 bg-red-500 group-hover:bg-primary/80">POPULAR</Badge>
         <h2 class="text-3xl font-bold text-center mb-2">1 Song Bundle</h2>
         <div class="flex flex-col items-center gap-2 mb-4 relative">
           <span class="text-3xl font-bold text-green-400">$119.95</span>
@@ -95,9 +95,9 @@ import TimeRemaining from "@/components/TimeRemaining.svelte";
 
       {/* 2 Songs Bundle */}
       <div
-        class="bg-black/30 backdrop-blur-sm p-6 rounded-lg border-2 border-red-500/50 hover:border-red-500/90 transition transform scale-105 shadow-lg shadow-red-900/50 relative"
+        class="bg-black/30 backdrop-blur-sm p-6 rounded-lg border-2 group border-red-500/50 hover:border-red-500/90 transition transform scale-105 shadow-lg shadow-red-900/50 relative"
       >
-        <Badge className="absolute -top-3 right-4 bg-red-500">BEST VALUE</Badge>
+<Badge className="absolute -top-3 right-4 bg-red-500 group-hover:bg-primary/80">BEST VALUE</Badge>
         <h2 class="text-3xl font-bold text-center mb-2">2 Songs Bundle</h2>
         <div class="flex flex-col items-center gap-2 mb-4 relative">
           <span class="text-3xl font-bold text-green-400">$199.95</span>
