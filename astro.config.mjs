@@ -31,7 +31,9 @@ export default defineConfig({
       render: presets.blackAndWhite,
     }),
     icon(),
-    sitemap(),
+    sitemap({
+      filter: (page) => !page.includes("/portfolio"),
+    }),
     svelte(),
     react(),
   ],
