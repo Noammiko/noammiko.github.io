@@ -84,6 +84,7 @@ export function AudioPlayer({ src, title, playOnStart = false, onClose }: AudioP
       handleSeek([0]);
       audioRef.current.pause();
       setIsPlaying(false);
+      audioRef.current.src = '';
     }
     updatePositionState();
 
