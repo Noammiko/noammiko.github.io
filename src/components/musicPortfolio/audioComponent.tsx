@@ -26,7 +26,7 @@ export function AudioComponent({ }: AudioComponentProps) {
         playOnStart={playingCurrent !== null}
         onClose={() => playing.set(null)}
       /> :
-      <div className="h-42 w-112 bg-slate-100/30 rounded-lg">
+      <div className="h-42 w-112 bg-red-950/30 backdrop-blur-sm rounded-lg">
       </div>
     )
   )
@@ -139,7 +139,7 @@ export function AudioPlayer({ src, title, playOnStart = false, onClose }: AudioP
   }
 
   return (
-    <Card className="w-full max-w-md">
+    <Card className="w-full max-w-md bg-black/30 backdrop-blur-sm rounded-lg group border border-red-500/30 hover:border-red-500/50 transition">
       <CardHeader className="pb-2 pt-4 px-4 flex flex-row items-center justify-between">
         <CardTitle className="text-base font-medium truncate pr-2">{title}</CardTitle>
         <Button variant="ghost" size="icon" onClick={onClose} className="h-8 w-8">
