@@ -13,6 +13,7 @@ import { Badge } from "@/components/ui/badge";
 import { Play, ArrowUpAZ, ArrowDownAZ } from "lucide-react"
 import { playing } from "./utils.ts";
 
+import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button";
 
 interface Props {
@@ -302,10 +303,10 @@ function Filter({ column }: { column: Column<any, unknown> }) {
         value={(columnFilterValue ?? '') as string}
         onChange={value => column.setFilterValue(value)}
         placeholder={`Search... (${column.getFacetedUniqueValues().size})`}
-        className="min-w-36 w-full border shadow rounded"
+        className="min-w-36 text-sm h-6 w-full backdrop-blur-md"
         list={column.id + 'list'}
       />
-      <div className="h-1" />
+      <div className="h-2" />
     </>
   )
 }
@@ -336,6 +337,6 @@ function DebouncedInput({
   }, [value])
 
   return (
-    <input {...props} value={value} onChange={e => setValue(e.target.value)} />
+    <Input {...props} value={value} onChange={e => setValue(e.target.value)} />
   )
 }
