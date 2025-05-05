@@ -11,9 +11,21 @@ interface Props {
 const { songs } = Astro.props;
 ---
 
-<Table songs={songs} client:load />
-<div class="flex justify-end w-full">
-  <AudioComponent client:idle />
+<div class="grid max-h-[80vh] overflow-y-auto">
+  <div class="overflow-x-auto overflow-y-visible">
+    <Table songs={songs} client:load />
+  </div>
+
+  <div
+    class="row-start-2 col-start-1 h-42 ml-auto mr-2 w-full md:w-md bg-red-950/30
+    backdrop-blur-sm rounded-lg"
+  >
+  </div>
+  <div class="sticky bottom-0 z-20 right-0 left-0 row-start-2 col-start-1">
+    <div class="ml-auto mr-2 w-full h-42 md:w-md">
+      <AudioComponent client:idle />
+    </div>
+  </div>
 </div>
 
 <style>

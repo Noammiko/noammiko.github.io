@@ -18,17 +18,13 @@ export function AudioComponent({ }: AudioComponentProps) {
     return playing.subscribe((value) => setPlayingCurrent(value))
   }, [])
 
-  return (
-    (playingCurrent ?
-      <AudioPlayer
-        title={playingCurrent?.title ?? "Test"}
-        src={playingCurrent?.file ?? "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3"}
-        playOnStart={playingCurrent !== null}
-        onClose={() => playing.set(null)}
-      /> :
-      <div className="h-42 w-full md:w-md bg-red-950/30 backdrop-blur-sm rounded-lg">
-      </div>
-    )
+  return (playingCurrent &&
+    <AudioPlayer
+      title={playingCurrent?.title ?? ""}
+      src={playingCurrent?.file ?? ""}
+      playOnStart={playingCurrent !== null}
+      onClose={() => playing.set(null)}
+    />
   )
 }
 
@@ -69,9 +65,9 @@ export function AudioPlayer({ src, title, playOnStart = false, onClose }: AudioP
     }
   }, [])
 
-  useEffect(()=>{
-   const audio = audioRef.current
-   if (!audio) return
+  useEffect(() => {
+    const audio = audioRef.current
+    if (!audio) return
 
     setIsPlaying(playOnStart);
     setCurrentTime(0);
@@ -139,7 +135,7 @@ export function AudioPlayer({ src, title, playOnStart = false, onClose }: AudioP
   }
 
   return (
-    <Card className="w-full md:max-w-md bg-black/30 backdrop-blur-sm rounded-lg group border border-red-500/30 hover:border-red-500/50 transition">
+    <Card className="w-full md:max-w-md bg-black/30 backdrop-blur-md rounded-lg group border border-red-500/30 hover:border-red-500/50 transition">
       <CardHeader className="pb-2 pt-4 px-4 flex flex-row items-center justify-between">
         <CardTitle className="text-base font-medium truncate pr-2">{title}</CardTitle>
         <Button variant="ghost" size="icon" onClick={onClose} className="h-8 w-8">
