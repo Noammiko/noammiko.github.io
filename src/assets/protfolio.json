@@ -48,28 +48,12 @@
     "genres": ["Hip Hop"]
   },
   {
-    "client": "Alex",
-    "title": "Pull up",
-    "file": "/portfolio/07. Alex.mp3",
-    "work": ["Produced", "Mixed", "Mastered"],
-    "languages": ["English"],
-    "genres": ["Rap"]
-  },
-  {
     "client": "Josh",
     "title": "Berders",
     "file": "/portfolio/08. Josh.mp3",
     "work": ["Mixed", "Mastered"],
     "languages": ["Romanian"],
     "genres": ["RNB"]
-  },
-  {
-    "client": "Alex",
-    "title": "Face of a Model",
-    "file": "/portfolio/09. alex.mp3",
-    "work": ["Mixed", "Mastered"],
-    "languages": ["English"],
-    "genres": ["Rap"]
   },
   {
     "client": "IVY",
@@ -86,14 +70,6 @@
     "work": ["Produced", "Mixed", "Mastered", "Written"],
     "languages": ["English"],
     "genres": ["Pop"]
-  },
-  {
-    "client": "Alex",
-    "title": "Save my soul",
-    "file": "/portfolio/12. Alex.mp3",
-    "work": ["Mixed", "Mastered"],
-    "languages": ["English"],
-    "genres": ["RNB"]
   },
   {
     "client": "Niles Baby",
