@@ -1,4 +1,4 @@
-import type { SongWithDuration as Song } from "./types";
+import type { Song } from "./types";
 import {
   Table as TableBase,
   TableBody,
@@ -200,7 +200,7 @@ export function Table({ songs }: Props) {
                     <div className="backdrop-blur-md rounded-full">
                       <Button
                         disabled={currentlyPlaying === row.original}
-                        className="p-2 not-disabled:cursor-pointer w-8 h-8 rounded-full"
+                        className="p-2 w-8 h-8 rounded-full"
                         onClick={() => playing.set(row.original)}
                       ><Play /></Button>
                     </div>
