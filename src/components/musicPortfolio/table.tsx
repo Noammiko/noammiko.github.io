@@ -10,7 +10,7 @@ import {
 
 import { Badge } from "@/components/ui/badge";
 
-import { Play } from "lucide-react"
+import { Play, ArrowUpAZ, ArrowDownAZ } from "lucide-react"
 import { playing } from "./utils.ts";
 
 import { Button } from "@/components/ui/button";
@@ -75,12 +75,13 @@ export function Table({ songs }: Props) {
           const { work } = row.original;
           return (
             <div className="flex items-center justify-start gap-2">
-              {work.toSorted().map((work) => (
-                <Badge variant="outline">{work}</Badge>
+              {work.toSorted().map((work, index) => (
+                <Badge key={index} variant="outline">{work}</Badge>
               ))}
             </div>
           );
         },
+        enableSorting: false,
         filterFn: arrayIncludesFilterFn,
         getUniqueValues: (table) => table.work
       },
@@ -120,7 +121,7 @@ export function Table({ songs }: Props) {
   const table = useReactTable({
     columns,
     data,
-    debugTable: true,
+    debugTable: false,
     getCoreRowModel: getCoreRowModel(),
     state: {
       sorting,
@@ -133,9 +134,6 @@ export function Table({ songs }: Props) {
     getFacetedRowModel: getFacetedRowModel(),
     getFacetedUniqueValues: getFacetedUniqueValues()
   })
-
-  //access sorting state from the table instance
-  console.log(table.getState().sorting)
 
   return (
     <div className="p-2">
@@ -152,11 +150,11 @@ export function Table({ songs }: Props) {
                     {header.isPlaceholder ? null : (
                       <>
                         <div
-                          className={
+                          className={`text-xl flex justify-center flex-row-reverse gap-2 items-center ${
                             header.column.getCanSort()
                               ? 'cursor-pointer select-none'
                               : ''
-                          }
+                          }`}
                           onClick={header.column.getToggleSortingHandler()}
                           title={
                             header.column.getCanSort()
@@ -172,13 +170,15 @@ export function Table({ songs }: Props) {
                             header.column.columnDef.header,
                             header.getContext()
                           )}
-                          {{
-                            asc: ' 🔼',
-                            desc: ' 🔽',
-                          }[header.column.getIsSorted() as string] ?? null}
+                          {header.column.getIsSorted() ? (
+                            {
+                              asc: <ArrowUpAZ className="inline-block w-6 h-6 -ml-8 -translate-y-0.5" />,
+                              desc: <ArrowDownAZ className="inline-block w-6 h-6 -ml-8 -translate-y-0.5" />,
+                            }[header.column.getIsSorted() as string] ?? null
+                          ) : null}
                         </div>
                         {header.column.getCanFilter() ? (
-                          <div>
+                          <div className="w-full pt-2">
                             <Filter column={header.column} />
                           </div>
                         ) : null}
@@ -222,11 +222,6 @@ export function Table({ songs }: Props) {
             })}
         </TableBody>
       </TableBase>
-      <div>{table.getRowModel().rows.length.toLocaleString()} Rows</div>
-      <div>
-        <button onClick={() => rerender()}>Force Rerender</button>
-      </div>
-      <pre>{JSON.stringify({ columnFilters, sorting }, null, 2)}</pre>
     </div>
   )
 }
@@ -262,7 +257,7 @@ function Filter({ column }: { column: Column<any, unknown> }) {
             ? `(${column.getFacetedMinMaxValues()?.[0]})`
             : ''
             }`}
-          className="w-24 border shadow rounded"
+          className="min-w-24 w-full border shadow rounded"
         />
         <DebouncedInput
           type="number"
@@ -307,7 +302,7 @@ function Filter({ column }: { column: Column<any, unknown> }) {
         value={(columnFilterValue ?? '') as string}
         onChange={value => column.setFilterValue(value)}
         placeholder={`Search... (${column.getFacetedUniqueValues().size})`}
-        className="w-36 border shadow rounded"
+        className="min-w-36 w-full border shadow rounded"
         list={column.id + 'list'}
       />
       <div className="h-1" />
