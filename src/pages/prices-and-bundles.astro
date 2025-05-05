@@ -4,12 +4,16 @@ import StudioTitle from "@/components/StudioTitle.astro";
 import { Button } from "@/components/ui/button.tsx";
 import { Badge } from "@/components/ui/badge.tsx";
 import { Image } from "astro:assets";
+import { Temporal } from '@js-temporal/polyfill';
 
 import { Mail, Phone, ChevronUp } from "lucide-react";
 
 import { ReviewsSection } from "@/components/Reviews.tsx";
 
 import logo from "@/assets/logo.png";
+
+const saleEndDate = Temporal.Instant.from("2025-05-31T23:59:59-04:00");
+import TimeRemaining from "@/components/TimeRemaining.svelte";
 ---
 
 <Page
@@ -28,8 +32,14 @@ import logo from "@/assets/logo.png";
       PRICES AND BUNDLES
     </h1>
 
-    <div class="uppercase text-xl md:text-4xl text-yellow-500 font-bold text-center mb-6 md:mb-12 font-matchbox">
-      <h2>Limited time Spring Sale!</h2>
+    <div class="uppercase text-center mb-6 md:mb-12 font-matchbox">
+  <h2
+    class="text-xl md:text-4xl text-yellow-500 font-bold"
+  >Limited time Spring Sale!</h2>
+      <p class="text-lg md:text-2xl text-red-500">
+        Sale ends 
+        <TimeRemaining targetTimeString={saleEndDate.toJSON()} client:idle="svelte" />
+      </p>
     </div>
 
     {/* Bundles Section */}
@@ -84,7 +94,7 @@ import logo from "@/assets/logo.png";
       <div
         class="bg-black/30 backdrop-blur-sm p-6 rounded-lg border-2 border-red-500/50 hover:border-red-500/90 transition transform scale-105 shadow-lg shadow-red-900/50 relative"
       >
-        <Badge className="absolute -top-3 right-4 bg-red-600">POPULAR</Badge>
+        <Badge className="absolute -top-3 right-4 bg-red-600">POPULAR</Badge> <!-- TODO: move one left, cahnge to best value-->
         <h2 class="text-3xl font-bold text-center mb-2">2 Songs Bundle</h2>
         <div class="flex justify-center items-baseline gap-2 mb-4">
           <span class="text-3xl font-bold text-green-400">$199.95</span>
