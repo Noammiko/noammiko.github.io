@@ -1,7 +1,6 @@
 ---
 import { Table } from "./table.tsx";
-// import {AudioPlayer} from "./audioComponent.tsx";
-import {AudioComponent} from "./audioComponent.tsx";
+import { AudioComponent } from "./audioComponent.tsx";
 
 import type { Song } from "./types.d.ts";
 
@@ -13,8 +12,8 @@ const { songs } = Astro.props;
 ---
 
 <Table songs={songs} client:load />
-<div class="flex justify-end">
-<AudioComponent client:idle />
+<div class="flex justify-end w-full">
+  <AudioComponent client:idle />
 </div>
 
 <style>
