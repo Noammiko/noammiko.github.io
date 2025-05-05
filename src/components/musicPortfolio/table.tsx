@@ -75,7 +75,7 @@ export function Table({ songs }: Props) {
           const { work } = row.original;
           return (
             <div className="flex items-center justify-start gap-2">
-              {work.map((work) => (
+              {work.toSorted().map((work) => (
                 <Badge variant="outline">{work}</Badge>
               ))}
             </div>
