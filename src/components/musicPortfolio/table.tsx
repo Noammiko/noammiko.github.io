@@ -1,4 +1,4 @@
-import type { Song } from "./types";
+import type { SongWithDuration as Song } from "./types";
 import {
   Table as TableBase,
   TableBody,
@@ -47,8 +47,6 @@ arrayIncludesFilterFn.autoRemove = (val) => !val;
 arrayIncludesFilterFn.resolveFilterValue = (filterValue: string) => filterValue.split(',').map(v => v.toString().toLowerCase().trim());
 
 export function Table({ songs }: Props) {
-  const rerender = useReducer(() => ({}), {})[1]
-
   const [sorting, setSorting] = useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([])
   const [data, _setData] = useState(() => [...songs])
@@ -151,7 +149,7 @@ export function Table({ songs }: Props) {
                     {header.isPlaceholder ? null : (
                       <>
                         <div
-                          className={`text-xl flex justify-center flex-row-reverse gap-2 items-center ${
+                          className={`text-xl flex justify-center pt-1 flex-row-reverse gap-2 items-center ${
                             header.column.getCanSort()
                               ? 'cursor-pointer select-none'
                               : ''
