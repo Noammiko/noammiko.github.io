@@ -23,15 +23,12 @@ import logo from "@/assets/logo.png";
       <StudioTitle size="lg" />
     </div>
     <h1
-      id="prices-and-bundles"
       class="text-center text-5xl md:text-7xl font-bold mb-16 tracking-wider"
     >
       PRICES AND BUNDLES
     </h1>
 
-    <div
-      class="uppercase text-xl md:text-4xl text-yellow-500 font-bold text-center mb-6 md:mb-12 font-matchbox"
-    >
+    <div class="uppercase text-xl md:text-4xl text-yellow-500 font-bold text-center mb-6 md:mb-12 font-matchbox">
       <h2>Limited time Spring Sale!</h2>
     </div>
 
@@ -42,9 +39,9 @@ import logo from "@/assets/logo.png";
         class="bg-black/30 backdrop-blur-sm p-6 rounded-lg border border-red-500/30 hover:border-red-500/70 transition"
       >
         <h2 class="text-3xl font-bold text-center mb-2">1 Song Bundle</h2>
-        <div class="flex justify-center items-baseline gap-2 mb-4">
+        <div class="flex justify-center items-baseline gap-2 mb-4 relative">
           <span class="text-3xl font-bold text-green-400">$119.95</span>
-          <span class="text-xl text-yellow-400">($150 Value)</span>
+          <span class="text-xl text-yellow-400">($180 Value)</span>
         </div>
         <h3 class="text-2xl text-center mb-4 underline">Includes</h3>
         <ul class="space-y-3">
@@ -67,6 +64,12 @@ import logo from "@/assets/logo.png";
               Revisions
             </span>
           </li>
+          <li class="flex items-start">
+            <span class="text-red-400 mr-2">•</span>
+            <span>
+              <span class=>Bonus:</span> <span class="text-green-400 font-bold">FREE</span> Short Music Video for IG & TikTok (Optional)
+            </span>
+          </li>
         </ul>
         <div class="mt-6">
           <a href="#book-session">
@@ -85,13 +88,13 @@ import logo from "@/assets/logo.png";
         <h2 class="text-3xl font-bold text-center mb-2">2 Songs Bundle</h2>
         <div class="flex justify-center items-baseline gap-2 mb-4">
           <span class="text-3xl font-bold text-green-400">$199.95</span>
-          <span class="text-xl text-yellow-400">($270 Value)</span>
+          <span class="text-xl text-yellow-400">($360 Value)</span>
         </div>
         <h3 class="text-2xl text-center mb-4 underline">Includes</h3>
         <ul class="space-y-3">
           <li class="flex items-start">
             <span class="text-red-400 mr-2">•</span>
-            <span>3 hours of studio time</span>
+            <span>4 hours of studio time</span>
           </li>
           <li class="flex items-start">
             <span class="text-red-400 mr-2">•</span>
@@ -106,6 +109,12 @@ import logo from "@/assets/logo.png";
             <span>
               <span class="text-red-400 underline">Unlimited</span> Mix & Master
               Revisions
+            </span>
+          </li>
+          <li class="flex items-start">
+            <span class="text-red-400 mr-2">•</span>
+            <span>
+              <span class=>Bonus: 2</span> <span class="text-green-400 font-bold">FREE</span> Short Music Video for IG & TikTok (Optional)
             </span>
           </li>
         </ul>
@@ -144,6 +153,7 @@ import logo from "@/assets/logo.png";
               Revisions
             </span>
           </li>
+      
         </ul>
         <div class="mt-6">
           <a href="#book-session">
@@ -158,7 +168,9 @@ import logo from "@/assets/logo.png";
 
     {/* Current Rates Section */}
     <div class="mb-16">
-      <h2 class="text-4xl font-bold mb-8 border-b-2 border-red-500 pb-2">
+      <h2
+        class="text-4xl font-bold mb-8 border-b-2 border-red-500 pb-2"
+      >
         CURRENT RATES
       </h2>
       <ul class="space-y-4 text-xl">
@@ -182,7 +194,9 @@ import logo from "@/assets/logo.png";
 
     {/* Instrumentals/Beats Section */}
     <div class="mb-16">
-      <h2 class="text-4xl font-bold mb-8 border-b-2 border-red-500 pb-2">
+      <h2
+        class="text-4xl font-bold mb-8 border-b-2 border-red-500 pb-2"
+      >
         INSTRUMENTALS / BEATS
       </h2>
       <ul class="space-y-4 text-xl">
@@ -232,13 +246,12 @@ import logo from "@/assets/logo.png";
 
     {/* Booking Section */}
     <div id="booking" class="pt-16 mt-16 border-t-2 border-red-500/30">
-      <a
-        href="#prices-and-bundles"
+      <div
         class="flex justify-center items-center mb-6 text-red-300 animate-pulse"
       >
         <ChevronUp className="h-5 w-5 mr-2" />
         <span class="text-sm">Scroll up to see prices and bundles</span>
-      </a>
+      </div>
       <h1
         id="book-session"
         class="text-center text-5xl md:text-7xl font-bold mb-16 tracking-wider"
@@ -258,7 +271,7 @@ import logo from "@/assets/logo.png";
           <div class="flex items-center gap-3">
             <Mail className="w-6 h-6 text-red-400" />
             <a
-              href="mailto:noamtoven@gmail.com?subject=Studio%20session%20booking%20request"
+              href="mailto:Noamtoven@gmail.com?subject=Studio%20session%20booking%20request"
               class="text-xl hover:text-red-300 transition"
             >
               noamtoven@gmail.com
@@ -307,11 +320,3 @@ import logo from "@/assets/logo.png";
     </div>
   </div>
 </Page>
-
-<style>
-  /* add more padding to include the up button */
-  #book-session:target {
-    padding-top: 50px; /* Adjust as needed */
-    margin-top: -50px; /* Counteract the padding to avoid shifting content */
-  }
-</style>
