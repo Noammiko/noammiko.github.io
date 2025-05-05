@@ -1,0 +1,15 @@
+---
+import Page from "@/layouts/Page.astro";
+
+import Song from "@/components/musicPortfolio/songs.astro";
+
+import portfolio from "@/assets/protfolio.json";
+---
+
+<Page
+  title="Music Portfolio"
+  description="A collection of my musical works"
+  currentPage="portfolio"
+>
+  <Song songs={portfolio} />
+</Page>

@@ -4,7 +4,7 @@
     "title": "Momento",
     "file": "/portfolio/01. Josh.mp3",
     "work": ["Mixed", "Mastered"],
-    "langauges": ["Romanian"],
+    "languages": ["Romanian"],
     "genres": ["RNB"]
   },
   {
@@ -12,7 +12,7 @@
     "title": "Wanna See you Again",
     "file": "/portfolio/02. Noam.mp3",
     "work": ["Produced", "Mixed", "Mastered", "Written"],
-    "langauges": ["English"],
+    "languages": ["English"],
     "genres": ["Pop Rock"]
   },
   {
@@ -20,7 +20,7 @@
     "title": "Why Live For Later",
     "file": "/portfolio/03. Grandview.mp3",
     "work": ["Produced"],
-    "langauges": ["English"],
+    "languages": ["English"],
     "genres": ["Hip Hop"]
   },
   {
@@ -28,7 +28,7 @@
     "title": "Allta Gama",
     "file": "/portfolio/04. Sharan.mp3",
     "work": ["Mixed", "Mastered"],
-    "langauges": ["Punjabi"],
+    "languages": ["Punjabi"],
     "genres": ["Rap"]
   },
   {
@@ -36,7 +36,7 @@
     "title": "Who Are We",
     "file": "/portfolio/05. Niles Baby.mp3",
     "work": ["Produced", "Mixed", "Mastered"],
-    "langauges": ["English"],
+    "languages": ["English"],
     "genres": ["Afro Beats"]
   },
   {
@@ -44,7 +44,7 @@
     "title": "Love Again",
     "file": "/portfolio/06. Noam.mp3",
     "work": ["Produced", "Mixed", "Mastered", "Written"],
-    "langauges": ["English"],
+    "languages": ["English"],
     "genres": ["Hip Hop"]
   },
   {
@@ -52,7 +52,7 @@
     "title": "Pull up",
     "file": "/portfolio/07. Alex.mp3",
     "work": ["Produced", "Mixed", "Mastered"],
-    "langauges": ["English"],
+    "languages": ["English"],
     "genres": ["Rap"]
   },
   {
@@ -60,7 +60,7 @@
     "title": "Berders",
     "file": "/portfolio/08. Josh.mp3",
     "work": ["Mixed", "Mastered"],
-    "langauges": ["Romanian"],
+    "languages": ["Romanian"],
     "genres": ["RNB"]
   },
   {
@@ -68,7 +68,7 @@
     "title": "Face of a Model",
     "file": "/portfolio/09. alex.mp3",
     "work": ["Mixed", "Mastered"],
-    "langauges": ["English"],
+    "languages": ["English"],
     "genres": ["Rap"]
   },
   {
@@ -76,7 +76,7 @@
     "title": "Healer",
     "file": "/portfolio/10. IVY.mp3",
     "work": ["Mixed", "Mastered"],
-    "langauges": ["English"],
+    "languages": ["English"],
     "genres": ["Afro Beats"]
   },
   {
@@ -84,7 +84,7 @@
     "title": "Page In Your Book",
     "file": "/portfolio/11. noam.mp3",
     "work": ["Produced", "Mixed", "Mastered", "Written"],
-    "langauges": ["English"],
+    "languages": ["English"],
     "genres": ["Pop"]
   },
   {
@@ -92,7 +92,7 @@
     "title": "Save my soul",
     "file": "/portfolio/12. Alex.mp3",
     "work": ["Mixed", "Mastered"],
-    "langauges": ["English"],
+    "languages": ["English"],
     "genres": ["RNB"]
   },
   {
@@ -100,7 +100,7 @@
     "title": "Who are we (Noam Miko REMIX)",
     "file": "/portfolio/13 Niles Baby.mp3",
     "work": ["Produced", "Mixed", "Mastered"],
-    "langauges": ["English"],
+    "languages": ["English"],
     "genres": ["EDM"]
   },
   {
@@ -108,7 +108,7 @@
     "title": "The Moment Our Lips Touched",
     "file": "/portfolio/14. noam.mp3",
     "work": ["Produced", "Mixed", "Mastered", "Written"],
-    "langauges": ["English"],
+    "languages": ["English"],
     "genres": ["Pop"]
   }
 ]
