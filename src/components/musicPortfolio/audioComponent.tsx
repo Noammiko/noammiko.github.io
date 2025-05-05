@@ -50,7 +50,10 @@ export function AudioPlayer({ src, title, playOnStart = false, onClose }: AudioP
     const abortController = new AbortController()
     const signal = abortController.signal
 
-    const updateTime = () => setCurrentTime(audio.currentTime)
+    const updateTime = () => {
+      setCurrentTime(audio.currentTime);
+      updatePositionState();
+    }
     const updateDuration = () => setDuration(audio.duration)
     const handleEnded = () => setIsPlaying(false)
 
@@ -64,6 +67,102 @@ export function AudioPlayer({ src, title, playOnStart = false, onClose }: AudioP
       abortController.abort()
     }
   }, [])
+
+  function updatePositionState() {
+    const audio = audioRef.current;
+    if (!audio) return;
+    return;
+    navigator.mediaSession.setPositionState({
+      duration: audio.duration,
+      playbackRate: audio.playbackRate,
+      position: audio.currentTime
+    });
+  }
+
+  function stopPlayback() {
+    if (audioRef.current) {
+      handleSeek([0]);
+      audioRef.current.pause();
+      setIsPlaying(false);
+    }
+    updatePositionState();
+
+    if ("mediaSession" in navigator) {
+      navigator.mediaSession.playbackState = "none";
+      navigator.mediaSession.metadata = new MediaMetadata({
+        title: '',
+        artist: '',
+        album: '',
+        artwork: []
+      });
+      actionsAndHandlers.forEach(([action]) => navigator.mediaSession.setActionHandler(action, null));
+    }
+    onClose()
+  }
+
+  const actionsAndHandlers: Array<[MediaSessionAction, MediaSessionActionHandler | null]> = [
+    ['play', () => {
+      togglePlayPause();
+      updatePositionState();
+    }],
+    ['pause', () => {
+      togglePlayPause();
+      updatePositionState();
+    }],
+    ['seekbackward', (details) => {
+      if (audioRef.current) {
+        audioRef.current.currentTime = Math.max(audioRef.current.currentTime - (details.seekOffset || 10), 0)
+      }
+      updatePositionState();
+    }],
+    ['seekforward', (details) => {
+      if (audioRef.current) {
+        audioRef.current.currentTime = Math.max(audioRef.current.currentTime + (details.seekOffset || 10), 0)
+      }
+      updatePositionState();
+    }],
+    ['seekto', (details) => {
+      if (audioRef.current && details.fastSeek && 'fastSeek' in audioRef.current) {
+        audioRef.current.fastSeek(details.seekTime);
+        setCurrentTime(details.seekTime);
+        updatePositionState();
+        return;
+      }
+      handleSeek([details.seekTime]);
+      updatePositionState();
+    }],
+    ['stop', () => {
+      stopPlayback();
+    }],
+  ]
+
+  useEffect(() => {
+    const audio = audioRef.current
+    if (!audio) return
+    if ("mediaSession" in navigator) {
+      navigator.mediaSession.metadata = new MediaMetadata({
+        title: 'Never Gonna Give You Up',
+        artist: 'Rick Astley',
+        album: 'Whenever You Need Somebody',
+        artwork: [
+          { src: 'https://miko-recordingstudio.ca/logo/96.png', sizes: '96x96', type: 'image/png' },
+          { src: 'https://miko-recordingstudio.ca/logo/128.png', sizes: '128x128', type: 'image/png' },
+          { src: 'https://miko-recordingstudio.ca/logo/192.png', sizes: '192x192', type: 'image/png' },
+          { src: 'https://miko-recordingstudio.ca/logo/256.png', sizes: '256x256', type: 'image/png' },
+          { src: 'https://miko-recordingstudio.ca/logo/384.png', sizes: '384x384', type: 'image/png' },
+          { src: 'https://miko-recordingstudio.ca/logo/500.png', sizes: '500x500', type: 'image/png' },
+        ]
+      });
+
+      for (const [action, handler] of actionsAndHandlers) {
+        try {
+          navigator.mediaSession.setActionHandler(action, handler);
+        } catch (error) {
+          console.log(`The media session action, ${action}, is not supported`);
+        }
+      }
+    }
+  }, [isPlaying])
 
   useEffect(() => {
     const audio = audioRef.current
@@ -138,7 +237,7 @@ export function AudioPlayer({ src, title, playOnStart = false, onClose }: AudioP
     <Card className="w-full md:max-w-md bg-black/30 backdrop-blur-md rounded-lg group border border-red-500/30 hover:border-red-500/50 transition">
       <CardHeader className="pb-2 pt-4 px-4 flex flex-row items-center justify-between">
         <CardTitle className="text-base font-medium truncate pr-2">{title}</CardTitle>
-        <Button variant="ghost" size="icon" onClick={onClose} className="h-8 w-8">
+        <Button variant="ghost" size="icon" onClick={stopPlayback} className="h-8 w-8">
           <X className="h-4 w-4" />
           <span className="sr-only">Close</span>
         </Button>
