@@ -46,12 +46,15 @@ import TimeRemaining from "@/components/TimeRemaining.svelte";
     <div class="grid md:grid-cols-3 gap-8 mb-16">
       {/* 1 Song Bundle */}
       <div
-        class="bg-black/30 backdrop-blur-sm p-6 rounded-lg border border-red-500/30 hover:border-red-500/70 transition"
+        class="bg-black/30 backdrop-blur-sm p-6 rounded-lg border border-red-500/30 hover:border-red-500/70 transition relative"
       >
+        <Badge className="absolute -top-3 right-4 bg-red-500">POPULAR</Badge>
         <h2 class="text-3xl font-bold text-center mb-2">1 Song Bundle</h2>
-        <div class="flex justify-center items-baseline gap-2 mb-4 relative">
+        <div class="flex flex-col items-center gap-2 mb-4 relative">
           <span class="text-3xl font-bold text-green-400">$119.95</span>
-          <span class="text-xl text-yellow-400">($180 Value)</span>
+          <span class="text-xl text-yellow-400">
+            ($180 Value) <span class="bg-red-600 text-white text-[12px] font-bold px-2 py-1 rounded-full">33% OFF</span>
+          </span>
         </div>
         <h3 class="text-2xl text-center mb-4 underline">Includes</h3>
         <ul class="space-y-3">
@@ -77,7 +80,7 @@ import TimeRemaining from "@/components/TimeRemaining.svelte";
           <li class="flex items-start">
             <span class="text-red-400 mr-2">•</span>
             <span>
-              <span class=>Bonus:</span> <span class="text-green-400 font-bold">FREE</span> Short Music Video for IG & TikTok (Optional)
+              <span>Bonus:</span> <span class="text-green-400 font-bold">FREE</span> Short Music Video for IG & TikTok (Optional)
             </span>
           </li>
         </ul>
@@ -94,11 +97,13 @@ import TimeRemaining from "@/components/TimeRemaining.svelte";
       <div
         class="bg-black/30 backdrop-blur-sm p-6 rounded-lg border-2 border-red-500/50 hover:border-red-500/90 transition transform scale-105 shadow-lg shadow-red-900/50 relative"
       >
-        <Badge className="absolute -top-3 right-4 bg-red-600">POPULAR</Badge> <!-- TODO: move one left, cahnge to best value-->
+        <Badge className="absolute -top-3 right-4 bg-red-500">BEST VALUE</Badge>
         <h2 class="text-3xl font-bold text-center mb-2">2 Songs Bundle</h2>
-        <div class="flex justify-center items-baseline gap-2 mb-4">
+        <div class="flex flex-col items-center gap-2 mb-4 relative">
           <span class="text-3xl font-bold text-green-400">$199.95</span>
-          <span class="text-xl text-yellow-400">($360 Value)</span>
+          <span class="text-xl text-yellow-400">
+            ($360 Value) <span class="bg-red-600 text-white text-[12px] font-bold px-2 py-1 rounded-full">45% OFF</span>
+          </span>
         </div>
         <h3 class="text-2xl text-center mb-4 underline">Includes</h3>
         <ul class="space-y-3">
