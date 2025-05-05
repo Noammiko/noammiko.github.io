@@ -4,7 +4,9 @@
   import type { MusicProvider } from "./types";
   import emblaCarouselSvelte from "embla-carousel-svelte";
   import type { EmblaCarouselType, EmblaOptionsType } from "embla-carousel";
-  import { ChevronLeft, ChevronRight } from "@lucide/svelte";
+  // import { ChevronLeft, ChevronRight } from "@lucide/svelte";
+  import ChevronLeft from "@lucide/svelte/icons/chevron-left";
+  import ChevronRight from "@lucide/svelte/icons/chevron-right";
 
   import Button from "../ui-svelte/button/button.svelte";
   import { flip } from "svelte/animate";

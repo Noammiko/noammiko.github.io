@@ -7,7 +7,8 @@
   } from "./music";
   import type { MusicProvider } from "./types";
   import Button from "@/components/ui-svelte/button/button.svelte";
-  import { ExternalLink } from "@lucide/svelte";
+  // import { ExternalLink } from "@lucide/svelte";
+  import ExternalLink from "@lucide/svelte/icons/external-link";
 
   const {
     items,
