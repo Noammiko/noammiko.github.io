@@ -22,6 +22,7 @@ export function AudioComponent({ }: AudioComponentProps) {
     <AudioPlayer
       title={playingCurrent?.title ?? ""}
       src={playingCurrent?.file ?? ""}
+      artist={playingCurrent?.client ?? ""}
       playOnStart={playingCurrent !== null}
       onClose={() => playing.set(null)}
     />
@@ -31,11 +32,12 @@ export function AudioComponent({ }: AudioComponentProps) {
 interface AudioPlayerProps {
   src: string
   title: string
+  artist: string
   playOnStart?: boolean
   onClose: () => void
 }
 
-export function AudioPlayer({ src, title, playOnStart = false, onClose }: AudioPlayerProps) {
+export function AudioPlayer({ src, title, artist, playOnStart = false, onClose }: AudioPlayerProps) {
   const audioRef = useRef<HTMLAudioElement>(null)
   const [isPlaying, setIsPlaying] = useState(false)
   const [currentTime, setCurrentTime] = useState(0)
@@ -71,12 +73,11 @@ export function AudioPlayer({ src, title, playOnStart = false, onClose }: AudioP
   function updatePositionState() {
     const audio = audioRef.current;
     if (!audio) return;
-    return;
-    navigator.mediaSession.setPositionState({
-      duration: audio.duration,
-      playbackRate: audio.playbackRate,
-      position: audio.currentTime
-    });
+    // navigator.mediaSession.setPositionState({
+    //   duration: audio.duration,
+    //   playbackRate: audio.playbackRate,
+    //   position: audio.currentTime
+    // });
   }
 
   function stopPlayback() {
@@ -142,9 +143,9 @@ export function AudioPlayer({ src, title, playOnStart = false, onClose }: AudioP
     if (!audio) return
     if ("mediaSession" in navigator) {
       navigator.mediaSession.metadata = new MediaMetadata({
-        title: 'Never Gonna Give You Up',
-        artist: 'Rick Astley',
-        album: 'Whenever You Need Somebody',
+        title: title,
+        artist: artist,
+        album: "Miko Recording Studio",
         artwork: [
           { src: 'https://miko-recordingstudio.ca/logo/96.png', sizes: '96x96', type: 'image/png' },
           { src: 'https://miko-recordingstudio.ca/logo/128.png', sizes: '128x128', type: 'image/png' },
