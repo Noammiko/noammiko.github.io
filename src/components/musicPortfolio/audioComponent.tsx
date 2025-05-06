@@ -164,7 +164,7 @@ export function AudioPlayer({ src, title, artist, playOnStart = false, onClose }
         }
       }
     }
-  }, [isPlaying])
+  }, [isPlaying, src])
 
   useEffect(() => {
     const audio = audioRef.current
