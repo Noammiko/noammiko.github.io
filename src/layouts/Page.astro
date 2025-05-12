@@ -31,7 +31,15 @@ const { title, description, currentPage } = Astro.props;
       />
     </div>
 
-    <section class="min-h-screen h-full flex flex-col" >
+    <section class="min-h-screen h-full flex flex-col">
+      {
+        currentPage !== "music" && (
+          <script>
+            import {studioNavigated} from "@/layouts/hideBarMusic.ts";
+            studioNavigated.set(true);
+          </script>
+        )
+      }
       <Header currentPage={currentPage} />
       <main class="grow container mx-auto px-4 py-12 relative z-10">
         <slot />

@@ -5,9 +5,10 @@ import { NavigationBar as MobileNav } from "@/components/navbar/NavbarMobile.tsx
 interface Props {
   currentPage: string;
   seperator?: boolean;
+  hidden?: boolean;
 }
 
-const { currentPage, seperator = true } = Astro.props;
+const { currentPage, seperator = true, hidden = false } = Astro.props;
 
 // Define menu items in a single array to ensure consistency
 const menuItems = [
@@ -30,14 +31,14 @@ const menuItems = [
 ];
 ---
 
-<header class="grow-0">
+<header class={`grow-0 ${hidden ? "invisible" : ""}`} id="header-bar">
   <nav
     class="p-4 w-full flex gap-2 items-center fixed top-0 left-0 right-0 z-50 transition-all duration-300 bg-transparent"
     id="navbar"
   >
     <NavigationBar menuItems={menuItems} />
     <MobileNav menuItems={menuItems} client:load />
-</nav>
+  </nav>
 
   <script>
     const navbar = document.getElementById("navbar");
@@ -57,6 +58,18 @@ const menuItems = [
     window.addEventListener("scroll", updateScroll);
     updateScroll();
   </script>
+
+  {hidden && <script>
+    const headerBar = document.getElementById("header-bar");
+
+    // if user navigates to page and dident land on it, then 
+    import { studioNavigated } from "@/layouts/hideBarMusic.ts";
+    studioNavigated.subscribe((value) => {
+      if (value) {
+        headerBar.classList.remove("invisible");
+      }
+    });
+  </script>}
 
   {/* Black Bar - Added extra top padding to account for fixed navbar */}
   <div
