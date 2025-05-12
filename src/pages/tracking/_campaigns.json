@@ -1,6 +1,7 @@
 {
   "campaigns": {
     "poster1": {
+      "url": "/",
       "source": "qrcode",
       "medium": "social",
       "campaign": "promotion",

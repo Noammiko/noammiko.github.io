@@ -17,7 +17,7 @@ const { campaign: campaignId } = Astro.params;
 const campaign = campaigns.campaigns[campaignId] as Campaign;
 
 const { site } = Astro;
-const backupUrl = new URL("/", site);
+const backupUrl = new URL(campaign.url, site);
 Object.entries(getCampaignParams(campaign)).forEach(([key, val]) =>
   backupUrl.searchParams.set(key, val),
 );
@@ -50,10 +50,10 @@ const backupUrlString = backupUrl.pathname + backupUrl.search;
         }
 
         // Redirect to the home page without UTM parameters
-        window.location.href = "/";
+        window.location.href = campaign.url;
 
         // Clean up the URL in browser history
-        window.history.replaceState(null, "", "/");
+        window.history.replaceState(null, "", campaign.url);
       };
     </script>
   </Fragment>

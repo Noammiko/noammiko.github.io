@@ -1,4 +1,6 @@
 interface Campaign {
+  url: string;
+
   /** Example: feature launch, discount */
   campaign: string;
   /** Example: Google, Bing, Twitter, Facebook */
