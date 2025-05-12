@@ -31,7 +31,12 @@ export default defineConfig({
       render: presets.blackAndWhite,
     }),
     icon(),
-    sitemap(),
+    sitemap({
+      filter(page) {
+        const exclude = ["/tracking"];
+        return !exclude.some((e) => page.includes(e));
+      },
+    }),
     svelte(),
     react(),
   ],
