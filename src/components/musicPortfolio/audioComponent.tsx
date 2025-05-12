@@ -75,7 +75,7 @@ export function AudioPlayer({ src, title, artist, playOnStart = false, onClose }
     if (!audio) return;
     navigator.mediaSession.playbackState = isPlaying ? "playing" : "paused";
     navigator.mediaSession.setPositionState({
-      duration: audio.duration,
+      duration: isNaN(duration) ? 0 : audio.duration,
       playbackRate: audio.playbackRate,
       position: audio.currentTime
     });
