@@ -73,17 +73,18 @@ export function AudioPlayer({ src, title, artist, playOnStart = false, onClose }
   function updatePositionState() {
     const audio = audioRef.current;
     if (!audio) return;
-    // navigator.mediaSession.setPositionState({
-    //   duration: audio.duration,
-    //   playbackRate: audio.playbackRate,
-    //   position: audio.currentTime
-    // });
+    navigator.mediaSession.playbackState = isPlaying ? "playing" : "paused";
+    navigator.mediaSession.setPositionState({
+      duration: audio.duration,
+      playbackRate: audio.playbackRate,
+      position: audio.currentTime
+    });
   }
 
   function stopPlayback() {
     if (audioRef.current) {
-      handleSeek([0]);
       audioRef.current.pause();
+      handleSeek([0]);
       setIsPlaying(false);
       audioRef.current.src = '';
     }

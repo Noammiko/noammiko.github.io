@@ -1,0 +1,12 @@
+{
+  "campaigns": {
+    "poster1": {
+      "url": "/",
+      "source": "qrcode",
+      "medium": "social",
+      "campaign": "promotion",
+      "content": "poster",
+      "term": "QR code poster advertisement"
+    }
+  }
+}
