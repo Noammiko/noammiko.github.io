@@ -1,5 +1,15 @@
+---
+const { site } = Astro;
+const urlPath = new URL("/", site);
+---
+
 <html>
   <head>
+    <meta property="og:title" content="Redirecting..." />
+    <meta property="og:url" content={urlPath.toString()} />
+    <meta property="og:type" content="website" />
+    <meta property="og:image" content="none" />
+
     <title>Redirecting...</title>
     <!-- Fallback for non-JS browsers -->
     <!-- <meta http-equiv="refresh" content="1;url=/" /> -->
