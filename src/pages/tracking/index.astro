@@ -7,6 +7,9 @@ import Layout from "@/layouts/Layout.astro";
     <meta http-equiv="refresh" content="1;url=/" />
     <meta name="referrer" content="no-referrer" />
     <script>
+      import campaigns from "./_campaigns.json";
+      import { getCampaignParams } from "./util";
+
       const params = new URLSearchParams(window.location.search);
       const campaignId = params.get("campaign");
       const campaignData = campaigns.campaigns[campaignId];
@@ -14,8 +17,8 @@ import Layout from "@/layouts/Layout.astro";
       if (window && campaignData) {
         // Construct the target URL with UTM parameters
         const targetUrl = new URL("/", window.location.origin);
-        Object.keys(campaignData).forEach((key) =>
-          targetUrl.searchParams.set(key, campaignData[key]),
+        Object.entries(getCampaignParams(campaignData)).forEach(([key, val]) =>
+          targetUrl.searchParams.set(key, val),
         );
 
         // Redirect to target URL
