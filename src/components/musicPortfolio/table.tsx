@@ -142,6 +142,7 @@ export function Table({ songs }: Props) {
           {table.getHeaderGroups().map(headerGroup => (
             <TableRow key={headerGroup.id}>
               <TableHead className="sticky left-0 z-10">
+                 {/* TODO: add tooltip that these are play buttons */}
               </TableHead>
               {headerGroup.headers.map(header => {
                 return (

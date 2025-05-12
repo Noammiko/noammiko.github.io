@@ -18,6 +18,7 @@
     "@fontsource/bentham": "^5.2.5",
     "@fontsource/josefin-sans": "^5.2.5",
     "@fontsource/roboto": "^5.2.5",
+    "@js-temporal/polyfill": "^0.5.1",
     "@lucide/svelte": "^0.507.0",
     "@radix-ui/react-dialog": "^1.1.11",
     "@radix-ui/react-dropdown-menu": "^2.1.12",

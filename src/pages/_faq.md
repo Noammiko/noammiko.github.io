@@ -43,6 +43,7 @@ Miko Recording Studio is equipped with professional-grade recording and mixing e
 - Antelope audio ZEN Q audio interface
 - Adam audio Studio monitors 
 - Professional acoustic treatment
+- Professional Vocal Booth
 - Industry-standard DAWs and plugins
 - Various instruments available for use during sessions, including:
     - Fender Strat Guitar
