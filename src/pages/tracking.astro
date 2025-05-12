@@ -1,0 +1,37 @@
+<html>
+  <head>
+    <title>Redirecting...</title>
+    <!-- Fallback for non-JS browsers -->
+    <!-- <meta http-equiv="refresh" content="1;url=/" /> -->
+    <!-- Ensure no referrer is passed -->
+    <meta name="referrer" content="no-referrer" />
+    <script>
+      import campaigns from "@/assets/campaigns.json";
+
+      const params = new URLSearchParams(window.location.search);
+      const campaignId = params.get("campaign");
+      const campaignData = campaigns.campaigns[campaignId];
+
+      if (window && campaignData) {
+        // Construct the target URL with UTM parameters
+        const targetUrl = new URL("/", window.location.origin);
+        Object.keys(campaignData).forEach((key) =>
+          targetUrl.searchParams.set(key, campaignData[key]),
+        );
+
+        // Redirect to target URL
+        // window.location.href = targetUrl.toString();
+
+        // Clean up the URL in browser history
+        // window.history.replaceState(null, "", "/");
+      } else {
+        // If no campaign data, redirect to home page without parameters
+        // window.location.href = "/";
+      }
+      console.log(campaignData);
+    </script>
+  </head>
+  <body>
+    <p>Redirecting you to the homepage...</p>
+  </body>
+</html>

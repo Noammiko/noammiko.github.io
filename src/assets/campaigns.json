@@ -1,0 +1,11 @@
+{
+  "campaigns": {
+    "poster1": {
+      "utm_source": "qrcode",
+      "utm_medium": "social",
+      "utm_campaign": "promotion",
+      "utm_content": "poster",
+      "utm_term": "QR code poster advertisement"
+    }
+  }
+}
