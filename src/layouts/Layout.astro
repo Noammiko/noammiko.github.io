@@ -96,6 +96,8 @@ const openGraphImageUrl = getImagePath({ url, site });
     />
 
     <PostHog />
+
+    <slot name="head" />
   </head>
   <body class="dark">
     <slot />
