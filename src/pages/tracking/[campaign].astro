@@ -43,7 +43,7 @@ const backupUrlString = backupUrl.pathname + backupUrl.search;
         const posthog = window.posthog;
         if (params && posthog) {
           // Send enriched tracking data to PostHog
-          posthog.capture("Tracking Page Visit", {
+          posthog.capture("$pageview", {
             campaign_id: id,
             ...params,
           });
