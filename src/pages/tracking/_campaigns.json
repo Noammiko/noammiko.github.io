@@ -1,0 +1,11 @@
+{
+  "campaigns": {
+    "poster1": {
+      "source": "qrcode",
+      "medium": "social",
+      "campaign": "promotion",
+      "content": "poster",
+      "term": "QR code poster advertisement"
+    }
+  }
+}

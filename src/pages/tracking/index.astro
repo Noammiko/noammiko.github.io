@@ -7,8 +7,6 @@ import Layout from "@/layouts/Layout.astro";
     <meta http-equiv="refresh" content="1;url=/" />
     <meta name="referrer" content="no-referrer" />
     <script>
-      import campaigns from "@/assets/campaigns.json";
-
       const params = new URLSearchParams(window.location.search);
       const campaignId = params.get("campaign");
       const campaignData = campaigns.campaigns[campaignId];
@@ -29,7 +27,6 @@ import Layout from "@/layouts/Layout.astro";
         // If no campaign data, redirect to home page without parameters
         window.location.href = "/";
       }
-      // console.log(campaignData);
     </script>
   </Fragment>
   <div class="text-center text-white text-xl md:text-5xl font-bold w-full h-screen items-center justify-center flex">

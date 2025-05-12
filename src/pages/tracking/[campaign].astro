@@ -1,0 +1,71 @@
+---
+import Layout from "@/layouts/Layout.astro";
+import type { Campaign } from "./types";
+import campaigns from "./_campaigns.json";
+import { getCampaignParams } from "./util";
+
+export function getStaticPaths() {
+  return Object.keys(campaigns.campaigns).map((campaign) => ({
+    params: { campaign },
+  }));
+}
+
+interface Props {
+  campaign: string;
+}
+const { campaign: campaignId } = Astro.params;
+const campaign = campaigns.campaigns[campaignId] as Campaign;
+
+const { site } = Astro;
+const backupUrl = new URL("/", site);
+Object.entries(getCampaignParams(campaign)).forEach(([key, val]) =>
+  backupUrl.searchParams.set(key, val),
+);
+const backupUrlString = backupUrl.pathname + backupUrl.search;
+---
+
+<Layout title="Redirecting..." description="Tracking page">
+  <Fragment slot="head">
+    <meta http-equiv="refresh" content={`1;url=${backupUrlString}`} />
+    <meta name="referrer" content="no-referrer" />
+
+    <Fragment
+      set:html={`<script type="application/json" id="campaign-data">${JSON.stringify({ id: campaignId, campaign })}</script>`}
+    />
+
+    <script>
+      import { getCampaignParams } from "./util";
+      const { id, campaign } = JSON.parse(
+        document.getElementById("campaign-data").textContent,
+      );
+      const params = getCampaignParams(campaign);
+      window.onload = () => {
+        const posthog = window.posthog;
+        if (params && posthog) {
+          // Send enriched tracking data to PostHog
+          posthog.capture("Tracking Page Visit", {
+            campaign_id: id,
+            ...params,
+          });
+        }
+
+        // Redirect to the home page without UTM parameters
+        window.location.href = "/";
+
+        // Clean up the URL in browser history
+        window.history.replaceState(null, "", "/");
+      };
+    </script>
+  </Fragment>
+
+  <div
+    class="text-center text-white text-xl md:text-5xl font-bold w-full h-screen items-center justify-center flex"
+  >
+    <p>
+      Redirecting you to the <a
+        class="text-red-200 hover:text-red-300 hover:underline hover:cursor-pointer"
+        href={backupUrlString}>homepage</a
+      >...
+    </p>
+  </div>
+</Layout>
