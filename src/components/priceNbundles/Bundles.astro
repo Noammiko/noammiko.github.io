@@ -1,0 +1,10 @@
+---
+import { getPricesAndBundles, getCurrentPricesAndBundles } from "./sheetdb";
+
+const data = await getPricesAndBundles();
+const currentPrice = getCurrentPricesAndBundles(data);
+---
+
+<div>
+    <pre>{JSON.stringify(currentPrice, null,2)}<pre>
+</div>

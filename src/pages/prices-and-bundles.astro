@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button.tsx";
 import { Badge } from "@/components/ui/badge.tsx";
 import { Image } from "astro:assets";
 import { Temporal } from "@js-temporal/polyfill";
+import Bundles from "@/components/priceNbundles/Bundles.astro";
 
 import { Mail, Phone, ChevronUp } from "lucide-react";
 
@@ -21,6 +22,8 @@ import TimeRemaining from "@/components/TimeRemaining.svelte";
   description="Guelph audio recording and editing studio"
   currentPage="prices"
 >
+  <Bundles/>
+
   {/* Hero Section */}
   <div>
     <div class="flex justify-center mb-8">
