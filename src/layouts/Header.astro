@@ -29,13 +29,9 @@ const menuItems = [
   { href: "/about-me", label: "About Me", active: currentPage === "about-me" },
   { href: "/contact", label: "Contact", active: currentPage === "contact" },
 ];
-
-const headerTags = {
-  hideable: hidden,
-};
 ---
 
-<header class={`grow-0 ${hidden ? "invisible" : ""}`} {...headerTags}>
+<header class={`grow-0 ${hidden ? "invisible" : ""}`} meta-hideable={hidden}>
   <nav
     class="p-4 w-full flex gap-2 items-center fixed top-0 left-0 right-0 z-50 transition-all duration-300 bg-transparent"
     id="navbar_container"
@@ -45,7 +41,7 @@ const headerTags = {
   </nav>
 
   <script>
-    const headerBar = document.querySelector("header[hideable='true']");
+    const headerBar = document.querySelector("header[meta-hideable='true']");
     const navbar = document.querySelector("nav#navbar_container");
     const scrolledClasses = ["bg-black/80", "backdrop-blur-md"];
     const notScrolledClasses = ["bg-transparent"];
