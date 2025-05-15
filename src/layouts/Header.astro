@@ -29,9 +29,13 @@ const menuItems = [
   { href: "/about-me", label: "About Me", active: currentPage === "about-me" },
   { href: "/contact", label: "Contact", active: currentPage === "contact" },
 ];
+
+const headerTags = {
+  hideable: hidden,
+};
 ---
 
-<header class={`grow-0 ${hidden ? "invisible" : ""}`} id="header-bar">
+<header class={`grow-0 ${hidden ? "invisible" : ""}`} {...headerTags}>
   <nav
     class="p-4 w-full flex gap-2 items-center fixed top-0 left-0 right-0 z-50 transition-all duration-300 bg-transparent"
     id="navbar_container"
@@ -41,6 +45,7 @@ const menuItems = [
   </nav>
 
   <script>
+    const headerBar = document.querySelector("header[hideable='true']");
     const navbar = document.querySelector("nav#navbar_container");
     const scrolledClasses = ["bg-black/80", "backdrop-blur-md"];
     const notScrolledClasses = ["bg-transparent"];
@@ -57,19 +62,15 @@ const menuItems = [
 
     window.addEventListener("scroll", updateScroll);
     updateScroll();
-  </script>
 
-  {hidden && <script>
-    const headerBar = document.getElementById("header-bar");
-
-    // if user navigates to page and dident land on it, then 
+    // if user navigates to page and dident land on it
     import { studioNavigated } from "@/layouts/hideBarMusic.ts";
     studioNavigated.subscribe((value) => {
       if (value) {
-        headerBar.classList.remove("invisible");
+        headerBar?.classList.remove("invisible");
       }
     });
-  </script>}
+  </script>
 
   {/* Black Bar - Added extra top padding to account for fixed navbar */}
   <div
