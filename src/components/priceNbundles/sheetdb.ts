@@ -16,12 +16,11 @@ export async function getPricesAndBundles() {
 }
 
 export function getCurrentPricesAndBundles(prices: Price[], now?: Temporal.Instant) {
-	if (!now) {
-		now = Temporal.Now.instant()
-	}
-	// if there is no sale, default to the first price
 	if (prices.length === 1) {
 		return prices[0];
+	}
+	if (!now) {
+		now = Temporal.Now.instant()
 	}
 	const sale = prices.find(price =>
 		price.sale &&
@@ -83,8 +82,8 @@ function parsePriceList(priceList: string) {
 				name: name,
 				price: parseFloat(price.replace("$", "")),
 				valuePrice: valuePrice ? parseFloat(valuePrice.replace("$", "")) : undefined,
-				discountTag: discountTag ? discountTag : undefined,
-				includes: includes.split(","),
+				discountTag: discountTag ? discountTag.replace("%", "") : undefined,
+				includes: includes.split(",").map(s => s.trim()),
 				tag: tag ? tag : undefined
 			});
 		}

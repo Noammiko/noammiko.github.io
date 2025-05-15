@@ -1,10 +1,35 @@
 ---
+import Bundle from "./bundle.svelte";
+import { Temporal } from "@js-temporal/polyfill";
+
+const saleEndDate = Temporal.Instant.from("2025-05-31T23:59:59-04:00");
+import TimeRemaining from "@/components/TimeRemaining.svelte";
 import { getPricesAndBundles, getCurrentPricesAndBundles } from "./sheetdb";
 
 const data = await getPricesAndBundles();
 const currentPrice = getCurrentPricesAndBundles(data);
 ---
 
-<div>
-    <pre>{JSON.stringify(currentPrice, null,2)}<pre>
+<div class="uppercase text-center mb-6 md:mb-12 font-matchbox">
+    <h2 class="text-xl md:text-4xl text-yellow-500 font-bold">
+        Limited time <span>{currentPrice.sale.name}</span>!
+    </h2>
+    <p class="text-lg md:text-2xl text-red-500">
+        Sale ends
+        <TimeRemaining
+            targetTimeString={currentPrice.sale.end.toJSON()}
+            client:idle="svelte"
+        />
+    </p>
 </div>
+
+{/* Bundles Section */}
+<div class="grid lg:grid-cols-3 gap-8 mb-16">
+    {
+        currentPrice.deals.map((deal, idx) => (
+            <Bundle deal={deal} glow={idx === 1} />
+        ))
+    }
+</div>
+
+<!-- TODO: make buttons change the email default text -->
