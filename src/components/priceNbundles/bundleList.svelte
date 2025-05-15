@@ -20,7 +20,7 @@
 {#if currentPrice.sale}
   <div class="uppercase text-center mb-6 md:mb-12 font-matchbox">
     <h2 class="text-xl md:text-4xl text-yellow-500 font-bold">
-      Limited time <span>{currentPrice.sale.name}</span>!
+      {currentPrice.sale.name}
     </h2>
     <p class="text-lg md:text-2xl text-red-500">
       Sale ends
