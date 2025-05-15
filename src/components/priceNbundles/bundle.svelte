@@ -3,6 +3,9 @@
   import { Badge } from "@/components/ui-svelte/badge";
   import type { Deal } from "./types";
   const { deal, glow }: { deal: Deal; glow: boolean } = $props();
+  if (deal == undefined) {
+    throw new Error("No deal");
+  }
 
   function formatText(text: string) {
     const underline = /__(.+)__/g;
@@ -38,20 +41,22 @@
     {/if}
   </div>
 
-  <h3 class="text-2xl text-center mb-4 underline">Includes</h3>
+  {#if deal.includes.length > 0}
+    <h3 class="text-2xl text-center mb-4 underline">Includes</h3>
 
-  <ul class="space-y-3 list-disc marker:text-red-400 pl-4">
-    {#each deal.includes as included}
-      <li>
-        <span>{@html formatText(included)}</span>
-      </li>
-    {/each}
-  </ul>
-  <div class="mt-6">
-    <a href="#book-session">
-      <Button class="w-full bg-red-600 hover:bg-red-700 rounded-none"
-        >Book Now</Button
-      >
-    </a>
-  </div>
+    <ul class="space-y-3 list-disc marker:text-red-400 pl-4">
+      {#each deal.includes as included}
+        <li>
+          <span>{@html formatText(included)}</span>
+        </li>
+      {/each}
+    </ul>
+    <div class="mt-6">
+      <a href="#book-session">
+        <Button class="w-full bg-red-600 hover:bg-red-700 rounded-none"
+          >Book Now</Button
+        >
+      </a>
+    </div>
+  {/if}
 </div>

@@ -1,0 +1,13 @@
+---
+import BundleList from "./bundleList.svelte";
+import { getPricesAndBundles } from "@/components/priceNbundles/sheetdb";
+
+const prices = await getPricesAndBundles();
+const defaultPrice = prices[0];
+---
+
+<h1 class="text-center text-5xl md:text-7xl font-bold mb-16 tracking-wider">
+    PRICES AND BUNDLES
+</h1>
+
+<BundleList default={defaultPrice} client:load="svelte" />
