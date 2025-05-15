@@ -17,12 +17,14 @@
   let loaded = $state(false);
   onMount(() => {
     loaded = true;
-    const interval = setInterval(() => {
+    function update() {
       const now = Temporal.Now.instant();
       remaining = now
         .until(targetTime)
         .round({ largestUnit: highestUnit, smallestUnit: smallestUnit });
-    }, 1000);
+    }
+    update();
+    const interval = setInterval(update, 1000);
 
     return () => clearInterval(interval);
   });
