@@ -34,14 +34,14 @@ const menuItems = [
 <header class={`grow-0 ${hidden ? "invisible" : ""}`} id="header-bar">
   <nav
     class="p-4 w-full flex gap-2 items-center fixed top-0 left-0 right-0 z-50 transition-all duration-300 bg-transparent"
-    id="navbar"
+    id="navbar_container"
   >
     <NavigationBar menuItems={menuItems} />
     <MobileNav menuItems={menuItems} client:load />
   </nav>
 
   <script>
-    const navbar = document.getElementById("navbar");
+    const navbar = document.querySelector("nav#navbar_container");
     const scrolledClasses = ["bg-black/80", "backdrop-blur-md"];
     const notScrolledClasses = ["bg-transparent"];
 
