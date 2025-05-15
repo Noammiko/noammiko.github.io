@@ -7,7 +7,7 @@
   import { onMount } from "svelte";
 
   let { default: currentPrice }: { default: Price } = $props();
-  console.log(currentPrice);
+  // console.log(currentPrice);
 
   onMount(async () => {
     const data = await getPricesAndBundles();
