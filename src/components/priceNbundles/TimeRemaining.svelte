@@ -2,16 +2,18 @@
   import { Temporal } from "@js-temporal/polyfill";
   import { onMount } from "svelte";
   const {
-    targetTimeString,
+    // targetTimeString,
+    targetTime,
     smallestUnit = "seconds",
     highestUnit = "days",
   }: {
-    targetTimeString: string;
+    // targetTimeString: string;
+    targetTime: Temporal.Instant;
     smallestUnit?: Temporal.SmallestUnit<Temporal.DateTimeUnit>;
     highestUnit?: Temporal.LargestUnit<Temporal.DateTimeUnit>;
   } = $props();
 
-  const targetTime = Temporal.Instant.from(targetTimeString);
+  // const targetTime = Temporal.Instant.from(targetTimeString);
   let remaining: Temporal.Duration = $state(null);
 
   let loaded = $state(false);
@@ -69,7 +71,7 @@
         @media (width >= 48rem /* 768px */) {
           font-size: 2rem;
         }
-          font-size: 1.5rem;
+        font-size: 1.5rem;
 
         position: absolute;
         right: -1rem; // Position to the right of each unit

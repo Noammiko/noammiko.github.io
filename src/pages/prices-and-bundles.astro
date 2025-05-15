@@ -4,13 +4,16 @@ import StudioTitle from "@/components/StudioTitle.astro";
 import { Button } from "@/components/ui/button.tsx";
 import { Badge } from "@/components/ui/badge.tsx";
 import { Image } from "astro:assets";
-import Bundles from "@/components/priceNbundles/Bundles.astro";
+import Bundles from "@/components/priceNbundles/Bundles.svelte";
 
 import { Mail, Phone, ChevronUp } from "lucide-react";
 
 import { ReviewsSection } from "@/components/Reviews.tsx";
 
 import logo from "@/assets/logo.png";
+import { getPricesAndBundles } from "@/components/priceNbundles/sheetdb";
+
+const prices = await getPricesAndBundles();
 ---
 
 <Page
@@ -29,7 +32,7 @@ import logo from "@/assets/logo.png";
 			PRICES AND BUNDLES
 		</h1>
 
-		<Bundles />
+		<Bundles default={prices[0]} client:load="svelte" />
 
 		{/* Current Rates Section */}
 		<div class="mb-16">
