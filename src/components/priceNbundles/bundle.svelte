@@ -1,18 +1,11 @@
 <script lang="ts">
   import { Button } from "@/components/ui-svelte/button";
   import { Badge } from "@/components/ui-svelte/badge";
+  import Included from "./includes.svelte";
   import type { Deal } from "./types";
   const { deal, glow }: { deal: Deal; glow: boolean } = $props();
   if (deal == undefined) {
     throw new Error("No deal");
-  }
-
-  function formatText(text: string) {
-    const underline = /__(.+)__/g;
-    const bold = /\*\*(.+)\*\*/g;
-    text = text.replace(underline, '<u class="text-red-400 underline">$1</u>');
-    text = text.replace(bold, '<b class="text-green-400 font-bold">$1</b>');
-    return text;
   }
 </script>
 
@@ -47,7 +40,7 @@
     <ul class="space-y-3 list-disc marker:text-red-400 pl-4">
       {#each deal.includes as included}
         <li>
-          <span>{@html formatText(included)}</span>
+          <Included text={included} />
         </li>
       {/each}
     </ul>
