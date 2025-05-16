@@ -31,7 +31,7 @@
 {/if}
 
 <!-- Bundles Section -->
-<div class="grid xl:grid-cols-4 gap-8 mb-16">
+<div class="grid md:grid-cols-2 md:gap-10 xl:gap-8 xl:grid-cols-4 gap-8 mb-16">
   <FreeTrial max={5} current={0} />
   <!-- TODO: get current -->
 
