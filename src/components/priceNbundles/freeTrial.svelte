@@ -1,5 +1,9 @@
 <script lang="ts">
   import { Button } from "@/components/ui-svelte/button";
+
+  const { current = 0, max = 5 } = $props();
+
+  const progress = $derived(Math.max(0, Math.min(1, current / max)));
 </script>
 
 <div
@@ -15,12 +19,12 @@
   <p class="text-sm text-center mb-4">(for new clients only)</p>
   <div class="bg-yellow-500/10 rounded-lg p-3 mb-6">
     <p class="text-center font-semibold text-yellow-500 mb-2">
-      2/5 spots left this week
+      {current}/{max} spots left this week
     </p>
     <div class="w-full bg-gray-800 rounded-full h-2.5 mb-1">
       <div
         class="bg-yellow-500 h-2.5 rounded-full"
-        style={{ width: "40%" }}
+        style="width: {(progress * 100).toFixed(2)}%"
       ></div>
     </div>
     <div class="flex justify-between text-xs text-gray-400">
