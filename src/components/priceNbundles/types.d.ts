@@ -2,6 +2,7 @@ import { Temporal } from "@js-temporal/polyfill";
 
 export interface Deal {
 	name: string,
+	subtitle: string,
 	price: number,
 	valuePrice?: number,
 	discountTag?: string,

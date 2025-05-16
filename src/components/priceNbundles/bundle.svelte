@@ -33,6 +33,11 @@
       </span>
     {/if}
   </div>
+  {#if deal.subtitle}
+    <h3 class="text-sm text-center text-gray-300 mb-6 font-jose">
+      {deal.subtitle}
+    </h3>
+  {/if}
 
   {#if deal.includes.length > 0}
     <h3 class="text-2xl text-center mb-4 underline">Includes</h3>
