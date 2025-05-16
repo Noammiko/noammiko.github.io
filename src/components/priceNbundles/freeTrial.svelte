@@ -7,10 +7,10 @@
 </script>
 
 <div
-  class="border border-yellow-500 rounded-lg p-6 relative bg-gradient-to-b from-black to-gray-900"
+  class="border-2 border-yellow-500/50 group hover:border-yellow-500/90 transition rounded-lg p-6 relative bg-gradient-to-b from-black to-gray-900"
 >
   <div
-    class="absolute -top-3 left-1/2 transform -translate-x-1/2 bg-yellow-500 text-black px-4 py-1 text-sm rounded font-bold"
+    class="absolute -top-3 left-1/2 transform -translate-x-1/2 bg-yellow-500 group-hover:bg-yellow-500/90 text-black px-4 py-1 text-sm rounded font-bold"
   >
     LIMITED OFFER
   </div>

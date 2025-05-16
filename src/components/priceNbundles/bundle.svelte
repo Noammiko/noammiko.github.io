@@ -16,7 +16,7 @@
 >
   {#if deal.tag}
     <Badge
-      class="absolute -top-3 right-4 bg-red-500 group-hover:bg-primary/80 uppercase rounded-md"
+      class="absolute -top-3 right-4 bg-red-500 group-hover:bg-primary/90 uppercase rounded-md"
       >{deal.tag}</Badge
     >
   {/if}

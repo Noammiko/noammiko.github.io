@@ -33,6 +33,7 @@
 <!-- Bundles Section -->
 <div class="grid xl:grid-cols-4 gap-8 mb-16">
   <FreeTrial max={5} current={0} />
+  <!-- TODO: get current -->
 
   {#each currentPrice.deals as deal, idx}
     <Bundle {deal} glow={idx === 1} />
