@@ -1,5 +1,5 @@
 <script lang="ts">
-  // import * as sanitizeHtml from "sanitize-html";
+  import * as sanitizeHtml from "sanitize-html";
 
   const { text }: { text: string } = $props();
 
