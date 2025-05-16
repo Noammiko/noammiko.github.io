@@ -59,6 +59,7 @@
   </ul>
   <Button
     class="w-full bg-yellow-500 text-black font-bold py-3 hover:bg-yellow-600 transition-colors"
+    disabled={progress == 1}
   >
     Secure Your Spot
   </Button>
