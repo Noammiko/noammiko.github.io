@@ -1,5 +1,6 @@
 <script lang="ts">
   import Bundle from "./bundle.svelte";
+  import FreeTrial from "./freeTrial.svelte";
 
   import TimeRemaining from "./TimeRemaining.svelte";
   import { getPricesAndBundles, getCurrentPricesAndBundles } from "./sheetdb";
@@ -30,7 +31,9 @@
 {/if}
 
 <!-- Bundles Section -->
-<div class="grid lg:grid-cols-3 gap-8 mb-16">
+<div class="grid xl:grid-cols-4 gap-8 mb-16">
+  <FreeTrial />
+
   {#each currentPrice.deals as deal, idx}
     <Bundle {deal} glow={idx === 1} />
   {/each}
