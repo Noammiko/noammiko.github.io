@@ -4,6 +4,12 @@
 
 SESSION_NAME="noam_website"
 
+# Check if tmux is installed
+if ! command -v tmux &> /dev/null; then
+    echo "Error: tmux is not installed. Please install it first."
+    exit 1
+fi
+
 # Check if the session already exists
 tmux has-session -t $SESSION_NAME 2>/dev/null
 
@@ -14,10 +20,12 @@ if [ $? == 0 ]; then
     exit 0
 fi
 
+echo "Creating new tmux session: $SESSION_NAME"
+
 # Create a new session with the first window named "Editor"
 tmux new-session -d -s $SESSION_NAME -n "Editor"
 
-# For testing: Echo the command instead of running it
+# Navigate to src directory and open nvim
 tmux send-keys -t "$SESSION_NAME:Editor" "cd src && nvim ." C-m
 
 # Create a second window named "DevServers"
@@ -32,6 +40,9 @@ tmux send-keys -t "$SESSION_NAME:DevServers.2" "bun run dev:convex" C-m
 
 # Select the first window (Editor)
 tmux select-window -t "$SESSION_NAME:Editor"
+
+# Show pane numbers briefly when first attaching (press any key to continue)
+tmux display-panes -d 3000 -t "$SESSION_NAME:DevServers"
 
 # Attach to the session
 tmux attach -t $SESSION_NAME
