@@ -3,7 +3,9 @@
   "type": "module",
   "version": "0.0.1",
   "scripts": {
-    "dev": "astro dev",
+    "dev": "bun run dev:astro",
+    "dev:astro": "astro dev",
+    "dev:convex": "convex dev",
     "start": "astro dev",
     "build": "astro check && astro build",
     "preview": "astro preview",
