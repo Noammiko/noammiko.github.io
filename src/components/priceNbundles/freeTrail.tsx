@@ -1,4 +1,5 @@
-import { Link } from "@/components/ui/link";
+import { Button } from "@/components/ui/button";
+import FreeTrailDialog from "./forms/freebooking";
 import { withConvexProvider } from "@/lib/convex";
 import { useMemo } from "react";
 
@@ -79,14 +80,14 @@ const FreeTrial: React.FC<FreeTrialProps> = ({
         </li>
       </ul>
 
-      <Link
-        className="w-full bg-yellow-500 text-black font-bold py-3 hover:bg-yellow-600 transition-colors"
-        disabled={progress === 1}
-        target="_blank"
-        href="https://docs.google.com/forms/d/e/1FAIpQLScnNSlUUQYPwaDyjP9A595vw-R-twFaiCpmdMGiHJLfF1UtcQ/viewform?usp=dialog"
-      >
-        Secure Your Spot
-      </Link>
+      <FreeTrailDialog>
+        <Button
+          className="w-full bg-yellow-500 text-black font-bold py-3 hover:bg-yellow-600 transition-colors"
+          disabled={progress === 1}
+        >
+          Secure Your Spot
+        </Button>
+      </FreeTrailDialog>
     </div>
   );
 };

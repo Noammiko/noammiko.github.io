@@ -23,6 +23,7 @@ import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
 import { Checkbox } from "@/components/ui/checkbox"
+import type { ReactNode } from "react"
 
 const servicesSchema = z.object({
   vocalRecording: z.boolean(),
@@ -52,10 +53,11 @@ const formSchema = z.object({
   budget: z.string().min(1, "Budget is required"),
 })
 
-interface ProjectInquiryModalProps {
+export interface Props {
+  children: ReactNode
 }
 
-export default function ProjectInquiryModal({ }: ProjectInquiryModalProps) {
+export default function ProjectInquiryModal({ children }: Props) {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -91,7 +93,7 @@ export default function ProjectInquiryModal({ }: ProjectInquiryModalProps) {
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <Button variant="outline">Edit Profile</Button>
+        {children}
       </DialogTrigger>
       <DialogContent className="text-white sm:max-w-3xl w-full max-h-[95vh] sm:max-h-[90vh] overflow-y-auto bg-background border-background" >
         <DialogHeader>

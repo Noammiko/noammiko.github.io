@@ -1,6 +1,7 @@
 import { z } from "zod"
 import { useForm, type UseFormReturn } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
+import type { ReactNode } from "react"
 
 import {
   Dialog,
@@ -24,6 +25,7 @@ import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
 import { Book } from "lucide-react"
+import type React from "react"
 
 const formSchema = z.object({
   fullName: z.string().min(2, { message: "Full Name is required." }),
@@ -37,7 +39,11 @@ const formSchema = z.object({
   otherReferralSource: z.string().optional(),
 })
 
-export default function BookingFormModal() {
+export interface Props {
+  children: ReactNode
+}
+
+export default function BookingFormModal({ children }: Props) {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -62,7 +68,7 @@ export default function BookingFormModal() {
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <Button variant="outline">Edit Profile</Button>
+        {children}
       </DialogTrigger>
       <DialogContent className="text-white sm:max-w-3xl w-full max-h-[95vh] sm:max-h-[90vh] overflow-y-auto bg-background border-background" >
         <DialogHeader>
