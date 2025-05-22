@@ -30,10 +30,10 @@ const PricingComponent: React.FC<Props> = ({ defaultCurrentPrice }) => {
           <h2 className="text-xl md:text-4xl text-yellow-500 font-bold">
             {currentPrice.sale.name}
           </h2>
-          <p className="text-lg md:text-2xl text-red-500">
+          <div className="text-lg md:text-2xl text-red-500">
             Sale ends
             <TimeRemaining targetTime={currentPrice.sale.end} />
-          </p>
+          </div>
         </div>
       )}
 

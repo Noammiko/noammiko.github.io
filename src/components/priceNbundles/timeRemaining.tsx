@@ -64,7 +64,7 @@ const TimeRemaining: React.FC<TimeRemainingProps> = ({
             <span className="text-sm tracking-tight">{unit}</span>
           </div>
         ))}
-      <style jsx>{`
+      <style>{`
         .unit-container:not(:first-child)::before {
           content: ':';
           font-size: 1.5rem;
