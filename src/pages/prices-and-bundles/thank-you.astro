@@ -1,0 +1,166 @@
+---
+import Page from "@/layouts/Page.astro";
+import { Link } from "@/components/ui/link";
+import {
+	Calendar,
+	Clock,
+	CheckCircle,
+	ArrowRight,
+	AlertTriangle,
+} from "lucide-react";
+---
+
+<Page
+	title="Thank you"
+	description="Thank you for filling out the form"
+	currentPage=""
+>
+	{/* Main Content */}
+	<main class="container mx-auto px-4 py-12">
+		{/* Success Message */}
+		<div class="max-w-3xl mx-auto text-center mb-12">
+			<div
+				class="inline-flex items-center justify-center w-20 h-20 rounded-full bg-green-500/20 mb-6"
+			>
+				<CheckCircle className="h-10 w-10 text-green-500" />
+			</div>
+			<h1 class="text-4xl md:text-5xl font-bold mb-4">
+				Thank You for Securing Your Spot!
+			</h1>
+			<p class="text-xl text-gray-300 mb-8">
+				Your free First-Time Tryout Session has been reserved. We're
+				excited to help you create something amazing!
+			</p>
+			<div class="h-1 w-24 bg-red-600 mx-auto mb-8"></div>
+		</div>
+
+		{/* What Happens Next */}
+		<div
+			class="max-w-3xl mx-auto bg-gradient-to-b from-gray-900 to-black border border-gray-800 rounded-lg p-8 mb-12"
+		>
+			<h2 class="text-2xl font-bold mb-6 text-center">
+				What Happens Next
+			</h2>
+
+			<div class="space-y-6">
+				<div class="flex items-start">
+					<div
+						class="flex-shrink-0 bg-red-600 text-white rounded-full w-8 h-8 flex items-center justify-center mr-4 mt-1"
+					>
+						1
+					</div>
+					<div>
+						<h3 class="text-xl font-semibold mb-2">
+							I'll Contact You Within 24 Hours
+						</h3>
+						<p class="text-gray-300">
+							I will personally reach out to confirm your session
+							details and schedule a time that works for you.
+						</p>
+					</div>
+				</div>
+
+				<div class="flex items-start">
+					<div
+						class="flex-shrink-0 bg-red-600 text-white rounded-full w-8 h-8 flex items-center justify-center mr-4 mt-1"
+					>
+						2
+					</div>
+					<div>
+						<h3 class="text-xl font-semibold mb-2">
+							Prepare for Your Session
+						</h3>
+						<p class="text-gray-300">
+							Have your song ready (lyrics, reference tracks, any
+							ideas you want to incorporate). Don't worry if
+							everything isn't perfect - that's what we're here
+							for!
+						</p>
+					</div>
+				</div>
+
+				<div class="flex items-start">
+					<div
+						class="flex-shrink-0 bg-red-600 text-white rounded-full w-8 h-8 flex items-center justify-center mr-4 mt-1"
+					>
+						3
+					</div>
+					<div>
+						<h3 class="text-xl font-semibold mb-2">
+							Record Your Song
+						</h3>
+						<p class="text-gray-300">
+							Come and record your song with professional
+							equipment and get guidance from an experienced
+							engineer who's dedicated to making your music sound
+							its absolute best.
+						</p>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		{/* Session Preparation */}
+		<div class="max-w-3xl mx-auto mb-12">
+			<h2 class="text-2xl font-bold mb-6 text-center">
+				How to Prepare for Your Session
+			</h2>
+
+			<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+				<div class="bg-gray-900 border border-gray-800 rounded-lg p-6">
+					<div class="flex items-center mb-4">
+						<Clock className="h-6 w-6 text-yellow-500 mr-3" />
+						<h3 class="text-xl font-semibold">Arrive On Time</h3>
+					</div>
+					<p class="text-gray-300">
+						Please arrive at your scheduled time. If you're late or
+						miss your session, there will not be a makeup session
+						offered.
+					</p>
+				</div>
+
+				<div class="bg-gray-900 border border-gray-800 rounded-lg p-6">
+					<div class="flex items-center mb-4">
+						<Calendar className="h-6 w-6 text-yellow-500 mr-3" />
+						<h3 class="text-xl font-semibold">
+							Bring Your Materials
+						</h3>
+					</div>
+					<p class="text-gray-300">
+						Lyrics, reference tracks, beats, or any other materials
+						that will help us understand your vision.
+					</p>
+				</div>
+			</div>
+
+			<div
+				class="mt-6 bg-red-900/20 border border-red-800 rounded-lg p-4"
+			>
+				<div class="flex items-start">
+					<AlertTriangle
+						className="h-6 w-6 text-red-500 mr-3 flex-shrink-0 mt-1"
+					/>
+					<p class="text-gray-300">
+						<span class="font-semibold text-red-400"
+							>Important:</span
+						> This free session is a one-time offer. If you're unable
+						to attend your scheduled time, please give us at least 24
+						hours notice to reschedule. No-shows or late cancellations
+						will forfeit the free session opportunity.
+					</p>
+				</div>
+			</div>
+		</div>
+
+		{/* CTA */}
+		<div class="max-w-3xl mx-auto text-center">
+			<Link
+				href="/prices-and-bundles"
+				className="inline-flex items-center bg-gradient-to-r from-red-600 to-red-700 text-white px-8 py-4 rounded-lg text-lg font-semibold hover:from-red-700 hover:to-red-800 transition-all transform hover:scale-105"
+			>
+				Explore Our Full Services
+				<ArrowRight className="ml-2 h-5 w-5" />
+			</Link>
+		</div>
+	</main>
+</Page>
