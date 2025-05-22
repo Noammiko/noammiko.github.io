@@ -87,7 +87,8 @@ export default function ProjectInquiryModal({ children }: Props) {
   function onSubmit(values: z.infer<typeof formSchema>) {
     // Send form data to backend here
     console.log("Form submitted:", values)
-    alert("Thank you! Your project inquiry has been submitted. We'll contact you soon to discuss your project.")
+    form.reset();
+    window.location.href = "/";
   }
 
   return (
@@ -136,7 +137,7 @@ function FormPage({ onSubmit, form }: FormProps) {
                 Full Name <span className="text-red-500">*</span>
               </FormLabel>
               <FormControl>
-                <Input placeholder="Your legal name" {...field} />
+                <Input {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -150,7 +151,7 @@ function FormPage({ onSubmit, form }: FormProps) {
             <FormItem>
               <FormLabel>Artist/Band Name</FormLabel>
               <FormControl>
-                <Input placeholder="Your artist/band name" {...field} />
+                <Input {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -166,7 +167,7 @@ function FormPage({ onSubmit, form }: FormProps) {
                 Email Address <span className="text-red-500">*</span>
               </FormLabel>
               <FormControl>
-                <Input type="email" placeholder="you@email.com" {...field} />
+                <Input type="email" {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -182,7 +183,7 @@ function FormPage({ onSubmit, form }: FormProps) {
                 Phone Number <span className="text-red-500">*</span>
               </FormLabel>
               <FormControl>
-                <Input type="tel" placeholder="(555) 123-4567" {...field} />
+                <Input type="tel" {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>

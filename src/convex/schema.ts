@@ -5,8 +5,16 @@ import { v } from "convex/values";
 export default defineSchema({
   ...authTables,
   free: defineTable({
-    name: v.string(),
-    requested: v.number(), // time in utc
+    fullName: v.string(),
+    artistName: v.optional(v.string()),
+    email: v.string(),
+    phone: v.string(),
+    availableTimes: v.string(),
+    recordingType: v.string(),
+    otherRecordingType: v.optional(v.string()),
+    referralSource: v.optional(v.string()),
+    otherReferralSource: v.optional(v.string()),
+
     approved: v.union(v.boolean(), v.null())
-  }).index("by_time", ["requested"]),
+  }),
 });

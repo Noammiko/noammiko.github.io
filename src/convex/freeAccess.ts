@@ -20,7 +20,7 @@ export const getAmountWeek = query({
     const milliseconds = startOfWeek.epochMilliseconds;
 
     const tasks = await ctx.db.query("free")
-      .withIndex("by_time", (q) => q.gte("requested", milliseconds))
+      .withIndex("by_creation_time", (q) => q.gte("_creationTime", milliseconds))
       .filter((q) => q.eq(q.field("approved"), true))
       .collect();
     return tasks.reduce((a) => a + 1, 0)

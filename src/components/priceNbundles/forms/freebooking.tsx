@@ -1,7 +1,7 @@
 import { z } from "zod"
 import { useForm, type UseFormReturn } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
-import type { ReactNode } from "react"
+import { useState, type ReactNode } from "react"
 
 import {
   Dialog,
@@ -24,8 +24,8 @@ import {
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
-import { Book } from "lucide-react"
-import type React from "react"
+import { useMutation } from "convex/react";
+import { api } from "@/convex/_generated/api";
 
 const formSchema = z.object({
   fullName: z.string().min(2, { message: "Full Name is required." }),
@@ -44,6 +44,7 @@ export interface Props {
 }
 
 export default function BookingFormModal({ children }: Props) {
+  const func = useMutation(api.forms.freeTrial)
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -60,9 +61,20 @@ export default function BookingFormModal({ children }: Props) {
   })
 
   function onSubmit(values: z.infer<typeof formSchema>) {
-    // Send form data to backend here
     console.log("Form submitted:", values)
-    alert("Thank you! Your booking request has been submitted. We'll contact you within 24 hours.")
+    func({
+      fullName: values.fullName,
+      artistName: values.artistName,
+      email: values.email,
+      phone: values.phone,
+      availableTimes: values.availableTimes,
+      recordingType: values.recordingType,
+      otherRecordingType: values.otherRecordingType,
+      referralSource: values.referralSource,
+      otherReferralSource: values.otherReferralSource,
+    });
+    form.reset();
+    window.location.href = "/prices-and-bundles/thank-you";
   }
 
   return (
