@@ -39,7 +39,7 @@ const PricingComponent: React.FC<Props> = ({ defaultCurrentPrice }) => {
 
       {/* Bundles Section */}
       <div className="grid md:grid-cols-2 md:gap-10 xl:gap-8 xl:grid-cols-4 gap-8 mb-16">
-        <FreeTrial max={5} current={0} />
+        <FreeTrial max={5} />
 
         {currentPrice.deals.map((deal, idx) => (
           <Bundle key={idx} deal={deal} glow={idx === 1} />

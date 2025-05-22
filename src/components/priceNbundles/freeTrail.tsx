@@ -1,5 +1,9 @@
 import { Button } from "@/components/ui/button";
+import { withConvexProvider } from "@/lib/convex";
 import { useMemo } from "react";
+
+import { useQuery } from "convex/react";
+import { api } from "@/convex/_generated/api";
 
 interface FreeTrialProps {
   current?: number;
@@ -85,4 +89,9 @@ const FreeTrial: React.FC<FreeTrialProps> = ({
   );
 };
 
-export default FreeTrial;
+export default withConvexProvider(function CommentForm({ max }: { max: number }) {
+  const amountWeek = useQuery(api.freeAccess.get);
+  return (
+    <FreeTrial current={amountWeek} max={max} />
+  )
+})

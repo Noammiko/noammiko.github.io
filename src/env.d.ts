@@ -4,3 +4,11 @@
 interface Window {
   posthog: any;
 }
+
+interface ImportMetaEnv {
+  readonly CONVEX_URL: string
+}
+
+interface ImportMeta {
+  readonly env: ImportMetaEnv;
+}
