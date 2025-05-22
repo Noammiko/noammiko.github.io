@@ -71,14 +71,7 @@ const TimeRemaining: React.FC<TimeRemainingProps> = ({
     );
   }
 
-  const relevantUnits = order
-    .slice()
-    .reverse()
-    .slice(
-      order.reverse().indexOf(smallestUnit),
-      order.reverse().indexOf(highestUnit) + 1
-    )
-    .reverse();
+  const relevantUnits = order.slice(order.indexOf(highestUnit), order.indexOf(smallestUnit) + 1);
 
   return (
     <div className="flex justify-center items-center gap-8">
