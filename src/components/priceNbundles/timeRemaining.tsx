@@ -7,6 +7,28 @@ interface TimeRemainingProps {
   highestUnit?: Temporal.LargestUnit<Temporal.DateTimeUnit>;
 }
 
+interface TimeUnitProps {
+  value: number;
+  unit: Temporal.LargestUnit<Temporal.DateTimeUnit>;
+  showColon?: boolean;
+}
+
+const TimeUnit: React.FC<TimeUnitProps> = ({ value, unit, showColon = true }) => {
+  return (
+    <div className="relative flex flex-col items-center">
+      {showColon && (
+        <span className="absolute -left-5 top-0 text-2xl leading-7 select-text md:text-4xl">
+          :
+        </span>
+      )}
+      <div className="text-xl leading-7 select-text md:text-3xl">
+        {value.toString().padStart(2, "0")}
+      </div>
+      <div className="unit text-sm tracking-tight" data-unit={unit}></div>
+    </div>
+  );
+};
+
 const TimeRemaining: React.FC<TimeRemainingProps> = ({
   targetTime,
   smallestUnit = "seconds",
@@ -15,13 +37,13 @@ const TimeRemaining: React.FC<TimeRemainingProps> = ({
   const [remaining, setRemaining] = useState<Temporal.Duration | null>(null);
 
   const order: Temporal.LargestUnit<Temporal.DateTimeUnit>[] = [
-    "seconds",
-    "minutes",
-    "hours",
-    "days",
-    "weeks",
-    "months",
     "years",
+    "months",
+    "weeks",
+    "days",
+    "hours",
+    "minutes",
+    "seconds",
   ] as const;
 
   useEffect(() => {
@@ -49,36 +71,28 @@ const TimeRemaining: React.FC<TimeRemainingProps> = ({
     );
   }
 
+  const relevantUnits = order
+    .slice()
+    .reverse()
+    .slice(
+      order.reverse().indexOf(smallestUnit),
+      order.reverse().indexOf(highestUnit) + 1
+    )
+    .reverse();
+
   return (
-    <div className="flex flex-row-reverse gap-4 justify-center units">
-      {order
-        .slice(
-          order.indexOf(smallestUnit),
-          order.indexOf(highestUnit) + 1
-        )
-        .map((unit, index, array) => (
-          <div key={unit} className="flex flex-col unit-container relative">
-            <p className="text-xl md:text-3xl">
-              {remaining[unit].toString().padStart(2, "0")}
-            </p>
-            <span className="text-sm tracking-tight">{unit}</span>
-          </div>
-        ))}
+    <div className="flex justify-center items-center gap-8">
+      {relevantUnits.map((unit, index) => (
+        <TimeUnit
+          key={unit}
+          value={remaining[unit]}
+          unit={unit}
+          showColon={index !== 0}
+        />
+      ))}
       <style>{`
-        .unit-container:not(:first-child)::before {
-          content: ':';
-          font-size: 1.5rem;
-          position: absolute;
-          right: -1rem;
-          top: 50%;
-          transform: translateY(-80%);
-          line-height: 1;
-        }
-        
-        @media (min-width: 48rem) {
-          .unit-container:not(:first-child)::before {
-            font-size: 2rem;
-          }
+        .unit::after {
+          content: attr(data-unit);
         }
       `}</style>
     </div>
