@@ -1,7 +1,7 @@
 import { ConvexProvider, ConvexReactClient } from "convex/react";
 import type { ComponentType } from "react";
 
-const CONVEX_URL = import.meta.env.CONVEX_URL;
+import { CONVEX_URL } from "astro:env/client";
 
 // Initialized once so all components share the same client.
 const client = new ConvexReactClient(CONVEX_URL);

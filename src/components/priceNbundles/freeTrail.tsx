@@ -90,7 +90,7 @@ const FreeTrial: React.FC<FreeTrialProps> = ({
 };
 
 export default withConvexProvider(function CommentForm({ max }: { max: number }) {
-  const amountWeek = useQuery(api.freeAccess.getAmount);
+  const amountWeek = useQuery(api.freeAccess.getAmountWeek, {});
   return (
     <FreeTrial current={amountWeek} max={max} />
   )
