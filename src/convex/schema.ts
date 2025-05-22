@@ -5,6 +5,6 @@ export default defineSchema({
   free: defineTable({
     name: v.string(),
     requested: v.number(), // time in utc
-    approved: v.boolean(),
+    approved: v.union(v.boolean(), v.null())
   }).index("by_time", ["requested"]),
 });
