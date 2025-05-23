@@ -2,8 +2,6 @@ import { mutation } from "./_generated/server";
 import { internal } from "./_generated/api";
 import { v } from "convex/values";
 
-const webhookurl = "https://discord.com/api/webhooks/1375184832153256017/Psr28D8pPcq2R2Z9m0tj5s-HHQPkvxLGoNse0EJqQ2kGrlYsbrgp8lVITl-hQ7KO3Ubi"
-
 // Create a new task with the given text
 export const freeTrial = mutation({
   args: {
@@ -25,7 +23,7 @@ export const freeTrial = mutation({
       approved: null,
     });
     ctx.scheduler.runAfter(0, internal.notifyDiscord.send, {
-      webhookUrl: webhookurl,
+      webhookUrl: process.env.DISCORD_WEBHOOK ?? "",
       payload: {
         embeds: [
           {
@@ -104,7 +102,7 @@ export const inquary = mutation({
       ...args,
     });
     ctx.scheduler.runAfter(0, internal.notifyDiscord.send, {
-      webhookUrl: webhookurl,
+      webhookUrl: process.env.DISCORD_WEBHOOK ?? "",
       payload: {
         embeds: [
           {
