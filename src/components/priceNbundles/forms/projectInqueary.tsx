@@ -1,4 +1,6 @@
 import { zodResolver } from "@hookform/resolvers/zod"
+import { useMutation } from "convex/react"
+import { api } from "@/convex/_generated/api"
 import { useForm, type UseFormReturn } from "react-hook-form"
 import { z } from "zod"
 import { Button } from "@/components/ui/button"
@@ -47,7 +49,7 @@ const formSchema = z.object({
     { message: "Please select at least one service" }
   ),
   otherService: z.string().optional(),
-  songCount: z.string().min(1, "Song count is required"),
+  songCount: z.number().min(1, "Song count is required"),
   projectGoal: z.string().optional(),
   completionDate: z.string().min(1, "Completion date is required"),
   budget: z.string().min(1, "Budget is required"),
@@ -58,6 +60,7 @@ export interface Props {
 }
 
 export default function ProjectInquiryModal({ children }: Props) {
+  const func = useMutation(api.forms.inquary)
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -77,7 +80,7 @@ export default function ProjectInquiryModal({ children }: Props) {
         other: false,
       },
       otherService: "",
-      songCount: "",
+      songCount: 1,
       projectGoal: "",
       completionDate: "",
       budget: "",
@@ -85,10 +88,31 @@ export default function ProjectInquiryModal({ children }: Props) {
   })
 
   function onSubmit(values: z.infer<typeof formSchema>) {
-    // Send form data to backend here
     console.log("Form submitted:", values)
+    func({
+      fullName: values.fullName,
+      artistName: values.artistName,
+      email: values.email,
+      phone: values.phone,
+      projectType: values.projectType,
+      otherProjectType: values.otherProjectType,
+      services: {
+        vocalRecording: values.services.vocalRecording,
+        instrumentRecording: values.services.instrumentRecording,
+        drumKitRecording: values.services.drumKitRecording,
+        mixing: values.services.mixing,
+        mastering: values.services.mastering,
+        production: values.services.production,
+        other: values.services.other,
+      },
+      otherService: values.otherService,
+      songCount: values.songCount,
+      projectGoal: values.projectGoal,
+      completionDate: values.completionDate,
+      budget: values.budget,
+    })
     form.reset();
-    window.location.href = "/";
+    window.location.replace("/prices-and-bundles#contact");
   }
 
   return (
@@ -429,7 +453,7 @@ function FormPage({ onSubmit, form }: FormProps) {
                 Roughly how many songs will be on this project? <span className="text-red-500">*</span>
               </FormLabel>
               <FormControl>
-                <Input placeholder="e.g., 6" {...field} />
+                <Input type="number" min={1} placeholder="e.g., 6" {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>

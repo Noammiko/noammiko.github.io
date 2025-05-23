@@ -1,8 +1,9 @@
 import { Button } from "@/components/ui/button";
 import { MoveRight } from "lucide-react";
 import ProjectDialog from "./forms/projectInqueary";
+import { withConvexProvider } from "@/lib/convex";
 
-export default function project() {
+export default withConvexProvider(function project() {
   return (
     <div
       className="mb-16 bg-gradient-to-r from-gray-900 to-black border border-gray-800 rounded-lg p-8 text-center"
@@ -26,4 +27,4 @@ export default function project() {
       </ProjectDialog>
     </div>
   )
-}
+});

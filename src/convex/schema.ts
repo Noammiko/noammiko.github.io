@@ -17,4 +17,26 @@ export default defineSchema({
 
     approved: v.union(v.boolean(), v.null())
   }),
+  inquarys: defineTable({
+    fullName: v.string(),
+    artistName: v.optional(v.string()),
+    email: v.string(),
+    phone: v.string(),
+    projectType: v.string(),
+    otherProjectType: v.optional(v.string()),
+    services: v.object({
+      vocalRecording: v.boolean(),
+      instrumentRecording: v.boolean(),
+      drumKitRecording: v.boolean(),
+      mixing: v.boolean(),
+      mastering: v.boolean(),
+      production: v.boolean(),
+      other: v.boolean(),
+    }),
+    otherService: v.optional(v.string()),
+    songCount: v.number(),
+    projectGoal: v.optional(v.string()),
+    completionDate: v.string(),
+    budget: v.string(),
+  })
 });
