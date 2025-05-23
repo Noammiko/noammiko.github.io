@@ -175,7 +175,7 @@ export default function AdminPage() {
                             <td className="py-3 px-4">{user.email}</td>
                             <td className="py-3 px-4">{user.date}</td>
                             <td className="py-3 px-4">
-                              <Badge variant="success" className="bg-green-100 text-green-800 hover:bg-green-100">
+                              <Badge variant="default" className="bg-green-100 text-green-800 hover:bg-green-100">
                                 Approved
                               </Badge>
                             </td>
