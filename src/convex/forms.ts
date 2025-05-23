@@ -64,7 +64,6 @@ export const freeTrial = mutation({
         username: "Free Trail",
         avatar_url: 'https://miko-recordingstudio.ca/logo.png',
         attachments: [],
-        flags: 4096
       }
     })
 
@@ -163,7 +162,6 @@ export const inquary = mutation({
         username: "Project Inquary",
         avatar_url: 'https://miko-recordingstudio.ca/logo.png',
         attachments: [],
-        flags: 4096
       }
     })
 
