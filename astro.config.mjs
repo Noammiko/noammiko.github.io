@@ -1,5 +1,4 @@
-import { defineConfig } from "astro/config";
-
+import { defineConfig, envField } from "astro/config";
 import opengraphImages, { presets } from "astro-opengraph-images";
 
 import icon from "astro-icon";
@@ -40,6 +39,14 @@ export default defineConfig({
     svelte(),
     react(),
   ],
+  env: {
+    schema: {
+      CONVEX_URL: envField.string({
+        access: "public",
+        context: "client",
+      }),
+    },
+  },
   vite: {
     plugins: [
       lucideAstroImportOptimizer(),

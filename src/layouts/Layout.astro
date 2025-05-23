@@ -1,6 +1,7 @@
 ---
 import "@/styles/globals.css";
 import PostHog from "@/components/posthog.astro";
+import GoogleAnalytics from "@/components/googleanalytics.astro";
 
 import josefinWoff2 from "@fontsource/josefin-sans/files/josefin-sans-latin-400-normal.woff2";
 
@@ -96,6 +97,7 @@ const openGraphImageUrl = getImagePath({ url, site });
     />
 
     <PostHog />
+    <GoogleAnalytics />
 
     <slot name="head" />
   </head>
