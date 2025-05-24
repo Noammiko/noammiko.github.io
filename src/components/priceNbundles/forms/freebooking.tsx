@@ -75,9 +75,7 @@ export default function BookingFormModal({ children }: Props) {
     });
     form.reset();
     form.formState.isDirty = false;
-    setTimeout(() => {
-      window.location.href = "/prices-and-bundles/thank-you";
-    }, 0);
+    window.location.href = "/prices-and-bundles/thank-you";
   }
 
   return (
