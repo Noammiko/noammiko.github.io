@@ -40,7 +40,7 @@ const FreeTrial: React.FC<FreeTrialProps> = ({
 
       <div className="bg-yellow-500/10 rounded-lg p-3 mb-6">
         <p className="text-center font-semibold text-yellow-500 mb-2">
-          {current}/{max} spots left this week
+          {max - current}/{max} spots left this week
         </p>
         <div className="w-full bg-gray-800 rounded-full h-2.5 mb-1">
           <div
