@@ -74,8 +74,9 @@ export default function BookingFormModal({ children }: Props) {
       otherReferralSource: values.otherReferralSource,
     });
     form.reset();
-    form.formState.isDirty = false;
-    window.location.href = "/prices-and-bundles/thank-you";
+
+    history.pushState(null, "", "/prices-and-bundles/thank-you");
+    window.location.reload();
   }
 
   return (
