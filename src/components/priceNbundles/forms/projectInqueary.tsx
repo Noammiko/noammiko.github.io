@@ -110,9 +110,10 @@ export default function ProjectInquiryModal({ children }: Props) {
       projectGoal: values.projectGoal,
       completionDate: values.completionDate,
       budget: values.budget,
-    })
-    form.reset();
-    window.location.replace("/prices-and-bundles#contact");
+    }).then(() => {
+      form.reset();
+      window.location.replace("/prices-and-bundles#contact");
+    });
   }
 
   return (

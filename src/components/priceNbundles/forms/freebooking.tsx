@@ -72,11 +72,12 @@ export default function BookingFormModal({ children }: Props) {
       otherRecordingType: values.otherRecordingType,
       referralSource: values.referralSource,
       otherReferralSource: values.otherReferralSource,
-    });
-    form.reset();
+    }).then(() => {
+      form.reset();
 
-    history.pushState(null, "", "/prices-and-bundles/thank-you");
-    window.location.reload();
+      history.pushState(null, "", "/prices-and-bundles/thank-you");
+      window.location.reload();
+    });
   }
 
   return (
