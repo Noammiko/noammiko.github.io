@@ -12,12 +12,13 @@ import MusicEmbed from "@/components/musicProvider/music.astro";
 import platforms from "@/lib/platforms";
 import PlatformIcon from "@/components/platformIcon.astro";
 
-const albumLink = "https://open.spotify.com/album/3iTc5FAM86crv2Pvwf881Y";
-const tracks = [
-  "https://open.spotify.com/track/1oVkgKH3hOvflNq43leLBi",
-  "https://open.spotify.com/track/2YQtkRFLosMP8QftKl6x5S",
-  "https://open.spotify.com/track/7zrcENB3eO3mgwvmeeBOft",
-  "https://open.spotify.com/track/1o5a7KiDrLS2N2EGY8o34o",
+
+const promoting = "https://open.spotify.com/track/4A50VQrWoyCQoGhHMEBrEW";
+const promotingTracks = [
+];
+
+const discography = [
+  "https://open.spotify.com/album/3iTc5FAM86crv2Pvwf881Y"
 ];
 ---
 
@@ -76,27 +77,40 @@ const tracks = [
             </a>
           </div>
 
+<!-- ------------------ -->
+
           <h2
             class="text-center text-xl md:text-5xl text-shadow-lg text-shadow-red-600 uppercase"
           >
-            Again And Again EP
+            Live Inside My Mind
           </h2>
           <p
             class="text-center text-xl md:text-2xl mt-4 text-gray-200 text-shadow-md text-shadow-red-600 mb-6 uppercase"
           >
             Out now
           </p>
-          <MusicEmbed songlink={albumLink} />
+          <MusicEmbed songlink={promoting} />
         </div>
 
         <div class="mt-10">
           <div class="grid xl:grid-cols-2 gap-4">
             {
-              tracks.map((track, index) => (
+              promotingTracks.map((track, index) => (
                 <div>
                   <h2 class="text-xl font-bold mt-4 mb-2">Track {index + 1}</h2>
                   <MusicEmbed songlink={track} />
                 </div>
+              ))
+            }
+          </div>
+        </div>
+
+        <div class="mt-16">
+          <h2 class="text-3xl font-bold mb-6 text-center">Discography</h2>
+          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            {
+              discography.map((albumLink) => (
+                <MusicEmbed songlink={albumLink} />
               ))
             }
           </div>
