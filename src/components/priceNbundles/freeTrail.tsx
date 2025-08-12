@@ -12,7 +12,7 @@ interface FreeTrialProps {
 }
 
 const FreeTrial: React.FC<FreeTrialProps> = ({
-  current = 0,
+  current = 2,
   max = 5
 }) => {
   // Memoize the progress calculation to avoid recalculating on every render
