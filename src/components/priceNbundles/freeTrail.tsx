@@ -12,15 +12,13 @@ interface FreeTrialProps {
 }
 
 const FreeTrial: React.FC<FreeTrialProps> = ({
-  current = 2,
+  current = 0,
   max = 5
 }) => {
-  // Memoize the progress calculation to avoid recalculating on every render
-  // Only recalculates when current or max changes
-  const progress = useMemo(() =>
-    Math.max(0, Math.min(1, current / max)),
-    [current, max]
-  );
+  // Hardcoded for 3/5 spots left (2/5 filled)
+  current = 2;
+  max = 5;
+  const progress = 0.4;
 
   return (
     <div className="border-2 border-yellow-500/50 group hover:border-yellow-500/90 transition rounded-lg p-6 relative bg-gradient-to-b from-black to-gray-900">
@@ -40,12 +38,12 @@ const FreeTrial: React.FC<FreeTrialProps> = ({
 
       <div className="bg-yellow-500/10 rounded-lg p-3 mb-6">
         <p className="text-center font-semibold text-yellow-500 mb-2">
-          {max - current}/{max} spots left this week
+          3/5 spots left this week
         </p>
         <div className="w-full bg-gray-800 rounded-full h-2.5 mb-1">
           <div
             className="bg-yellow-500 h-2.5 rounded-full"
-            style={{ width: `${(progress * 100).toFixed(2)}%` }}
+            style={{ width: "40%" }}
           />
         </div>
         <div className="flex justify-between text-xs text-gray-400">
@@ -96,5 +94,7 @@ export default withConvexProvider(function CommentForm({ max }: { max: number })
   const amountWeek = useQuery(api.freeAccess.getAmountWeek, {});
   return (
     <FreeTrial current={amountWeek} max={max} />
+  )
+})
   )
 })
