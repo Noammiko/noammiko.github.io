@@ -1,0 +1,178 @@
+---
+import Page from "@/layouts/Page.astro";
+import StudioTitle from "@/components/StudioTitle.astro";
+import { Image } from "astro:assets";
+import Bundles from "@/components/priceNbundles/Bundles.astro";
+
+import { Mail, Phone, ChevronUp } from "lucide-react";
+
+import { ReviewsSection } from "@/components/Reviews.tsx";
+
+import logo from "@/assets/logo.png";
+---
+
+<Page
+	title="Prices and Bundles"
+	description="Guelph audio recording and editing studio"
+	currentPage="prices"
+>
+	{/* Hero Section */}
+	<div>
+		<div class="flex justify-center mb-8">
+			<StudioTitle size="lg" />
+		</div>
+
+		<Bundles />
+
+		{/* Current Rates Section */}
+		<div class="mb-16">
+			<h2 class="text-4xl font-bold mb-8 border-b-2 border-red-500 pb-2">
+				CURRENT RATES
+			</h2>
+			<ul class="space-y-4 text-xl">
+				<li class="flex items-start">
+					<span class="text-red-400 mr-2">•</span>
+					<span class="text-green-400 font-bold">$39.95</span>
+					<span class="ml-2">Per Hour of studio time</span>
+				</li>
+				<li class="flex items-start">
+					<span class="text-red-400 mr-2">•</span>
+					<span class="text-green-400 font-bold">$79.95</span>
+					<span class="ml-2">Per Mix</span>
+				</li>
+				<li class="flex items-start">
+					<span class="text-red-400 mr-2">•</span>
+					<span class="text-green-400 font-bold">$39.95</span>
+					<span class="ml-2">Per Master</span>
+				</li>
+			</ul>
+		</div>
+
+		{/* Instrumentals/Beats Section */}
+		<div class="mb-16">
+			<h2 class="text-4xl font-bold mb-8 border-b-2 border-red-500 pb-2">
+				INSTRUMENTALS / BEATS
+			</h2>
+			<ul class="space-y-4 text-xl">
+				<li class="flex items-start">
+					<span class="text-red-400 mr-2">•</span>
+					<span class="text-green-400 font-bold">$49.95</span>
+					<span class="ml-2">for an existing beat</span>
+				</li>
+				<li class="flex items-start">
+					<span class="text-red-400 mr-2">•</span>
+					<span class="text-green-400 font-bold">$99.95</span>
+					<span class="ml-2">for a custom beat</span>
+				</li>
+			</ul>
+			<p class="mt-4 text-xl">Exclusive prices are negotiable</p>
+		</div>
+
+		{/* Guarantee and Logo Section */}
+		<div
+			class="flex flex-col md:flex-row items-center justify-between gap-8 mb-16"
+		>
+			<div class="flex items-center gap-4">
+				<div class="w-32 h-32 relative">
+					<Image
+						src="/albumPlaceholder.svg"
+						alt="100% Satisfaction Guaranteed"
+						width={128}
+						height={128}
+						class="object-contain"
+					/>
+				</div>
+				<div>
+					<h3 class="text-2xl font-bold">100% SATISFACTION</h3>
+					<h3 class="text-2xl font-bold">GUARANTEED</h3>
+				</div>
+			</div>
+			<div class="w-48 h-48 relative">
+				<Image
+					src={logo}
+					alt="MIKO Recording Studio Logo"
+					width={192}
+					height={192}
+					class="object-contain"
+				/>
+			</div>
+		</div>
+
+		{/* Booking Section */}
+		<div id="booking" class="pt-16 mt-16 border-t-2 border-red-500/30">
+			<div
+				class="flex justify-center items-center mb-6 text-red-300 animate-pulse"
+			>
+				<ChevronUp className="h-5 w-5 mr-2" />
+				<span class="text-sm">Scroll up to see prices and bundles</span>
+			</div>
+			<h1
+				id="book-session"
+				class="text-center text-5xl md:text-7xl font-bold mb-16 tracking-wider"
+			>
+				BOOK A SESSION
+			</h1>
+
+			{/* Contact Information */}
+			<div
+				id="contact"
+				class="max-w-4xl mx-auto mb-16 bg-black/30 backdrop-blur-sm p-8 rounded-lg border border-red-500/30 target:ring-4 ring-amber-600 ring-offset-1"
+			>
+				<h2
+					class="text-3xl font-bold mb-6 border-b border-red-500/50 pb-2"
+				>
+					Contact Information
+				</h2>
+				<div class="grid md:grid-cols-2 gap-6">
+					<div class="flex items-center gap-3">
+						<Mail className="w-6 h-6 text-red-400" />
+						<a
+							href="mailto:noam@miko-recordingstudio.ca?subject=Studio%20session%20booking%20request"
+							class="text-xl hover:text-red-300 transition"
+						>
+							noam@miko-recordingstudio.ca
+						</a>
+					</div>
+					<div class="flex items-center gap-3">
+						<Phone className="w-6 h-6 text-red-400" />
+						<a
+							href="tel:+12266062452"
+							class="text-xl hover:text-red-300 transition"
+						>
+							(226) 606-2452
+						</a>
+					</div>
+				</div>
+			</div>
+
+			{/* Calendar Booking */}
+			<div class="max-w-4xl mx-auto mb-16">
+				<h2
+					class="text-3xl font-bold mb-6 border-b border-red-500/50 pb-2 flex items-center gap-2"
+				>
+					<!-- <Calendar class="w-7 h-7 text-red-400" /> -->
+					Schedule Your Session
+				</h2>
+				<div class="bg-white rounded-lg overflow-hidden shadow-lg">
+					<!-- Google Calendar Appointment Scheduling begin -->
+					<iframe
+						src="https://calendar.google.com/calendar/appointments/schedules/AcZssZ0-Md8E3JHXqoEt4gYrOiezfBut-2jaVMB3MN66uZHvpMg9BptlFWqEdmfnZXdmuPplJH1Ww-Kl?gv=true"
+						style="border: 0"
+						width="100%"
+						height="600"
+						frameborder="0"></iframe>
+					<!-- end Google Calendar Appointment Scheduling -->
+				</div>
+			</div>
+
+			{/* Reviews Section - Added under Book Session */}
+			<div class="max-w-4xl mx-auto mb-16">
+				<ReviewsSection
+					title="CLIENT TESTIMONIALS"
+					subtitle="Don't just take our word for it - hear what our clients have to say"
+					client:visible
+				/>
+			</div>
+		</div>
+	</div>
+</Page>
