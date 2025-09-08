@@ -59,7 +59,12 @@ if (!res) {
 
 const song = getEntity(res);
 const items = getMusicProviders(res);
-const youtubeId = getYoutubeEmbedId(res); // TODO: improve album representation
+let youtubeId = undefined;
+try {
+  youtubeId = getYoutubeEmbedId(res); // TODO: improve album representation
+} catch (e) {
+  console.debug("failed to get youtube", "song", song, "error", e);
+}
 ---
 
 <Card

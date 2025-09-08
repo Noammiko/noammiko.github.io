@@ -204,12 +204,18 @@ export function getYoutubeEmbedId(
 ): string {
   const youtubePlatform =
     data.linksByPlatform["youtubeMusic"] ?? data.linksByPlatform["youtube"];
-  if (!youtubePlatform) throw new Error("No youtube platform found");
+  if (!youtubePlatform) {
+    console.debug("failing data", data);
+    throw new Error("No youtube platform found");
+  }
   const entity = data.entitiesByUniqueId[youtubePlatform.entityUniqueId];
-  if (!entity.id) throw new Error("No youtube entity id found");
+  if (!entity.id) {
+    console.debug("failing platform", youtubePlatform, "data", data)
+    throw new Error("No youtube entity id found");
+  }
 
   if (entity.type === "album") {
-    return undefined; 
+    return undefined;
   }
 
   return entity.id;
