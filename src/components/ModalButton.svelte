@@ -1,6 +1,10 @@
 <script lang="ts">
   import Modal from "./Modal.svelte";
   import Button from "./ui-svelte/button/button.svelte";
+  import type {
+    ButtonVariant,
+    ButtonSize,
+  } from "./ui-svelte/button/button.svelte";
 
   const {
     text = "",
@@ -10,6 +14,8 @@
     id,
     header,
     children,
+    variant,
+    size,
     ...opts
   }: {
     text?: string;
@@ -19,6 +25,8 @@
     id?: string;
     header?: () => any;
     children?: () => any;
+    variant?: ButtonVariant;
+    size?: ButtonSize;
   } = $props();
 
   let showModal = $state(false);
