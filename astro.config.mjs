@@ -8,37 +8,32 @@ import sitemap from "@astrojs/sitemap";
 import svelte from "@astrojs/svelte";
 import react from "@astrojs/react";
 import tailwindcss from "@tailwindcss/vite";
+import mdx from "@astrojs/mdx";
 const { createLucideAstroImportOptimizer: lucideAstroImportOptimizer, lucideSvelteImportOptimizer } = plguins;
 
 // https://astro.build/config
 export default defineConfig({
   site: "https://miko-recordingstudio.ca",
-  integrations: [
-    opengraphImages({
-      options: {
-        fonts: [
-          {
-            name: "Roboto",
-            weight: 400,
-            style: "normal",
-            data: fs.readFileSync(
-              "node_modules/@fontsource/roboto/files/roboto-latin-400-normal.woff",
-            ),
-          },
-        ],
-      },
-      render: presets.blackAndWhite,
-    }),
-    icon(),
-    sitemap({
-      filter(page) {
-        const exclude = ["/tracking"];
-        return !exclude.some((e) => page.includes(e));
-      },
-    }),
-    svelte(),
-    react(),
-  ],
+  integrations: [opengraphImages({
+    options: {
+      fonts: [
+        {
+          name: "Roboto",
+          weight: 400,
+          style: "normal",
+          data: fs.readFileSync(
+            "node_modules/@fontsource/roboto/files/roboto-latin-400-normal.woff",
+          ),
+        },
+      ],
+    },
+    render: presets.blackAndWhite,
+  }), icon(), sitemap({
+    filter(page) {
+      const exclude = ["/tracking"];
+      return !exclude.some((e) => page.includes(e));
+    },
+  }), svelte(), react(), mdx()],
   env: {
     schema: {
       CONVEX_URL: envField.string({
