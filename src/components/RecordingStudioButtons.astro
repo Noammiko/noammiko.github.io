@@ -1,10 +1,10 @@
 ---
 import RatesAndBundles from "./RatesAndBundles.astro";
 import ModalButton from "./ModalButton.svelte";
-import { Image } from 'astro:assets';
+import { Image } from "astro:assets";
 import Button from "@/components/ui-svelte/button/button.svelte";
 
-import ratesImage from "../assets/Prices and Bundles.png"
+import ratesImage from "../assets/Prices and Bundles.png";
 
 import { getImages } from "@/assets/galary/images";
 import Gallery from "@/components/Gallery.tsx";
@@ -24,20 +24,20 @@ const images = await getImages({
     text="Prices and Bundles"
     id="ratesAndBundles"
     variant="secondary"
-    client:idle="svelte"
+    client:idle
   >
-  <div class="p-4 overflow-hidden">
-    <Image 
-      src={ratesImage} 
-      alt="Current prices and bundles" 
-      class="max-h-[80vh] max-w-[90vw] w-full h-auto  object-contain" 
-    />  
-  </div>
+    <div class="p-4 overflow-hidden">
+      <Image
+        src={ratesImage}
+        alt="Current prices and bundles"
+        class="max-h-[80vh] max-w-[90vw] w-full h-auto object-contain"
+      />
+    </div>
   </ModalButton>
   <Button
     href="/book"
     aria-label="Book session"
-    class="h-28 min-w-32 bg-background/40 border-accent border-4 rounded-xl place-content-center" 
+    class="h-28 min-w-32 bg-background/40 border-accent border-4 rounded-xl place-content-center"
     variant="secondary"
   >
     Book Session
@@ -54,17 +54,27 @@ const images = await getImages({
   <ModalButton
     aria_label="Gallery"
     variant="secondary"
-    classNames="h-28 min-w-32 bg-background/40 border-accent border-4 rounded-xl place-content-center" 
+    classNames="h-28 min-w-32 bg-background/40 border-accent border-4 rounded-xl place-content-center"
     text="Gallery"
     id="gallery"
-    client:idle="svelte"
+    client:idle
   >
     <slot name="header" />
     <div class="block lg:hidden px-2">
-      <Gallery images={images} buttons={false} className="max-w-xl" client:visible />
+      <Gallery
+        images={images}
+        buttons={false}
+        className="max-w-xl"
+        client:visible
+      />
     </div>
     <div class="hidden lg:block px-16">
-      <Gallery images={images} buttons={true} className="max-w-xl" client:visible />
+      <Gallery
+        images={images}
+        buttons={true}
+        className="max-w-xl"
+        client:visible
+      />
     </div>
   </ModalButton>
 </div>

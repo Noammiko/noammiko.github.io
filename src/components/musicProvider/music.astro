@@ -124,12 +124,8 @@ try {
         </div>
 
         <div class="grid gap-8">
-          <MainButton client:load="svelte" items={items} webOnly={webOnly} />
-          <ProviderButtons
-            client:idle="svelte"
-            items={items}
-            webOnly={webOnly}
-          />
+          <MainButton client:load items={items} webOnly={webOnly} />
+          <ProviderButtons client:idle items={items} webOnly={webOnly} />
         </div>
       </div>
     </div>
