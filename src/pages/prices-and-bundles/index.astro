@@ -1,178 +1,250 @@
 ---
-import Page from "@/layouts/Page.astro";
-import StudioTitle from "@/components/StudioTitle.astro";
-import { Image } from "astro:assets";
-import Bundles from "@/components/priceNbundles/Bundles.astro";
+import Layout from "@/layouts/Layout.astro";
+import Header from "@/layouts/Header.astro";
+import Footer from "@/layouts/Footer.astro";
+import { BundleListStatic } from "@/components/priceNbundles/BundleListStatic.tsx";
 
-import { Mail, Phone, ChevronUp } from "lucide-react";
-
-import { ReviewsSection } from "@/components/Reviews.tsx";
-
-import logo from "@/assets/logo.png";
+import pricingData from "@/data/pricing.json";
 ---
 
-<Page
-	title="Prices and Bundles"
-	description="Guelph audio recording and editing studio"
-	currentPage="prices"
+<Layout
+  title="Prices & Bundles"
+  description="Professional recording, mixing & mastering bundles in Guelph. Unlimited revisions & 100% satisfaction guarantee."
 >
-	{/* Hero Section */}
-	<div>
-		<div class="flex justify-center mb-8">
-			<StudioTitle size="lg" />
-		</div>
+  <Header currentPage="pricing" hidden={false} />
 
-		<Bundles />
+  <main style="background:#080808;">
 
-		{/* Current Rates Section */}
-		<div class="mb-16">
-			<h2 class="text-4xl font-bold mb-8 border-b-2 border-red-500 pb-2">
-				CURRENT RATES
-			</h2>
-			<ul class="space-y-4 text-xl">
-				<li class="flex items-start">
-					<span class="text-red-400 mr-2">•</span>
-					<span class="text-green-400 font-bold">$29.95</span>
-					<span class="ml-2">Per Hour of studio time</span>
-				</li>
-				<li class="flex items-start">
-					<span class="text-red-400 mr-2">•</span>
-					<span class="text-green-400 font-bold">$59.95</span>
-					<span class="ml-2">Per Mix</span>
-				</li>
-				<li class="flex items-start">
-					<span class="text-red-400 mr-2">•</span>
-					<span class="text-green-400 font-bold">$29.95</span>
-					<span class="ml-2">Per Master</span>
-				</li>
-			</ul>
-		</div>
+    <!-- ══ PRICING HERO ══════════════════════════════════════════════ -->
+    <section class="section-py section-px" style="background:#09090b;padding-top:10rem;">
+      <div class="gold-rule"></div>
+      <div class="max-w-6xl mx-auto py-16 md:py-24">
 
-		{/* Instrumentals/Beats Section */}
-		<div class="mb-16">
-			<h2 class="text-4xl font-bold mb-8 border-b-2 border-red-500 pb-2">
-				INSTRUMENTALS / BEATS
-			</h2>
-			<ul class="space-y-4 text-xl">
-				<li class="flex items-start">
-					<span class="text-red-400 mr-2">•</span>
-					<span class="text-green-400 font-bold">$49.95</span>
-					<span class="ml-2">for an existing beat</span>
-				</li>
-				<li class="flex items-start">
-					<span class="text-red-400 mr-2">•</span>
-					<span class="text-green-400 font-bold">$99.95</span>
-					<span class="ml-2">for a custom beat</span>
-				</li>
-			</ul>
-			<p class="mt-4 text-xl">Exclusive prices are negotiable</p>
-		</div>
+        <!-- Header — no "Investment" eyebrow -->
+        <div class="text-center mb-10 reveal">
+          <h1
+            class="font-['Cormorant_Garamond'] font-light text-[#F5F0E8] mb-4"
+            style="font-size:clamp(2.4rem,5vw,4.5rem);line-height:1.05;"
+          >
+            Prices &amp; <em style="font-style:italic;color:#940404;">Bundles</em>
+          </h1>
+          <p class="text-[rgba(245,240,232,0.4)] text-xs tracking-[0.25em] uppercase font-['Josefin_Sans'] max-w-sm mx-auto leading-relaxed">
+            Every package includes unlimited revisions &amp; a 100% satisfaction guarantee
+          </p>
+        </div>
 
-		{/* Guarantee and Logo Section */}
-		<div
-			class="flex flex-col md:flex-row items-center justify-between gap-8 mb-16"
-		>
-			<div class="flex items-center gap-4">
-				<div class="w-32 h-32 relative">
-					<Image
-						src="/albumPlaceholder.svg"
-						alt="100% Satisfaction Guaranteed"
-						width={128}
-						height={128}
-						class="object-contain"
-					/>
-				</div>
-				<div>
-					<h3 class="text-2xl font-bold">100% SATISFACTION</h3>
-					<h3 class="text-2xl font-bold">GUARANTEED</h3>
-				</div>
-			</div>
-			<div class="w-48 h-48 relative">
-				<Image
-					src={logo}
-					alt="MIKO Recording Studio Logo"
-					width={192}
-					height={192}
-					class="object-contain"
-				/>
-			</div>
-		</div>
+        <!-- Spring Sale display text -->
+        <div class="text-center reveal mb-4">
+          <span
+            class="font-['Cormorant_Garamond'] font-light uppercase text-[#C9A96E] block"
+            style="font-size:clamp(3rem,8vw,7rem);line-height:1;letter-spacing:0.06em;"
+          >
+            Spring Sale
+          </span>
+        </div>
 
-		{/* Booking Section */}
-		<div id="booking" class="pt-16 mt-16 border-t-2 border-red-500/30">
-			<div
-				class="flex justify-center items-center mb-6 text-red-300 animate-pulse"
-			>
-				<ChevronUp className="h-5 w-5 mr-2" />
-				<span class="text-sm">Scroll up to see prices and bundles</span>
-			</div>
-			<h1
-				id="book-session"
-				class="text-center text-5xl md:text-7xl font-bold mb-16 tracking-wider"
-			>
-				BOOK A SESSION
-			</h1>
+        <!-- Spring Sale countdown — always visible, counts to July 1 -->
+        <div class="pricing-countdown-wrap reveal mb-10">
+          <div style="display:flex;align-items:center;gap:20px;flex-wrap:wrap;">
+            <span class="cd-sale-badge">Spring Sale</span>
+            <span class="cd-sale-off">up to 35% off</span>
+          </div>
+          <div style="display:flex;gap:16px;align-items:center;flex-wrap:wrap;">
+            <div style="display:flex;gap:12px;align-items:center;">
+              <div class="cd-unit"><span class="cd-num" id="pb-cd-days">00</span><span class="cd-label">Days</span></div>
+              <span class="cd-sep">:</span>
+              <div class="cd-unit"><span class="cd-num" id="pb-cd-hours">00</span><span class="cd-label">Hrs</span></div>
+              <span class="cd-sep">:</span>
+              <div class="cd-unit"><span class="cd-num" id="pb-cd-mins">00</span><span class="cd-label">Min</span></div>
+              <span class="cd-sep">:</span>
+              <div class="cd-unit"><span class="cd-num" id="pb-cd-secs">00</span><span class="cd-label">Sec</span></div>
+            </div>
+            <a href="#book-session" class="btn-crimson" style="font-size:0.55rem;padding:0.7rem 1.5rem;">Claim Now</a>
+          </div>
+        </div>
 
-			{/* Contact Information */}
-			<div
-				id="contact"
-				class="max-w-4xl mx-auto mb-16 bg-black/30 backdrop-blur-sm p-8 rounded-lg border border-red-500/30 target:ring-4 ring-amber-600 ring-offset-1"
-			>
-				<h2
-					class="text-3xl font-bold mb-6 border-b border-red-500/50 pb-2"
-				>
-					Contact Information
-				</h2>
-				<div class="grid md:grid-cols-2 gap-6">
-					<div class="flex items-center gap-3">
-						<Mail className="w-6 h-6 text-red-400" />
-						<a
-							href="mailto:noam@miko-recordingstudio.ca?subject=Studio%20session%20booking%20request"
-							class="text-xl hover:text-red-300 transition"
-						>
-							noam@miko-recordingstudio.ca
-						</a>
-					</div>
-					<div class="flex items-center gap-3">
-						<Phone className="w-6 h-6 text-red-400" />
-						<a
-							href="tel:+12266062452"
-							class="text-xl hover:text-red-300 transition"
-						>
-							(226) 606-2452
-						</a>
-					</div>
-				</div>
-			</div>
+        <!-- Free Trial Card -->
+        <div class="free-trial-card reveal">
+          <div class="free-trial-badge">Limited Offer — New Clients Only</div>
+          <div style="display:flex;flex-direction:column;gap:20px;padding-top:16px;">
+            <div>
+              <span class="eyebrow mb-3">First-Time Tryout Session</span>
+              <div class="free-trial-price">FREE</div>
+              <p class="font-['Josefin_Sans'] text-[rgba(237,229,208,0.5)] text-xs tracking-widest mt-2">
+                30 minutes · no commitment · new clients only
+              </p>
+            </div>
+            <div style="border-left:2px solid #C9A96E;padding-left:20px;">
+              <p class="font-['Cormorant_Garamond'] italic text-[#ede5d0]" style="font-size:17px;line-height:1.6;">
+                "Come check out the studio and experience what I do best. I'm confident you'll be back."
+              </p>
+            </div>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:24px;padding-top:16px;">
+            <div class="free-trial-scarcity">
+              <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;">
+                <span class="font-['Josefin_Sans'] text-[#C9A96E]" style="font-size:10px;font-weight:600;letter-spacing:2px;text-transform:uppercase;">Spots This Week</span>
+                <span class="font-['Cormorant_Garamond'] text-[#ede5d0]" style="font-size:22px;">3 / 5 left</span>
+              </div>
+              <div style="background:rgba(255,255,255,0.08);height:3px;width:100%;border-radius:2px;overflow:hidden;">
+                <div style="height:100%;background:#C9A96E;width:40%;border-radius:2px;"></div>
+              </div>
+            </div>
+            <div>
+              <span class="eyebrow mb-3">Includes</span>
+              <ul style="list-style:none;display:flex;flex-direction:column;gap:10px;">
+                {["30 min of studio time","30-second clip of your song","Basic studio mix included"].map(item => (
+                  <li class="font-['Josefin_Sans'] text-[rgba(237,229,208,0.6)]" style="font-size:14px;display:flex;align-items:center;gap:10px;">
+                    <span style="flex:0 0 5px;height:5px;background:#C9A96E;border-radius:50%;display:inline-block;"></span>{item}
+                  </li>
+                ))}
+              </ul>
+            </div>
+            <a href="#book-session" class="btn-crimson text-center" style="display:block;text-align:center;">Secure Your Spot</a>
+          </div>
+        </div>
 
-			{/* Calendar Booking */}
-			<div class="max-w-4xl mx-auto mb-16">
-				<h2
-					class="text-3xl font-bold mb-6 border-b border-red-500/50 pb-2 flex items-center gap-2"
-				>
-					<!-- <Calendar class="w-7 h-7 text-red-400" /> -->
-					Schedule Your Session
-				</h2>
-				<div class="bg-white rounded-lg overflow-hidden shadow-lg">
-					<!-- Google Calendar Appointment Scheduling begin -->
-					<iframe
-						src="https://calendar.google.com/calendar/appointments/schedules/AcZssZ0-Md8E3JHXqoEt4gYrOiezfBut-2jaVMB3MN66uZHvpMg9BptlFWqEdmfnZXdmuPplJH1Ww-Kl?gv=true"
-						style="border: 0"
-						width="100%"
-						height="600"
-						frameborder="0"></iframe>
-					<!-- end Google Calendar Appointment Scheduling -->
-				</div>
-			</div>
+        <!-- Bundle cards -->
+        <div class="reveal reveal-delay-1">
+          <BundleListStatic data={pricingData} client:load />
+        </div>
 
-			{/* Reviews Section - Added under Book Session */}
-			<div class="max-w-4xl mx-auto mb-16">
-				<ReviewsSection
-					title="CLIENT TESTIMONIALS"
-					subtitle="Don't just take our word for it - hear what our clients have to say"
-					client:visible
-				/>
-			</div>
-		</div>
-	</div>
-</Page>
+        <!-- Individual rates -->
+        <div class="mt-24 grid md:grid-cols-2 gap-16 reveal reveal-delay-2">
+          <div>
+            <span class="eyebrow mb-7">Current Rates</span>
+            <ul class="space-y-0">
+              {pricingData.rates.map((rate) => (
+                <li class="flex items-baseline justify-between py-4 border-b border-[rgba(201,169,110,0.1)]">
+                  <span class="text-[rgba(245,240,232,0.6)] text-sm tracking-wide font-['Josefin_Sans']">{rate.name}</span>
+                  <div class="text-right">
+                    <span class="font-['Cormorant_Garamond'] font-light text-2xl text-[#C9A96E]">${rate.price.toFixed(2)}</span>
+                    <span class="text-[rgba(245,240,232,0.3)] text-xs ml-1 font-['Josefin_Sans']">{rate.unit}</span>
+                  </div>
+                </li>
+              ))}
+            </ul>
+          </div>
+          <div>
+            <span class="eyebrow mb-7">Instrumentals &amp; Beats</span>
+            <ul class="space-y-0">
+              {pricingData.instrumentals.map((inst) => (
+                <li class="flex items-baseline justify-between py-4 border-b border-[rgba(201,169,110,0.1)]">
+                  <span class="text-[rgba(245,240,232,0.6)] text-sm tracking-wide font-['Josefin_Sans']">{inst.name}</span>
+                  <span class="font-['Cormorant_Garamond'] font-light text-2xl text-[#C9A96E]">${inst.price.toFixed(2)}</span>
+                </li>
+              ))}
+            </ul>
+            <p class="text-[rgba(245,240,232,0.3)] text-xs tracking-wide mt-5 font-['Josefin_Sans'] italic">
+              Exclusive rights pricing negotiable
+            </p>
+          </div>
+        </div>
+
+        <!-- Custom quote card -->
+        <div class="mt-20 text-center border border-[rgba(201,169,110,0.18)] py-14 px-10 reveal reveal-delay-3">
+          <p
+            class="font-['Cormorant_Garamond'] font-light italic text-[rgba(237,229,208,0.65)] mb-8"
+            style="font-size:clamp(1.1rem,2vw,1.45rem);line-height:1.65;"
+          >
+            Working on an EP, album, or a larger project?<br/>Get a personalised quote.
+          </p>
+          <a href="#book-session" class="btn-crimson">Request a Custom Quote</a>
+        </div>
+
+        <!-- Guarantee (small, no box) -->
+        <div class="mt-10 flex justify-center reveal reveal-delay-4">
+          <div class="flex items-center gap-3">
+            <span class="font-['Cormorant_Garamond'] font-light text-3xl text-[#C9A96E] leading-none">100%</span>
+            <span class="eyebrow" style="font-size:0.58rem;letter-spacing:0.3em;">Satisfaction Guaranteed</span>
+          </div>
+        </div>
+
+      </div>
+      <div class="gold-rule"></div>
+    </section>
+
+    <!-- ══ BOOKING ════════════════════════════════════════════════════ -->
+    <section id="book-session" class="section-py section-px" style="background:#09090b;">
+      <div class="gold-rule"></div>
+      <div class="max-w-6xl mx-auto py-20 md:py-28">
+        <div class="reveal mb-12 text-center">
+          <span class="eyebrow mb-5">Reserve Your Time</span>
+          <h2
+            class="font-['Cormorant_Garamond'] font-light text-[#F5F0E8] mb-4"
+            style="font-size:clamp(2.5rem,6vw,5rem);"
+          >
+            Book a Session
+          </h2>
+          <p class="text-[rgba(245,240,232,0.4)] text-xs tracking-[0.3em] uppercase font-['Josefin_Sans']">
+            Select your date and time below
+          </p>
+        </div>
+
+        <div class="reveal reveal-delay-1 flex flex-wrap justify-center gap-8 mb-12">
+          <a href="mailto:noam@miko-recordingstudio.ca?subject=Studio%20session%20booking%20request"
+             class="group flex flex-col items-center gap-1">
+            <span class="eyebrow group-hover:text-[#E8C98A] transition-colors">Email</span>
+            <span class="text-[rgba(245,240,232,0.55)] text-sm font-['Josefin_Sans'] group-hover:text-[#F5F0E8] transition-colors">
+              noam@miko-recordingstudio.ca
+            </span>
+          </a>
+          <div class="w-px h-10 self-center bg-[rgba(201,169,110,0.2)]"></div>
+          <a href="tel:+12266062452" class="group flex flex-col items-center gap-1">
+            <span class="eyebrow group-hover:text-[#E8C98A] transition-colors">Call</span>
+            <span class="text-[rgba(245,240,232,0.55)] text-sm font-['Josefin_Sans'] group-hover:text-[#F5F0E8] transition-colors">
+              (226) 606-2452
+            </span>
+          </a>
+        </div>
+
+        <div class="reveal reveal-delay-2 border border-[rgba(201,169,110,0.15)] overflow-hidden">
+          <div class="bg-white overflow-hidden">
+            <iframe
+              src="https://calendar.google.com/calendar/appointments/schedules/AcZssZ0-Md8E3JHXqoEt4gYrOiezfBut-2jaVMB3MN66uZHvpMg9BptlFWqEdmfnZXdmuPplJH1Ww-Kl?gv=true"
+              style="border:0;display:block;"
+              width="100%"
+              height="620"
+              frameborder="0"
+              title="Book a recording session"
+            ></iframe>
+          </div>
+        </div>
+      </div>
+      <div class="gold-rule"></div>
+    </section>
+
+  </main>
+
+  <Footer />
+</Layout>
+
+<script>
+  // Spring Sale countdown for prices page — targets July 1
+  (function() {
+    const days  = document.getElementById('pb-cd-days');
+    const hours = document.getElementById('pb-cd-hours');
+    const mins  = document.getElementById('pb-cd-mins');
+    const secs  = document.getElementById('pb-cd-secs');
+    if (!days || !hours || !mins || !secs) return;
+
+    const now = new Date();
+    let end = new Date(now.getFullYear(), 6, 1, 0, 0, 0);
+    if (now >= end) end = new Date(now.getFullYear() + 1, 6, 1, 0, 0, 0);
+
+    function pad(n: number) { return String(n).padStart(2, '0'); }
+    function tick() {
+      const diff = end.getTime() - Date.now();
+      if (diff <= 0) {
+        days.textContent = hours.textContent = mins.textContent = secs.textContent = '00';
+        return;
+      }
+      days.textContent  = pad(Math.floor(diff / 86400000));
+      hours.textContent = pad(Math.floor((diff % 86400000) / 3600000));
+      mins.textContent  = pad(Math.floor((diff % 3600000) / 60000));
+      secs.textContent  = pad(Math.floor((diff % 60000) / 1000));
+    }
+    tick();
+    setInterval(tick, 1000);
+  })();
+</script>

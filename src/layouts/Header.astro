@@ -68,10 +68,10 @@ const menuItems = [
       if (!navbar) return;
       const scrolled = window.scrollY > 60;
       if (scrolled) {
-        navbar.classList.add("bg-[rgba(8,8,8,0.92)]", "backdrop-blur-md", "shadow-[0_1px_0_rgba(201,169,110,0.12)]");
+        navbar.classList.add("nav-scrolled", "bg-[rgba(8,8,8,0.92)]", "backdrop-blur-md", "shadow-[0_1px_0_rgba(201,169,110,0.12)]");
         navbar.classList.remove("bg-transparent");
       } else {
-        navbar.classList.remove("bg-[rgba(8,8,8,0.92)]", "backdrop-blur-md", "shadow-[0_1px_0_rgba(201,169,110,0.12)]");
+        navbar.classList.remove("nav-scrolled", "bg-[rgba(8,8,8,0.92)]", "backdrop-blur-md", "shadow-[0_1px_0_rgba(201,169,110,0.12)]");
         navbar.classList.add("bg-transparent");
       }
     }

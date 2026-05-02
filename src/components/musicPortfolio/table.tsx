@@ -8,12 +8,10 @@ import {
   TableRow,
 } from "@/components/ui/table"
 
-import { Badge } from "@/components/ui/badge";
-
 import { Play, ArrowUpAZ, ArrowDownAZ } from "lucide-react"
 import { playing } from "./utils.ts";
 
-import { Input } from "@/components/ui/input"
+import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 
 interface Props {
@@ -59,23 +57,37 @@ export function Table({ songs }: Props) {
 
   const columns = useMemo<ColumnDef<Song>[]>(
     () => [
+      // ── Track number ──────────────────────────────────────────────
+      {
+        id: 'num',
+        header: '#',
+        cell: ({ row }) => (
+          <span className="portfolio-track-num">
+            {String(row.index + 1).padStart(2, '0')}
+          </span>
+        ),
+        enableSorting: false,
+      },
       {
         accessorKey: 'title',
         header: 'Title',
+        cell: ({ row }) => (
+          <span className="portfolio-title-cell">{row.original.title}</span>
+        ),
       },
       {
         accessorKey: 'client',
-        header: 'Client',
+        header: 'Artist',
       },
       {
         accessorKey: 'work',
-        header: 'Work',
+        header: 'Services',
         cell: ({ row }) => {
           const { work } = row.original;
           return (
-            <div className="flex items-center justify-start gap-2">
-              {work.toSorted().map((work, index) => (
-                <Badge key={index} variant="outline">{work}</Badge>
+            <div className="flex items-center justify-start gap-1.5 flex-wrap">
+              {work.toSorted().map((w, index) => (
+                <span key={index} className="portfolio-work-tag">{w}</span>
               ))}
             </div>
           );
@@ -85,32 +97,22 @@ export function Table({ songs }: Props) {
         getUniqueValues: (table) => table.work
       },
       {
-        accessorKey: 'languages',
-        header: 'Language',
-        cell: ({ row }) => {
-          const { languages } = row.original;
-          return (
-            <span>
-              {languages.join(", ")}
-            </span>
-          );
-        },
-        filterFn: arrayIncludesFilterFn,
-        getUniqueValues: (table) => table.languages
-      },
-      {
         accessorKey: 'genres',
         header: 'Genre',
-        cell: ({ row }) => {
-          const { genres } = row.original;
-          return (
-            <span>
-              {genres.join(", ")}
-            </span>
-          );
-        },
+        cell: ({ row }) => (
+          <span>{row.original.genres.join(", ")}</span>
+        ),
         filterFn: arrayIncludesFilterFn,
         getUniqueValues: (table) => table.genres
+      },
+      {
+        accessorKey: 'languages',
+        header: 'Lang',
+        cell: ({ row }) => (
+          <span>{row.original.languages.join(", ")}</span>
+        ),
+        filterFn: arrayIncludesFilterFn,
+        getUniqueValues: (table) => table.languages
       },
     ],
     []

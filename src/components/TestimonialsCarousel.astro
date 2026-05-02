@@ -1,0 +1,288 @@
+---
+/**
+ * TestimonialsCarousel — reusable 3-column testimonials component.
+ *
+ * Each column shows one card at a time. Up/down chevrons let visitors
+ * navigate manually. Auto-advance is staggered:
+ *   col 0 → 5 s, col 1 → 10 s, col 2 → 15 s, then each loops every 15 s.
+ */
+
+interface Review {
+  name: string;
+  text: string;
+  image?: string;
+  rating?: number;
+}
+
+interface Props {
+  reviews: Review[];
+}
+
+const { reviews } = Astro.props;
+
+// Distribute reviews round-robin across 3 columns
+const columns = [
+  reviews.filter((_, i) => i % 3 === 0),
+  reviews.filter((_, i) => i % 3 === 1),
+  reviews.filter((_, i) => i % 3 === 2),
+];
+---
+
+<div class="tsc-grid">
+  {columns.map((colRevs, ci) => (
+    <div class="tsc-col" id={`tsc-col-${ci}`} data-current="0">
+
+      <!-- Up chevron -->
+      <button class="tsc-chevron tsc-chevron-top" id={`tsc-prev-${ci}`} aria-label="Previous review">
+        <svg viewBox="0 0 24 24" width="16" height="16" fill="none"
+             stroke="currentColor" stroke-width="1.8"
+             stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="18 15 12 9 6 15"/>
+        </svg>
+      </button>
+
+      <!-- Stacked-card viewport (all cards occupy same grid cell) -->
+      <div class="tsc-viewport">
+        {colRevs.map((r, i) => (
+          <div class={`tsc-card${i === 0 ? ' tsc-active' : ''}`} data-idx={String(i)}>
+            <div class="tsc-stars">
+              {Array(5).fill(null).map(() => <span class="tsc-star" />)}
+            </div>
+            <p class="tsc-quote">"{r.text}"</p>
+            <div class="tsc-author">
+              {r.image
+                ? <img src={r.image} alt={r.name} class="tsc-avatar-img" loading="lazy" />
+                : <div class="tsc-avatar-init">{r.name.charAt(0).toUpperCase()}</div>
+              }
+              <div class="tsc-author-info">
+                <div class="tsc-name">{r.name}</div>
+                <div class="tsc-meta">Google Review</div>
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+
+      <!-- Down chevron -->
+      <button class="tsc-chevron tsc-chevron-bot" id={`tsc-next-${ci}`} aria-label="Next review">
+        <svg viewBox="0 0 24 24" width="16" height="16" fill="none"
+             stroke="currentColor" stroke-width="1.8"
+             stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="6 9 12 15 18 9"/>
+        </svg>
+      </button>
+
+    </div>
+  ))}
+</div>
+
+<!-- ─── Styles (global so JS-toggled classes work) ─────────────────── -->
+<style is:global>
+  .tsc-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2px;
+    margin-top: 64px;
+  }
+
+  .tsc-col {
+    background: #0d0b08;
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* ── Chevron buttons ── */
+  .tsc-chevron {
+    width: 100%;
+    padding: 16px 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: transparent;
+    border: none;
+    color: rgba(201,169,110,0.28);
+    cursor: pointer;
+    transition: color 0.2s ease, background 0.2s ease;
+    flex-shrink: 0;
+  }
+  .tsc-chevron-top { border-bottom: 1px solid rgba(201,169,110,0.08); }
+  .tsc-chevron-bot { border-top:    1px solid rgba(201,169,110,0.08); }
+  .tsc-chevron:hover {
+    color: #C9A96E;
+    background: rgba(201,169,110,0.05);
+  }
+
+  /* ── Stacked card grid ── */
+  .tsc-viewport {
+    display: grid;
+    flex: 1;
+  }
+  .tsc-card {
+    grid-row: 1;
+    grid-column: 1;
+    padding: 40px 36px;
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+    background: linear-gradient(160deg, #0f0d09 0%, #080806 100%);
+    border-bottom: 1px solid rgba(201,169,110,0.06);
+    opacity: 0;
+    pointer-events: none;
+    /* no transition — animations handle movement */
+  }
+  .tsc-card.tsc-active {
+    opacity: 1;
+    pointer-events: auto;
+  }
+  .tsc-card.tsc-entering {
+    animation: tscSlideIn 0.62s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+  }
+  .tsc-card.tsc-exiting {
+    animation: tscSlideOut 0.38s ease-in forwards;
+    pointer-events: none;
+  }
+  @keyframes tscSlideIn {
+    from { opacity: 0; transform: translateY(22px); }
+    to   { opacity: 1; transform: translateY(0);    }
+  }
+  @keyframes tscSlideOut {
+    from { opacity: 1; transform: translateY(0);     }
+    to   { opacity: 0; transform: translateY(-16px); }
+  }
+
+  /* ── Card internals ── */
+  .tsc-stars { display: flex; gap: 3px; }
+  .tsc-star {
+    width: 11px; height: 11px;
+    display: inline-block;
+    background: #C9A96E;
+    clip-path: polygon(50% 0%,61% 35%,98% 35%,68% 57%,79% 91%,
+                       50% 70%,21% 91%,32% 57%, 2% 35%,39% 35%);
+    flex-shrink: 0;
+  }
+  .tsc-quote {
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 1.7;
+    color: rgba(237,229,208,0.9);
+    flex: 1;
+  }
+  .tsc-author { display: flex; align-items: center; gap: 14px; }
+  .tsc-avatar-img {
+    width: 40px; height: 40px;
+    border-radius: 50%;
+    border: 1px solid rgba(201,169,110,0.22);
+    object-fit: cover;
+    flex-shrink: 0;
+  }
+  .tsc-avatar-init {
+    width: 40px; height: 40px;
+    border-radius: 50%;
+    border: 1px solid rgba(201,169,110,0.22);
+    background: #0d0b08;
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 17px;
+    color: #C9A96E;
+    flex-shrink: 0;
+  }
+  .tsc-name {
+    font-family: 'Josefin Sans', sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    color: #ede5d0;
+    letter-spacing: 0.5px;
+    text-transform: capitalize;
+  }
+  .tsc-meta {
+    font-family: 'Josefin Sans', sans-serif;
+    font-size: 10px;
+    color: rgba(237,229,208,0.38);
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    margin-top: 2px;
+  }
+
+  @media (max-width: 900px) {
+    .tsc-grid { grid-template-columns: 1fr; }
+  }
+</style>
+
+<!-- ─── Interactivity ───────────────────────────────────────────────── -->
+<script>
+  (function () {
+    const NUM_COLS = 3;
+
+    function col(ci: number) {
+      return document.getElementById(`tsc-col-${ci}`);
+    }
+    function cards(ci: number): HTMLElement[] {
+      return Array.from(
+        document.querySelectorAll<HTMLElement>(`#tsc-col-${ci} .tsc-card`)
+      );
+    }
+    function currentIdx(ci: number): number {
+      return parseInt(col(ci)?.dataset.current ?? "0", 10);
+    }
+
+    function goTo(ci: number, next: number) {
+      const c = col(ci);
+      if (!c) return;
+      const all = cards(ci);
+      if (!all.length) return;
+      const total = all.length;
+      const safe  = ((next % total) + total) % total;
+      const cur   = currentIdx(ci);
+      if (safe === cur) return;
+
+      const curCard  = all[cur];
+      const nextCard = all[safe];
+
+      // Exit current
+      curCard.classList.remove("tsc-active", "tsc-entering");
+      curCard.classList.add("tsc-exiting");
+      const rmExit = () => curCard.classList.remove("tsc-exiting");
+      curCard.addEventListener("animationend", rmExit, { once: true });
+      setTimeout(rmExit, 450);
+
+      // Enter next
+      nextCard.classList.add("tsc-active", "tsc-entering");
+      const rmEnter = () => nextCard.classList.remove("tsc-entering");
+      nextCard.addEventListener("animationend", rmEnter, { once: true });
+      setTimeout(rmEnter, 700);
+
+      c.dataset.current = String(safe);
+    }
+
+    function advance(ci: number) {
+      goTo(ci, (currentIdx(ci) + 1) % Math.max(1, cards(ci).length));
+    }
+    function retreat(ci: number) {
+      const t = cards(ci).length;
+      goTo(ci, ((currentIdx(ci) - 1) + t) % Math.max(1, t));
+    }
+
+    // Manual chevron buttons
+    for (let ci = 0; ci < NUM_COLS; ci++) {
+      document.getElementById(`tsc-prev-${ci}`)
+        ?.addEventListener("click", () => retreat(ci));
+      document.getElementById(`tsc-next-${ci}`)
+        ?.addEventListener("click", () => advance(ci));
+    }
+
+    // Staggered auto-advance
+    // Col 0: fires at 5 s, then every 15 s
+    // Col 1: fires at 10 s, then every 15 s
+    // Col 2: fires at 15 s, then every 15 s
+    function startLoop(ci: number, delay: number) {
+      setTimeout(function tick() {
+        advance(ci);
+        setTimeout(tick, 15_000);
+      }, delay);
+    }
+    startLoop(0,  5_000);
+    startLoop(1, 10_000);
+    startLoop(2, 15_000);
+  })();
+</script>

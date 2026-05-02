@@ -48,13 +48,14 @@ const rightItems = menuItems.slice(3, 6);
     </nav>
   </div>
 
-  <!-- ── CENTER: Logo ───────────────────────────────────────────── -->
+  <!-- ── CENTER: Logo (hidden at page-top, slides in when navbar is solid) -->
   <div class="absolute left-1/2 -translate-x-1/2 flex-shrink-0">
     <a href="/" aria-label="Miko Recording Studio – Home" class="block">
       <Image
+        id="navbar-logo-img"
         src={mikoLogo}
         alt="Miko Recording Studio"
-        class="h-11 w-auto object-contain"
+        class="h-12 w-auto object-contain"
         loading="eager"
       />
     </a>
