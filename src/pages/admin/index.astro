@@ -8,10 +8,7 @@
  * sales data is live via Convex.
  */
 import Layout from "@/layouts/Layout.astro";
-import { AdminDashboard } from "@/components/admin/AdminDashboard.tsx";
-import { withConvexProvider } from "@/lib/convex.tsx";
-
-const AdminWithConvex = withConvexProvider(AdminDashboard, "auth");
+import AdminWithConvex from "@/components/admin/AdminWithConvex.tsx";
 ---
 
 <Layout title="Admin" description="Miko Recording Studio admin dashboard">
