@@ -23,12 +23,12 @@ import pricingData from "@/data/pricing.json";
         <!-- Header — no "Investment" eyebrow -->
         <div class="text-center mb-10 reveal">
           <h1
-            class="font-['Cormorant_Garamond'] font-light text-[#F5F0E8] mb-4"
+            class="font-['Playfair_Display'] font-light text-[#ede5d0] mb-4"
             style="font-size:clamp(2.4rem,5vw,4.5rem);line-height:1.05;"
           >
             Prices &amp; <em style="font-style:italic;color:#940404;">Bundles</em>
           </h1>
-          <p class="text-[rgba(245,240,232,0.4)] text-xs tracking-[0.25em] uppercase font-['Josefin_Sans'] max-w-sm mx-auto leading-relaxed">
+          <p class="text-[rgba(245,240,232,0.4)] text-xs tracking-[0.25em] uppercase font-['Josefin_Sans'] whitespace-nowrap">
             Every package includes unlimited revisions &amp; a 100% satisfaction guarantee
           </p>
         </div>
@@ -36,30 +36,23 @@ import pricingData from "@/data/pricing.json";
         <!-- Spring Sale display text -->
         <div class="text-center reveal mb-4">
           <span
-            class="font-['Cormorant_Garamond'] font-light uppercase text-[#C9A96E] block"
+            class="font-['Playfair_Display'] font-light uppercase text-[#C9A96E] block"
             style="font-size:clamp(3rem,8vw,7rem);line-height:1;letter-spacing:0.06em;"
           >
             Spring Sale
           </span>
         </div>
 
-        <!-- Spring Sale countdown — always visible, counts to July 1 -->
-        <div class="pricing-countdown-wrap reveal mb-10">
-          <div style="display:flex;align-items:center;gap:20px;flex-wrap:wrap;">
-            <span class="cd-sale-badge">Spring Sale</span>
-            <span class="cd-sale-off">up to 35% off</span>
-          </div>
-          <div style="display:flex;gap:16px;align-items:center;flex-wrap:wrap;">
-            <div style="display:flex;gap:12px;align-items:center;">
-              <div class="cd-unit"><span class="cd-num" id="pb-cd-days">00</span><span class="cd-label">Days</span></div>
-              <span class="cd-sep">:</span>
-              <div class="cd-unit"><span class="cd-num" id="pb-cd-hours">00</span><span class="cd-label">Hrs</span></div>
-              <span class="cd-sep">:</span>
-              <div class="cd-unit"><span class="cd-num" id="pb-cd-mins">00</span><span class="cd-label">Min</span></div>
-              <span class="cd-sep">:</span>
-              <div class="cd-unit"><span class="cd-num" id="pb-cd-secs">00</span><span class="cd-label">Sec</span></div>
-            </div>
-            <a href="#book-session" class="btn-crimson" style="font-size:0.55rem;padding:0.7rem 1.5rem;">Claim Now</a>
+        <!-- Spring Sale countdown — centered digits only -->
+        <div class="text-center reveal mb-10">
+          <div style="display:inline-flex;gap:12px;align-items:center;">
+            <div class="cd-unit"><span class="cd-num" id="pb-cd-days">00</span><span class="cd-label">Days</span></div>
+            <span class="cd-sep">:</span>
+            <div class="cd-unit"><span class="cd-num" id="pb-cd-hours">00</span><span class="cd-label">Hrs</span></div>
+            <span class="cd-sep">:</span>
+            <div class="cd-unit"><span class="cd-num" id="pb-cd-mins">00</span><span class="cd-label">Min</span></div>
+            <span class="cd-sep">:</span>
+            <div class="cd-unit"><span class="cd-num" id="pb-cd-secs">00</span><span class="cd-label">Sec</span></div>
           </div>
         </div>
 
@@ -75,7 +68,7 @@ import pricingData from "@/data/pricing.json";
               </p>
             </div>
             <div style="border-left:2px solid #C9A96E;padding-left:20px;">
-              <p class="font-['Cormorant_Garamond'] italic text-[#ede5d0]" style="font-size:17px;line-height:1.6;">
+              <p class="font-['Playfair_Display'] italic text-[#ede5d0]" style="font-size:17px;line-height:1.6;">
                 "Come check out the studio and experience what I do best. I'm confident you'll be back."
               </p>
             </div>
@@ -84,7 +77,7 @@ import pricingData from "@/data/pricing.json";
             <div class="free-trial-scarcity">
               <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;">
                 <span class="font-['Josefin_Sans'] text-[#C9A96E]" style="font-size:10px;font-weight:600;letter-spacing:2px;text-transform:uppercase;">Spots This Week</span>
-                <span class="font-['Cormorant_Garamond'] text-[#ede5d0]" style="font-size:22px;">3 / 5 left</span>
+                <span class="font-['Playfair_Display'] text-[#ede5d0]" style="font-size:22px;">3 / 5 left</span>
               </div>
               <div style="background:rgba(255,255,255,0.08);height:3px;width:100%;border-radius:2px;overflow:hidden;">
                 <div style="height:100%;background:#C9A96E;width:40%;border-radius:2px;"></div>
@@ -118,7 +111,7 @@ import pricingData from "@/data/pricing.json";
                 <li class="flex items-baseline justify-between py-4 border-b border-[rgba(201,169,110,0.1)]">
                   <span class="text-[rgba(245,240,232,0.6)] text-sm tracking-wide font-['Josefin_Sans']">{rate.name}</span>
                   <div class="text-right">
-                    <span class="font-['Cormorant_Garamond'] font-light text-2xl text-[#C9A96E]">${rate.price.toFixed(2)}</span>
+                    <span class="font-['Playfair_Display'] font-light text-2xl text-[#C9A96E]">${rate.price.toFixed(2)}</span>
                     <span class="text-[rgba(245,240,232,0.3)] text-xs ml-1 font-['Josefin_Sans']">{rate.unit}</span>
                   </div>
                 </li>
@@ -131,7 +124,7 @@ import pricingData from "@/data/pricing.json";
               {pricingData.instrumentals.map((inst) => (
                 <li class="flex items-baseline justify-between py-4 border-b border-[rgba(201,169,110,0.1)]">
                   <span class="text-[rgba(245,240,232,0.6)] text-sm tracking-wide font-['Josefin_Sans']">{inst.name}</span>
-                  <span class="font-['Cormorant_Garamond'] font-light text-2xl text-[#C9A96E]">${inst.price.toFixed(2)}</span>
+                  <span class="font-['Playfair_Display'] font-light text-2xl text-[#C9A96E]">${inst.price.toFixed(2)}</span>
                 </li>
               ))}
             </ul>
@@ -144,7 +137,7 @@ import pricingData from "@/data/pricing.json";
         <!-- Custom quote card -->
         <div class="mt-20 text-center border border-[rgba(201,169,110,0.18)] py-14 px-10 reveal reveal-delay-3">
           <p
-            class="font-['Cormorant_Garamond'] font-light italic text-[rgba(237,229,208,0.65)] mb-8"
+            class="font-['Playfair_Display'] font-light italic text-[rgba(237,229,208,0.65)] mb-8"
             style="font-size:clamp(1.1rem,2vw,1.45rem);line-height:1.65;"
           >
             Working on an EP, album, or a larger project?<br/>Get a personalised quote.
@@ -155,7 +148,7 @@ import pricingData from "@/data/pricing.json";
         <!-- Guarantee (small, no box) -->
         <div class="mt-10 flex justify-center reveal reveal-delay-4">
           <div class="flex items-center gap-3">
-            <span class="font-['Cormorant_Garamond'] font-light text-3xl text-[#C9A96E] leading-none">100%</span>
+            <span class="font-['Playfair_Display'] font-light text-3xl text-[#C9A96E] leading-none">100%</span>
             <span class="eyebrow" style="font-size:0.58rem;letter-spacing:0.3em;">Satisfaction Guaranteed</span>
           </div>
         </div>
@@ -171,7 +164,7 @@ import pricingData from "@/data/pricing.json";
         <div class="reveal mb-12 text-center">
           <span class="eyebrow mb-5">Reserve Your Time</span>
           <h2
-            class="font-['Cormorant_Garamond'] font-light text-[#F5F0E8] mb-4"
+            class="font-['Playfair_Display'] font-light text-[#ede5d0] mb-4"
             style="font-size:clamp(2.5rem,6vw,5rem);"
           >
             Book a Session
@@ -185,14 +178,14 @@ import pricingData from "@/data/pricing.json";
           <a href="mailto:noam@miko-recordingstudio.ca?subject=Studio%20session%20booking%20request"
              class="group flex flex-col items-center gap-1">
             <span class="eyebrow group-hover:text-[#E8C98A] transition-colors">Email</span>
-            <span class="text-[rgba(245,240,232,0.55)] text-sm font-['Josefin_Sans'] group-hover:text-[#F5F0E8] transition-colors">
+            <span class="text-[rgba(245,240,232,0.55)] text-sm font-['Josefin_Sans'] group-hover:text-[#ede5d0] transition-colors">
               noam@miko-recordingstudio.ca
             </span>
           </a>
           <div class="w-px h-10 self-center bg-[rgba(201,169,110,0.2)]"></div>
           <a href="tel:+12266062452" class="group flex flex-col items-center gap-1">
             <span class="eyebrow group-hover:text-[#E8C98A] transition-colors">Call</span>
-            <span class="text-[rgba(245,240,232,0.55)] text-sm font-['Josefin_Sans'] group-hover:text-[#F5F0E8] transition-colors">
+            <span class="text-[rgba(245,240,232,0.55)] text-sm font-['Josefin_Sans'] group-hover:text-[#ede5d0] transition-colors">
               (226) 606-2452
             </span>
           </a>

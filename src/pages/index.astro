@@ -128,7 +128,7 @@ const { Content: AboutContent } = aboutEntry
 
         <!-- Headline -->
         <h1
-          class="font-['Cormorant_Garamond'] font-light text-[#F5F0E8] tracking-wide mb-4
+          class="font-['Playfair_Display'] font-light text-[#ede5d0] tracking-wide mb-4
                  reveal reveal-delay-1"
           style="font-size: clamp(2.8rem, 8vw, 6.5rem); line-height: 1.0; text-shadow: 0 0 80px rgba(139,26,26,0.28), 0 2px 40px rgba(0,0,0,0.85), 0 4px 60px rgba(0,0,0,0.5)"
         >
@@ -170,11 +170,11 @@ const { Content: AboutContent } = aboutEntry
 
       <div class="max-w-[720px] mx-auto py-24 md:py-32 text-center">
         <div class="reveal">
-          <span class="eyebrow mb-5 block" style="text-align:center;letter-spacing:0.42em;">
+          <span class="eyebrow mb-5 block" style="text-align:center;letter-spacing:0.42em;font-size:0.975rem;">
             Miko Recording Studio
           </span>
           <h2
-            class="font-['Cormorant_Garamond'] font-light text-[#F5F0E8]"
+            class="font-['Playfair_Display'] font-light text-[#ede5d0]"
             style="font-size:clamp(2.4rem,5.5vw,5rem);line-height:1.05;margin-bottom:24px;"
           >
             Where Your Sound<br/><em style="font-style:italic;color:#940404;">Comes to Life</em>
@@ -238,9 +238,8 @@ const { Content: AboutContent } = aboutEntry
     <section id="gallery" style="background:#0d0b08; padding: 0;">
       <!-- Header -->
       <div class="max-w-6xl mx-auto px-6 pt-20 pb-10 reveal">
-        <span class="eyebrow mb-4">The Studio</span>
         <h2
-          class="font-['Cormorant_Garamond'] font-light text-[#F5F0E8]"
+          class="font-['Playfair_Display'] font-light text-[#ede5d0]"
           style="font-size: clamp(2rem, 4vw, 3.5rem)"
         >
           Inside <em style="font-style:italic;color:#940404;">the Studio</em>
@@ -335,9 +334,9 @@ const { Content: AboutContent } = aboutEntry
 
       <div class="max-w-6xl mx-auto pt-20 pb-8">
         <div class="reveal">
-          <span class="eyebrow mb-5">Client Stories</span>
+          <span class="eyebrow mb-5" style="font-size:0.975rem;">Client Stories</span>
           <h2
-            class="font-['Cormorant_Garamond'] font-light text-[#F5F0E8]"
+            class="font-['Playfair_Display'] font-light text-[#ede5d0]"
             style="font-size: clamp(2rem, 4vw, 3.5rem)"
           >
             What Artists <em style="font-style:italic;color:#940404;">Say</em>
@@ -363,9 +362,9 @@ const { Content: AboutContent } = aboutEntry
     <section id="portfolio" class="section-py section-px">
       <div class="max-w-6xl mx-auto">
         <div class="reveal mb-14">
-          <span class="eyebrow mb-5">Selected Works</span>
+          <span class="eyebrow mb-5" style="font-size:0.975rem;">Selected Works</span>
           <h2
-            class="font-['Cormorant_Garamond'] font-light text-[#F5F0E8]"
+            class="font-['Playfair_Display'] font-light text-[#ede5d0]"
             style="font-size: clamp(2rem, 4vw, 3.5rem)"
           >
             Portfolio
@@ -391,7 +390,7 @@ const { Content: AboutContent } = aboutEntry
         <!-- Header -->
         <div class="reveal mb-10 text-center">
           <h2
-            class="font-['Cormorant_Garamond'] font-light text-[#F5F0E8] mb-4"
+            class="font-['Playfair_Display'] font-light text-[#ede5d0] mb-4"
             style="font-size: clamp(2rem, 4vw, 3.5rem)"
           >
             Prices & Bundles
@@ -404,30 +403,23 @@ const { Content: AboutContent } = aboutEntry
         <!-- Spring Sale display text -->
         <div class="text-center reveal mb-4">
           <span
-            class="font-['Cormorant_Garamond'] font-light uppercase text-[#C9A96E] block"
+            class="font-['Playfair_Display'] font-light uppercase text-[#C9A96E] block"
             style="font-size:clamp(3rem,8vw,7rem);line-height:1;letter-spacing:0.06em;"
           >
             Spring Sale
           </span>
         </div>
 
-        <!-- Spring Sale Countdown Banner — always visible, counts to July 1 -->
-        <div class="pricing-countdown-wrap reveal mb-10">
-          <div style="display:flex;align-items:center;gap:20px;flex-wrap:wrap;">
-            <span class="cd-sale-badge">Spring Sale</span>
-            <span class="cd-sale-off">up to 35% off</span>
-          </div>
-          <div style="display:flex;gap:16px;align-items:center;flex-wrap:wrap;">
-            <div style="display:flex;gap:12px;align-items:center;">
-              <div class="cd-unit"><span class="cd-num" id="cd-days">00</span><span class="cd-label">Days</span></div>
-              <span class="cd-sep">:</span>
-              <div class="cd-unit"><span class="cd-num" id="cd-hours">00</span><span class="cd-label">Hrs</span></div>
-              <span class="cd-sep">:</span>
-              <div class="cd-unit"><span class="cd-num" id="cd-mins">00</span><span class="cd-label">Min</span></div>
-              <span class="cd-sep">:</span>
-              <div class="cd-unit"><span class="cd-num" id="cd-secs">00</span><span class="cd-label">Sec</span></div>
-            </div>
-            <a href="#book-session" class="btn-crimson" style="font-size:0.55rem;padding:0.7rem 1.5rem;">Claim Now</a>
+        <!-- Spring Sale countdown — just the digits, centered under the display text -->
+        <div class="text-center reveal mb-10">
+          <div style="display:inline-flex;gap:12px;align-items:center;">
+            <div class="cd-unit"><span class="cd-num" id="cd-days">00</span><span class="cd-label">Days</span></div>
+            <span class="cd-sep">:</span>
+            <div class="cd-unit"><span class="cd-num" id="cd-hours">00</span><span class="cd-label">Hrs</span></div>
+            <span class="cd-sep">:</span>
+            <div class="cd-unit"><span class="cd-num" id="cd-mins">00</span><span class="cd-label">Min</span></div>
+            <span class="cd-sep">:</span>
+            <div class="cd-unit"><span class="cd-num" id="cd-secs">00</span><span class="cd-label">Sec</span></div>
           </div>
         </div>
 
@@ -444,7 +436,7 @@ const { Content: AboutContent } = aboutEntry
               </p>
             </div>
             <div style="border-left:2px solid #C9A96E;padding-left:20px;">
-              <p class="font-['Cormorant_Garamond'] italic text-[#ede5d0]" style="font-size:17px;line-height:1.6;">
+              <p class="font-['Playfair_Display'] italic text-[#ede5d0]" style="font-size:17px;line-height:1.6;">
                 "Come check out the studio and experience what I do best. I'm confident you'll be back."
               </p>
             </div>
@@ -454,7 +446,7 @@ const { Content: AboutContent } = aboutEntry
             <div class="free-trial-scarcity">
               <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;">
                 <span class="font-['Josefin_Sans'] text-[#C9A96E]" style="font-size:10px;font-weight:600;letter-spacing:2px;text-transform:uppercase;">Spots This Week</span>
-                <span class="font-['Cormorant_Garamond'] text-[#ede5d0]" style="font-size:22px;">3 / 5 left</span>
+                <span class="font-['Playfair_Display'] text-[#ede5d0]" style="font-size:22px;">3 / 5 left</span>
               </div>
               <div style="background:rgba(255,255,255,0.08);height:3px;width:100%;border-radius:2px;overflow:hidden;">
                 <div style="height:100%;background:#C9A96E;width:40%;border-radius:2px;"></div>
@@ -499,7 +491,7 @@ const { Content: AboutContent } = aboutEntry
                       {rate.name}
                     </span>
                     <div class="text-right">
-                      <span class="font-['Cormorant_Garamond'] font-light text-2xl text-[#C9A96E]">
+                      <span class="font-['Playfair_Display'] font-light text-2xl text-[#C9A96E]">
                         ${rate.price.toFixed(2)}
                       </span>
                       <span class="text-[rgba(245,240,232,0.3)] text-xs ml-1 font-['Josefin_Sans']">
@@ -521,7 +513,7 @@ const { Content: AboutContent } = aboutEntry
                     <span class="text-[rgba(245,240,232,0.6)] text-sm tracking-wide font-['Josefin_Sans']">
                       {inst.name}
                     </span>
-                    <span class="font-['Cormorant_Garamond'] font-light text-2xl text-[#C9A96E]">
+                    <span class="font-['Playfair_Display'] font-light text-2xl text-[#C9A96E]">
                       ${inst.price.toFixed(2)}
                     </span>
                   </li>
@@ -537,7 +529,7 @@ const { Content: AboutContent } = aboutEntry
         <!-- Custom Quote card -->
         <div class="mt-20 text-center border border-[rgba(201,169,110,0.18)] py-14 px-10 reveal reveal-delay-3">
           <p
-            class="font-['Cormorant_Garamond'] font-light italic text-[rgba(237,229,208,0.65)] mb-8"
+            class="font-['Playfair_Display'] font-light italic text-[rgba(237,229,208,0.65)] mb-8"
             style="font-size:clamp(1.1rem,2vw,1.45rem);line-height:1.65;"
           >
             Working on an EP, album, or a larger project?<br/>Get a personalised quote.
@@ -548,7 +540,7 @@ const { Content: AboutContent } = aboutEntry
         <!-- Guarantee (smaller, no box) -->
         <div class="mt-10 flex justify-center reveal reveal-delay-4">
           <div class="flex items-center gap-3">
-            <span class="font-['Cormorant_Garamond'] font-light text-3xl text-[#C9A96E] leading-none">100%</span>
+            <span class="font-['Playfair_Display'] font-light text-3xl text-[#C9A96E] leading-none">100%</span>
             <span class="eyebrow" style="font-size:0.58rem;letter-spacing:0.3em;">Satisfaction Guaranteed</span>
           </div>
         </div>
@@ -565,7 +557,7 @@ const { Content: AboutContent } = aboutEntry
         <div class="reveal mb-16">
           <span class="eyebrow mb-5">Help</span>
           <h2
-            class="font-['Cormorant_Garamond'] font-light text-[#F5F0E8]"
+            class="font-['Playfair_Display'] font-light text-[#ede5d0]"
             style="font-size: clamp(2rem, 4vw, 3.5rem)"
           >
             Frequently Asked Questions
@@ -599,7 +591,7 @@ const { Content: AboutContent } = aboutEntry
         <div class="reveal mb-16 text-center">
           <span class="eyebrow mb-5">Get in Touch</span>
           <h2
-            class="font-['Cormorant_Garamond'] font-light text-[#F5F0E8]"
+            class="font-['Playfair_Display'] font-light text-[#ede5d0]"
             style="font-size: clamp(2rem, 4vw, 3.5rem)"
           >
             Contact
@@ -644,7 +636,7 @@ const { Content: AboutContent } = aboutEntry
         <div class="reveal mb-12">
           <span class="eyebrow mb-5">Find Us</span>
           <h2
-            class="font-['Cormorant_Garamond'] font-light text-[#F5F0E8]"
+            class="font-['Playfair_Display'] font-light text-[#ede5d0]"
             style="font-size: clamp(2rem, 4vw, 3.5rem)"
           >
             Location
@@ -690,7 +682,7 @@ const { Content: AboutContent } = aboutEntry
         <div class="reveal mb-12 text-center">
           <span class="eyebrow mb-5">Reserve Your Time</span>
           <h2
-            class="font-['Cormorant_Garamond'] font-light text-[#F5F0E8] mb-4"
+            class="font-['Playfair_Display'] font-light text-[#ede5d0] mb-4"
             style="font-size: clamp(2.5rem, 6vw, 5rem)"
           >
             Book a Session
@@ -707,14 +699,14 @@ const { Content: AboutContent } = aboutEntry
             class="group flex flex-col items-center gap-1"
           >
             <span class="eyebrow group-hover:text-[#E8C98A] transition-colors">Email</span>
-            <span class="text-[rgba(245,240,232,0.55)] text-sm font-['Josefin_Sans'] group-hover:text-[#F5F0E8] transition-colors">
+            <span class="text-[rgba(245,240,232,0.55)] text-sm font-['Josefin_Sans'] group-hover:text-[#ede5d0] transition-colors">
               noam@miko-recordingstudio.ca
             </span>
           </a>
           <div class="w-px h-10 self-center bg-[rgba(201,169,110,0.2)]"></div>
           <a href="tel:+12266062452" class="group flex flex-col items-center gap-1">
             <span class="eyebrow group-hover:text-[#E8C98A] transition-colors">Call</span>
-            <span class="text-[rgba(245,240,232,0.55)] text-sm font-['Josefin_Sans'] group-hover:text-[#F5F0E8] transition-colors">
+            <span class="text-[rgba(245,240,232,0.55)] text-sm font-['Josefin_Sans'] group-hover:text-[#ede5d0] transition-colors">
               (226) 606-2452
             </span>
           </a>

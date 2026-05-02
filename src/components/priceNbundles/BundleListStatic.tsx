@@ -48,7 +48,7 @@ interface PricingData {
 function formatInclude(text: string): string {
   text = sanitizeHtml(text, { allowedTags: [] });
   text = text.replaceAll(/__([^_\n]+?)__/g, '<span class="text-[#C9A96E] underline underline-offset-2">$1</span>');
-  text = text.replaceAll(/\*\*([^*\n]+?)\*\*/g, '<span class="font-medium text-[#F5F0E8]">$1</span>');
+  text = text.replaceAll(/\*\*([^*\n]+?)\*\*/g, '<span class="font-medium text-[#ede5d0]">$1</span>');
   text = text.replaceAll(/\*([^*\n]+?)\*/g, '<span class="text-[rgba(245,240,232,0.45)] text-xs italic">$1</span>');
   return sanitizeHtml(text, {
     allowedTags: ["span"],
@@ -56,7 +56,7 @@ function formatInclude(text: string): string {
     allowedClasses: {
       span: [
         "text-[#C9A96E]", "underline", "underline-offset-2",
-        "font-medium", "text-[#F5F0E8]",
+        "font-medium", "text-[#ede5d0]",
         "text-[rgba(245,240,232,0.45)]", "text-xs", "italic",
       ],
     },
@@ -96,7 +96,7 @@ function BundleCard({ bundle, featured }: { bundle: Bundle; featured: boolean })
       )}
 
       {/* Bundle name */}
-      <h3 className="font-['Cormorant_Garamond'] font-light text-2xl md:text-3xl tracking-wide text-[#F5F0E8] mb-2">
+      <h3 className="font-['Playfair_Display'] font-light text-2xl md:text-3xl tracking-wide text-[#ede5d0] mb-2">
         {bundle.name}
       </h3>
 
@@ -110,7 +110,7 @@ function BundleCard({ bundle, featured }: { bundle: Bundle; featured: boolean })
       {/* Price */}
       <div className="mb-7">
         <div className="flex items-baseline gap-2">
-          <span className="font-['Cormorant_Garamond'] font-light text-5xl text-[#C9A96E] leading-none">
+          <span className="font-['Playfair_Display'] font-light text-5xl text-[#C9A96E] leading-none">
             ${bundle.price.toFixed(2)}
           </span>
         </div>
@@ -148,7 +148,7 @@ function BundleCard({ bundle, featured }: { bundle: Bundle; featured: boolean })
           block text-center py-3.5 text-[0.65rem] tracking-[0.3em] uppercase font-['Josefin_Sans']
           transition-all duration-300
           ${featured
-            ? "bg-[#8B1A1A] text-[#F5F0E8] hover:bg-[#B22222] border border-transparent hover:border-[rgba(201,169,110,0.3)]"
+            ? "bg-[#8B1A1A] text-[#ede5d0] hover:bg-[#B22222] border border-transparent hover:border-[rgba(201,169,110,0.3)]"
             : "border border-[rgba(201,169,110,0.4)] text-[#C9A96E] hover:bg-[#C9A96E] hover:text-[#080808]"
           }
         `}
@@ -173,13 +173,13 @@ export function BundleListStatic({ data }: { data: PricingData }) {
               {data.seasonalOffer.badgeText ?? "Limited Time"}
             </span>
           </div>
-          <h3 className="font-['Cormorant_Garamond'] font-light text-3xl text-[#F5F0E8] mb-2">
+          <h3 className="font-['Playfair_Display'] font-light text-3xl text-[#ede5d0] mb-2">
             {data.seasonalOffer.name}
           </h3>
           <p className="text-[rgba(245,240,232,0.55)] text-sm font-['Josefin_Sans'] mb-3">
             {data.seasonalOffer.description}
           </p>
-          <span className="text-[#C9A96E] font-['Cormorant_Garamond'] text-2xl italic">
+          <span className="text-[#C9A96E] font-['Playfair_Display'] text-2xl italic">
             {data.seasonalOffer.discount}
           </span>
           {data.seasonalOffer.validUntil && (

@@ -14,8 +14,8 @@
         "__Unlimited__ Revisions",
         "*Satisfaction Guaranteed*"
       ],
-      "tag": null,
-      "order": 0
+      "tag": "MOST POPULAR",
+      "order": 1
     },
     {
       "id": "2-songs",
@@ -31,8 +31,8 @@
         "__Unlimited__ Revisions",
         "*Satisfaction Guaranteed*"
       ],
-      "tag": "MOST POPULAR",
-      "order": 1
+      "tag": "BEST VALUE",
+      "order": 0
     },
     {
       "id": "mix-master",

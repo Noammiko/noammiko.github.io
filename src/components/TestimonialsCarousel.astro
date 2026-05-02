@@ -2,15 +2,17 @@
 /**
  * TestimonialsCarousel — reusable 3-column testimonials component.
  *
- * Each column shows one card at a time. Up/down chevrons let visitors
- * navigate manually. Auto-advance is staggered:
+ * Each column shows one card at a time. Up/down chevrons appear on hover.
+ * Auto-advance is staggered:
  *   col 0 → 5 s, col 1 → 10 s, col 2 → 15 s, then each loops every 15 s.
+ * Transition: scroll-up (card scrolls out upward, next scrolls in from below).
  */
 
 interface Review {
   name: string;
   text: string;
   image?: string;
+  imagegoogle?: string;
   rating?: number;
 }
 
@@ -32,7 +34,7 @@ const columns = [
   {columns.map((colRevs, ci) => (
     <div class="tsc-col" id={`tsc-col-${ci}`} data-current="0">
 
-      <!-- Up chevron -->
+      <!-- Up chevron (shown on hover) -->
       <button class="tsc-chevron tsc-chevron-top" id={`tsc-prev-${ci}`} aria-label="Previous review">
         <svg viewBox="0 0 24 24" width="16" height="16" fill="none"
              stroke="currentColor" stroke-width="1.8"
@@ -41,29 +43,32 @@ const columns = [
         </svg>
       </button>
 
-      <!-- Stacked-card viewport (all cards occupy same grid cell) -->
+      <!-- Stacked-card viewport -->
       <div class="tsc-viewport">
-        {colRevs.map((r, i) => (
-          <div class={`tsc-card${i === 0 ? ' tsc-active' : ''}`} data-idx={String(i)}>
-            <div class="tsc-stars">
-              {Array(5).fill(null).map(() => <span class="tsc-star" />)}
-            </div>
-            <p class="tsc-quote">"{r.text}"</p>
-            <div class="tsc-author">
-              {r.image
-                ? <img src={r.image} alt={r.name} class="tsc-avatar-img" loading="lazy" />
-                : <div class="tsc-avatar-init">{r.name.charAt(0).toUpperCase()}</div>
-              }
-              <div class="tsc-author-info">
-                <div class="tsc-name">{r.name}</div>
-                <div class="tsc-meta">Google Review</div>
+        {colRevs.map((r, i) => {
+          const avatarSrc = r.image || r.imagegoogle || null;
+          return (
+            <div class={`tsc-card${i === 0 ? ' tsc-active' : ''}`} data-idx={String(i)}>
+              <div class="tsc-stars">
+                {Array(5).fill(null).map(() => <span class="tsc-star" />)}
+              </div>
+              <p class="tsc-quote">"{r.text}"</p>
+              <div class="tsc-author">
+                {avatarSrc
+                  ? <img src={avatarSrc} alt={r.name} class="tsc-avatar-img" loading="lazy" />
+                  : <div class="tsc-avatar-init">{r.name.charAt(0).toUpperCase()}</div>
+                }
+                <div class="tsc-author-info">
+                  <div class="tsc-name">{r.name}</div>
+                  <div class="tsc-meta">Google Review</div>
+                </div>
               </div>
             </div>
-          </div>
-        ))}
+          );
+        })}
       </div>
 
-      <!-- Down chevron -->
+      <!-- Down chevron (shown on hover) -->
       <button class="tsc-chevron tsc-chevron-bot" id={`tsc-next-${ci}`} aria-label="Next review">
         <svg viewBox="0 0 24 24" width="16" height="16" fill="none"
              stroke="currentColor" stroke-width="1.8"
@@ -91,7 +96,7 @@ const columns = [
     flex-direction: column;
   }
 
-  /* ── Chevron buttons ── */
+  /* ── Chevron buttons — hidden by default, shown on column hover ── */
   .tsc-chevron {
     width: 100%;
     padding: 16px 0;
@@ -100,14 +105,20 @@ const columns = [
     justify-content: center;
     background: transparent;
     border: none;
-    color: rgba(201,169,110,0.28);
+    color: rgba(201,169,110,0.5);
     cursor: pointer;
-    transition: color 0.2s ease, background 0.2s ease;
+    opacity: 0;
+    transition: color 0.2s ease, background 0.2s ease, opacity 0.22s ease;
     flex-shrink: 0;
   }
   .tsc-chevron-top { border-bottom: 1px solid rgba(201,169,110,0.08); }
   .tsc-chevron-bot { border-top:    1px solid rgba(201,169,110,0.08); }
-  .tsc-chevron:hover {
+
+  /* Show arrows when hovering the whole column */
+  .tsc-col:hover .tsc-chevron {
+    opacity: 1;
+  }
+  .tsc-col:hover .tsc-chevron:hover {
     color: #C9A96E;
     background: rgba(201,169,110,0.05);
   }
@@ -116,6 +127,7 @@ const columns = [
   .tsc-viewport {
     display: grid;
     flex: 1;
+    overflow: hidden;
   }
   .tsc-card {
     grid-row: 1;
@@ -128,26 +140,27 @@ const columns = [
     border-bottom: 1px solid rgba(201,169,110,0.06);
     opacity: 0;
     pointer-events: none;
-    /* no transition — animations handle movement */
   }
   .tsc-card.tsc-active {
     opacity: 1;
     pointer-events: auto;
   }
+
+  /* Scroll-up: new card comes from below, current card scrolls up and out */
   .tsc-card.tsc-entering {
-    animation: tscSlideIn 0.62s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+    animation: tscScrollIn 0.55s cubic-bezier(0.22, 1, 0.36, 1) forwards;
   }
   .tsc-card.tsc-exiting {
-    animation: tscSlideOut 0.38s ease-in forwards;
+    animation: tscScrollOut 0.42s cubic-bezier(0.4, 0, 0.6, 1) forwards;
     pointer-events: none;
   }
-  @keyframes tscSlideIn {
-    from { opacity: 0; transform: translateY(22px); }
-    to   { opacity: 1; transform: translateY(0);    }
+  @keyframes tscScrollIn {
+    from { opacity: 1; transform: translateY(100%); }
+    to   { opacity: 1; transform: translateY(0); }
   }
-  @keyframes tscSlideOut {
-    from { opacity: 1; transform: translateY(0);     }
-    to   { opacity: 0; transform: translateY(-16px); }
+  @keyframes tscScrollOut {
+    from { opacity: 1; transform: translateY(0); }
+    to   { opacity: 1; transform: translateY(-100%); }
   }
 
   /* ── Card internals ── */
@@ -161,8 +174,9 @@ const columns = [
     flex-shrink: 0;
   }
   .tsc-quote {
-    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-family: 'Playfair Display', Georgia, serif;
     font-size: 16px;
+    font-style: italic;
     font-weight: 400;
     line-height: 1.7;
     color: rgba(237,229,208,0.9);
@@ -182,7 +196,7 @@ const columns = [
     border: 1px solid rgba(201,169,110,0.22);
     background: #0d0b08;
     display: flex; align-items: center; justify-content: center;
-    font-family: 'Cormorant Garamond', serif;
+    font-family: 'Playfair Display', serif;
     font-size: 17px;
     color: #C9A96E;
     flex-shrink: 0;
@@ -239,18 +253,24 @@ const columns = [
       const curCard  = all[cur];
       const nextCard = all[safe];
 
-      // Exit current
+      // Exit current — scroll up and out
       curCard.classList.remove("tsc-active", "tsc-entering");
       curCard.classList.add("tsc-exiting");
-      const rmExit = () => curCard.classList.remove("tsc-exiting");
+      const rmExit = () => {
+        curCard.classList.remove("tsc-exiting");
+        curCard.style.transform = "";
+      };
       curCard.addEventListener("animationend", rmExit, { once: true });
-      setTimeout(rmExit, 450);
+      setTimeout(rmExit, 500);
 
-      // Enter next
+      // Enter next — scroll up from below
       nextCard.classList.add("tsc-active", "tsc-entering");
-      const rmEnter = () => nextCard.classList.remove("tsc-entering");
+      const rmEnter = () => {
+        nextCard.classList.remove("tsc-entering");
+        nextCard.style.transform = "";
+      };
       nextCard.addEventListener("animationend", rmEnter, { once: true });
-      setTimeout(rmEnter, 700);
+      setTimeout(rmEnter, 650);
 
       c.dataset.current = String(safe);
     }
@@ -272,9 +292,6 @@ const columns = [
     }
 
     // Staggered auto-advance
-    // Col 0: fires at 5 s, then every 15 s
-    // Col 1: fires at 10 s, then every 15 s
-    // Col 2: fires at 15 s, then every 15 s
     function startLoop(ci: number, delay: number) {
       setTimeout(function tick() {
         advance(ci);

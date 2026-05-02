@@ -3,7 +3,7 @@
 @import '@fontsource/josefin-sans/300.css';
 @import '@fontsource/bentham/400.css';
 
-/* Cormorant Garamond and Cinzel are loaded via Google Fonts in Layout.astro */
+/* Playfair Display, Cormorant Garamond and Cinzel are loaded via Google Fonts in Layout.astro */
 
 @import "tailwindcss";
 @import "tw-animate-css";
@@ -11,7 +11,7 @@
 /* ─── Tailwind v4 Theme ──────────────────────────────────────────────── */
 @theme {
   /* ── Premium Typography ──────────────────────────────────────────── */
-  --font-display:  'Cormorant Garamond', 'Bentham', Georgia, serif;
+  --font-display:  'Playfair Display', 'Bentham', Georgia, serif;
   --font-label:    'Cinzel', 'Josefin Sans', sans-serif;
   --font-body:     'Josefin Sans', sans-serif;
   --font-jose:     'Josefin Sans', sans-serif;
@@ -35,31 +35,31 @@
   --color-gold-light:   #E8C98A;
   --color-gold-muted:   rgba(201, 169, 110, 0.35);
 
-  --color-cream:        #F5F0E8;
+  --color-cream:        #ede5d0;
   --color-cream-muted:  rgba(245, 240, 232, 0.55);
 
   --color-carbon:       #111111;
 
   /* ── Tailwind Semantic Mappings ───────────────────────────────────── */
   --color-primary:             #8B1A1A;
-  --color-primary-foreground:  #F5F0E8;
+  --color-primary-foreground:  #ede5d0;
   --color-secondary:           #181818;
-  --color-secondary-foreground:#F5F0E8;
+  --color-secondary-foreground:#ede5d0;
   --color-accent:              #C9A96E;
   --color-accent-foreground:   #080808;
-  --color-foreground:          #F5F0E8;
+  --color-foreground:          #ede5d0;
   --color-background:          #080808;
   --color-muted:               #2a2a2a;
   --color-muted-foreground:    rgba(245, 240, 232, 0.55);
   --color-destructive:         #8B1A1A;
-  --color-destructive-foreground: #F5F0E8;
+  --color-destructive-foreground: #ede5d0;
   --color-border:              rgba(201, 169, 110, 0.18);
   --color-input:               rgba(201, 169, 110, 0.12);
   --color-ring:                #C9A96E;
   --color-card:                #0f0f0f;
-  --color-card-foreground:     #F5F0E8;
+  --color-card-foreground:     #ede5d0;
   --color-popover:             #0f0f0f;
-  --color-popover-foreground:  #F5F0E8;
+  --color-popover-foreground:  #ede5d0;
 }
 
 /* ─── Base Resets ───────────────────────────────────────────────────── */
@@ -70,7 +70,7 @@
 
   html {
     scroll-padding-top: 88px;
-    scrollbar-color:    #8B1A1A #080808;
+    scrollbar-color:    #C9A96E #080808;
     scrollbar-width:    thin;
     background-color:   #080808;
     margin: 0;
@@ -79,13 +79,13 @@
 
   html::-webkit-scrollbar        { width: 6px; }
   html::-webkit-scrollbar-track  { background: #080808; }
-  html::-webkit-scrollbar-thumb  { background-color: #8B1A1A; }
+  html::-webkit-scrollbar-thumb  { background-color: #C9A96E; }
 
   body {
     margin: 0;
     padding: 0;
     background-color: #080808;
-    color: #F5F0E8;
+    color: #ede5d0;
     font-family: var(--font-body);
     font-weight: 300;
     letter-spacing: 0.02em;
@@ -190,7 +190,7 @@
     display: inline-block;
     background: #8B1A1A;
     border: 1px solid transparent;
-    color: #F5F0E8;
+    color: #ede5d0;
     padding: 0.85rem 2.5rem;
     font-family: var(--font-body);
     font-size: 0.7rem;
@@ -220,7 +220,7 @@
   }
   .btn-ghost-cream:hover {
     border-color: rgba(245, 240, 232, 0.7);
-    color: #F5F0E8;
+    color: #ede5d0;
   }
 
   /* ── Section reveal animation ─────────────────────────────────────── */
@@ -282,7 +282,7 @@
 
   /* ── Text colors ──────────────────────────────────────────────────── */
   .text-gold        { color: #C9A96E; }
-  .text-cream       { color: #F5F0E8; }
+  .text-cream       { color: #ede5d0; }
   .text-cream\/70   { color: rgba(245, 240, 232, 0.7); }
   .text-crimson     { color: #8B1A1A; }
 
@@ -340,7 +340,7 @@ html { scroll-behavior: smooth; }
   justify-content: center;
 }
 .hero-inline-offer-text {
-  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-family: 'Playfair Display', Georgia, serif;
   font-size: 17px;
   font-weight: 400;
   color: #ede5d0;
@@ -371,7 +371,7 @@ html { scroll-behavior: smooth; }
 }
 .stat-item { display: flex; flex-direction: column; gap: 4px; }
 .stat-num {
-  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-family: 'Playfair Display', Georgia, serif;
   font-size: 48px;
   font-weight: 300;
   color: #C9A96E;
@@ -436,7 +436,7 @@ html { scroll-behavior: smooth; }
   background: rgba(201,169,110,0.06);
 }
 .gallery-h-count {
-  font-family: 'Cormorant Garamond', serif;
+  font-family: 'Playfair Display', serif;
   font-size: 14px;
   color: rgba(237,229,208,0.5);
   margin-left: 8px;
@@ -481,7 +481,7 @@ html { scroll-behavior: smooth; }
   clip-path: polygon(50% 0%,61% 35%,98% 35%,68% 57%,79% 91%,50% 70%,21% 91%,32% 57%,2% 35%,39% 35%);
 }
 .tc-quote {
-  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-family: 'Playfair Display', Georgia, serif;
   font-size: 16px;
   font-weight: 400;
   line-height: 1.65;
@@ -500,7 +500,7 @@ html { scroll-behavior: smooth; }
   display: flex;
   align-items: center;
   justify-content: center;
-  font-family: 'Cormorant Garamond', serif;
+  font-family: 'Playfair Display', serif;
   font-size: 17px;
   color: #C9A96E;
   overflow: hidden;
@@ -535,7 +535,7 @@ html { scroll-behavior: smooth; }
   margin-bottom: 40px;
 }
 .cd-sale-badge {
-  font-family: 'Cormorant Garamond', serif;
+  font-family: 'Playfair Display', serif;
   font-size: 26px;
   font-weight: 500;
   letter-spacing: 3px;
@@ -546,13 +546,13 @@ html { scroll-behavior: smooth; }
   flex-shrink: 0;
 }
 .cd-sale-off {
-  font-family: 'Cormorant Garamond', serif;
+  font-family: 'Playfair Display', serif;
   font-size: 20px;
   color: #ede5d0;
 }
 .cd-unit { display: flex; flex-direction: column; align-items: center; gap: 2px; }
 .cd-num {
-  font-family: 'Cormorant Garamond', serif;
+  font-family: 'Playfair Display', serif;
   font-size: 32px;
   font-weight: 400;
   color: #C9A96E;
@@ -569,7 +569,7 @@ html { scroll-behavior: smooth; }
   color: rgba(237,229,208,0.45);
 }
 .cd-sep {
-  font-family: 'Cormorant Garamond', serif;
+  font-family: 'Playfair Display', serif;
   font-size: 28px;
   color: rgba(201,169,110,0.4);
   align-self: flex-start;
@@ -608,7 +608,7 @@ html { scroll-behavior: smooth; }
   white-space: nowrap;
 }
 .free-trial-price {
-  font-family: 'Cormorant Garamond', serif;
+  font-family: 'Playfair Display', serif;
   font-size: 64px;
   font-weight: 300;
   color: #C9A96E;
@@ -650,7 +650,7 @@ html { scroll-behavior: smooth; }
   color: #C9A96E;
 }
 .contact-value-ref {
-  font-family: 'Cormorant Garamond', serif;
+  font-family: 'Playfair Display', serif;
   font-size: 19px;
   font-weight: 400;
   color: #ede5d0;
@@ -724,6 +724,12 @@ html { scroll-behavior: smooth; }
   border-color: rgba(201,169,110,0.35);
 }
 
+/* ─── Portfolio inner scrollbar (gold) ──────────────────────────────── */
+.music-portfolio-wrap { scrollbar-color: #C9A96E transparent; scrollbar-width: thin; }
+.music-portfolio-wrap::-webkit-scrollbar       { width: 3px; height: 3px; }
+.music-portfolio-wrap::-webkit-scrollbar-track { background: transparent; }
+.music-portfolio-wrap::-webkit-scrollbar-thumb { background-color: #C9A96E; border-radius: 2px; }
+
 /* ─── Portfolio table (music-portfolio-wrap wrapper) ─────────────────── */
 .music-portfolio-wrap [data-slot="table-container"] {
   overflow-x: auto;
@@ -762,14 +768,14 @@ html { scroll-behavior: smooth; }
 }
 /* Track-number cell */
 .portfolio-track-num {
-  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-family: 'Playfair Display', Georgia, serif;
   font-size: 15px;
   color: rgba(237,229,208,0.35);
   font-weight: 400;
 }
 /* Title cell */
 .portfolio-title-cell {
-  font-family: 'Cormorant Garamond', Georgia, serif !important;
+  font-family: 'Playfair Display', Georgia, serif !important;
   font-size: 19px !important;
   font-weight: 400 !important;
   color: #ede5d0 !important;
