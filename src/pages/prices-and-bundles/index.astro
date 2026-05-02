@@ -3,7 +3,6 @@ import Layout from "@/layouts/Layout.astro";
 import Header from "@/layouts/Header.astro";
 import Footer from "@/layouts/Footer.astro";
 import { BundleListStatic } from "@/components/priceNbundles/BundleListStatic.tsx";
-
 import pricingData from "@/data/pricing.json";
 ---
 
@@ -16,19 +15,19 @@ import pricingData from "@/data/pricing.json";
   <main style="background:#080808;">
 
     <!-- ══ PRICING HERO ══════════════════════════════════════════════ -->
-    <section class="section-py section-px" style="background:#09090b;padding-top:10rem;">
+    <section class="section-py section-px bg-surface-alt" style="padding-top:10rem;">
       <div class="gold-rule"></div>
       <div class="max-w-6xl mx-auto py-8 md:py-10">
 
-        <!-- Header — no "Investment" eyebrow -->
+        <!-- Header -->
         <div class="text-center mb-10 reveal">
           <h1
-            class="font-['Playfair_Display'] font-light text-[#ede5d0] mb-4"
+            class="font-serif font-light text-cream mb-4"
             style="font-size:clamp(2.4rem,5vw,4.5rem);line-height:1.05;"
           >
-            Prices &amp; <em style="font-style:italic;color:#940404;">Bundles</em>
+            Prices &amp; <em class="italic text-crimson-vivid">Bundles</em>
           </h1>
-          <p class="text-[rgba(245,240,232,0.4)] text-xs tracking-[0.25em] uppercase font-['Josefin_Sans'] whitespace-nowrap">
+          <p class="text-cream-soft/40 text-xs tracking-[0.25em] uppercase font-sans whitespace-nowrap">
             Every package includes unlimited revisions &amp; a 100% satisfaction guarantee
           </p>
         </div>
@@ -36,7 +35,7 @@ import pricingData from "@/data/pricing.json";
         <!-- Spring Sale display text -->
         <div class="text-center reveal mb-4">
           <span
-            class="font-['Playfair_Display'] font-light uppercase text-[#C9A96E] block"
+            class="font-serif font-light uppercase text-gold block"
             style="font-size:clamp(3rem,8vw,7rem);line-height:1;letter-spacing:0.06em;"
           >
             Spring Sale
@@ -63,12 +62,12 @@ import pricingData from "@/data/pricing.json";
             <div>
               <span class="eyebrow mb-3">First-Time Tryout Session</span>
               <div class="free-trial-price">FREE</div>
-              <p class="font-['Josefin_Sans'] text-[rgba(237,229,208,0.5)] text-xs tracking-widest mt-2">
+              <p class="font-sans text-cream/50 text-xs tracking-widest mt-2">
                 30 minutes · Zero Risk · For new Clients
               </p>
             </div>
             <div style="border-left:2px solid #C9A96E;padding-left:20px;">
-              <p class="font-['Playfair_Display'] italic text-[#ede5d0]" style="font-size:17px;line-height:1.6;">
+              <p class="font-serif italic text-cream" style="font-size:17px;line-height:1.6;">
                 "Come check out the studio and experience what I do best. I'm confident you'll be back."
               </p>
             </div>
@@ -76,8 +75,8 @@ import pricingData from "@/data/pricing.json";
           <div style="display:flex;flex-direction:column;gap:24px;padding-top:16px;">
             <div class="free-trial-scarcity">
               <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;">
-                <span class="font-['Josefin_Sans'] text-[#C9A96E]" style="font-size:10px;font-weight:600;letter-spacing:2px;text-transform:uppercase;">Spots This Week</span>
-                <span class="font-['Playfair_Display'] text-[#ede5d0]" style="font-size:22px;">3 / 5 left</span>
+                <span class="font-sans text-gold" style="font-size:10px;font-weight:600;letter-spacing:2px;text-transform:uppercase;">Spots This Week</span>
+                <span class="font-serif text-cream" style="font-size:22px;">3 / 5 left</span>
               </div>
               <div style="background:rgba(255,255,255,0.08);height:3px;width:100%;border-radius:2px;overflow:hidden;">
                 <div style="height:100%;background:#C9A96E;width:40%;border-radius:2px;"></div>
@@ -87,7 +86,7 @@ import pricingData from "@/data/pricing.json";
               <span class="eyebrow mb-3">Includes</span>
               <ul style="list-style:none;display:flex;flex-direction:column;gap:10px;">
                 {["30 min of studio time","30-second clip of your song","Basic studio mix included"].map(item => (
-                  <li class="font-['Josefin_Sans'] text-[rgba(237,229,208,0.6)]" style="font-size:14px;display:flex;align-items:center;gap:10px;">
+                  <li class="font-sans text-cream/60" style="font-size:14px;display:flex;align-items:center;gap:10px;">
                     <span style="flex:0 0 16px;width:16px;height:16px;background:rgba(201,169,110,0.08);border:1px solid rgba(201,169,110,0.45);border-radius:2px;display:inline-flex;align-items:center;justify-content:center;">
                       <svg width="8" height="7" viewBox="0 0 8 7" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <polyline points="1,3.5 3,5.5 7,1" stroke="#C9A96E" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
@@ -113,11 +112,11 @@ import pricingData from "@/data/pricing.json";
             <span class="eyebrow mb-7">Current Rates</span>
             <ul class="space-y-0">
               {pricingData.rates.map((rate) => (
-                <li class="flex items-baseline justify-between py-4 border-b border-[rgba(201,169,110,0.1)]">
-                  <span class="text-[rgba(245,240,232,0.6)] text-sm tracking-wide font-['Josefin_Sans']">{rate.name}</span>
+                <li class="flex items-baseline justify-between py-4 border-b border-gold/10">
+                  <span class="text-cream-soft/60 text-sm tracking-wide font-sans">{rate.name}</span>
                   <div class="text-right">
-                    <span class="font-['Playfair_Display'] font-light text-2xl text-[#C9A96E]">${rate.price.toFixed(2)}</span>
-                    <span class="text-[rgba(245,240,232,0.3)] text-xs ml-1 font-['Josefin_Sans']">{rate.unit}</span>
+                    <span class="font-serif font-light text-2xl text-gold">${rate.price.toFixed(2)}</span>
+                    <span class="text-cream-soft/30 text-xs ml-1 font-sans">{rate.unit}</span>
                   </div>
                 </li>
               ))}
@@ -127,22 +126,22 @@ import pricingData from "@/data/pricing.json";
             <span class="eyebrow mb-7">Instrumentals &amp; Beats</span>
             <ul class="space-y-0">
               {pricingData.instrumentals.map((inst) => (
-                <li class="flex items-baseline justify-between py-4 border-b border-[rgba(201,169,110,0.1)]">
-                  <span class="text-[rgba(245,240,232,0.6)] text-sm tracking-wide font-['Josefin_Sans']">{inst.name}</span>
-                  <span class="font-['Playfair_Display'] font-light text-2xl text-[#C9A96E]">${inst.price.toFixed(2)}</span>
+                <li class="flex items-baseline justify-between py-4 border-b border-gold/10">
+                  <span class="text-cream-soft/60 text-sm tracking-wide font-sans">{inst.name}</span>
+                  <span class="font-serif font-light text-2xl text-gold">${inst.price.toFixed(2)}</span>
                 </li>
               ))}
             </ul>
-            <p class="text-[rgba(245,240,232,0.3)] text-xs tracking-wide mt-5 font-['Josefin_Sans'] italic">
+            <p class="text-cream-soft/30 text-xs tracking-wide mt-5 font-sans italic">
               Exclusive rights pricing negotiable
             </p>
           </div>
         </div>
 
         <!-- Custom quote card -->
-        <div class="mt-20 text-center border border-[rgba(201,169,110,0.18)] py-14 px-10 reveal reveal-delay-3">
+        <div class="mt-20 text-center border border-gold/18 py-14 px-10 reveal reveal-delay-3">
           <p
-            class="font-['Playfair_Display'] font-light italic text-[rgba(237,229,208,0.65)] mb-8"
+            class="font-serif font-light italic text-cream/65 mb-8"
             style="font-size:clamp(1.1rem,2vw,1.45rem);line-height:1.65;"
           >
             Working on an EP, album, or a larger project?<br/>Get a personalised quote.
@@ -150,10 +149,10 @@ import pricingData from "@/data/pricing.json";
           <a href="#book-session" class="btn-crimson">Request a Custom Quote</a>
         </div>
 
-        <!-- Guarantee (small, no box) -->
+        <!-- Guarantee -->
         <div class="mt-10 flex justify-center reveal reveal-delay-4">
           <div class="flex items-center gap-3">
-            <span class="font-['Playfair_Display'] font-light text-3xl text-[#C9A96E] leading-none">100%</span>
+            <span class="font-serif font-light text-3xl text-gold leading-none">100%</span>
             <span class="eyebrow" style="font-size:0.58rem;letter-spacing:0.3em;">Satisfaction Guaranteed</span>
           </div>
         </div>
@@ -163,40 +162,42 @@ import pricingData from "@/data/pricing.json";
     </section>
 
     <!-- ══ BOOKING ════════════════════════════════════════════════════ -->
-    <section id="book-session" class="section-py section-px" style="background:#09090b;">
+    <section id="book-session" class="section-py section-px bg-surface-alt">
       <div class="gold-rule"></div>
       <div class="max-w-6xl mx-auto py-8 md:py-10">
         <div class="reveal mb-12 text-center">
           <span class="eyebrow mb-5">Reserve Your Time</span>
           <h2
-            class="font-['Playfair_Display'] font-light text-[#ede5d0] mb-4"
+            class="font-serif font-light text-cream mb-4"
             style="font-size:clamp(2.5rem,6vw,5rem);"
           >
             Book a Session
           </h2>
-          <p class="text-[rgba(245,240,232,0.4)] text-xs tracking-[0.3em] uppercase font-['Josefin_Sans']">
+          <p class="text-cream-soft/40 text-xs tracking-[0.3em] uppercase font-sans">
             Select your date and time below
           </p>
         </div>
 
         <div class="reveal reveal-delay-1 flex flex-wrap justify-center gap-8 mb-12">
-          <a href="mailto:noam@miko-recordingstudio.ca?subject=Studio%20session%20booking%20request"
-             class="group flex flex-col items-center gap-1">
-            <span class="eyebrow group-hover:text-[#E8C98A] transition-colors">Email</span>
-            <span class="text-[rgba(245,240,232,0.55)] text-sm font-['Josefin_Sans'] group-hover:text-[#ede5d0] transition-colors">
+          <a
+            href="mailto:noam@miko-recordingstudio.ca?subject=Studio%20session%20booking%20request"
+            class="group flex flex-col items-center gap-1"
+          >
+            <span class="eyebrow group-hover:text-gold-light transition-colors">Email</span>
+            <span class="text-cream-soft/55 text-sm font-sans group-hover:text-cream transition-colors">
               noam@miko-recordingstudio.ca
             </span>
           </a>
-          <div class="w-px h-10 self-center bg-[rgba(201,169,110,0.2)]"></div>
+          <div class="w-px h-10 self-center bg-gold/20"></div>
           <a href="tel:+12266062452" class="group flex flex-col items-center gap-1">
-            <span class="eyebrow group-hover:text-[#E8C98A] transition-colors">Call</span>
-            <span class="text-[rgba(245,240,232,0.55)] text-sm font-['Josefin_Sans'] group-hover:text-[#ede5d0] transition-colors">
+            <span class="eyebrow group-hover:text-gold-light transition-colors">Call</span>
+            <span class="text-cream-soft/55 text-sm font-sans group-hover:text-cream transition-colors">
               (226) 606-2452
             </span>
           </a>
         </div>
 
-        <div class="reveal reveal-delay-2 border border-[rgba(201,169,110,0.15)] overflow-hidden">
+        <div class="reveal reveal-delay-2 border border-gold/15 overflow-hidden">
           <div class="bg-white overflow-hidden">
             <iframe
               src="https://calendar.google.com/calendar/appointments/schedules/AcZssZ0-Md8E3JHXqoEt4gYrOiezfBut-2jaVMB3MN66uZHvpMg9BptlFWqEdmfnZXdmuPplJH1Ww-Kl?gv=true"

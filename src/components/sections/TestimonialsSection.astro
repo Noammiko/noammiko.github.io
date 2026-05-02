@@ -1,0 +1,34 @@
+---
+import TestimonialsCarousel from "@/components/TestimonialsCarousel.astro";
+import reviews from "@/assets/reviews.json";
+---
+
+<section id="testimonials" class="section-py section-px bg-surface-warm">
+  <div class="gold-rule-fade"></div>
+
+  <div class="max-w-6xl mx-auto pt-8 pb-4">
+    <div class="reveal">
+      <span class="eyebrow mb-5" style="font-size:0.975rem;">Client Stories</span>
+      <h2
+        class="font-serif font-light text-cream"
+        style="font-size: clamp(2rem, 4vw, 3.5rem)"
+      >
+        What Artists <em class="italic text-crimson-vivid">Say</em>
+      </h2>
+    </div>
+
+    <!-- TestimonialsCarousel handles all 3 columns + stagger logic -->
+    <TestimonialsCarousel reviews={reviews} />
+
+    <div class="text-center mt-14 reveal">
+      <a
+        href="https://www.google.com/maps?q=Miko+Recording+Studio"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="btn-ghost-cream"
+      >
+        Read All Reviews on Google
+      </a>
+    </div>
+  </div>
+</section>

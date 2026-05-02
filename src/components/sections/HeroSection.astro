@@ -1,0 +1,110 @@
+---
+import { Image, getImage } from "astro:assets";
+import mikoLogo from "@/assets/logo.png";
+import img1    from "@/assets/galary/1.jpeg";
+
+const heroPoster = await getImage({ src: img1, format: "webp", width: 1920, quality: 75 });
+---
+
+<section
+  id="home"
+  class="relative min-h-screen flex items-center justify-center overflow-hidden"
+>
+  <!-- Video / poster background -->
+  <div class="absolute inset-0 z-0">
+    <video
+      autoplay muted loop playsinline
+      poster={heroPoster.src}
+      class="absolute inset-0 w-full h-full object-cover opacity-55"
+      aria-hidden="true"
+    >
+      <source src="/videos/hero.mp4" type="video/mp4" />
+    </video>
+
+    <!-- Gradient overlay -->
+    <div
+      class="absolute inset-0"
+      style="background: linear-gradient(to bottom,
+        rgba(8,8,8,0.6)  0%,
+        rgba(8,8,8,0.2)  40%,
+        rgba(8,8,8,0.6)  70%,
+        rgba(8,8,8,0.98) 100%)"
+    ></div>
+  </div>
+
+  <!-- Subtle text-glow: dark radial halo centred on the hero copy -->
+  <div
+    aria-hidden="true"
+    class="absolute inset-0 pointer-events-none"
+    style="z-index:1;background:radial-gradient(ellipse 72% 58% at 50% 46%, rgba(10,3,3,0.70) 0%, rgba(8,4,4,0.28) 52%, transparent 82%);"
+  />
+
+  <!-- Content -->
+  <div class="relative z-10 text-center px-6 w-full max-w-5xl mx-auto flex flex-col items-center pt-28 pb-32">
+    <!-- Logo (large in hero, fades out on scroll → reappears in navbar) -->
+    <div class="mb-10 reveal">
+      <Image
+        id="hero-logo"
+        src={mikoLogo}
+        alt="Miko Recording Studio"
+        class="w-[clamp(160px,20vw,280px)] h-auto mx-auto"
+        style="filter: brightness(1.12) drop-shadow(0 0 30px rgba(201,169,110,0.22)); transition: opacity 0.3s, transform 0.3s;"
+        loading="eager"
+      />
+    </div>
+
+    <!-- Headline -->
+    <h1
+      class="font-serif font-light text-cream tracking-wide mb-4 reveal reveal-delay-1"
+      style="font-size: clamp(2.8rem, 8vw, 6.5rem); line-height: 1.0; text-shadow: 0 0 80px rgba(139,26,26,0.28), 0 2px 40px rgba(0,0,0,0.85), 0 4px 60px rgba(0,0,0,0.5)"
+    >
+      The Top Recording<br/><em class="italic text-crimson-vivid">Studio in Guelph</em>
+    </h1>
+
+    <p
+      class="font-sans font-light text-cream/60 mb-12 tracking-widest uppercase reveal reveal-delay-2"
+      style="font-size: clamp(0.65rem, 1.5vw, 0.8rem); letter-spacing: 0.35em;"
+    >
+      Where Your Sound Comes to Life
+    </p>
+
+    <!-- CTAs -->
+    <div class="flex gap-4 items-center flex-wrap justify-center reveal reveal-delay-3">
+      <a href="#book-session" class="btn-crimson">Book a Session</a>
+      <a href="#about" class="btn-ghost-cream">Learn More</a>
+    </div>
+
+    <!-- Inline offer strip -->
+    <div class="hero-inline-offer mt-10 reveal reveal-delay-4">
+      <span class="hero-inline-offer-text">FREE session for new clients</span>
+      <a href="#pricing" class="hero-inline-offer-cta">Claim Now</a>
+    </div>
+
+    <!-- Scroll indicator -->
+    <div class="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-1 scroll-pulse pointer-events-none">
+      <span class="text-[0.55rem] tracking-[0.35em] uppercase font-label text-gold/45">Scroll</span>
+      <div class="w-px h-9 bg-gradient-to-b from-gold/45 to-transparent mt-1"></div>
+    </div>
+  </div>
+</section>
+
+<script>
+  // Hero logo fades out as user scrolls → reappears in navbar
+  (function() {
+    const heroLogo = document.getElementById('hero-logo') as HTMLElement | null;
+    if (!heroLogo) return;
+    function update() {
+      const y = window.scrollY;
+      const start = 140, end = 400;
+      const p = Math.max(0, Math.min(1, (y - start) / (end - start)));
+      heroLogo!.style.opacity   = String(1 - p);
+      heroLogo!.style.transform = `scale(${1 - p * 0.11})`;
+    }
+    window.addEventListener('scroll', update, { passive: true });
+    document.addEventListener('astro:page-load', () => {
+      window.addEventListener('scroll', update, { passive: true });
+      update();
+    });
+    update();
+  })();
+</script>

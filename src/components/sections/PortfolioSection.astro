@@ -1,0 +1,25 @@
+---
+import Song from "@/components/musicPortfolio/songs.astro";
+import portfolio from "@/assets/protfolio.json";
+---
+
+<section id="portfolio" class="section-py section-px">
+  <div class="max-w-6xl mx-auto">
+    <div class="reveal mb-14">
+      <span class="eyebrow mb-5" style="font-size:0.975rem;">Selected Works</span>
+      <h2
+        class="font-serif font-light text-cream"
+        style="font-size: clamp(2rem, 4vw, 3.5rem)"
+      >
+        Portfolio
+      </h2>
+      <p class="text-cream-soft/35 text-xs tracking-[0.3em] uppercase font-sans mt-4">
+        Recording · Mixing · Mastering · Production
+      </p>
+    </div>
+
+    <div class="reveal reveal-delay-1 border border-gold/10">
+      <Song songs={portfolio} />
+    </div>
+  </div>
+</section>

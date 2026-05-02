@@ -37,8 +37,16 @@
 
   --color-cream:        #ede5d0;
   --color-cream-muted:  rgba(245, 240, 232, 0.55);
+  --color-cream-soft:   #F5F0E8;    /* lighter warm-white used for muted body text */
 
   --color-carbon:       #111111;
+
+  /* Section-level backgrounds */
+  --color-surface-warm: #0d0b08;   /* gallery, testimonials */
+  --color-surface-alt:  #09090b;   /* pricing, contact, book-session sections */
+
+  /* Italic-heading accent (brighter than button crimson) */
+  --color-crimson-vivid: #940404;
 
   /* ── Tailwind Semantic Mappings ───────────────────────────────────── */
   --color-primary:             #8B1A1A;
