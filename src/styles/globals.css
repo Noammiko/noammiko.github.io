@@ -1,75 +1,104 @@
+/* ─── Font Sources ──────────────────────────────────────────────────── */
 @import '@fontsource/josefin-sans/400.css';
+@import '@fontsource/josefin-sans/300.css';
 @import '@fontsource/bentham/400.css';
+
+/* Cormorant Garamond and Cinzel are loaded via Google Fonts in Layout.astro */
 
 @import "tailwindcss";
 @import "tw-animate-css";
 
+/* ─── Tailwind v4 Theme ──────────────────────────────────────────────── */
 @theme {
-  --font-jose: "Josefin Sans", sans-serif;
-  --font-bentham: "Bentham", serif;
-  --font-matchbox: "Matchbox", serif;
+  /* ── Premium Typography ──────────────────────────────────────────── */
+  --font-display:  'Cormorant Garamond', 'Bentham', Georgia, serif;
+  --font-label:    'Cinzel', 'Josefin Sans', sans-serif;
+  --font-body:     'Josefin Sans', sans-serif;
+  --font-jose:     'Josefin Sans', sans-serif;
+  --font-bentham:  'Bentham', serif;
+  --font-matchbox: 'Matchbox', serif;
 
-  --font-sans: var(--font-jose);
-  --font-serif: var(--font-bentham);
-  --font-heading: var(--font-matchbox);
-  
-  --color-primary: var(--color-red-700);
-  --color-primary-foreground: var(--color-red-100);
-  --color-secondary: var(--color-slate-800);
-  --color-secondary-foreground: var(--color-slate-200);
-  --color-accent: var(--color-red-500);
-  --color-accent-foreground: var(--color-red-200);
-  --color-foreground: var(--color-red-300);
-  --color-background: var(--color-slate-900);
+  /* Tailwind font maps */
+  --font-sans:    var(--font-body);
+  --font-serif:   var(--font-display);
+  --font-heading: var(--font-display);
 
-  --color-accent: var(--color-red-200);
-  --color-accent-foreground: var(--color-red-200);
-  --color-muted: var(--color-slate-500);
-  --color-muted-foreground: var(--color-slate-200);
+  /* ── Luxury Color Palette ────────────────────────────────────────── */
+  --color-bg:           #080808;
+  --color-surface:      #0f0f0f;
+  --color-surface-2:    #181818;
 
-  --color-destructive: var(--color-red-500);
-  --color-destructive-foreground: var(--color-red-200);
+  --color-crimson:      #8B1A1A;
+  --color-crimson-light:#B22222;
+
+  --color-gold:         #C9A96E;
+  --color-gold-light:   #E8C98A;
+  --color-gold-muted:   rgba(201, 169, 110, 0.35);
+
+  --color-cream:        #F5F0E8;
+  --color-cream-muted:  rgba(245, 240, 232, 0.55);
+
+  --color-carbon:       #111111;
+
+  /* ── Tailwind Semantic Mappings ───────────────────────────────────── */
+  --color-primary:             #8B1A1A;
+  --color-primary-foreground:  #F5F0E8;
+  --color-secondary:           #181818;
+  --color-secondary-foreground:#F5F0E8;
+  --color-accent:              #C9A96E;
+  --color-accent-foreground:   #080808;
+  --color-foreground:          #F5F0E8;
+  --color-background:          #080808;
+  --color-muted:               #2a2a2a;
+  --color-muted-foreground:    rgba(245, 240, 232, 0.55);
+  --color-destructive:         #8B1A1A;
+  --color-destructive-foreground: #F5F0E8;
+  --color-border:              rgba(201, 169, 110, 0.18);
+  --color-input:               rgba(201, 169, 110, 0.12);
+  --color-ring:                #C9A96E;
+  --color-card:                #0f0f0f;
+  --color-card-foreground:     #F5F0E8;
+  --color-popover:             #0f0f0f;
+  --color-popover-foreground:  #F5F0E8;
 }
 
+/* ─── Base Resets ───────────────────────────────────────────────────── */
 @layer base {
-  h1, h2, h3, h4, h5, h6 {
-    font-family: var(--font-matchbox);
-  }
-  html {
-    scroll-padding-top: 80px;
+  *, *::before, *::after {
+    box-sizing: border-box;
   }
 
   html {
-    /* Apply standard or WebKit scrollbar styles here for the whole page */
-    scrollbar-color: #500 #200; /* Standard */
-    scrollbar-width: thin; /*Standard */
-
-    /* scrollbar-gutter: stable both-edges; */
-    /* scrollbar-gutter: stable; */
-    background-color: #200000;
+    scroll-padding-top: 88px;
+    scrollbar-color:    #8B1A1A #080808;
+    scrollbar-width:    thin;
+    background-color:   #080808;
     margin: 0;
     padding: 0;
   }
 
-  html::-webkit-scrollbar {
-    width: 12px;
-  }
-  
-  html::-webkit-scrollbar-track {
-    background: #200;
-  }
-  
-  html::-webkit-scrollbar-thumb {
-    background-color: #500;
-  } 
-}
-@layer base {
-  html,
+  html::-webkit-scrollbar        { width: 6px; }
+  html::-webkit-scrollbar-track  { background: #080808; }
+  html::-webkit-scrollbar-thumb  { background-color: #8B1A1A; }
+
   body {
     margin: 0;
     padding: 0;
-    height: 100%;
+    background-color: #080808;
+    color: #F5F0E8;
+    font-family: var(--font-body);
+    font-weight: 300;
+    letter-spacing: 0.02em;
   }
+
+  /* Premium heading typography */
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-display);
+    font-weight: 300;
+    letter-spacing: 0.04em;
+    line-height: 1.1;
+  }
+
   iconify-icon {
     display: inline-block;
     width: 1em;
@@ -77,54 +106,236 @@
   }
 }
 
+/* ─── Custom Font ───────────────────────────────────────────────────── */
 @font-face {
   font-family: 'Matchbox';
   src: url('/fonts/Matchbox.ttf') format('truetype');
   font-weight: normal;
   font-style: normal;
+  font-display: swap;
 }
 
-body {
-  color: rgb(var(--foreground-rgb));
-  background: linear-gradient(to bottom, rgb(var(--background-start-rgb)), rgb(var(--background-end-rgb))) fixed;
+/* ─── Utility Classes ───────────────────────────────────────────────── */
+@layer utilities {
+
+  /* ── Section scaffold ─────────────────────────────────────────────── */
+  .section-py    { padding-top: 7rem; padding-bottom: 7rem; }
+  .section-px    { padding-left: 1.5rem; padding-right: 1.5rem; }
+  .section-inner { max-width: 72rem; margin-left: auto; margin-right: auto; }
+
+  /* ── Overline / eyebrow label ─────────────────────────────────────── */
+  .eyebrow {
+    font-family: var(--font-label);
+    font-size: 0.65rem;
+    letter-spacing: 0.35em;
+    text-transform: uppercase;
+    color: #C9A96E;
+    display: block;
+  }
+
+  /* ── Display headings ─────────────────────────────────────────────── */
+  .display-xl {
+    font-family: var(--font-display);
+    font-weight: 300;
+    font-size: clamp(3rem, 9vw, 7rem);
+    line-height: 1.0;
+    letter-spacing: 0.04em;
+  }
+  .display-lg {
+    font-family: var(--font-display);
+    font-weight: 300;
+    font-size: clamp(2.5rem, 6vw, 5rem);
+    line-height: 1.05;
+    letter-spacing: 0.04em;
+  }
+  .display-md {
+    font-family: var(--font-display);
+    font-weight: 300;
+    font-size: clamp(2rem, 4vw, 3.5rem);
+    line-height: 1.1;
+    letter-spacing: 0.03em;
+  }
+
+  /* ── Gold thin line ───────────────────────────────────────────────── */
+  .gold-rule {
+    height: 1px;
+    background: linear-gradient(to right, transparent, #C9A96E 30%, #C9A96E 70%, transparent);
+  }
+  .gold-rule-fade {
+    height: 1px;
+    background: linear-gradient(to right, transparent, rgba(201, 169, 110, 0.4) 50%, transparent);
+  }
+
+  /* ── Buttons ──────────────────────────────────────────────────────── */
+  .btn-gold {
+    display: inline-block;
+    border: 1px solid #C9A96E;
+    color: #C9A96E;
+    padding: 0.85rem 2.5rem;
+    font-family: var(--font-body);
+    font-size: 0.7rem;
+    font-weight: 400;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    text-decoration: none;
+    transition: background 0.3s ease, color 0.3s ease;
+    background: transparent;
+  }
+  .btn-gold:hover {
+    background: #C9A96E;
+    color: #080808;
+  }
+
+  .btn-crimson {
+    display: inline-block;
+    background: #8B1A1A;
+    border: 1px solid transparent;
+    color: #F5F0E8;
+    padding: 0.85rem 2.5rem;
+    font-family: var(--font-body);
+    font-size: 0.7rem;
+    font-weight: 400;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    text-decoration: none;
+    transition: background 0.3s ease, border-color 0.3s ease;
+  }
+  .btn-crimson:hover {
+    background: #B22222;
+    border-color: rgba(201, 169, 110, 0.5);
+  }
+
+  .btn-ghost-cream {
+    display: inline-block;
+    border: 1px solid rgba(245, 240, 232, 0.3);
+    color: rgba(245, 240, 232, 0.8);
+    padding: 0.85rem 2.5rem;
+    font-family: var(--font-body);
+    font-size: 0.7rem;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    background: transparent;
+  }
+  .btn-ghost-cream:hover {
+    border-color: rgba(245, 240, 232, 0.7);
+    color: #F5F0E8;
+  }
+
+  /* ── Section reveal animation ─────────────────────────────────────── */
+  .reveal {
+    opacity: 0;
+    transform: translateY(28px);
+    transition: opacity 0.85s cubic-bezier(0.22, 1, 0.36, 1),
+                transform 0.85s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .reveal.revealed {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  .reveal-delay-1 { transition-delay: 0.1s; }
+  .reveal-delay-2 { transition-delay: 0.2s; }
+  .reveal-delay-3 { transition-delay: 0.35s; }
+  .reveal-delay-4 { transition-delay: 0.5s; }
+
+  /* ── Grain overlay ────────────────────────────────────────────────── */
+  .grain::after {
+    content: '';
+    position: fixed;
+    inset: 0;
+    z-index: 200;
+    pointer-events: none;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.035'/%3E%3C/svg%3E");
+    opacity: 0.4;
+  }
+
+  /* ── Scroll-indicator pulse ───────────────────────────────────────── */
+  .scroll-pulse {
+    animation: scrollPulse 2s ease-in-out infinite;
+  }
+  @keyframes scrollPulse {
+    0%, 100% { opacity: 0.6; transform: translateY(0); }
+    50%       { opacity: 1;   transform: translateY(6px); }
+  }
+
+  /* ── FAQ prose overrides ──────────────────────────────────────────── */
+  .faq-prose a {
+    color: #C9A96E;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+  .faq-prose a:hover { color: #E8C98A; }
+  .faq-prose ul {
+    margin-top: 0.5rem;
+    padding-left: 1.5rem;
+    list-style-type: disc;
+  }
+  .faq-prose ul li { margin-bottom: 0.35rem; }
+  .faq-prose p    { margin-top: 0.5rem; }
+  .faq-prose strong { color: #C9A96E; font-weight: 500; }
+
+  /* ── Matchbox label helper ────────────────────────────────────────── */
+  .font-matchbox { font-family: var(--font-matchbox); }
+  .font-display  { font-family: var(--font-display); }
+  .font-label    { font-family: var(--font-label); }
+
+  /* ── Text colors ──────────────────────────────────────────────────── */
+  .text-gold        { color: #C9A96E; }
+  .text-cream       { color: #F5F0E8; }
+  .text-cream\/70   { color: rgba(245, 240, 232, 0.7); }
+  .text-crimson     { color: #8B1A1A; }
+
+  /* ── Background helpers ───────────────────────────────────────────── */
+  .bg-gold          { background-color: #C9A96E; }
+  .bg-crimson       { background-color: #8B1A1A; }
+  .bg-surface       { background-color: #0f0f0f; }
+  .bg-surface-2     { background-color: #181818; }
+
+  /* ── Border helpers ───────────────────────────────────────────────── */
+  .border-gold\/20  { border-color: rgba(201, 169, 110, 0.2); }
+  .border-gold\/40  { border-color: rgba(201, 169, 110, 0.4); }
+  .border-gold      { border-color: #C9A96E; }
+  .border-crimson   { border-color: #8B1A1A; }
 }
 
+/* ─── View Transition animations ────────────────────────────────────── */
+@keyframes vt-fade-out {
+  from { opacity: 1; }
+  to   { opacity: 0; }
+}
+@keyframes vt-fade-in {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+@keyframes vt-slide-out {
+  from { opacity: 1; transform: translateY(0); }
+  to   { opacity: 0; transform: translateY(-12px); }
+}
+@keyframes vt-slide-in {
+  from { opacity: 0; transform: translateY(12px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+::view-transition-old(root) {
+  animation: vt-slide-out 0.3s cubic-bezier(0.4, 0, 1, 1) both;
+}
+::view-transition-new(root) {
+  animation: vt-slide-in 0.35s cubic-bezier(0, 0, 0.2, 1) both;
+}
+
+/* ─── Smooth anchor scroll ──────────────────────────────────────────── */
+html { scroll-behavior: smooth; }
+
+/* ─── Legacy glitch (keep for backward compat) ──────────────────────── */
 .glitch-text {
   position: relative;
   color: white;
-  text-shadow: 3px 3px 0 rgba(255, 0, 0, 0.25), -3px -3px 0 rgba(228, 255, 26, 0.25);
+  text-shadow: 3px 3px 0 rgba(255,0,0,0.2), -3px -3px 0 rgba(255,255,26,0.2);
   animation: glitch 2s infinite;
 }
-
 @keyframes glitch {
-  0% {
-    text-shadow: 3px 3px 0 rgba(255, 0, 0, 0.25), -3px -3px 0 rgba(228, 255, 26, 0.25);
-  }
-  1% {
-    text-shadow: 3px 3px 0 rgba(255, 0, 0, 0.25), -3px -3px 0 rgba(228, 255, 26, 0.25);
-  }
-  2% {
-    text-shadow: 3px -3px 0 rgba(255, 0, 0, 0.25), -3px 3px 0 rgba(228, 255, 26, 0.25);
-  }
-  3% {
-    text-shadow: 3px -3px 0 rgba(255, 0, 0, 0.25), -3px 3px 0 rgba(228, 255, 26, 0.25);
-  }
-  4% {
-    text-shadow: -3px -3px 0 rgba(255, 0, 0, 0.25), 3px 3px 0 rgba(228, 255, 26, 0.25);
-  }
-  5% {
-    text-shadow: -3px -3px 0 rgba(255, 0, 0, 0.25), 3px 3px 0 rgba(228, 255, 26, 0.25);
-  }
-  6% {
-    text-shadow: -3px 3px 0 rgba(255, 0, 0, 0.25), 3px -3px 0 rgba(228, 255, 26, 0.25);
-  }
-  7% {
-    text-shadow: -3px 3px 0 rgba(255, 0, 0, 0.25), 3px -3px 0 rgba(228, 255, 26, 0.25);
-  }
-  8% {
-    text-shadow: 3px 3px 0 rgba(255, 0, 0, 0.25), -3px -3px 0 rgba(228, 255, 26, 0.25);
-  }
-  100% {
-    text-shadow: 3px 3px 0 rgba(255, 0, 0, 0.25), -3px -3px 0 rgba(228, 255, 26, 0.25);
-  }
+  0%,8%,100% { text-shadow: 3px 3px 0 rgba(255,0,0,0.2), -3px -3px 0 rgba(255,255,26,0.2); }
+  2%,6%      { text-shadow: 3px -3px 0 rgba(255,0,0,0.2), -3px 3px 0 rgba(255,255,26,0.2); }
+  4%         { text-shadow: -3px -3px 0 rgba(255,0,0,0.2), 3px 3px 0 rgba(255,255,26,0.2); }
 }

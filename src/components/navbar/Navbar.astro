@@ -1,41 +1,83 @@
 ---
-import { Link } from "@/components/ui/link.tsx";
-import StudioTitle from "@/components/StudioTitle.astro";
-import { SocialDropdown } from "./socialDropdown";
+import { Image } from "astro:assets";
+import mikoLogo from "@/assets/logo.png";
 
 interface Props {
   menuItems: Array<{ href: string; label: string; active: boolean }>;
 }
 
 const { menuItems } = Astro.props;
+
+// Split: first 3 on left, last 3 on right
+const leftItems  = menuItems.slice(0, 3);
+const rightItems = menuItems.slice(3, 6);
 ---
 
-<div class="flex justify-between items-center w-full">
-  <a href="/">
-    <StudioTitle size="sm" />
-  </a>
+<!-- Desktop Navbar (British Grove center-logo style) -->
+<div class="hidden xl:flex items-center w-full relative" id="desktop-nav">
 
-  {/* Desktop Menu */}
-  <div class="hidden xl:flex gap-6 text-white items-center px-4 text-center">
-    {
-      menuItems.map((item) => (
-        <a
-          href={item.href}
-          class={`hover:text-red-300 transition ${item.active ? "text-red-300" : ""}`}
-        >
-          {item.label}
-        </a>
-      ))
-    }
-    <SocialDropdown client:idle />
-  </div>
-
-  <div class="flex items-center gap-2">
-    <Link
-      href="/prices-and-bundles#book-session"
-      className="bg-red-600 hover:bg-red-700 text-white"
+  <!-- ── LEFT: Book Session CTA + 3 nav links ──────────────────── -->
+  <div class="flex items-center gap-7 flex-1">
+    <!-- Always-visible CTA button on far left -->
+    <a
+      href="#book-session"
+      class="flex-shrink-0 border border-[#C9A96E] text-[#C9A96E] hover:bg-[#C9A96E] hover:text-[#080808]
+             px-5 py-2.5 text-[0.65rem] font-[400] tracking-[0.3em] uppercase transition-all duration-300
+             font-jose whitespace-nowrap"
     >
       Book a Session
-    </Link>
+    </a>
+
+    <!-- Left nav items -->
+    <nav class="flex gap-7 items-center">
+      {
+        leftItems.map((item) => (
+          <a
+            href={item.href}
+            class:list={[
+              "text-[0.7rem] tracking-[0.2em] uppercase font-jose transition-colors duration-200 whitespace-nowrap",
+              item.active
+                ? "text-[#C9A96E]"
+                : "text-[rgba(245,240,232,0.65)] hover:text-[#F5F0E8]",
+            ]}
+          >
+            {item.label}
+          </a>
+        ))
+      }
+    </nav>
+  </div>
+
+  <!-- ── CENTER: Logo ───────────────────────────────────────────── -->
+  <div class="absolute left-1/2 -translate-x-1/2 flex-shrink-0">
+    <a href="/" aria-label="Miko Recording Studio – Home" class="block">
+      <Image
+        src={mikoLogo}
+        alt="Miko Recording Studio"
+        class="h-11 w-auto object-contain"
+        loading="eager"
+      />
+    </a>
+  </div>
+
+  <!-- ── RIGHT: 3 nav links ─────────────────────────────────────── -->
+  <div class="flex items-center justify-end flex-1">
+    <nav class="flex gap-7 items-center">
+      {
+        rightItems.map((item) => (
+          <a
+            href={item.href}
+            class:list={[
+              "text-[0.7rem] tracking-[0.2em] uppercase font-jose transition-colors duration-200 whitespace-nowrap",
+              item.active
+                ? "text-[#C9A96E]"
+                : "text-[rgba(245,240,232,0.65)] hover:text-[#F5F0E8]",
+            ]}
+          >
+            {item.label}
+          </a>
+        ))
+      }
+    </nav>
   </div>
 </div>

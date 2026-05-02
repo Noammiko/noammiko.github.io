@@ -1,165 +1,752 @@
 ---
-import Page from "@/layouts/Page.astro";
-import Gallery from "@/components/Gallery.tsx";
-import { getImages } from "@/assets/galary/images";
+import Layout from "@/layouts/Layout.astro";
+import Header from "@/layouts/Header.astro";
+import Footer from "@/layouts/Footer.astro";
 
-const images = await getImages({
-  densities: [1.5, 2],
-  imageTransform: {
-    format: "webp",
-  },
-});
+import { Image, getImage } from "astro:assets";
+import { getCollection, render } from "astro:content";
 
-import StudioTitle from "@/components/StudioTitle.astro";
-import PlatformIcon from "@/components/platformIcon.astro";
+// Gallery images
+import img1 from "@/assets/galary/1.jpeg";
+import img2 from "@/assets/galary/2.jpeg";
+import img3 from "@/assets/galary/3.jpeg";
+import img4 from "@/assets/galary/4.jpeg";
+import img5 from "@/assets/galary/5.jpeg";
+import img6 from "@/assets/galary/6.jpeg";
+import img7 from "@/assets/galary/7.jpeg";
+
+// Logo
+import mikoLogo from "@/assets/logo.png";
+
+// Optimised hero poster
+const heroPoster = await getImage({ src: img1, format: "webp", width: 1920, quality: 75 });
+
+// Portfolio & reviews (static JSON)
+import portfolio from "@/assets/protfolio.json";
+import reviews from "@/assets/reviews.json";
+
+// Pricing data (replaces Google Sheets)
+import pricingData from "@/data/pricing.json";
+
+// Music portfolio Astro component (server-rendered, brings its own audio player)
+import Song from "@/components/musicPortfolio/songs.astro";
+
+// React interactive components
+import { FAQAccordion } from "@/components/FAQAccordion.tsx";
+import { BundleListStatic } from "@/components/priceNbundles/BundleListStatic.tsx";
 import { ReviewsSection } from "@/components/Reviews.tsx";
-import platforms from "@/lib/platforms";
+
+// ── Parse FAQ from existing _faq.md ───────────────────────────────────────
+// (Same approach as the existing faq.astro page — simple & reliable)
+import * as faqMd from "./_faq.md";
+const faqHtml = await faqMd.compiledContent();
+const faqRe   = /<h1 id="([\w-]+)">([^<]+)<\/h1>/gm;
+const faqSections = [...faqHtml.replaceAll(">\n", "> ").matchAll(faqRe)].map(
+  (m) => ({
+    id: m[1],
+    question: m[2],
+    questionStart: m.index,
+    answerStart: m.index + m[0].length,
+  })
+);
+const faqList = faqSections.map((sec, i) => ({
+  id:       sec.id,
+  question: sec.question,
+  answer:   faqHtml.substring(sec.answerStart, faqSections[i + 1]?.questionStart),
+}));
+
+// ── About MDX content ─────────────────────────────────────────────────────
+const siteEntries = await getCollection("site");
+const aboutEntry  = siteEntries.find((e) => e.id === "about");
+const { Content: AboutContent } = aboutEntry
+  ? await render(aboutEntry)
+  : { Content: null };
+
+// ── Seasonal offer ────────────────────────────────────────────────────────
+const offer = pricingData.seasonalOffer;
 ---
 
-<Page
-  title="Home"
-  description="Guelph audio recording and editing studio"
-  currentPage="home"
+<Layout
+  title="The Top Recording Studio in Guelph"
+  description="Miko Recording Studio — Professional recording, mixing & mastering in Guelph, Ontario. Open to all genres & languages. Book your session today."
 >
-  {/* Hero Section */}
-  <div class="text-center">
-    <div class="flex justify-center mb-6">
-      <StudioTitle size="lg" />
-    </div>
-    <div class="w-32 h-1 bg-red-500 mx-auto mb-8"></div>
+  <!-- ────────────────────────────────────────────────────────
+       NAVIGATION  (persists across view-transition navigations)
+  ─────────────────────────────────────────────────────────── -->
+  <Header currentPage="home" hidden={false} />
 
-    {/* Social Icons */}
-    <div class="flex justify-center gap-6 mb-16">
-      <a
-        href={platforms.tiktok.href}
-        class="text-white hover:text-red-300 transition"
-      >
-        <PlatformIcon platform="tiktok" text={false} class="w-8 h-8" />
-      </a>
-      <a
-        href={platforms.youtube.href}
-        class="text-white hover:text-red-300 transition"
-      >
-        <PlatformIcon platform="youtube" text={false} class="w-8 h-8" />
-      </a>
-      <a
-        href={platforms.spotify.href}
-        class="text-white hover:text-red-300 transition"
-      >
-        <PlatformIcon platform="spotify" text={false} class="w-8 h-8" />
-      </a>
-      <a
-        href={platforms.instagram.href}
-        class="text-white hover:text-red-300 transition"
-      >
-        <PlatformIcon platform="instagram" text={false} class="w-8 h-8" />
-      </a>
-      <a
-        href={platforms.location.href}
-        class="text-white hover:text-red-300 transition"
-      >
-        <PlatformIcon platform="location" text={false} class="w-8 h-8" />
-      </a>
-    </div>
+  <main>
 
-    <h2
-      class="text-3xl md:text-4xl font-bold mb-12 border-b-2 border-red-500 pb-2 inline-block"
+    <!-- ══════════════════════════════════════════════════════
+         §1  HERO
+    ══════════════════════════════════════════════════════════ -->
+    <section
+      id="home"
+      class="relative min-h-screen flex items-center justify-center overflow-hidden"
     >
-      PROFESSIONAL RECORDING STUDIO IN GUELPH
-    </h2>
+      <!-- Video / poster background -->
+      <div class="absolute inset-0 z-0">
+        <video
+          autoplay muted loop playsinline
+          poster={heroPoster.src}
+          class="absolute inset-0 w-full h-full object-cover opacity-55"
+          aria-hidden="true"
+        >
+          <!-- Drop /public/videos/hero.mp4 to enable the cinematic studio video -->
+          <source src="/videos/hero.mp4" type="video/mp4" />
+        </video>
 
-    {/* Main Navigation Buttons */}
-    <div class="grid md:grid-cols-2 gap-6 max-w-4xl mx-auto mb-16">
-      <a href="/prices-and-bundles" class="block">
+        <!-- Gradient overlay -->
         <div
-          class="border border-red-500/50 hover:border-red-500 rounded-lg p-8 transition-all hover:bg-black/20 backdrop-blur-sm"
-        >
-          <h3 class="text-2xl font-bold mb-2">Prices and Bundles</h3>
-          <p class="text-gray-300">View our recording packages and rates</p>
-        </div>
-      </a>
-      <a href="/prices-and-bundles#book-session" class="block">
-        <!-- TODO: add call to action, shiny animation or something -->
-        <div
-          class="border border-red-500/50 hover:border-red-500 rounded-lg p-8 transition-all hover:bg-black/20 backdrop-blur-sm"
-        >
-          <h3 class="text-2xl font-bold mb-2">Book a Session</h3>
-          <p class="text-gray-300">Schedule your recording time</p>
-        </div>
-      </a>
-      <a href="/portfolio" class="block">
-        <div
-          class="border border-red-500/50 hover:border-red-500 rounded-lg p-8 transition-all hover:bg-black/20 backdrop-blur-sm"
-        >
-          <h3 class="text-2xl font-bold mb-2">Portfolio</h3>
-          <p class="text-gray-300">Listen to our production work</p>
-        </div>
-      </a>
-      <a href="/my-music" class="block">
-        <div
-          class="border border-red-500/50 hover:border-red-500 rounded-lg p-8 transition-all hover:bg-black/20 backdrop-blur-sm"
-        >
-          <h3 class="text-2xl font-bold mb-2">My Music</h3>
-          <p class="text-gray-300">Listen to my original music</p>
-        </div>
-      </a>
-    </div>
-
-    {/* Gallery Section */}
-    <h2
-      id="gallery"
-      class="text-4xl font-bold mb-8 border-b-2 border-red-500 pb-2 inline-block"
-    >
-      GALLERY
-    </h2>
-    <div class="max-w-4xl mx-auto mb-16">
-      <Gallery images={images} client:idle />
-    </div>
-
-    {/* Location Section */}
-    <h2
-      id="location"
-      class="text-4xl font-bold mb-8 border-b-2 border-red-500 pb-2 inline-block"
-    >
-      LOCATION
-    </h2>
-    <div class="max-w-4xl mx-auto mb-16">
-      <div
-        class="rounded-lg overflow-hidden shadow-lg border border-red-500/30"
-      >
-        <iframe
-          width="100%"
-          height="450"
-          style="border:0;"
-          allowfullscreen=""
-          loading="lazy"
-          src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d1446.818467179641!2d-80.226072!3d43.509909!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x882bf77fb6007e8b%3A0x81459b0f458033f1!2sMiko%20Recording%20Studio!5e0!3m2!1sen!2sus!4v1746235360629!5m2!1sen!2sus"
-          title="Miko Recording Studio Location"
-          aria-label="Google Maps showing Miko Recording Studio location"
-          referrerpolicy="no-referrer-when-downgrade"></iframe>
+          class="absolute inset-0"
+          style="background: linear-gradient(to bottom,
+            rgba(8,8,8,0.6)  0%,
+            rgba(8,8,8,0.2)  40%,
+            rgba(8,8,8,0.6)  70%,
+            rgba(8,8,8,0.98) 100%)"
+        ></div>
       </div>
-      <div class="mt-4 text-xl">
-        <p>502 Kortright Rd W, Guelph, ON</p>
-        <p class="mt-2">
+
+      <!-- Content -->
+      <div class="relative z-10 text-center px-6 w-full max-w-5xl mx-auto flex flex-col items-center pt-28 pb-32">
+        <!-- Logo -->
+        <div class="mb-10 reveal">
+          <Image
+            src={mikoLogo}
+            alt="Miko Recording Studio"
+            class="h-20 md:h-28 w-auto mx-auto drop-shadow-2xl"
+            loading="eager"
+          />
+        </div>
+
+        <!-- Headline -->
+        <h1
+          class="font-['Cormorant_Garamond'] font-light text-[#F5F0E8] tracking-wide mb-4
+                 reveal reveal-delay-1"
+          style="font-size: clamp(2.8rem, 8vw, 6.5rem); line-height: 1.0; text-shadow: 0 2px 40px rgba(0,0,0,0.5)"
+        >
+          THE TOP RECORDING STUDIO
+        </h1>
+        <p
+          class="font-['Cormorant_Garamond'] italic font-light text-[#C9A96E] mb-12
+                 reveal reveal-delay-2"
+          style="font-size: clamp(1.8rem, 4vw, 3.5rem)"
+        >
+          in Guelph
+        </p>
+
+        <!-- CTA -->
+        <a href="#book-session" class="btn-crimson reveal reveal-delay-3">
+          Book a Session
+        </a>
+
+        <!-- Seasonal offer strip -->
+        {
+          offer.active && (
+            <div class="mt-14 border border-[rgba(201,169,110,0.3)] px-8 py-6 max-w-lg w-full reveal reveal-delay-4">
+              <span class="eyebrow mb-3">{offer.badgeText ?? "Limited Time Offer"}</span>
+              <p class="font-['Cormorant_Garamond'] font-light text-2xl text-[#F5F0E8] mb-1">
+                {offer.name}
+              </p>
+              <p class="font-['Cormorant_Garamond'] italic text-2xl text-[#C9A96E]">
+                {offer.discount}
+              </p>
+              {offer.validUntil && (
+                <p class="text-[rgba(245,240,232,0.4)] text-xs tracking-widest uppercase mt-2 font-['Josefin_Sans']">
+                  Ends {offer.validUntil}
+                </p>
+              )}
+            </div>
+          )
+        }
+
+        <!-- Scroll indicator -->
+        <div class="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-1 scroll-pulse pointer-events-none">
+          <span class="text-[0.55rem] tracking-[0.35em] uppercase font-['Cinzel'] text-[rgba(201,169,110,0.45)]">Scroll</span>
+          <div class="w-px h-9 bg-gradient-to-b from-[rgba(201,169,110,0.45)] to-transparent mt-1"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ══════════════════════════════════════════════════════
+         §2  ABOUT
+    ══════════════════════════════════════════════════════════ -->
+    <section id="about" class="section-py section-px">
+      <div class="gold-rule"></div>
+
+      <div class="max-w-6xl mx-auto py-24 md:py-32">
+        <div class="grid md:grid-cols-2 gap-16 lg:gap-24 items-center">
+
+          <!-- Text -->
+          <div class="reveal">
+            <span class="eyebrow mb-5">About the Studio</span>
+            <h2
+              class="font-['Cormorant_Garamond'] font-light text-[#F5F0E8] mb-4"
+              style="font-size: clamp(2.2rem, 5vw, 4rem); line-height: 1.05"
+            >
+              Miko Recording Studio
+            </h2>
+            <p class="font-['Cormorant_Garamond'] italic font-light text-2xl text-[#C9A96E] mb-8">
+              Where Your Sound Comes to Life
+            </p>
+
+            <div class="text-[rgba(245,240,232,0.6)] text-[0.95rem] leading-relaxed font-['Josefin_Sans'] font-light space-y-4 mb-10 tracking-wide">
+              {
+                AboutContent ? (
+                  <AboutContent />
+                ) : (
+                  <p>
+                    Miko Recording Studio is a space where creativity comes
+                    first. Open to every genre, every language, and every
+                    level, it's designed to give you the freedom to create
+                    while delivering the clarity and quality your music
+                    deserves. From your first idea to the final record, every
+                    session is focused on capturing your vision exactly how
+                    you hear it. Your satisfaction is guaranteed.
+                  </p>
+                )
+              }
+            </div>
+
+            <div class="flex flex-wrap gap-4">
+              <a href="#portfolio" class="btn-gold">Hear the Work</a>
+              <a href="#book-session" class="btn-crimson">Book a Session</a>
+            </div>
+          </div>
+
+          <!-- Image -->
+          <div class="relative reveal reveal-delay-2">
+            <Image
+              src={img3}
+              alt="Inside Miko Recording Studio"
+              class="w-full object-cover"
+              style="height: clamp(320px, 40vw, 480px)"
+              widths={[600, 900]}
+            />
+            <div class="absolute -bottom-4 -right-4 w-full h-full border border-[rgba(201,169,110,0.18)] pointer-events-none"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="gold-rule"></div>
+    </section>
+
+    <!-- ══════════════════════════════════════════════════════
+         §3  GALLERY
+    ══════════════════════════════════════════════════════════ -->
+    <section id="gallery" class="overflow-hidden">
+      <div class="section-px section-py">
+        <div class="max-w-6xl mx-auto mb-12 reveal">
+          <span class="eyebrow mb-4">The Studio</span>
+          <h2
+            class="font-['Cormorant_Garamond'] font-light text-[#F5F0E8]"
+            style="font-size: clamp(2rem, 4vw, 3.5rem)"
+          >
+            Gallery
+          </h2>
+        </div>
+      </div>
+
+      <!-- Hero photo grid — full bleed -->
+      <div
+        class="grid gap-[3px]"
+        style="grid-template-columns: 58% 1fr 1fr; grid-template-rows: 1fr 1fr; height: clamp(400px, 60vw, 680px);"
+      >
+        <!-- Big left -->
+        <div class="row-span-2 overflow-hidden group cursor-pointer">
+          <Image
+            src={img1}
+            alt="Recording booth"
+            class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-[1.04]"
+            widths={[800, 1200]}
+          />
+        </div>
+        <!-- Top right -->
+        <div class="overflow-hidden group cursor-pointer">
+          <Image
+            src={img2}
+            alt="Mixing desk"
+            class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-[1.04]"
+            widths={[500, 800]}
+          />
+        </div>
+        <!-- Mid right -->
+        <div class="overflow-hidden group cursor-pointer">
+          <Image
+            src={img5}
+            alt="Studio equipment"
+            class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-[1.04]"
+            widths={[500, 800]}
+          />
+        </div>
+        <!-- Bottom right 1 -->
+        <div class="overflow-hidden group cursor-pointer">
+          <Image
+            src={img4}
+            alt="Vocal booth"
+            class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-[1.04]"
+            widths={[500, 800]}
+          />
+        </div>
+        <!-- Bottom right 2 -->
+        <div class="overflow-hidden group cursor-pointer">
+          <Image
+            src={img6}
+            alt="Studio monitors"
+            class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-[1.04]"
+            widths={[500, 800]}
+          />
+        </div>
+      </div>
+
+      <!-- Bottom strip -->
+      <div class="grid grid-cols-2 gap-[3px] mt-[3px]" style="height: clamp(120px, 15vw, 200px);">
+        <div class="overflow-hidden group cursor-pointer">
+          <Image
+            src={img7}
+            alt="Session"
+            class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-[1.04]"
+            widths={[600, 900]}
+          />
+        </div>
+        <div class="overflow-hidden group cursor-pointer">
+          <Image
+            src={img3}
+            alt="Studio space"
+            class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-[1.04]"
+            widths={[600, 900]}
+          />
+        </div>
+      </div>
+    </section>
+
+    <!-- ══════════════════════════════════════════════════════
+         §4  TESTIMONIALS
+    ══════════════════════════════════════════════════════════ -->
+    <section id="testimonials" class="section-py section-px" style="background:#09090b">
+      <div class="gold-rule-fade"></div>
+
+      <div class="max-w-5xl mx-auto py-20 md:py-28">
+        <div class="reveal mb-16 text-center">
+          <span class="eyebrow mb-5">What Clients Say</span>
+          <h2
+            class="font-['Cormorant_Garamond'] font-light text-[#F5F0E8]"
+            style="font-size: clamp(2rem, 4vw, 3.5rem)"
+          >
+            Testimonials
+          </h2>
+        </div>
+
+        <div class="reveal reveal-delay-1">
+          <ReviewsSection client:visible title="" subtitle="" />
+        </div>
+      </div>
+
+      <div class="gold-rule-fade"></div>
+    </section>
+
+    <!-- ══════════════════════════════════════════════════════
+         §5  PORTFOLIO
+    ══════════════════════════════════════════════════════════ -->
+    <section id="portfolio" class="section-py section-px">
+      <div class="max-w-6xl mx-auto">
+        <div class="reveal mb-14">
+          <span class="eyebrow mb-5">Selected Works</span>
+          <h2
+            class="font-['Cormorant_Garamond'] font-light text-[#F5F0E8]"
+            style="font-size: clamp(2rem, 4vw, 3.5rem)"
+          >
+            Portfolio
+          </h2>
+          <p class="text-[rgba(245,240,232,0.35)] text-xs tracking-[0.3em] uppercase font-['Josefin_Sans'] mt-4">
+            Recording · Mixing · Mastering · Production
+          </p>
+        </div>
+
+        <div class="reveal reveal-delay-1 border border-[rgba(201,169,110,0.1)]">
+          <Song songs={portfolio} />
+        </div>
+      </div>
+    </section>
+
+    <!-- ══════════════════════════════════════════════════════
+         §6  PRICING & BUNDLES
+    ══════════════════════════════════════════════════════════ -->
+    <section id="pricing" class="section-py section-px" style="background:#09090b">
+      <div class="gold-rule"></div>
+
+      <div class="max-w-6xl mx-auto py-20 md:py-28">
+        <!-- Header -->
+        <div class="reveal mb-16 text-center">
+          <span class="eyebrow mb-5">Investment</span>
+          <h2
+            class="font-['Cormorant_Garamond'] font-light text-[#F5F0E8] mb-4"
+            style="font-size: clamp(2rem, 4vw, 3.5rem)"
+          >
+            Prices & Bundles
+          </h2>
+          <p class="text-[rgba(245,240,232,0.4)] text-xs tracking-[0.25em] uppercase font-['Josefin_Sans'] max-w-sm mx-auto leading-relaxed">
+            Every package includes unlimited revisions &amp; a 100% satisfaction guarantee
+          </p>
+        </div>
+
+        <!-- Bundle cards (static, no Google Sheets) -->
+        <div class="reveal reveal-delay-1">
+          <BundleListStatic data={pricingData} client:load />
+        </div>
+
+        <!-- Individual rates -->
+        <div class="mt-24 grid md:grid-cols-2 gap-16 reveal reveal-delay-2">
+          <div>
+            <span class="eyebrow mb-7">Current Rates</span>
+            <ul class="space-y-0">
+              {
+                pricingData.rates.map((rate) => (
+                  <li class="flex items-baseline justify-between py-4 border-b border-[rgba(201,169,110,0.1)]">
+                    <span class="text-[rgba(245,240,232,0.6)] text-sm tracking-wide font-['Josefin_Sans']">
+                      {rate.name}
+                    </span>
+                    <div class="text-right">
+                      <span class="font-['Cormorant_Garamond'] font-light text-2xl text-[#C9A96E]">
+                        ${rate.price.toFixed(2)}
+                      </span>
+                      <span class="text-[rgba(245,240,232,0.3)] text-xs ml-1 font-['Josefin_Sans']">
+                        {rate.unit}
+                      </span>
+                    </div>
+                  </li>
+                ))
+              }
+            </ul>
+          </div>
+
+          <div>
+            <span class="eyebrow mb-7">Instrumentals &amp; Beats</span>
+            <ul class="space-y-0">
+              {
+                pricingData.instrumentals.map((inst) => (
+                  <li class="flex items-baseline justify-between py-4 border-b border-[rgba(201,169,110,0.1)]">
+                    <span class="text-[rgba(245,240,232,0.6)] text-sm tracking-wide font-['Josefin_Sans']">
+                      {inst.name}
+                    </span>
+                    <span class="font-['Cormorant_Garamond'] font-light text-2xl text-[#C9A96E]">
+                      ${inst.price.toFixed(2)}
+                    </span>
+                  </li>
+                ))
+              }
+            </ul>
+            <p class="text-[rgba(245,240,232,0.3)] text-xs tracking-wide mt-5 font-['Josefin_Sans'] italic">
+              Exclusive rights pricing negotiable
+            </p>
+          </div>
+        </div>
+
+        <!-- Guarantee badge -->
+        <div class="mt-16 flex justify-center reveal reveal-delay-3">
+          <div class="border border-[rgba(201,169,110,0.2)] px-10 py-6 flex items-center gap-6">
+            <span class="font-['Cormorant_Garamond'] font-light text-5xl text-[#C9A96E] leading-none">100%</span>
+            <div>
+              <span class="eyebrow mb-1">Satisfaction</span>
+              <p class="text-[rgba(245,240,232,0.7)] text-xs tracking-[0.3em] uppercase font-['Josefin_Sans']">Guaranteed</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="gold-rule"></div>
+    </section>
+
+    <!-- ══════════════════════════════════════════════════════
+         §7  FAQ
+    ══════════════════════════════════════════════════════════ -->
+    <section id="faq" class="section-py section-px">
+      <div class="max-w-4xl mx-auto">
+        <div class="reveal mb-16">
+          <span class="eyebrow mb-5">Help</span>
+          <h2
+            class="font-['Cormorant_Garamond'] font-light text-[#F5F0E8]"
+            style="font-size: clamp(2rem, 4vw, 3.5rem)"
+          >
+            Frequently Asked Questions
+          </h2>
+        </div>
+
+        <!-- FAQ Accordion (React) — data pre-parsed server-side -->
+        <div class="reveal reveal-delay-1">
+          <FAQAccordion faqs={faqList} client:visible />
+        </div>
+
+        <div class="mt-16 text-center reveal reveal-delay-2">
+          <p class="text-[rgba(245,240,232,0.35)] text-xs tracking-[0.3em] uppercase font-['Josefin_Sans'] mb-8">
+            Have more questions?
+          </p>
+          <div class="flex flex-wrap justify-center gap-4">
+            <a href="#contact" class="btn-gold">Contact Us</a>
+            <a href="#book-session" class="btn-crimson">Book a Session</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ══════════════════════════════════════════════════════
+         §8  CONTACT
+    ══════════════════════════════════════════════════════════ -->
+    <section id="contact" class="section-py section-px" style="background:#09090b">
+      <div class="gold-rule"></div>
+
+      <div class="max-w-6xl mx-auto py-20 md:py-28">
+        <div class="reveal mb-16 text-center">
+          <span class="eyebrow mb-5">Get in Touch</span>
+          <h2
+            class="font-['Cormorant_Garamond'] font-light text-[#F5F0E8]"
+            style="font-size: clamp(2rem, 4vw, 3.5rem)"
+          >
+            Contact
+          </h2>
+        </div>
+
+        <div class="grid md:grid-cols-3 gap-4 reveal reveal-delay-1">
+          <div class="border border-[rgba(201,169,110,0.12)] p-8 text-center hover:border-[rgba(201,169,110,0.35)] transition-colors duration-300">
+            <span class="eyebrow mb-5">Email</span>
+            <a
+              href="mailto:noam@miko-recordingstudio.ca?subject=Studio%20session%20booking%20request"
+              class="font-['Cormorant_Garamond'] font-light text-lg text-[#F5F0E8] hover:text-[#C9A96E] transition-colors duration-200 break-all"
+            >
+              noam@miko-recordingstudio.ca
+            </a>
+          </div>
+
+          <div class="border border-[rgba(201,169,110,0.12)] p-8 text-center hover:border-[rgba(201,169,110,0.35)] transition-colors duration-300">
+            <span class="eyebrow mb-5">Phone</span>
+            <a
+              href="tel:+12266062452"
+              class="font-['Cormorant_Garamond'] font-light text-2xl text-[#F5F0E8] hover:text-[#C9A96E] transition-colors duration-200"
+            >
+              (226) 606-2452
+            </a>
+          </div>
+
+          <div class="border border-[rgba(201,169,110,0.12)] p-8 text-center hover:border-[rgba(201,169,110,0.35)] transition-colors duration-300">
+            <span class="eyebrow mb-5">Follow</span>
+            <div class="flex justify-center flex-wrap gap-4">
+              {[
+                { label: "TikTok",     href: "https://www.tiktok.com/@mikorecordingstudio" },
+                { label: "Instagram",  href: "https://www.instagram.com/mikorecordingstudio" },
+                { label: "YouTube",    href: "https://youtube.com/@mikorecordingstudio" },
+                { label: "Spotify",    href: "https://open.spotify.com/artist/mikorecordingstudio" },
+              ].map((s) => (
+                <a
+                  href={s.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="text-[0.6rem] tracking-[0.2em] uppercase text-[rgba(245,240,232,0.45)]
+                         hover:text-[#C9A96E] transition-colors font-['Josefin_Sans']"
+                >
+                  {s.label}
+                </a>
+              ))}
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="gold-rule"></div>
+    </section>
+
+    <!-- ══════════════════════════════════════════════════════
+         §9  LOCATION
+    ══════════════════════════════════════════════════════════ -->
+    <section id="location" class="section-py section-px">
+      <div class="max-w-6xl mx-auto">
+        <div class="reveal mb-12">
+          <span class="eyebrow mb-5">Find Us</span>
+          <h2
+            class="font-['Cormorant_Garamond'] font-light text-[#F5F0E8]"
+            style="font-size: clamp(2rem, 4vw, 3.5rem)"
+          >
+            Location
+          </h2>
+          <p class="text-[rgba(245,240,232,0.45)] text-sm tracking-wide font-['Josefin_Sans'] mt-3">
+            502 Kortright Rd W, Guelph, ON
+          </p>
+        </div>
+
+        <div class="reveal reveal-delay-1 border border-[rgba(201,169,110,0.15)] overflow-hidden">
+          <iframe
+            width="100%"
+            height="440"
+            style="border:0;display:block;"
+            allowfullscreen
+            loading="lazy"
+            src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d1446.818467179641!2d-80.226072!3d43.509909!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x882bf77fb6007e8b%3A0x81459b0f458033f1!2sMiko%20Recording%20Studio!5e0!3m2!1sen!2sus!4v1746235360629!5m2!1sen!2sus"
+            title="Miko Recording Studio on Google Maps"
+            referrerpolicy="no-referrer-when-downgrade"
+          ></iframe>
+        </div>
+
+        <div class="mt-8 text-center reveal reveal-delay-2">
           <a
             href="https://maps.google.com/maps?q=Miko+Recording+Studio"
             target="_blank"
             rel="noopener noreferrer"
-            class="text-red-300 hover:text-red-400 transition underline"
+            class="btn-gold"
           >
             Get Directions
           </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ══════════════════════════════════════════════════════
+         §10  BOOK A SESSION
+    ══════════════════════════════════════════════════════════ -->
+    <section id="book-session" class="section-py section-px" style="background:#09090b">
+      <div class="gold-rule"></div>
+
+      <div class="max-w-6xl mx-auto py-20 md:py-28">
+        <div class="reveal mb-12 text-center">
+          <span class="eyebrow mb-5">Reserve Your Time</span>
+          <h2
+            class="font-['Cormorant_Garamond'] font-light text-[#F5F0E8] mb-4"
+            style="font-size: clamp(2.5rem, 6vw, 5rem)"
+          >
+            Book a Session
+          </h2>
+          <p class="text-[rgba(245,240,232,0.4)] text-xs tracking-[0.3em] uppercase font-['Josefin_Sans']">
+            Select your date and time below
+          </p>
+        </div>
+
+        <!-- Quick contact strip -->
+        <div class="reveal reveal-delay-1 flex flex-wrap justify-center gap-8 mb-12">
+          <a
+            href="mailto:noam@miko-recordingstudio.ca?subject=Studio%20session%20booking%20request"
+            class="group flex flex-col items-center gap-1"
+          >
+            <span class="eyebrow group-hover:text-[#E8C98A] transition-colors">Email</span>
+            <span class="text-[rgba(245,240,232,0.55)] text-sm font-['Josefin_Sans'] group-hover:text-[#F5F0E8] transition-colors">
+              noam@miko-recordingstudio.ca
+            </span>
+          </a>
+          <div class="w-px h-10 self-center bg-[rgba(201,169,110,0.2)]"></div>
+          <a href="tel:+12266062452" class="group flex flex-col items-center gap-1">
+            <span class="eyebrow group-hover:text-[#E8C98A] transition-colors">Call</span>
+            <span class="text-[rgba(245,240,232,0.55)] text-sm font-['Josefin_Sans'] group-hover:text-[#F5F0E8] transition-colors">
+              (226) 606-2452
+            </span>
+          </a>
+        </div>
+
+        <!-- Calendar -->
+        <div class="reveal reveal-delay-2 border border-[rgba(201,169,110,0.15)] overflow-hidden">
+          <div class="bg-white overflow-hidden">
+            <iframe
+              src="https://calendar.google.com/calendar/appointments/schedules/AcZssZ0-Md8E3JHXqoEt4gYrOiezfBut-2jaVMB3MN66uZHvpMg9BptlFWqEdmfnZXdmuPplJH1Ww-Kl?gv=true"
+              style="border:0;display:block;"
+              width="100%"
+              height="620"
+              frameborder="0"
+              title="Book a recording session"
+            ></iframe>
+          </div>
+        </div>
+      </div>
+
+      <div class="gold-rule"></div>
+    </section>
+
+  </main>
+
+  <!-- ── FOOTER ─────────────────────────────────────────────────── -->
+  <footer class="bg-[#080808] border-t border-[rgba(201,169,110,0.1)] py-14 px-6">
+    <div class="max-w-6xl mx-auto">
+      <!-- Top row -->
+      <div class="flex flex-col md:flex-row items-center justify-between gap-8 mb-10">
+        <div class="text-center md:text-left">
+          <Image
+            src={mikoLogo}
+            alt="Miko Recording Studio"
+            class="h-10 w-auto opacity-60 mb-3"
+          />
+          <p class="text-[rgba(245,240,232,0.3)] text-[0.6rem] tracking-[0.35em] uppercase font-['Josefin_Sans']">
+            Professional Audio Production · Guelph, ON
+          </p>
+        </div>
+
+        <!-- Nav links -->
+        <nav class="flex flex-wrap justify-center gap-6">
+          {[
+            ["/#pricing",     "Prices"],
+            ["/#portfolio",   "Portfolio"],
+            ["/#testimonials","Reviews"],
+            ["/#music",       "My Music"],
+            ["/#faq",         "FAQ"],
+            ["/#contact",     "Contact"],
+          ].map(([href, label]) => (
+            <a
+              href={href}
+              class="text-[0.6rem] tracking-[0.25em] uppercase text-[rgba(245,240,232,0.3)]
+                     hover:text-[#C9A96E] transition-colors font-['Josefin_Sans']"
+            >
+              {label}
+            </a>
+          ))}
+        </nav>
+
+        <div class="flex flex-col sm:flex-row items-center gap-5">
+          <a
+            href="tel:+12266062452"
+            class="text-[rgba(245,240,232,0.35)] text-xs tracking-wide font-['Josefin_Sans'] hover:text-[#C9A96E] transition-colors"
+          >
+            (226) 606-2452
+          </a>
+          <a
+            href="mailto:noam@miko-recordingstudio.ca"
+            class="text-[rgba(245,240,232,0.35)] text-xs tracking-wide font-['Josefin_Sans'] hover:text-[#C9A96E] transition-colors"
+          >
+            noam@miko-recordingstudio.ca
+          </a>
+        </div>
+      </div>
+
+      <!-- Bottom row -->
+      <div class="gold-rule-fade"></div>
+      <div class="pt-6 text-center">
+        <p class="text-[rgba(245,240,232,0.2)] text-[0.6rem] tracking-widest uppercase font-['Josefin_Sans']">
+          © {new Date().getFullYear()} Miko Recording Studio · All rights reserved
         </p>
       </div>
     </div>
+  </footer>
+</Layout>
 
-    {/* Reviews Section - Added under Location */}
-    <div class="mb-16">
-      <ReviewsSection
-        client:visible
-        subtitle="See what our clients have to say about their experience"
-      />
-    </div>
-  </div>
-  <!-- <LocalBusinessStructuredData /> TODO: research if this is needed for SEO -->
-</Page>
+<style is:global>
+  /* ── Portfolio table colours ───────────────────────────────────── */
+  .musicPortfolio-table th {
+    color: #C9A96E !important;
+    border-bottom-color: rgba(201,169,110,0.15) !important;
+    font-family: 'Cinzel', sans-serif !important;
+    font-size: 0.6rem !important;
+    letter-spacing: 0.3em !important;
+  }
+  .musicPortfolio-table td {
+    border-bottom-color: rgba(201,169,110,0.08) !important;
+    color: rgba(245,240,232,0.7) !important;
+    font-family: 'Josefin Sans', sans-serif !important;
+    font-size: 0.875rem !important;
+  }
+  .musicPortfolio-table tr:hover td {
+    background: rgba(201,169,110,0.04) !important;
+  }
+
+  /* ── About MDX prose ───────────────────────────────────────────── */
+  #about .prose-body p {
+    color: rgba(245,240,232,0.6);
+    font-family: 'Josefin Sans', sans-serif;
+    font-weight: 300;
+    font-size: 0.95rem;
+    line-height: 1.8;
+    letter-spacing: 0.02em;
+  }
+</style>

@@ -18,6 +18,7 @@ import type * as forms from "../forms.js";
 import type * as freeAccess from "../freeAccess.js";
 import type * as http from "../http.js";
 import type * as notifyDiscord from "../notifyDiscord.js";
+import type * as sales from "../sales.js";
 
 /**
  * A utility for referencing Convex functions in your app's API.
@@ -33,6 +34,7 @@ declare const fullApi: ApiFromModules<{
   freeAccess: typeof freeAccess;
   http: typeof http;
   notifyDiscord: typeof notifyDiscord;
+  sales: typeof sales;
 }>;
 export declare const api: FilterApi<
   typeof fullApi,

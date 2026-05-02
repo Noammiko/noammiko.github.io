@@ -8,69 +8,87 @@ interface Props {
   hidden?: boolean;
 }
 
-const { currentPage, seperator = true, hidden = false } = Astro.props;
+const { currentPage, seperator = false, hidden = false } = Astro.props;
 
-// Define menu items in a single array to ensure consistency
+// Single-page layout: all links are anchor-based
 const menuItems = [
-  { href: "/", label: "Home", active: currentPage === "home" },
+  // LEFT side (3 items)
   {
-    href: "/prices-and-bundles",
-    label: "Prices and Bundles",
-    active: currentPage === "prices",
+    href: "/#pricing",
+    label: "Prices & Bundles",
+    active: currentPage === "pricing",
   },
   {
-    href: "/portfolio",
+    href: "/#portfolio",
     label: "Portfolio",
     active: currentPage === "portfolio",
   },
-  { href: "/#gallery", label: "Gallery", active: false },
-  { href: "/faq", label: "FAQ", active: currentPage === "faq" },
-  { href: "/my-music", label: "My Music", active: currentPage === "music" },
-  { href: "/about-me", label: "About Me", active: currentPage === "about-me" },
-  { href: "/contact", label: "Contact", active: currentPage === "contact" },
+  {
+    href: "/#testimonials",
+    label: "Testimonials",
+    active: false,
+  },
+  // RIGHT side (3 items)
+  {
+    href: "/my-music",
+    label: "My Music",
+    active: currentPage === "music",
+  },
+  {
+    href: "/#faq",
+    label: "FAQ",
+    active: currentPage === "faq",
+  },
+  {
+    href: "/#contact",
+    label: "Contact",
+    active: currentPage === "contact",
+  },
 ];
 ---
 
-<header class={`grow-0 ${hidden ? "invisible" : ""}`} meta-hideable={hidden}>
+<header
+  class={`grow-0 ${hidden ? "invisible" : ""}`}
+  meta-hideable={hidden}
+  transition:persist
+>
   <nav
-    class="p-4 w-full flex gap-2 items-center fixed top-0 left-0 right-0 z-50 transition-all duration-300 bg-transparent"
     id="navbar_container"
+    class="px-6 py-4 w-full flex gap-2 items-center fixed top-0 left-0 right-0 z-50
+           transition-all duration-500 bg-transparent"
   >
     <NavigationBar menuItems={menuItems} />
     <MobileNav menuItems={menuItems} client:load />
   </nav>
 
   <script>
-    const headerBar = document.querySelector("header[meta-hideable='true']");
-    const navbar = document.querySelector("nav#navbar_container");
-    const scrolledClasses = ["bg-black/80", "backdrop-blur-md"];
-    const notScrolledClasses = ["bg-transparent"];
+    const navbar = document.querySelector("nav#navbar_container") as HTMLElement | null;
 
-    function updateScroll() {
-      const scrolled = window.scrollY > 50;
-      navbar.classList.add(
-        ...(scrolled ? scrolledClasses : notScrolledClasses),
-      );
-      navbar.classList.remove(
-        ...(scrolled ? notScrolledClasses : scrolledClasses),
-      );
+    function updateNavScroll() {
+      if (!navbar) return;
+      const scrolled = window.scrollY > 60;
+      if (scrolled) {
+        navbar.classList.add("bg-[rgba(8,8,8,0.92)]", "backdrop-blur-md", "shadow-[0_1px_0_rgba(201,169,110,0.12)]");
+        navbar.classList.remove("bg-transparent");
+      } else {
+        navbar.classList.remove("bg-[rgba(8,8,8,0.92)]", "backdrop-blur-md", "shadow-[0_1px_0_rgba(201,169,110,0.12)]");
+        navbar.classList.add("bg-transparent");
+      }
     }
 
-    window.addEventListener("scroll", updateScroll);
-    updateScroll();
+    window.addEventListener("scroll", updateNavScroll, { passive: true });
+    updateNavScroll();
 
-    // if user navigates to page and dident land on it
+    document.addEventListener("astro:page-load", () => {
+      window.addEventListener("scroll", updateNavScroll, { passive: true });
+      updateNavScroll();
+    });
+
+    // Reveal after music player navigation
     import { studioNavigated } from "@/layouts/hideBarMusic.ts";
     studioNavigated.subscribe((value) => {
-      if (value) {
-        headerBar?.classList.remove("invisible");
-      }
+      const headerEl = document.querySelector("header[meta-hideable='true']");
+      if (value && headerEl) headerEl.classList.remove("invisible");
     });
   </script>
-
-  {/* Black Bar - Added extra top padding to account for fixed navbar */}
-  <div
-    class={`w-full ${seperator ? "bg-black" : "bg-inherit"} h-2 relative z-10 mt-[72px]`}
-  >
-  </div>
 </header>

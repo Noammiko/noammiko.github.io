@@ -1,0 +1,72 @@
+{
+  "bundles": [
+    {
+      "id": "1-song",
+      "name": "1 Song Bundle",
+      "subtitle": "Everything you need for a single release",
+      "price": 119.95,
+      "valuePrice": 149.85,
+      "discountTag": "20",
+      "includes": [
+        "**2 Hours** of Studio Time",
+        "**1** Professional Mix",
+        "**1** Professional Master",
+        "__Unlimited__ Revisions",
+        "*Satisfaction Guaranteed*"
+      ],
+      "tag": null,
+      "order": 0
+    },
+    {
+      "id": "2-songs",
+      "name": "2 Songs Bundle",
+      "subtitle": "Perfect for an EP or double release",
+      "price": 199.95,
+      "valuePrice": 299.70,
+      "discountTag": "33",
+      "includes": [
+        "**4 Hours** of Studio Time",
+        "**2** Professional Mixes",
+        "**2** Professional Masters",
+        "__Unlimited__ Revisions",
+        "*Satisfaction Guaranteed*"
+      ],
+      "tag": "MOST POPULAR",
+      "order": 1
+    },
+    {
+      "id": "mix-master",
+      "name": "Mix & Master Bundle",
+      "subtitle": "Already recorded? We'll make it shine",
+      "price": 74.95,
+      "valuePrice": 89.90,
+      "discountTag": "17",
+      "includes": [
+        "**1** Professional Mix",
+        "**1** Professional Master",
+        "__Unlimited__ Revisions",
+        "*Satisfaction Guaranteed*"
+      ],
+      "tag": null,
+      "order": 2
+    }
+  ],
+  "rates": [
+    { "name": "Studio Time", "price": 29.95, "unit": "/ hour" },
+    { "name": "Professional Mix", "price": 59.95, "unit": "/ song" },
+    { "name": "Professional Master", "price": 29.95, "unit": "/ song" }
+  ],
+  "instrumentals": [
+    { "name": "Existing Beat", "price": 49.95, "note": "Exclusive pricing negotiable" },
+    { "name": "Custom Beat", "price": 99.95, "note": "Exclusive pricing negotiable" }
+  ],
+  "seasonalOffer": {
+    "active": false,
+    "name": "Summer Session Special",
+    "description": "Book your recording session this season and save",
+    "discount": "20% OFF",
+    "validFrom": null,
+    "validUntil": null,
+    "badgeText": "Limited Time"
+  }
+}
