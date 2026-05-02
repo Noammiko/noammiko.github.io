@@ -13,22 +13,16 @@ const leftItems  = menuItems.slice(0, 3);
 const rightItems = menuItems.slice(3, 6);
 ---
 
-<!-- Desktop Navbar (British Grove center-logo style) -->
-<div class="hidden xl:flex items-center w-full relative" id="desktop-nav">
+<!-- Desktop Navbar (center-logo, equal item spacing) -->
+<div
+  class="hidden xl:grid w-full items-center"
+  style="grid-template-columns: 1fr auto 1fr;"
+  id="desktop-nav"
+>
 
-  <!-- ── FAR LEFT: Book Session CTA ───────────────────────────────── -->
-  <a
-    href="#book-session"
-    class="flex-shrink-0 border border-[#C9A96E] text-[#C9A96E] hover:bg-[#C9A96E] hover:text-[#080808]
-           px-5 py-2.5 text-[0.65rem] font-[400] tracking-[0.3em] uppercase transition-all duration-300
-           font-jose whitespace-nowrap"
-  >
-    Book a Session
-  </a>
-
-  <!-- ── LEFT: 3 nav links, right-aligned toward the center logo ──── -->
-  <div class="flex-1 flex items-center justify-end">
-    <nav class="flex gap-7 items-center pr-16">
+  <!-- ── LEFT: 3 nav links, right-aligned toward center logo ──── -->
+  <div class="flex items-center justify-end pr-7">
+    <nav class="flex items-center gap-7">
       {
         leftItems.map((item) => (
           <a
@@ -48,7 +42,7 @@ const rightItems = menuItems.slice(3, 6);
   </div>
 
   <!-- ── CENTER: Logo (hidden at page-top, slides in when navbar is solid) -->
-  <div class="absolute left-1/2 -translate-x-1/2 flex-shrink-0">
+  <div class="flex-shrink-0 flex items-center justify-center">
     <a href="/" aria-label="Miko Recording Studio – Home" class="block">
       <Image
         id="navbar-logo-img"
@@ -60,25 +54,36 @@ const rightItems = menuItems.slice(3, 6);
     </a>
   </div>
 
-  <!-- ── RIGHT: 3 nav links, left-aligned toward the center logo ─── -->
-  <div class="flex-1 flex items-center justify-start">
-    <nav class="flex gap-7 items-center pl-16">
-      {
-        rightItems.map((item) => (
-          <a
-            href={item.href}
-            class:list={[
-              "text-[0.7rem] tracking-[0.2em] uppercase font-jose transition-colors duration-200 whitespace-nowrap",
-              item.active
-                ? "text-[#C9A96E]"
-                : "text-[rgba(245,240,232,0.65)] hover:text-[#ede5d0]",
-            ]}
-          >
-            {item.label}
-          </a>
-        ))
-      }
-    </nav>
+  <!-- ── RIGHT: 3 nav links + Book a Session CTA (far right) ─── -->
+  <div class="flex items-center justify-start pl-7 gap-7">
+    {
+      rightItems.map((item) => (
+        <a
+          href={item.href}
+          class:list={[
+            "text-[0.7rem] tracking-[0.2em] uppercase font-jose transition-colors duration-200 whitespace-nowrap",
+            item.active
+              ? "text-[#C9A96E]"
+              : "text-[rgba(245,240,232,0.65)] hover:text-[#ede5d0]",
+          ]}
+        >
+          {item.label}
+        </a>
+      ))
+    }
+
+    <!-- Thin vertical divider before CTA -->
+    <div class="h-4 w-px bg-[rgba(201,169,110,0.25)] flex-shrink-0"></div>
+
+    <!-- Book a Session CTA -->
+    <a
+      href="#book-session"
+      class="flex-shrink-0 border border-[#C9A96E] text-[#C9A96E] hover:bg-[#C9A96E] hover:text-[#080808]
+             px-5 py-2.5 text-[0.65rem] font-[400] tracking-[0.3em] uppercase transition-all duration-300
+             font-jose whitespace-nowrap"
+    >
+      Book a Session
+    </a>
   </div>
 
 </div>

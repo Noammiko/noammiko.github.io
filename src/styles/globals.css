@@ -119,14 +119,14 @@
 @layer utilities {
 
   /* ── Section scaffold ─────────────────────────────────────────────── */
-  .section-py    { padding-top: 7rem; padding-bottom: 7rem; }
+  .section-py    { padding-top: 2.5rem; padding-bottom: 2.5rem; }
   .section-px    { padding-left: 1.5rem; padding-right: 1.5rem; }
   .section-inner { max-width: 72rem; margin-left: auto; margin-right: auto; }
 
   /* ── Overline / eyebrow label ─────────────────────────────────────── */
   .eyebrow {
     font-family: var(--font-label);
-    font-size: 0.65rem;
+    font-size: 0.975rem;
     letter-spacing: 0.35em;
     text-transform: uppercase;
     color: #C9A96E;
@@ -583,10 +583,10 @@ html { scroll-behavior: smooth; }
 .free-trial-card {
   background: linear-gradient(135deg, #141008 0%, #090806 100%);
   border: 1px solid rgba(201,169,110,0.55);
-  padding: 48px;
+  padding: 30px;
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 48px;
+  gap: 24px;
   align-items: center;
   position: relative;
   margin-bottom: 40px;
@@ -609,7 +609,7 @@ html { scroll-behavior: smooth; }
 }
 .free-trial-price {
   font-family: 'Playfair Display', serif;
-  font-size: 64px;
+  font-size: 46px;
   font-weight: 300;
   color: #C9A96E;
   line-height: 1;
@@ -792,6 +792,26 @@ html { scroll-behavior: smooth; }
   padding: 3px 8px;
   display: inline-block;
   white-space: nowrap;
+}
+
+/* ─── Audio player gold slider override ─────────────────────────────── */
+.audio-slider-gold [data-slot="slider-track"] {
+  background: rgba(201,169,110,0.12) !important;
+  height: 2px !important;
+}
+.audio-slider-gold [data-slot="slider-range"] {
+  background: #C9A96E !important;
+}
+.audio-slider-gold [data-slot="slider-thumb"] {
+  background: #C9A96E !important;
+  border-color: rgba(201,169,110,0.6) !important;
+  width: 12px !important;
+  height: 12px !important;
+  box-shadow: 0 0 6px rgba(201,169,110,0.3) !important;
+}
+.audio-slider-gold [data-slot="slider-thumb"]:hover,
+.audio-slider-gold [data-slot="slider-thumb"]:focus {
+  box-shadow: 0 0 10px rgba(201,169,110,0.5) !important;
 }
 
 /* ─── Legacy glitch (keep for backward compat) ──────────────────────── */

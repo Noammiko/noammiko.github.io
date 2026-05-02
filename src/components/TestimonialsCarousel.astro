@@ -1,11 +1,10 @@
 ---
 /**
- * TestimonialsCarousel — reusable 3-column testimonials component.
+ * TestimonialsCarousel — unified horizontal sliding carousel.
  *
- * Each column shows one card at a time. Up/down chevrons appear on hover.
- * Auto-advance is staggered:
- *   col 0 → 5 s, col 1 → 10 s, col 2 → 15 s, then each loops every 15 s.
- * Transition: scroll-up (card scrolls out upward, next scrolls in from below).
+ * Desktop: shows 3 cards visible at once, slides 1 card at a time.
+ * Mobile (≤900 px): shows 1 card at a time.
+ * Auto-advances every 7 s. Pauses on hover. Touch/drag supported.
  */
 
 interface Review {
@@ -21,149 +20,163 @@ interface Props {
 }
 
 const { reviews } = Astro.props;
-
-// Distribute reviews round-robin across 3 columns
-const columns = [
-  reviews.filter((_, i) => i % 3 === 0),
-  reviews.filter((_, i) => i % 3 === 1),
-  reviews.filter((_, i) => i % 3 === 2),
-];
 ---
 
-<div class="tsc-grid">
-  {columns.map((colRevs, ci) => (
-    <div class="tsc-col" id={`tsc-col-${ci}`} data-current="0">
+<div class="tsc-outer reveal">
 
-      <!-- Up chevron (shown on hover) -->
-      <button class="tsc-chevron tsc-chevron-top" id={`tsc-prev-${ci}`} aria-label="Previous review">
-        <svg viewBox="0 0 24 24" width="16" height="16" fill="none"
-             stroke="currentColor" stroke-width="1.8"
-             stroke-linecap="round" stroke-linejoin="round">
-          <polyline points="18 15 12 9 6 15"/>
-        </svg>
-      </button>
+  <!-- ── Left arrow ─────────────────────────────────────────── -->
+  <button class="tsc-arr tsc-arr-l" id="tsc-prev" aria-label="Previous review">
+    <svg viewBox="0 0 24 24" width="18" height="18" fill="none"
+         stroke="currentColor" stroke-width="1.8"
+         stroke-linecap="round" stroke-linejoin="round">
+      <polyline points="15 18 9 12 15 6"/>
+    </svg>
+  </button>
 
-      <!-- Stacked-card viewport -->
-      <div class="tsc-viewport">
-        {colRevs.map((r, i) => {
-          const avatarSrc = r.image || r.imagegoogle || null;
-          return (
-            <div class={`tsc-card${i === 0 ? ' tsc-active' : ''}`} data-idx={String(i)}>
-              <div class="tsc-stars">
-                {Array(5).fill(null).map(() => <span class="tsc-star" />)}
-              </div>
-              <p class="tsc-quote">"{r.text}"</p>
-              <div class="tsc-author">
-                {avatarSrc
-                  ? <img src={avatarSrc} alt={r.name} class="tsc-avatar-img" loading="lazy" />
-                  : <div class="tsc-avatar-init">{r.name.charAt(0).toUpperCase()}</div>
-                }
-                <div class="tsc-author-info">
-                  <div class="tsc-name">{r.name}</div>
-                  <div class="tsc-meta">Google Review</div>
-                </div>
+  <!-- ── Slide viewport ─────────────────────────────────────── -->
+  <div class="tsc-viewport" id="tsc-viewport">
+    <div class="tsc-track" id="tsc-track">
+      {reviews.map((r) => {
+        const av = r.image || r.imagegoogle || null;
+        return (
+          <div class="tsc-card">
+            <!-- Stars -->
+            <div class="tsc-stars">
+              {Array(5).fill(null).map(() => <span class="tsc-star" />)}
+            </div>
+
+            <!-- Quote -->
+            <p class="tsc-quote">"{r.text}"</p>
+
+            <!-- Author -->
+            <div class="tsc-author">
+              {av
+                ? <img src={av} alt={r.name} class="tsc-av-img" loading="lazy" />
+                : <div class="tsc-av-init">{r.name.charAt(0).toUpperCase()}</div>
+              }
+              <div>
+                <div class="tsc-name">{r.name}</div>
+                <div class="tsc-meta">Google Review</div>
               </div>
             </div>
-          );
-        })}
-      </div>
-
-      <!-- Down chevron (shown on hover) -->
-      <button class="tsc-chevron tsc-chevron-bot" id={`tsc-next-${ci}`} aria-label="Next review">
-        <svg viewBox="0 0 24 24" width="16" height="16" fill="none"
-             stroke="currentColor" stroke-width="1.8"
-             stroke-linecap="round" stroke-linejoin="round">
-          <polyline points="6 9 12 15 18 9"/>
-        </svg>
-      </button>
-
+          </div>
+        );
+      })}
     </div>
-  ))}
+  </div>
+
+  <!-- ── Right arrow ────────────────────────────────────────── -->
+  <button class="tsc-arr tsc-arr-r" id="tsc-next" aria-label="Next review">
+    <svg viewBox="0 0 24 24" width="18" height="18" fill="none"
+         stroke="currentColor" stroke-width="1.8"
+         stroke-linecap="round" stroke-linejoin="round">
+      <polyline points="9 18 15 12 9 6"/>
+    </svg>
+  </button>
+
 </div>
 
-<!-- ─── Styles (global so JS-toggled classes work) ─────────────────── -->
+<!-- ── Counter + progress bar ──────────────────────────────── -->
+<div class="tsc-footer">
+  <button class="tsc-arr-sm" id="tsc-prev-sm" aria-label="Previous review">
+    <svg viewBox="0 0 24 24" width="14" height="14" fill="none"
+         stroke="currentColor" stroke-width="2"
+         stroke-linecap="round" stroke-linejoin="round">
+      <polyline points="15 18 9 12 15 6"/>
+    </svg>
+  </button>
+  <div class="tsc-progress-track">
+    <div class="tsc-progress-fill" id="tsc-progress"></div>
+  </div>
+  <span class="tsc-counter" id="tsc-counter">1 / {reviews.length}</span>
+  <button class="tsc-arr-sm" id="tsc-next-sm" aria-label="Next review">
+    <svg viewBox="0 0 24 24" width="14" height="14" fill="none"
+         stroke="currentColor" stroke-width="2"
+         stroke-linecap="round" stroke-linejoin="round">
+      <polyline points="9 18 15 12 9 6"/>
+    </svg>
+  </button>
+</div>
+
+<!-- ── Styles ──────────────────────────────────────────────── -->
 <style is:global>
-  .tsc-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 2px;
-    margin-top: 64px;
-  }
 
-  .tsc-col {
-    background: #0d0b08;
+  /* ── Outer wrapper: arrows + viewport ── */
+  .tsc-outer {
+    position: relative;
     display: flex;
-    flex-direction: column;
+    align-items: stretch;
+    gap: 0;
+    margin-top: 56px;
   }
 
-  /* ── Chevron buttons — hidden by default, shown on column hover ── */
-  .tsc-chevron {
-    width: 100%;
-    padding: 16px 0;
+  /* ── Arrows (large, flanking viewport) ── */
+  .tsc-arr {
+    flex-shrink: 0;
+    width: 52px;
+    background: transparent;
+    border: none;
+    border-top: 1px solid rgba(201,169,110,0.1);
+    border-bottom: 1px solid rgba(201,169,110,0.1);
+    color: rgba(201,169,110,0.4);
+    cursor: pointer;
     display: flex;
     align-items: center;
     justify-content: center;
-    background: transparent;
-    border: none;
-    color: rgba(201,169,110,0.5);
-    cursor: pointer;
-    opacity: 0;
-    transition: color 0.2s ease, background 0.2s ease, opacity 0.22s ease;
-    flex-shrink: 0;
+    transition: color 0.2s, background 0.2s;
+    padding: 0;
   }
-  .tsc-chevron-top { border-bottom: 1px solid rgba(201,169,110,0.08); }
-  .tsc-chevron-bot { border-top:    1px solid rgba(201,169,110,0.08); }
-
-  /* Show arrows when hovering the whole column */
-  .tsc-col:hover .tsc-chevron {
-    opacity: 1;
+  .tsc-arr-l {
+    border-left: 1px solid rgba(201,169,110,0.1);
+    border-right: 1px solid rgba(201,169,110,0.06);
   }
-  .tsc-col:hover .tsc-chevron:hover {
+  .tsc-arr-r {
+    border-right: 1px solid rgba(201,169,110,0.1);
+    border-left: 1px solid rgba(201,169,110,0.06);
+  }
+  .tsc-arr:hover {
     color: #C9A96E;
-    background: rgba(201,169,110,0.05);
+    background: rgba(201,169,110,0.04);
+  }
+  .tsc-arr:disabled {
+    opacity: 0.25;
+    cursor: default;
+    pointer-events: none;
   }
 
-  /* ── Stacked card grid ── */
+  /* ── Slide viewport ── */
   .tsc-viewport {
-    display: grid;
-    flex: 1;
     overflow: hidden;
+    flex: 1;
+    min-width: 0;
   }
+
+  /* ── Track ── */
+  .tsc-track {
+    display: flex;
+    transition: transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+    will-change: transform;
+  }
+
+  /* ── Individual slide card ── */
   .tsc-card {
-    grid-row: 1;
-    grid-column: 1;
+    /* desktop: 3 cards visible */
+    flex: 0 0 calc(100% / 3);
+    background: linear-gradient(160deg, #0f0d09 0%, #080806 100%);
+    border: 1px solid rgba(201,169,110,0.06);
     padding: 40px 36px;
     display: flex;
     flex-direction: column;
     gap: 18px;
-    background: linear-gradient(160deg, #0f0d09 0%, #080806 100%);
-    border-bottom: 1px solid rgba(201,169,110,0.06);
-    opacity: 0;
-    pointer-events: none;
+    box-sizing: border-box;
+    min-height: 280px;
   }
-  .tsc-card.tsc-active {
-    opacity: 1;
-    pointer-events: auto;
+  /* Slight right separator between cards */
+  .tsc-card + .tsc-card {
+    border-left-color: rgba(201,169,110,0.04);
   }
 
-  /* Scroll-up: new card comes from below, current card scrolls up and out */
-  .tsc-card.tsc-entering {
-    animation: tscScrollIn 0.55s cubic-bezier(0.22, 1, 0.36, 1) forwards;
-  }
-  .tsc-card.tsc-exiting {
-    animation: tscScrollOut 0.42s cubic-bezier(0.4, 0, 0.6, 1) forwards;
-    pointer-events: none;
-  }
-  @keyframes tscScrollIn {
-    from { opacity: 1; transform: translateY(100%); }
-    to   { opacity: 1; transform: translateY(0); }
-  }
-  @keyframes tscScrollOut {
-    from { opacity: 1; transform: translateY(0); }
-    to   { opacity: 1; transform: translateY(-100%); }
-  }
-
-  /* ── Card internals ── */
+  /* ── Stars ── */
   .tsc-stars { display: flex; gap: 3px; }
   .tsc-star {
     width: 11px; height: 11px;
@@ -173,24 +186,30 @@ const columns = [
                        50% 70%,21% 91%,32% 57%, 2% 35%,39% 35%);
     flex-shrink: 0;
   }
+
+  /* ── Quote text ── */
   .tsc-quote {
     font-family: 'Playfair Display', Georgia, serif;
-    font-size: 16px;
+    font-size: 15px;
     font-style: italic;
     font-weight: 400;
-    line-height: 1.7;
-    color: rgba(237,229,208,0.9);
+    line-height: 1.72;
+    color: rgba(237,229,208,0.88);
     flex: 1;
+    margin: 0;
   }
-  .tsc-author { display: flex; align-items: center; gap: 14px; }
-  .tsc-avatar-img {
+
+  /* ── Author row ── */
+  .tsc-author { display: flex; align-items: center; gap: 14px; margin-top: auto; }
+
+  .tsc-av-img {
     width: 40px; height: 40px;
     border-radius: 50%;
     border: 1px solid rgba(201,169,110,0.22);
     object-fit: cover;
     flex-shrink: 0;
   }
-  .tsc-avatar-init {
+  .tsc-av-init {
     width: 40px; height: 40px;
     border-radius: 50%;
     border: 1px solid rgba(201,169,110,0.22);
@@ -218,88 +237,170 @@ const columns = [
     margin-top: 2px;
   }
 
-  @media (max-width: 900px) {
-    .tsc-grid { grid-template-columns: 1fr; }
+  /* ── Footer: counter + progress bar ── */
+  .tsc-footer {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 20px 0 0;
   }
+
+  .tsc-arr-sm {
+    background: transparent;
+    border: 1px solid rgba(201,169,110,0.18);
+    color: rgba(201,169,110,0.55);
+    width: 32px; height: 32px;
+    display: flex; align-items: center; justify-content: center;
+    cursor: pointer;
+    transition: border-color 0.2s, color 0.2s;
+    flex-shrink: 0;
+  }
+  .tsc-arr-sm:hover {
+    border-color: rgba(201,169,110,0.55);
+    color: #C9A96E;
+  }
+
+  .tsc-progress-track {
+    flex: 1;
+    height: 1px;
+    background: rgba(201,169,110,0.12);
+    position: relative;
+    overflow: hidden;
+  }
+  .tsc-progress-fill {
+    position: absolute;
+    left: 0; top: 0; bottom: 0;
+    background: #C9A96E;
+    transition: width 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+    width: 0%;
+  }
+
+  .tsc-counter {
+    font-family: 'Josefin Sans', sans-serif;
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: rgba(201,169,110,0.55);
+    white-space: nowrap;
+    flex-shrink: 0;
+    min-width: 44px;
+    text-align: right;
+  }
+
+  /* ── Mobile: 1 card at a time ── */
+  @media (max-width: 900px) {
+    .tsc-card { flex: 0 0 100%; }
+    .tsc-arr { display: none; }
+  }
+
+  /* ── Tablet: 2 cards at a time ── */
+  @media (min-width: 601px) and (max-width: 900px) {
+    .tsc-card { flex: 0 0 50%; }
+  }
+
 </style>
 
-<!-- ─── Interactivity ───────────────────────────────────────────────── -->
+<!-- ── Script ──────────────────────────────────────────────── -->
 <script>
   (function () {
-    const NUM_COLS = 3;
+    const track    = document.getElementById('tsc-track') as HTMLElement | null;
+    const viewport = document.getElementById('tsc-viewport') as HTMLElement | null;
+    const prevBtn  = document.getElementById('tsc-prev');
+    const nextBtn  = document.getElementById('tsc-next');
+    const prevSm   = document.getElementById('tsc-prev-sm');
+    const nextSm   = document.getElementById('tsc-next-sm');
+    const counter  = document.getElementById('tsc-counter');
+    const progress = document.getElementById('tsc-progress') as HTMLElement | null;
 
-    function col(ci: number) {
-      return document.getElementById(`tsc-col-${ci}`);
-    }
-    function cards(ci: number): HTMLElement[] {
-      return Array.from(
-        document.querySelectorAll<HTMLElement>(`#tsc-col-${ci} .tsc-card`)
-      );
-    }
-    function currentIdx(ci: number): number {
-      return parseInt(col(ci)?.dataset.current ?? "0", 10);
-    }
+    if (!track || !viewport) return;
 
-    function goTo(ci: number, next: number) {
-      const c = col(ci);
-      if (!c) return;
-      const all = cards(ci);
-      if (!all.length) return;
-      const total = all.length;
-      const safe  = ((next % total) + total) % total;
-      const cur   = currentIdx(ci);
-      if (safe === cur) return;
+    const total = track.children.length;
+    let current = 0;
+    let autoTimer: ReturnType<typeof setTimeout> | null = null;
+    let isPaused = false;
 
-      const curCard  = all[cur];
-      const nextCard = all[safe];
-
-      // Exit current — scroll up and out
-      curCard.classList.remove("tsc-active", "tsc-entering");
-      curCard.classList.add("tsc-exiting");
-      const rmExit = () => {
-        curCard.classList.remove("tsc-exiting");
-        curCard.style.transform = "";
-      };
-      curCard.addEventListener("animationend", rmExit, { once: true });
-      setTimeout(rmExit, 500);
-
-      // Enter next — scroll up from below
-      nextCard.classList.add("tsc-active", "tsc-entering");
-      const rmEnter = () => {
-        nextCard.classList.remove("tsc-entering");
-        nextCard.style.transform = "";
-      };
-      nextCard.addEventListener("animationend", rmEnter, { once: true });
-      setTimeout(rmEnter, 650);
-
-      c.dataset.current = String(safe);
+    /* ── How many cards are visible at once based on viewport width ── */
+    function perPage(): number {
+      const w = window.innerWidth;
+      if (w <= 600) return 1;
+      if (w <= 900) return 2;
+      return 3;
     }
 
-    function advance(ci: number) {
-      goTo(ci, (currentIdx(ci) + 1) % Math.max(1, cards(ci).length));
-    }
-    function retreat(ci: number) {
-      const t = cards(ci).length;
-      goTo(ci, ((currentIdx(ci) - 1) + t) % Math.max(1, t));
+    /* ── Card pixel width (all cards equal) ── */
+    function cardPx(): number {
+      const first = track.children[0] as HTMLElement | null;
+      return first ? first.offsetWidth : 0;
     }
 
-    // Manual chevron buttons
-    for (let ci = 0; ci < NUM_COLS; ci++) {
-      document.getElementById(`tsc-prev-${ci}`)
-        ?.addEventListener("click", () => retreat(ci));
-      document.getElementById(`tsc-next-${ci}`)
-        ?.addEventListener("click", () => advance(ci));
+    /* ── Clamp index so last page is always full ── */
+    function clamp(idx: number): number {
+      const pp = perPage();
+      const max = Math.max(0, total - pp);
+      return Math.max(0, Math.min(idx, max));
     }
 
-    // Staggered auto-advance
-    function startLoop(ci: number, delay: number) {
-      setTimeout(function tick() {
-        advance(ci);
-        setTimeout(tick, 15_000);
-      }, delay);
+    function goTo(idx: number) {
+      current = clamp(idx);
+      const px = current * cardPx();
+      track.style.transform = `translateX(-${px}px)`;
+
+      /* counter */
+      if (counter) counter.textContent = `${current + 1} / ${total}`;
+
+      /* progress bar */
+      if (progress) {
+        const max = Math.max(1, total - perPage());
+        const pct = max > 0 ? (current / max) * 100 : 0;
+        progress.style.width = `${pct}%`;
+      }
     }
-    startLoop(0,  5_000);
-    startLoop(1, 10_000);
-    startLoop(2, 15_000);
+
+    function next() { goTo(current + 1 >= total - perPage() + 1 ? 0 : current + 1); }
+    function prev() { goTo(current - 1 < 0 ? Math.max(0, total - perPage()) : current - 1); }
+
+    /* Wire buttons */
+    prevBtn?.addEventListener('click', () => { prev(); resetAuto(); });
+    nextBtn?.addEventListener('click', () => { next(); resetAuto(); });
+    prevSm?.addEventListener('click',  () => { prev(); resetAuto(); });
+    nextSm?.addEventListener('click',  () => { next(); resetAuto(); });
+
+    /* Pause on hover */
+    viewport.addEventListener('mouseenter', () => { isPaused = true; });
+    viewport.addEventListener('mouseleave', () => { isPaused = false; });
+
+    /* Auto-advance */
+    function startAuto() {
+      autoTimer = setInterval(() => { if (!isPaused) next(); }, 7000);
+    }
+    function resetAuto() {
+      if (autoTimer !== null) clearInterval(autoTimer);
+      startAuto();
+    }
+    startAuto();
+
+    /* Touch/drag support */
+    let touchStartX = 0;
+    viewport.addEventListener('touchstart', (e) => {
+      touchStartX = e.touches[0].clientX;
+    }, { passive: true });
+    viewport.addEventListener('touchend', (e) => {
+      const delta = touchStartX - e.changedTouches[0].clientX;
+      if (Math.abs(delta) > 40) {
+        delta > 0 ? next() : prev();
+        resetAuto();
+      }
+    });
+
+    /* Recalculate on resize */
+    let resizeTimer: ReturnType<typeof setTimeout>;
+    window.addEventListener('resize', () => {
+      clearTimeout(resizeTimer);
+      resizeTimer = setTimeout(() => goTo(current), 80);
+    });
+
+    /* Init */
+    goTo(0);
   })();
 </script>
