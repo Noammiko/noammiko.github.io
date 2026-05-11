@@ -25,9 +25,9 @@ These let the admin panel trigger site rebuilds and update pricing.json via the 
 
 | Variable | Example | Description |
 |---|---|---|
-| `GITHUB_DEPLOY_TOKEN` | `ghp_abc123...` | GitHub Personal Access Token with **repo** scope. Create at github.com/settings/tokens. |
-| `GITHUB_OWNER` | `noammiko` | Your GitHub username or org name. |
-| `GITHUB_REPO` | `miko-studio-site` | Repository name (without the owner prefix). |
+| `GITHUB_DEPLOY_TOKEN` | `github_pat_...` | Fine-grained PAT scoped to `noammiko/noammiko.github.io` only, with **Contents** (read & write) and **Actions** (read & write) permissions. Create at github.com/settings/tokens → Fine-grained tokens. |
+| `GITHUB_OWNER` | `Noammiko` | GitHub username. |
+| `GITHUB_REPO` | `noammiko.github.io` | Repository name. |
 | `GITHUB_BRANCH` | `master` | Branch to commit pricing changes to. Defaults to `master` if not set. |
 
 ### Email notifications
