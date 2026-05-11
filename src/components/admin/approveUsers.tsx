@@ -1,252 +1,292 @@
-import { useState } from "react"
-import { Badge } from "@/components/ui/badge"
-import { Button } from "@/components/ui/button"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { Check, X, ChevronLeft, ChevronRight } from "lucide-react"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
+"use client";
 
-// Sample user data - in a real app, this would come from an API or database
-const initialUsers = [
-  { id: 1, name: "John Doe", email: "john@example.com", status: "pending", date: "2025-05-15" },
-  { id: 2, name: "Jane Smith", email: "jane@example.com", status: "pending", date: "2025-05-16" },
-  { id: 3, name: "Bob Johnson", email: "bob@example.com", status: "approved", date: "2025-05-10" },
-  { id: 4, name: "Alice Williams", email: "alice@example.com", status: "approved", date: "2025-05-12" },
-  { id: 5, name: "Charlie Brown", email: "charlie@example.com", status: "pending", date: "2025-05-18" },
-  { id: 6, name: "David Miller", email: "david@example.com", status: "pending", date: "2025-05-19" },
-  { id: 7, name: "Emma Wilson", email: "emma@example.com", status: "pending", date: "2025-05-20" },
-  { id: 8, name: "Frank Thomas", email: "frank@example.com", status: "approved", date: "2025-05-08" },
-  { id: 9, name: "Grace Lee", email: "grace@example.com", status: "approved", date: "2025-05-09" },
-  { id: 10, name: "Henry Garcia", email: "henry@example.com", status: "pending", date: "2025-05-21" },
-  { id: 11, name: "Isabella Martinez", email: "isabella@example.com", status: "pending", date: "2025-05-22" },
-  { id: 12, name: "Jack Robinson", email: "jack@example.com", status: "approved", date: "2025-05-07" },
-  { id: 13, name: "Katherine Clark", email: "katherine@example.com", status: "approved", date: "2025-05-06" },
-  { id: 14, name: "Liam Rodriguez", email: "liam@example.com", status: "pending", date: "2025-05-23" },
-  { id: 15, name: "Mia Lewis", email: "mia@example.com", status: "pending", date: "2025-05-24" },
-]
+import { useState } from "react";
+import { useQuery, useMutation } from "convex/react";
+import { api } from "@/convex/_generated/api";
+import type { Id } from "@/convex/_generated/dataModel";
 
-export default function AdminPage() {
-  const [users, setUsers] = useState(initialUsers)
-  const [activeTab, setActiveTab] = useState("pending")
+/* ─── Shared style tokens ────────────────────────────────────────── */
+const inputCls =
+  `w-full bg-[#111] border border-[rgba(255,255,255,0.1)] text-[#F5F0E8] px-3 py-2.5
+   text-sm font-['Josefin_Sans'] focus:outline-none focus:border-[rgba(201,169,110,0.5)]
+   placeholder:text-[rgba(245,240,232,0.2)]`;
+const labelCls =
+  `block text-[0.6rem] tracking-[0.25em] uppercase font-['Cinzel'] text-[rgba(201,169,110,0.7)] mb-1.5`;
 
-  // Pagination state
-  const [currentPage, setCurrentPage] = useState(1)
-  const [itemsPerPage, setItemsPerPage] = useState(5)
+/* ─── Settings Panel ─────────────────────────────────────────────── */
+function FreeSettingsPanel() {
+  const settings    = useQuery(api.freeAccess.getSettings);
+  const upsert      = useMutation(api.freeAccess.upsertSettings);
+  const amountWeek  = useQuery(api.freeAccess.getAmountWeek, {});
 
-  const pendingUsers = users.filter((user) => user.status === "pending")
-  const approvedUsers = users.filter((user) => user.status === "approved")
+  const [slots, setSlots] = useState<number | null>(null);
+  const [saving, setSaving] = useState(false);
 
-  // Get current users based on pagination
-  const getCurrentUsers = (userList: typeof users) => {
-    const indexOfLastItem = currentPage * itemsPerPage
-    const indexOfFirstItem = indexOfLastItem - itemsPerPage
-    return userList.slice(indexOfFirstItem, indexOfLastItem)
-  }
+  if (!settings) return null;
 
-  const currentPendingUsers = getCurrentUsers(pendingUsers)
-  const currentApprovedUsers = getCurrentUsers(approvedUsers)
+  const effectiveSlots = slots ?? settings.weeklySlots;
 
-  // Calculate total pages
-  const totalPendingPages = Math.ceil(pendingUsers.length / itemsPerPage)
-  const totalApprovedPages = Math.ceil(approvedUsers.length / itemsPerPage)
+  const save = async () => {
+    setSaving(true);
+    await upsert({ enabled: settings.enabled, weeklySlots: effectiveSlots });
+    setSlots(null);
+    setSaving(false);
+  };
 
-  const handleApprove = (userId: number) => {
-    setUsers(users.map((user) => (user.id === userId ? { ...user, status: "approved" } : user)))
-  }
+  const toggleEnabled = async () => {
+    await upsert({ enabled: !settings.enabled, weeklySlots: settings.weeklySlots });
+  };
 
-  const handleDeny = (userId: number) => {
-    setUsers(users.filter((user) => user.id !== userId))
-  }
-
-  const handlePageChange = (newPage: number) => {
-    setCurrentPage(newPage)
-  }
-
-  const handleItemsPerPageChange = (value: string) => {
-    setItemsPerPage(Number(value))
-    setCurrentPage(1) // Reset to first page when changing items per page
-  }
-
-  // Get total pages based on active tab
-  const getTotalPages = () => {
-    return activeTab === "pending" ? totalPendingPages : totalApprovedPages
-  }
+  const used = amountWeek ?? 0;
+  const remaining = Math.max(0, settings.weeklySlots - used);
 
   return (
-    <div className="container mx-auto py-10">
-      <Card>
-        <CardHeader>
-          <CardTitle>User Management</CardTitle>
-          <CardDescription>Approve or deny user registrations and view existing users</CardDescription>
-        </CardHeader>
-        <CardContent>
-          <Tabs
-            defaultValue="pending"
-            onValueChange={(value) => {
-              setActiveTab(value)
-              setCurrentPage(1) // Reset to first page when changing tabs
-            }}
+    <div className="border border-[rgba(201,169,110,0.2)] bg-[#0d0d0d] p-6 mb-8">
+      <h3 className="font-['Cormorant_Garamond'] font-light text-xl text-[#F5F0E8] mb-5">
+        Free Offer Settings
+      </h3>
+
+      <div className="grid sm:grid-cols-3 gap-6">
+        {/* Toggle */}
+        <div>
+          <p className={labelCls}>Offer Status</p>
+          <button
+            onClick={toggleEnabled}
+            className={`w-full px-4 py-2.5 text-[0.65rem] tracking-[0.25em] uppercase font-['Josefin_Sans'] transition-colors border ${
+              settings.enabled
+                ? "bg-emerald-900/30 border-emerald-700/50 text-emerald-400 hover:bg-emerald-900/50"
+                : "bg-[rgba(255,255,255,0.03)] border-[rgba(255,255,255,0.1)] text-[rgba(245,240,232,0.35)] hover:border-[rgba(255,255,255,0.25)]"
+            }`}
           >
-            <TabsList className="mb-6">
-              <TabsTrigger value="pending">
-                Pending Approval
-                <Badge variant="secondary" className="ml-2">
-                  {pendingUsers.length}
-                </Badge>
-              </TabsTrigger>
-              <TabsTrigger value="approved">
-                Approved Users
-                <Badge variant="secondary" className="ml-2">
-                  {approvedUsers.length}
-                </Badge>
-              </TabsTrigger>
-            </TabsList>
-
-            <TabsContent value="pending">
-              {pendingUsers.length === 0 ? (
-                <div className="text-center py-10 text-muted-foreground">No pending users to approve</div>
-              ) : (
-                <>
-                  <div className="overflow-x-auto">
-                    <table className="w-full border-collapse">
-                      <thead>
-                        <tr className="border-b">
-                          <th className="text-left py-3 px-4">Name</th>
-                          <th className="text-left py-3 px-4">Email</th>
-                          <th className="text-left py-3 px-4">Date</th>
-                          <th className="text-right py-3 px-4">Actions</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {currentPendingUsers.map((user) => (
-                          <tr key={user.id} className="border-b hover:bg-muted/50">
-                            <td className="py-3 px-4">{user.name}</td>
-                            <td className="py-3 px-4">{user.email}</td>
-                            <td className="py-3 px-4">{user.date}</td>
-                            <td className="py-3 px-4 text-right">
-                              <Button
-                                variant="outline"
-                                size="sm"
-                                className="mr-2 text-green-600 hover:text-green-700 hover:bg-green-50"
-                                onClick={() => handleApprove(user.id)}
-                              >
-                                <Check className="h-4 w-4 mr-1" />
-                                Approve
-                              </Button>
-                              <Button
-                                variant="outline"
-                                size="sm"
-                                className="text-red-600 hover:text-red-700 hover:bg-red-50"
-                                onClick={() => handleDeny(user.id)}
-                              >
-                                <X className="h-4 w-4 mr-1" />
-                                Deny
-                              </Button>
-                            </td>
-                          </tr>
-                        ))}
-                      </tbody>
-                    </table>
-                  </div>
-                  {renderPagination(pendingUsers.length)}
-                </>
-              )}
-            </TabsContent>
-
-            <TabsContent value="approved">
-              {approvedUsers.length === 0 ? (
-                <div className="text-center py-10 text-muted-foreground">No approved users yet</div>
-              ) : (
-                <>
-                  <div className="overflow-x-auto">
-                    <table className="w-full border-collapse">
-                      <thead>
-                        <tr className="border-b">
-                          <th className="text-left py-3 px-4">Name</th>
-                          <th className="text-left py-3 px-4">Email</th>
-                          <th className="text-left py-3 px-4">Date</th>
-                          <th className="text-left py-3 px-4">Status</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {currentApprovedUsers.map((user) => (
-                          <tr key={user.id} className="border-b hover:bg-muted/50">
-                            <td className="py-3 px-4">{user.name}</td>
-                            <td className="py-3 px-4">{user.email}</td>
-                            <td className="py-3 px-4">{user.date}</td>
-                            <td className="py-3 px-4">
-                              <Badge variant="default" className="bg-green-100 text-green-800 hover:bg-green-100">
-                                Approved
-                              </Badge>
-                            </td>
-                          </tr>
-                        ))}
-                      </tbody>
-                    </table>
-                  </div>
-                  {renderPagination(approvedUsers.length)}
-                </>
-              )}
-            </TabsContent>
-          </Tabs>
-        </CardContent>
-      </Card>
-    </div>
-  )
-
-  function renderPagination(totalItems: number) {
-    const totalPages = Math.ceil(totalItems / itemsPerPage)
-
-    if (totalItems === 0) return null
-
-    return (
-      <div className="flex items-center justify-between mt-6">
-        <div className="flex items-center gap-2">
-          <span className="text-sm text-muted-foreground">Rows per page:</span>
-          <Select value={itemsPerPage.toString()} onValueChange={handleItemsPerPageChange}>
-            <SelectTrigger className="w-[70px]">
-              <SelectValue placeholder={itemsPerPage} />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="5">5</SelectItem>
-              <SelectItem value="10">10</SelectItem>
-              <SelectItem value="20">20</SelectItem>
-              <SelectItem value="50">50</SelectItem>
-            </SelectContent>
-          </Select>
+            {settings.enabled ? "● Enabled" : "○ Disabled"}
+          </button>
         </div>
 
-        <div className="flex items-center gap-1">
-          <Button
-            variant="outline"
-            size="icon"
-            onClick={() => handlePageChange(currentPage - 1)}
-            disabled={currentPage === 1}
-          >
-            <ChevronLeft className="h-4 w-4" />
-          </Button>
+        {/* Weekly slots */}
+        <div>
+          <label className={labelCls}>Weekly Slots</label>
+          <input
+            type="number"
+            min="1"
+            max="20"
+            value={effectiveSlots}
+            onChange={(e) => setSlots(parseInt(e.target.value) || 1)}
+            className={inputCls}
+          />
+        </div>
 
-          <div className="flex items-center gap-1 mx-2">
-            <span className="text-sm">
-              Page {currentPage} of {totalPages || 1}
+        {/* This-week usage */}
+        <div>
+          <p className={labelCls}>This Week</p>
+          <div className="border border-[rgba(255,255,255,0.07)] bg-[rgba(255,255,255,0.02)] px-3 py-2.5">
+            <span className="font-['Cormorant_Garamond'] text-2xl text-[#C9A96E]">{remaining}</span>
+            <span className="text-xs text-[rgba(245,240,232,0.35)] font-['Josefin_Sans'] ml-2">
+              / {settings.weeklySlots} remaining
             </span>
           </div>
-
-          <Button
-            variant="outline"
-            size="icon"
-            onClick={() => handlePageChange(currentPage + 1)}
-            disabled={currentPage === totalPages || totalPages === 0}
-          >
-            <ChevronRight className="h-4 w-4" />
-          </Button>
-        </div>
-
-        <div className="text-sm text-muted-foreground">
-          Showing {Math.min((currentPage - 1) * itemsPerPage + 1, totalItems)} -{" "}
-          {Math.min(currentPage * itemsPerPage, totalItems)} of {totalItems}
         </div>
       </div>
-    )
-  }
+
+      {slots !== null && (
+        <div className="mt-4 flex gap-3">
+          <button
+            onClick={save}
+            disabled={saving}
+            className="px-5 py-2 bg-[#8B1A1A] hover:bg-[#B22222] text-[#F5F0E8]
+                       text-[0.6rem] tracking-[0.3em] uppercase font-['Josefin_Sans'] transition-colors disabled:opacity-40"
+          >
+            {saving ? "Saving…" : "Save Slots"}
+          </button>
+          <button
+            onClick={() => setSlots(null)}
+            className="px-5 py-2 border border-[rgba(255,255,255,0.1)] text-[rgba(245,240,232,0.4)]
+                       hover:text-[#F5F0E8] text-[0.6rem] tracking-[0.3em] uppercase font-['Josefin_Sans'] transition-colors"
+          >
+            Cancel
+          </button>
+        </div>
+      )}
+    </div>
+  );
+}
+
+/* ─── Approval status badge ──────────────────────────────────────── */
+function ApprovalBadge({ approved }: { approved: boolean | null }) {
+  if (approved === true)
+    return (
+      <span className="px-2.5 py-0.5 rounded-full text-[0.6rem] tracking-widest uppercase border bg-emerald-900/40 text-emerald-300 border-emerald-700/40">
+        Approved
+      </span>
+    );
+  if (approved === false)
+    return (
+      <span className="px-2.5 py-0.5 rounded-full text-[0.6rem] tracking-widest uppercase border bg-red-900/40 text-red-300 border-red-700/40">
+        Denied
+      </span>
+    );
+  return (
+    <span className="px-2.5 py-0.5 rounded-full text-[0.6rem] tracking-widest uppercase border bg-amber-900/40 text-amber-300 border-amber-700/40">
+      Pending
+    </span>
+  );
+}
+
+/* ─── Main Free Trials Panel ─────────────────────────────────────── */
+export default function FreeTrialsAdmin() {
+  const trials   = useQuery(api.freeAccess.getFreeTrials);
+  const approve  = useMutation(api.freeAccess.approveFree);
+  const deny     = useMutation(api.freeAccess.denyFree);
+
+  const [filter, setFilter] = useState<"all" | "pending" | "approved" | "denied">("pending");
+  const [expanded, setExpanded] = useState<Id<"free"> | null>(null);
+
+  const filtered = (trials ?? []).filter((t) => {
+    if (filter === "pending")  return t.approved === null || t.approved === undefined;
+    if (filter === "approved") return t.approved === true;
+    if (filter === "denied")   return t.approved === false;
+    return true;
+  });
+
+  const counts = {
+    all:      (trials ?? []).length,
+    pending:  (trials ?? []).filter((t) => t.approved === null || t.approved === undefined).length,
+    approved: (trials ?? []).filter((t) => t.approved === true).length,
+    denied:   (trials ?? []).filter((t) => t.approved === false).length,
+  };
+
+  const tabCls = (t: typeof filter) =>
+    `px-4 py-2 text-[0.6rem] tracking-[0.25em] uppercase font-['Cinzel'] transition-colors ${
+      filter === t
+        ? "border-b-2 border-[#C9A96E] text-[#C9A96E]"
+        : "text-[rgba(245,240,232,0.4)] hover:text-[rgba(245,240,232,0.7)]"
+    }`;
+
+  return (
+    <div className="space-y-6">
+      {/* Settings */}
+      <FreeSettingsPanel />
+
+      {/* Header + filter tabs */}
+      <div>
+        <div className="flex items-center justify-between mb-4">
+          <h2 className="font-['Cormorant_Garamond'] font-light text-2xl text-[#F5F0E8]">
+            Free Trial Applications
+          </h2>
+        </div>
+
+        <div className="border-b border-[rgba(255,255,255,0.06)] flex gap-1 mb-6">
+          {(["pending", "all", "approved", "denied"] as const).map((f) => (
+            <button key={f} className={tabCls(f)} onClick={() => setFilter(f)}>
+              {f} <span className="text-[rgba(201,169,110,0.5)]">({counts[f]})</span>
+            </button>
+          ))}
+        </div>
+      </div>
+
+      {/* Table */}
+      {!trials ? (
+        <p className="text-[rgba(245,240,232,0.3)] text-sm">Loading…</p>
+      ) : filtered.length === 0 ? (
+        <div className="border border-[rgba(255,255,255,0.07)] p-12 text-center">
+          <p className="text-[rgba(245,240,232,0.3)] text-sm">No {filter} applications.</p>
+        </div>
+      ) : (
+        <div className="space-y-2">
+          {filtered.map((trial) => (
+            <div
+              key={trial._id}
+              className="border border-[rgba(255,255,255,0.07)] bg-[rgba(255,255,255,0.01)] hover:bg-[rgba(255,255,255,0.02)] transition-colors"
+            >
+              {/* Row */}
+              <div
+                className="flex items-center justify-between px-5 py-4 cursor-pointer"
+                onClick={() => setExpanded(expanded === trial._id ? null : trial._id)}
+              >
+                <div className="flex items-center gap-4 min-w-0">
+                  <ApprovalBadge approved={trial.approved} />
+                  <div className="min-w-0">
+                    <p className="text-sm text-[#F5F0E8] font-['Josefin_Sans'] truncate">
+                      {trial.fullName}
+                      {trial.artistName && (
+                        <span className="text-[rgba(201,169,110,0.6)] ml-2 text-xs">
+                          ({trial.artistName})
+                        </span>
+                      )}
+                    </p>
+                    <p className="text-xs text-[rgba(245,240,232,0.35)] font-['Josefin_Sans'] mt-0.5">
+                      {trial.email} · {trial.phone}
+                    </p>
+                  </div>
+                </div>
+
+                <div className="flex items-center gap-3 ml-4 flex-shrink-0">
+                  <span className="text-xs text-[rgba(245,240,232,0.3)] font-['Josefin_Sans'] hidden sm:block">
+                    {trial.recordingType}
+                  </span>
+                  {(trial.approved === null || trial.approved === undefined) && (
+                    <>
+                      <button
+                        onClick={(e) => { e.stopPropagation(); approve({ id: trial._id }); }}
+                        className="px-3 py-1.5 bg-emerald-900/30 hover:bg-emerald-800/50 border border-emerald-700/40 text-emerald-400
+                                   text-[0.55rem] tracking-widest uppercase font-['Josefin_Sans'] transition-colors"
+                      >
+                        Approve
+                      </button>
+                      <button
+                        onClick={(e) => { e.stopPropagation(); deny({ id: trial._id }); }}
+                        className="px-3 py-1.5 bg-red-900/20 hover:bg-red-900/40 border border-red-800/40 text-red-400
+                                   text-[0.55rem] tracking-widest uppercase font-['Josefin_Sans'] transition-colors"
+                      >
+                        Deny
+                      </button>
+                    </>
+                  )}
+                  <span className="text-[rgba(245,240,232,0.25)] text-xs ml-1">
+                    {expanded === trial._id ? "▲" : "▼"}
+                  </span>
+                </div>
+              </div>
+
+              {/* Expanded details */}
+              {expanded === trial._id && (
+                <div className="border-t border-[rgba(255,255,255,0.05)] px-5 py-4 grid sm:grid-cols-2 gap-x-8 gap-y-3">
+                  {[
+                    ["Recording Type",  trial.recordingType + (trial.otherRecordingType ? ` — ${trial.otherRecordingType}` : "")],
+                    ["Available Times", trial.availableTimes],
+                    ["Referral Source", trial.referralSource ?? "—"],
+                  ].map(([label, val]) => (
+                    <div key={label}>
+                      <p className="text-[0.55rem] tracking-[0.25em] uppercase font-['Cinzel'] text-[rgba(201,169,110,0.5)] mb-0.5">{label}</p>
+                      <p className="text-sm text-[rgba(245,240,232,0.7)] font-['Josefin_Sans']">{val}</p>
+                    </div>
+                  ))}
+                  {/* Re-approve / re-deny after decision */}
+                  {trial.approved !== null && trial.approved !== undefined && (
+                    <div className="sm:col-span-2 flex gap-3 pt-2">
+                      <button
+                        onClick={() => approve({ id: trial._id })}
+                        disabled={trial.approved === true}
+                        className="px-4 py-1.5 bg-emerald-900/30 hover:bg-emerald-800/50 border border-emerald-700/40 text-emerald-400
+                                   text-[0.55rem] tracking-widest uppercase font-['Josefin_Sans'] transition-colors disabled:opacity-30"
+                      >
+                        Approve
+                      </button>
+                      <button
+                        onClick={() => deny({ id: trial._id })}
+                        disabled={trial.approved === false}
+                        className="px-4 py-1.5 bg-red-900/20 hover:bg-red-900/40 border border-red-800/40 text-red-400
+                                   text-[0.55rem] tracking-widest uppercase font-['Josefin_Sans'] transition-colors disabled:opacity-30"
+                      >
+                        Deny
+                      </button>
+                    </div>
+                  )}
+                </div>
+              )}
+            </div>
+          ))}
+        </div>
+      )}
+    </div>
+  );
 }

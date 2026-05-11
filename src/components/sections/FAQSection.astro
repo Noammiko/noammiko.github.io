@@ -1,22 +1,5 @@
 ---
-import { FAQAccordion } from "@/components/FAQAccordion.tsx";
-import * as faqMd from "@/pages/_faq.md";
-
-const faqHtml  = await faqMd.compiledContent();
-const faqRe    = /<h1 id="([\w-]+)">([^<]+)<\/h1>/gm;
-const faqSections = [...faqHtml.replaceAll(">\n", "> ").matchAll(faqRe)].map(
-  (m) => ({
-    id: m[1],
-    question: m[2],
-    questionStart: m.index,
-    answerStart: m.index + m[0].length,
-  })
-);
-const faqList = faqSections.map((sec, i) => ({
-  id:       sec.id,
-  question: sec.question,
-  answer:   faqHtml.substring(sec.answerStart, faqSections[i + 1]?.questionStart),
-}));
+import FAQLive from "@/components/FAQLive";
 ---
 
 <section id="faq" class="section-py section-px">
@@ -31,9 +14,9 @@ const faqList = faqSections.map((sec, i) => ({
       </h2>
     </div>
 
-    <!-- FAQ Accordion (React) — data pre-parsed server-side -->
+    <!-- FAQ Accordion — live from Convex, no rebuild needed -->
     <div class="reveal reveal-delay-1">
-      <FAQAccordion faqs={faqList} client:visible />
+      <FAQLive client:visible />
     </div>
 
     <div class="mt-16 text-center reveal reveal-delay-2">

@@ -1,6 +1,5 @@
 ---
-import TestimonialsCarousel from "@/components/TestimonialsCarousel.astro";
-import reviews from "@/assets/reviews.json";
+import TestimonialsLive from "@/components/TestimonialsLive";
 ---
 
 <section id="testimonials" class="section-py section-px bg-surface-warm">
@@ -17,8 +16,8 @@ import reviews from "@/assets/reviews.json";
       </h2>
     </div>
 
-    <!-- TestimonialsCarousel handles all 3 columns + stagger logic -->
-    <TestimonialsCarousel reviews={reviews} />
+    <!-- Live carousel — reads from Convex, no rebuild needed -->
+    <TestimonialsLive client:visible />
 
     <div class="text-center mt-14 reveal">
       <a

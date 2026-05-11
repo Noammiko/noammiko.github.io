@@ -1,28 +1,89 @@
-import { query } from "./_generated/server";
-import { Temporal } from "@js-temporal/polyfill"
-import { v } from "convex/values"
+import { mutation, query } from "./_generated/server";
+import { Temporal } from "@js-temporal/polyfill";
+import { v } from "convex/values";
 
+/* ─── Settings (singleton document) ────────────────────────────── */
+
+const SETTINGS_DEFAULTS = { enabled: true, weeklySlots: 5 };
+
+/** Returns free-trial feature settings, falling back to defaults. */
+export const getSettings = query({
+  args: {},
+  handler: async (ctx) => {
+    const doc = await ctx.db.query("freeSettings").first();
+    return doc ?? SETTINGS_DEFAULTS;
+  },
+});
+
+/** Creates or updates the single freeSettings document. */
+export const upsertSettings = mutation({
+  args: {
+    enabled:     v.boolean(),
+    weeklySlots: v.number(),
+  },
+  handler: async (ctx, args) => {
+    const existing = await ctx.db.query("freeSettings").first();
+    if (existing) {
+      await ctx.db.patch(existing._id, args);
+    } else {
+      await ctx.db.insert("freeSettings", args);
+    }
+  },
+});
+
+/* ─── Weekly slot counter (public) ─────────────────────────────── */
+
+/**
+ * Returns the number of *approved* free-trial bookings this week.
+ * Used by the pricing page to show remaining spots.
+ */
 export const getAmountWeek = query({
   args: {
     timezone: v.optional(v.string()),
   },
   returns: v.number(),
   handler: async (ctx, args) => {
-    const tz = args.timezone ?? "America/Toronto" // EST timezone
+    const tz = args.timezone ?? "America/Toronto";
     const now = Temporal.Now.zonedDateTimeISO(tz);
 
-    // Get to start of week by subtracting days until we reach Monday
-    const startOfWeek = now.subtract({ days: now.dayOfWeek - 1 })
-      // Set to start of day (midnight)
+    const startOfWeek = now
+      .subtract({ days: now.dayOfWeek - 1 })
       .startOfDay();
 
-    // Get milliseconds since epoch
     const milliseconds = startOfWeek.epochMilliseconds;
 
-    const tasks = await ctx.db.query("free")
+    const tasks = await ctx.db
+      .query("free")
       .withIndex("by_creation_time", (q) => q.gte("_creationTime", milliseconds))
       .filter((q) => q.eq(q.field("approved"), true))
       .collect();
-    return tasks.reduce((a) => a + 1, 0)
+
+    return tasks.length;
+  },
+});
+
+/* ─── Free trial submissions (admin) ────────────────────────────── */
+
+/** All free-trial submissions, newest first. Admin only. */
+export const getFreeTrials = query({
+  args: {},
+  handler: async (ctx) => {
+    return await ctx.db.query("free").order("desc").collect();
+  },
+});
+
+/** Approve a free-trial submission. */
+export const approveFree = mutation({
+  args: { id: v.id("free") },
+  handler: async (ctx, { id }) => {
+    await ctx.db.patch(id, { approved: true });
+  },
+});
+
+/** Deny (reject) a free-trial submission. */
+export const denyFree = mutation({
+  args: { id: v.id("free") },
+  handler: async (ctx, { id }) => {
+    await ctx.db.patch(id, { approved: false });
   },
 });

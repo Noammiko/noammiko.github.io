@@ -2,25 +2,22 @@ import { Button } from "@/components/ui/button";
 import FreeTrailDialog from "./forms/freebooking";
 import { withConvexProvider } from "@/lib/convex";
 import { useMemo } from "react";
-
 import { useQuery } from "convex/react";
 import { api } from "@/convex/_generated/api";
 
+/* ─── Inner card ─────────────────────────────────────────────────── */
 interface FreeTrialProps {
-  current?: number;
-  max?: number;
+  current: number;
+  max: number;
 }
 
-const FreeTrial: React.FC<FreeTrialProps> = ({
-  current = 2,
-  max = 5
-}) => {
-  // Memoize the progress calculation to avoid recalculating on every render
-  // Only recalculates when current or max changes
-  const progress = useMemo(() =>
-    Math.max(0, Math.min(1, current / max)),
+const FreeTrial: React.FC<FreeTrialProps> = ({ current, max }) => {
+  const progress = useMemo(
+    () => Math.max(0, Math.min(1, current / max)),
     [current, max]
   );
+  const remaining = Math.max(0, max - current);
+  const full = progress >= 1;
 
   return (
     <div className="border-2 border-yellow-500/50 group hover:border-yellow-500/90 transition rounded-lg p-6 relative bg-gradient-to-b from-black to-gray-900">
@@ -31,16 +28,12 @@ const FreeTrial: React.FC<FreeTrialProps> = ({
       <h3 className="text-2xl font-bold text-center mb-4">
         First-Time Tryout Session
       </h3>
-      <p className="text-3xl font-bold text-center text-green-400 mb-2">
-        FREE
-      </p>
-      <p className="text-sm text-center mb-4">
-        (for new clients only)
-      </p>
+      <p className="text-3xl font-bold text-center text-green-400 mb-2">FREE</p>
+      <p className="text-sm text-center mb-4">(for new clients only)</p>
 
       <div className="bg-yellow-500/10 rounded-lg p-3 mb-6">
         <p className="text-center font-semibold text-yellow-500 mb-2">
-          {max - current}/{max} spots left this week
+          {remaining}/{max} spots left this week
         </p>
         <div className="w-full bg-gray-800 rounded-full h-2.5 mb-1">
           <div
@@ -50,7 +43,7 @@ const FreeTrial: React.FC<FreeTrialProps> = ({
         </div>
         <div className="flex justify-between text-xs text-gray-400">
           <span>0</span>
-          <span>5</span>
+          <span>{max}</span>
         </div>
       </div>
 
@@ -61,40 +54,37 @@ const FreeTrial: React.FC<FreeTrialProps> = ({
         </p>
       </div>
 
-      <h4 className="text-xl font-bold text-center mb-4 underline">
-        INCLUDES
-      </h4>
+      <h4 className="text-xl font-bold text-center mb-4 underline">INCLUDES</h4>
 
       <ul className="space-y-2 mb-8">
-        <li className="flex items-start">
-          <span className="text-yellow-500 mr-2">•</span>
-          <span>30 min of studio time</span>
-        </li>
-        <li className="flex items-start">
-          <span className="text-yellow-500 mr-2">•</span>
-          <span>30-second clip of your song</span>
-        </li>
-        <li className="flex items-start">
-          <span className="text-yellow-500 mr-2">•</span>
-          <span>Basic Studio Mix</span>
-        </li>
+        {["30 min of studio time", "30-second clip of your song", "Basic Studio Mix"].map((item) => (
+          <li key={item} className="flex items-start">
+            <span className="text-yellow-500 mr-2">•</span>
+            <span>{item}</span>
+          </li>
+        ))}
       </ul>
 
       <FreeTrailDialog>
         <Button
           className="w-full bg-yellow-500 text-black font-bold py-3 hover:bg-yellow-600 transition-colors"
-          disabled={progress === 1}
+          disabled={full}
         >
-          Secure Your Spot
+          {full ? "No Spots Left This Week" : "Secure Your Spot"}
         </Button>
       </FreeTrailDialog>
     </div>
   );
 };
 
-export default withConvexProvider(function CommentForm({ max }: { max: number }) {
+/* ─── Convex-connected export ────────────────────────────────────── */
+export default withConvexProvider(function FreeTrialConnected() {
+  const settings   = useQuery(api.freeAccess.getSettings);
   const amountWeek = useQuery(api.freeAccess.getAmountWeek, {});
-  return (
-    <FreeTrial current={amountWeek} max={max} />
-  )
-})
+
+  // Hide entirely when the offer is disabled
+  if (settings === undefined || amountWeek === undefined) return null;
+  if (!settings.enabled) return null;
+
+  return <FreeTrial current={amountWeek} max={settings.weeklySlots} />;
+});
