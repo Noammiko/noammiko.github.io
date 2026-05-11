@@ -317,11 +317,13 @@ function FAQsTab() {
   const create = useMutation(api.faqs.createFaq);
   const update = useMutation(api.faqs.updateFaq);
   const del    = useMutation(api.faqs.deleteFaq);
+  const seed   = useMutation(api.faqs.seedDefaultFaqs);
 
   const [showForm, setShowForm] = useState(false);
   const [editing, setEditing]   = useState<FAQ | null>(null);
   const [deleting, setDeleting] = useState<Id<"faqs"> | null>(null);
   const [expanded, setExpanded] = useState<Id<"faqs"> | null>(null);
+  const [seeding, setSeeding]   = useState(false);
 
   const nextOrder = faqs?.length ?? 0;
 
@@ -335,17 +337,40 @@ function FAQsTab() {
     }
   };
 
+  const handleSeed = async () => {
+    setSeeding(true);
+    try { await seed(); } finally { setSeeding(false); }
+  };
+
   return (
     <div className="space-y-6">
-      <div className="flex items-center justify-between">
+      <div className="flex items-center justify-between flex-wrap gap-3">
         <p className="text-[rgba(245,240,232,0.5)] text-xs font-['Josefin_Sans']">
           FAQs are live — changes appear instantly without a deploy.
+          {faqs !== undefined && (
+            <span className="ml-2 text-[rgba(201,169,110,0.6)]">
+              ({faqs.length} {faqs.length === 1 ? "entry" : "entries"})
+            </span>
+          )}
         </p>
-        <button onClick={() => { setShowForm(true); setEditing(null); }}
-          className="px-5 py-2.5 bg-[#8B1A1A] hover:bg-[#B22222] text-[#F5F0E8]
-                     text-[0.6rem] tracking-[0.3em] uppercase transition-colors">
-          + Add FAQ
-        </button>
+        <div className="flex gap-3 flex-wrap">
+          {faqs?.length === 0 && (
+            <button
+              onClick={handleSeed}
+              disabled={seeding}
+              className="px-5 py-2.5 border border-[rgba(201,169,110,0.35)] text-[#C9A96E]
+                         hover:bg-[rgba(201,169,110,0.08)] text-[0.6rem] tracking-[0.3em]
+                         uppercase transition-all disabled:opacity-40"
+            >
+              {seeding ? "Loading…" : "⬇ Load default FAQs"}
+            </button>
+          )}
+          <button onClick={() => { setShowForm(true); setEditing(null); }}
+            className="px-5 py-2.5 bg-[#8B1A1A] hover:bg-[#B22222] text-[#F5F0E8]
+                       text-[0.6rem] tracking-[0.3em] uppercase transition-colors">
+            + Add FAQ
+          </button>
+        </div>
       </div>
 
       {(showForm || editing) && (
@@ -368,8 +393,11 @@ function FAQsTab() {
       {!faqs ? (
         <p className="text-[rgba(245,240,232,0.3)] text-sm">Loading…</p>
       ) : faqs.length === 0 ? (
-        <div className="border border-[rgba(255,255,255,0.07)] p-12 text-center">
+        <div className="border border-[rgba(255,255,255,0.07)] p-12 text-center space-y-4">
           <p className="text-[rgba(245,240,232,0.3)] text-sm">No FAQs yet.</p>
+          <p className="text-[rgba(245,240,232,0.2)] text-xs font-['Josefin_Sans']">
+            Click "Load default FAQs" to import the existing site FAQs, or "Add FAQ" to create one from scratch.
+          </p>
         </div>
       ) : (
         <div className="space-y-2">

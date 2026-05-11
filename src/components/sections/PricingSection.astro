@@ -1,6 +1,6 @@
 ---
 import pricingData from "@/data/pricing.json";
-import { BundleListStatic } from "@/components/priceNbundles/BundleListStatic.tsx";
+import { BundleListLive } from "@/components/priceNbundles/BundleListLive.tsx";
 import FreeSessionFormTrigger from "@/components/FreeSessionFormTrigger.tsx";
 import QuoteFormTrigger from "@/components/QuoteFormTrigger.tsx";
 ---
@@ -103,7 +103,7 @@ import QuoteFormTrigger from "@/components/QuoteFormTrigger.tsx";
 
     <!-- Bundle cards -->
     <div class="reveal reveal-delay-1">
-      <BundleListStatic data={pricingData} client:load />
+      <BundleListLive fallback={pricingData} client:load />
     </div>
 
     <!-- Individual rates -->
