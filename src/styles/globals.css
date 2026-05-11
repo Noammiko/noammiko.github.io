@@ -822,6 +822,156 @@ html { scroll-behavior: smooth; }
   box-shadow: 0 0 10px rgba(201,169,110,0.5) !important;
 }
 
+/* ─── Testimonials carousel (tsc-*) ─────────────────────────────────── */
+.tsc-outer {
+  position: relative;
+  display: flex;
+  align-items: stretch;
+  gap: 0;
+  margin-top: 56px;
+}
+.tsc-arr {
+  flex-shrink: 0;
+  width: 52px;
+  background: transparent;
+  border: none;
+  border-top: 1px solid rgba(201,169,110,0.1);
+  border-bottom: 1px solid rgba(201,169,110,0.1);
+  color: rgba(201,169,110,0.4);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: color 0.2s, background 0.2s;
+  padding: 0;
+}
+.tsc-arr-l {
+  border-left: 1px solid rgba(201,169,110,0.1);
+  border-right: 1px solid rgba(201,169,110,0.06);
+}
+.tsc-arr-r {
+  border-right: 1px solid rgba(201,169,110,0.1);
+  border-left: 1px solid rgba(201,169,110,0.06);
+}
+.tsc-arr:hover { color: #C9A96E; background: rgba(201,169,110,0.04); }
+.tsc-arr:disabled { opacity: 0.25; cursor: default; pointer-events: none; }
+.tsc-viewport { overflow: hidden; flex: 1; min-width: 0; }
+.tsc-track {
+  display: flex;
+  transition: transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+  will-change: transform;
+}
+.tsc-card {
+  flex: 0 0 calc(100% / 3);
+  background: linear-gradient(160deg, #0f0d09 0%, #080806 100%);
+  border: 1px solid rgba(201,169,110,0.06);
+  padding: 40px 36px;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  box-sizing: border-box;
+  min-height: 280px;
+}
+.tsc-card + .tsc-card { border-left-color: rgba(201,169,110,0.04); }
+.tsc-stars { display: flex; gap: 3px; }
+.tsc-star {
+  width: 11px; height: 11px;
+  display: inline-block;
+  background: #C9A96E;
+  clip-path: polygon(50% 0%,61% 35%,98% 35%,68% 57%,79% 91%,50% 70%,21% 91%,32% 57%,2% 35%,39% 35%);
+  flex-shrink: 0;
+}
+.tsc-quote {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: 15px;
+  font-style: italic;
+  font-weight: 400;
+  line-height: 1.72;
+  color: rgba(237,229,208,0.88);
+  flex: 1;
+  margin: 0;
+}
+.tsc-author { display: flex; align-items: center; gap: 14px; margin-top: auto; }
+.tsc-av-img {
+  width: 40px; height: 40px;
+  border-radius: 50%;
+  border: 1px solid rgba(201,169,110,0.22);
+  object-fit: cover;
+  flex-shrink: 0;
+}
+.tsc-av-init {
+  width: 40px; height: 40px;
+  border-radius: 50%;
+  border: 1px solid rgba(201,169,110,0.22);
+  background: #0d0b08;
+  display: flex; align-items: center; justify-content: center;
+  font-family: 'Playfair Display', serif;
+  font-size: 17px;
+  color: #C9A96E;
+  flex-shrink: 0;
+}
+.tsc-name {
+  font-family: 'Josefin Sans', sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+  color: #ede5d0;
+  letter-spacing: 0.5px;
+  text-transform: capitalize;
+}
+.tsc-meta {
+  font-family: 'Josefin Sans', sans-serif;
+  font-size: 10px;
+  color: rgba(237,229,208,0.38);
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  margin-top: 2px;
+}
+.tsc-footer { display: flex; align-items: center; gap: 16px; padding: 20px 0 0; }
+.tsc-arr-sm {
+  background: transparent;
+  border: 1px solid rgba(201,169,110,0.18);
+  color: rgba(201,169,110,0.55);
+  width: 32px; height: 32px;
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer;
+  transition: border-color 0.2s, color 0.2s;
+  flex-shrink: 0;
+}
+.tsc-arr-sm:hover { border-color: rgba(201,169,110,0.55); color: #C9A96E; }
+.tsc-progress-track {
+  flex: 1;
+  height: 1px;
+  background: rgba(201,169,110,0.12);
+  position: relative;
+  overflow: hidden;
+}
+.tsc-progress-fill {
+  position: absolute;
+  left: 0; top: 0; bottom: 0;
+  background: #C9A96E;
+  transition: width 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+  width: 0%;
+}
+.tsc-counter {
+  font-family: 'Josefin Sans', sans-serif;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: rgba(201,169,110,0.55);
+  white-space: nowrap;
+  flex-shrink: 0;
+  min-width: 44px;
+  text-align: right;
+}
+@media (max-width: 900px) {
+  .tsc-card { flex: 0 0 100%; }
+  .tsc-arr { display: none; }
+}
+@media (min-width: 601px) and (max-width: 900px) {
+  .tsc-card { flex: 0 0 50%; }
+}
+
 /* ─── Legacy glitch (keep for backward compat) ──────────────────────── */
 .glitch-text {
   position: relative;

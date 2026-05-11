@@ -165,31 +165,6 @@ export function BundleListStatic({ data }: { data: PricingData }) {
 
   return (
     <div>
-      {/* Seasonal offer banner */}
-      {data.seasonalOffer.active && (
-        <div className="mb-16 text-center border border-[rgba(201,169,110,0.25)] px-8 py-7 relative">
-          <div className="absolute -top-3 left-1/2 -translate-x-1/2 bg-[#080808] px-4">
-            <span className="text-[0.6rem] tracking-[0.35em] uppercase text-[#C9A96E] font-['Cinzel']">
-              {data.seasonalOffer.badgeText ?? "Limited Time"}
-            </span>
-          </div>
-          <h3 className="font-['Playfair_Display'] font-light text-3xl text-[#ede5d0] mb-2">
-            {data.seasonalOffer.name}
-          </h3>
-          <p className="text-[rgba(245,240,232,0.55)] text-sm font-['Josefin_Sans'] mb-3">
-            {data.seasonalOffer.description}
-          </p>
-          <span className="text-[#C9A96E] font-['Playfair_Display'] text-2xl italic">
-            {data.seasonalOffer.discount}
-          </span>
-          {data.seasonalOffer.validUntil && (
-            <p className="text-[rgba(245,240,232,0.35)] text-xs tracking-widest uppercase mt-2 font-['Josefin_Sans']">
-              Ends {data.seasonalOffer.validUntil}
-            </p>
-          )}
-        </div>
-      )}
-
       {/* Bundle cards */}
       <div className="grid md:grid-cols-3 gap-6 lg:gap-8 items-start">
         {sorted.map((bundle, i) => (
