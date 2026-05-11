@@ -84,6 +84,18 @@ export default defineSchema({
     badgeText:       v.optional(v.string()),
   }),
 
+  /** Studio gallery images */
+  gallery: defineTable({
+    /** Accessibility alt text and tooltip */
+    alt:       v.string(),
+    /** Optional caption shown below the image */
+    caption:   v.optional(v.string()),
+    /** Convex Storage URL or public path */
+    imageUrl:  v.string(),
+    order:     v.number(),
+    active:    v.boolean(),
+  }),
+
   /** Portfolio audio tracks */
   portfolio: defineTable({
     client:    v.string(),

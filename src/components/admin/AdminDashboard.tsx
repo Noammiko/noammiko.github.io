@@ -7,6 +7,7 @@ import { SignOutButton } from "./layout";
 import FreeTrialsAdmin  from "./approveUsers";
 import DiscountsAdmin   from "./DiscountsAdmin";
 import PortfolioAdmin   from "./PortfolioAdmin";
+import GalleryAdmin     from "./GalleryAdmin";
 import ReviewsFAQAdmin  from "./ReviewsFAQAdmin";
 import InquiriesAdmin   from "./InquiriesAdmin";
 import MusicAdmin       from "./MusicAdmin";
@@ -14,6 +15,7 @@ import MusicAdmin       from "./MusicAdmin";
 type Page =
   | "discounts"
   | "portfolio"
+  | "gallery"
   | "freeSlots"
   | "inquiries"
   | "reviewsFaqs"
@@ -23,6 +25,7 @@ type Page =
 const NAV: { id: Page; label: string; icon: string }[] = [
   { id: "discounts",   label: "Discounts & Bundles", icon: "🏷"  },
   { id: "portfolio",   label: "Portfolio",           icon: "🎵"  },
+  { id: "gallery",     label: "Gallery",             icon: "🖼"  },
   { id: "freeSlots",   label: "Free Slots",          icon: "🎟"  },
   { id: "inquiries",   label: "Inquiries",           icon: "📩"  },
   { id: "reviewsFaqs", label: "Reviews & FAQs",      icon: "⭐"  },
@@ -130,17 +133,20 @@ export function AdminDashboard() {
   const [page, setPage]           = useState<Page>("discounts");
   const [sidebarOpen, setSidebar] = useState(false);
 
-  /* Auto-seed reviews, FAQs, and portfolio on first load if tables are empty */
+  /* Auto-seed reviews, FAQs, portfolio, and gallery on first load if tables are empty */
   // @ts-ignore
   const seedReviews   = useMutation(api.reviews.seedDefaultReviews);
   // @ts-ignore
   const seedFaqs      = useMutation(api.faqs.seedDefaultFaqs);
   // @ts-ignore
   const seedPortfolio = useMutation(api.portfolio.seedDefaultPortfolio);
+  // @ts-ignore
+  const seedGallery   = useMutation(api.gallery.seedDefaultGallery);
   useEffect(() => {
     seedReviews();
     seedFaqs();
     seedPortfolio();
+    seedGallery();
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   /* Pending counts for nav badges */
@@ -247,6 +253,7 @@ export function AdminDashboard() {
           <div className="max-w-5xl mx-auto px-6 py-8">
             {page === "discounts"   && <WithDeploy><DiscountsAdmin /></WithDeploy>}
             {page === "portfolio"   && <WithDeploy><PortfolioAdmin /></WithDeploy>}
+            {page === "gallery"     && <WithDeploy><GalleryAdmin /></WithDeploy>}
             {page === "freeSlots"   && <WithDeploy><FreeTrialsAdmin /></WithDeploy>}
             {page === "inquiries"   && <WithDeploy><InquiriesAdmin /></WithDeploy>}
             {page === "reviewsFaqs" && <WithDeploy><ReviewsFAQAdmin /></WithDeploy>}

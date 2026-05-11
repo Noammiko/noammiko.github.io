@@ -15,6 +15,7 @@ import type * as discounts from "../discounts.js";
 import type * as faqs from "../faqs.js";
 import type * as forms from "../forms.js";
 import type * as freeAccess from "../freeAccess.js";
+import type * as gallery from "../gallery.js";
 import type * as http from "../http.js";
 import type * as inquiries from "../inquiries.js";
 import type * as musicSettings from "../musicSettings.js";
@@ -38,6 +39,7 @@ declare const fullApi: ApiFromModules<{
   faqs: typeof faqs;
   forms: typeof forms;
   freeAccess: typeof freeAccess;
+  gallery: typeof gallery;
   http: typeof http;
   inquiries: typeof inquiries;
   musicSettings: typeof musicSettings;

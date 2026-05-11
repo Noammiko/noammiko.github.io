@@ -1,5 +1,7 @@
 ---
 import { Image } from "astro:assets";
+import { ConvexHttpClient } from "convex/browser";
+import { api } from "@/convex/_generated/api";
 
 import img1 from "@/assets/galary/1.jpeg";
 import img2 from "@/assets/galary/2.jpeg";
@@ -9,7 +11,7 @@ import img5 from "@/assets/galary/5.jpeg";
 import img6 from "@/assets/galary/6.jpeg";
 import img7 from "@/assets/galary/7.jpeg";
 
-const images = [
+const staticImages = [
   { src: img1, alt: "Recording booth" },
   { src: img2, alt: "Mixing desk" },
   { src: img3, alt: "Studio space" },
@@ -18,6 +20,25 @@ const images = [
   { src: img6, alt: "Studio monitors" },
   { src: img7, alt: "Session" },
 ];
+
+/* ── Build-time fetch from Convex ────────────────────────────────────
+   In production this runs once during `bun run build`.
+   In dev Astro re-runs on each page request so changes appear on reload. */
+type ConvexImage = { imageUrl: string; alt: string; caption?: string };
+let convexImages: ConvexImage[] = [];
+try {
+  const url = import.meta.env.CONVEX_URL ?? "";
+  if (url) {
+    const client = new ConvexHttpClient(url);
+    const live = await client.query(api.gallery.listActiveGallery);
+    convexImages = live as ConvexImage[];
+  }
+} catch {
+  /* fall back to static assets */
+}
+
+const usingConvex  = convexImages.length > 0;
+const displayCount = usingConvex ? convexImages.length : staticImages.length;
 ---
 
 <section id="gallery" class="bg-surface-warm" style="padding: 0;">
@@ -34,11 +55,18 @@ const images = [
   <!-- Horizontal drag-scroll track -->
   <div class="gallery-h-wrap">
     <div class="gallery-h-track" id="gallery-h-track">
-      {images.map(({ src, alt }) => (
-        <div class="gallery-h-item">
-          <Image src={src} alt={alt} widths={[600, 900]} class="w-full h-full object-cover" loading="lazy" />
-        </div>
-      ))}
+      {usingConvex
+        ? convexImages.map(({ imageUrl, alt }) => (
+            <div class="gallery-h-item">
+              <img src={imageUrl} alt={alt} class="w-full h-full object-cover" loading="lazy" decoding="async" />
+            </div>
+          ))
+        : staticImages.map(({ src, alt }) => (
+            <div class="gallery-h-item">
+              <Image src={src} alt={alt} widths={[600, 900]} class="w-full h-full object-cover" loading="lazy" />
+            </div>
+          ))
+      }
     </div>
   </div>
 
@@ -46,7 +74,7 @@ const images = [
   <div class="max-w-6xl mx-auto px-6 py-8 flex gap-3 items-center">
     <button class="gallery-arrow-btn" id="gallery-h-prev" aria-label="Previous">&#8592;</button>
     <button class="gallery-arrow-btn" id="gallery-h-next" aria-label="Next">&#8594;</button>
-    <span class="gallery-h-count" id="gallery-h-count">1 / {images.length}</span>
+    <span class="gallery-h-count" id="gallery-h-count">1 / {displayCount}</span>
   </div>
 </section>
 
