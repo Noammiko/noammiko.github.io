@@ -130,14 +130,17 @@ export function AdminDashboard() {
   const [page, setPage]           = useState<Page>("discounts");
   const [sidebarOpen, setSidebar] = useState(false);
 
-  /* Auto-seed reviews and FAQs on first load if tables are empty */
+  /* Auto-seed reviews, FAQs, and portfolio on first load if tables are empty */
   // @ts-ignore
-  const seedReviews = useMutation(api.reviews.seedDefaultReviews);
+  const seedReviews   = useMutation(api.reviews.seedDefaultReviews);
   // @ts-ignore
-  const seedFaqs    = useMutation(api.faqs.seedDefaultFaqs);
+  const seedFaqs      = useMutation(api.faqs.seedDefaultFaqs);
+  // @ts-ignore
+  const seedPortfolio = useMutation(api.portfolio.seedDefaultPortfolio);
   useEffect(() => {
     seedReviews();
     seedFaqs();
+    seedPortfolio();
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   /* Pending counts for nav badges */

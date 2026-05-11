@@ -1,6 +1,40 @@
 ---
 import PortfolioLive from "@/components/PortfolioLive.tsx";
-import portfolio from "@/assets/protfolio.json";
+import { PortfolioDisplay } from "@/components/PortfolioDisplay.tsx";
+import staticPortfolio from "@/assets/protfolio.json";
+import { ConvexHttpClient } from "convex/browser";
+import { api } from "@/convex/_generated/api";
+import type { Song } from "@/components/musicPortfolio/types";
+
+const isDev = import.meta.env.DEV;
+
+/* ── Build-time fetch from Convex ────────────────────────────────
+   In production this runs once at `bun run build`. The result is
+   baked into the static HTML — no runtime Convex queries, fast load.
+   In dev Astro re-runs on every reload so you still see fresh data,
+   but PortfolioLive is rendered instead for true live updates.      */
+let songs: Song[] = staticPortfolio as Song[];
+if (!isDev) {
+  try {
+    const url = import.meta.env.CONVEX_URL ?? "";
+    if (url) {
+      const client = new ConvexHttpClient(url);
+      const live = await client.query(api.portfolio.listActivePortfolio);
+      if (live.length > 0) {
+        songs = live.map((r) => ({
+          client:    r.client,
+          title:     r.title,
+          file:      r.file,
+          work:      r.work,
+          languages: r.languages,
+          genres:    r.genres,
+        }));
+      }
+    }
+  } catch {
+    /* fall back to static protfolio.json */
+  }
+}
 ---
 
 <section id="portfolio" class="section-py section-px">
@@ -19,8 +53,12 @@ import portfolio from "@/assets/protfolio.json";
     </div>
 
     <div class="reveal reveal-delay-1 border border-gold/10">
-      <!-- Live from Convex — admin Portfolio changes appear instantly -->
-      <PortfolioLive fallback={portfolio} client:load />
+      {isDev
+        ? /* Dev: live Convex queries so admin changes appear without rebuild */
+          <PortfolioLive fallback={staticPortfolio as Song[]} client:load />
+        : /* Prod: data baked at build time — deploy to publish changes */
+          <PortfolioDisplay songs={songs} client:load />
+      }
     </div>
   </div>
 </section>
