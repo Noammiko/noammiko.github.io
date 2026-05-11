@@ -1,7 +1,7 @@
 "use client";
 
-import { useState } from "react";
-import { useQuery, useAction } from "convex/react";
+import { useState, useEffect } from "react";
+import { useQuery, useAction, useMutation } from "convex/react";
 import { api } from "@/convex/_generated/api";
 import { SignOutButton } from "./layout";
 import FreeTrialsAdmin  from "./approveUsers";
@@ -129,6 +129,16 @@ function WithDeploy({ children }: { children: React.ReactNode }) {
 export function AdminDashboard() {
   const [page, setPage]           = useState<Page>("discounts");
   const [sidebarOpen, setSidebar] = useState(false);
+
+  /* Auto-seed reviews and FAQs on first load if tables are empty */
+  // @ts-ignore
+  const seedReviews = useMutation(api.reviews.seedDefaultReviews);
+  // @ts-ignore
+  const seedFaqs    = useMutation(api.faqs.seedDefaultFaqs);
+  useEffect(() => {
+    seedReviews();
+    seedFaqs();
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   /* Pending counts for nav badges */
   const inquiries  = useQuery(api.inquiries.listInquiries);
