@@ -1,7 +1,12 @@
+import AdminLayout from "./layout";
 import { AdminDashboard } from "./AdminDashboard";
-import { withConvexProvider } from "@/lib/convex";
 
-// Static wrapper so Astro can resolve this component for client:load hydration.
-const AdminWithConvex = withConvexProvider(AdminDashboard, "auth");
-
-export default AdminWithConvex;
+// AdminLayout provides ConvexAuthProvider + the Authenticated/Unauthenticated gate.
+// AdminDashboard only renders (and fires its seeds/queries) once the user is logged in.
+export default function AdminWithConvex() {
+  return (
+    <AdminLayout>
+      <AdminDashboard />
+    </AdminLayout>
+  );
+}
