@@ -7,6 +7,7 @@ import { v } from "convex/values";
 export const listFaqs = query({
   args: {},
   handler: async (ctx) => {
+    if (!await ctx.auth.getUserIdentity()) throw new Error("Unauthorized");
     return await ctx.db
       .query("faqs")
       .collect()
@@ -36,6 +37,7 @@ export const createFaq = mutation({
     active:   v.boolean(),
   },
   handler: async (ctx, args) => {
+    if (!await ctx.auth.getUserIdentity()) throw new Error("Unauthorized");
     return await ctx.db.insert("faqs", args);
   },
 });
@@ -49,6 +51,7 @@ export const updateFaq = mutation({
     active:   v.optional(v.boolean()),
   },
   handler: async (ctx, { id, ...fields }) => {
+    if (!await ctx.auth.getUserIdentity()) throw new Error("Unauthorized");
     const cleaned = Object.fromEntries(
       Object.entries(fields).filter(([, val]) => val !== undefined)
     );
@@ -59,6 +62,7 @@ export const updateFaq = mutation({
 export const deleteFaq = mutation({
   args: { id: v.id("faqs") },
   handler: async (ctx, { id }) => {
+    if (!await ctx.auth.getUserIdentity()) throw new Error("Unauthorized");
     await ctx.db.delete(id);
   },
 });
@@ -71,6 +75,7 @@ export const deleteFaq = mutation({
 export const seedDefaultFaqs = mutation({
   args: {},
   handler: async (ctx) => {
+    if (!await ctx.auth.getUserIdentity()) throw new Error("Unauthorized");
     const existing = await ctx.db.query("faqs").collect();
     if (existing.length > 0) return { seeded: false };
 

@@ -7,6 +7,7 @@ import { v } from "convex/values";
 export const listDiscounts = query({
   args: {},
   handler: async (ctx) => {
+    if (!await ctx.auth.getUserIdentity()) throw new Error("Unauthorized");
     return await ctx.db.query("discounts").order("desc").collect();
   },
 });
@@ -50,6 +51,7 @@ export const createDiscount = mutation({
     badgeText:       v.optional(v.string()),
   },
   handler: async (ctx, args) => {
+    if (!await ctx.auth.getUserIdentity()) throw new Error("Unauthorized");
     return await ctx.db.insert("discounts", args);
   },
 });
@@ -66,6 +68,7 @@ export const updateDiscount = mutation({
     badgeText:       v.optional(v.string()),
   },
   handler: async (ctx, { id, ...fields }) => {
+    if (!await ctx.auth.getUserIdentity()) throw new Error("Unauthorized");
     const cleaned = Object.fromEntries(
       Object.entries(fields).filter(([, val]) => val !== undefined)
     );
@@ -76,6 +79,7 @@ export const updateDiscount = mutation({
 export const deleteDiscount = mutation({
   args: { id: v.id("discounts") },
   handler: async (ctx, { id }) => {
+    if (!await ctx.auth.getUserIdentity()) throw new Error("Unauthorized");
     await ctx.db.delete(id);
   },
 });

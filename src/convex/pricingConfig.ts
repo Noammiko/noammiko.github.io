@@ -29,6 +29,7 @@ export const upsertPricingConfig = mutation({
     saleBundles:   v.optional(v.array(saleBundleValidator)),
   },
   handler: async (ctx, args) => {
+    if (!await ctx.auth.getUserIdentity()) throw new Error("Unauthorized");
     const existing = await ctx.db.query("pricingConfig").first();
     if (existing) {
       await ctx.db.patch(existing._id, args);

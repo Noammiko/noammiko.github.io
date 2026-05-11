@@ -7,6 +7,7 @@ import { v } from "convex/values";
 export const listSales = query({
   args: {},
   handler: async (ctx) => {
+    if (!await ctx.auth.getUserIdentity()) throw new Error("Unauthorized");
     return await ctx.db
       .query("sales")
       .order("desc")
@@ -18,6 +19,7 @@ export const listSales = query({
 export const salesStats = query({
   args: {},
   handler: async (ctx) => {
+    if (!await ctx.auth.getUserIdentity()) throw new Error("Unauthorized");
     const all = await ctx.db.query("sales").collect();
 
     const completed = all.filter((s) => s.status === "completed");
@@ -65,6 +67,7 @@ export const createSale = mutation({
     status:     v.string(),
   },
   handler: async (ctx, args) => {
+    if (!await ctx.auth.getUserIdentity()) throw new Error("Unauthorized");
     return await ctx.db.insert("sales", args);
   },
 });
@@ -81,6 +84,7 @@ export const updateSale = mutation({
     status:     v.optional(v.string()),
   },
   handler: async (ctx, { id, ...fields }) => {
+    if (!await ctx.auth.getUserIdentity()) throw new Error("Unauthorized");
     const cleaned = Object.fromEntries(
       Object.entries(fields).filter(([, v]) => v !== undefined)
     );
@@ -92,6 +96,7 @@ export const updateSale = mutation({
 export const deleteSale = mutation({
   args: { id: v.id("sales") },
   handler: async (ctx, { id }) => {
+    if (!await ctx.auth.getUserIdentity()) throw new Error("Unauthorized");
     await ctx.db.delete(id);
   },
 });

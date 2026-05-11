@@ -7,6 +7,7 @@ import { v } from "convex/values";
 export const listReviews = query({
   args: {},
   handler: async (ctx) => {
+    if (!await ctx.auth.getUserIdentity()) throw new Error("Unauthorized");
     return await ctx.db
       .query("reviews")
       .collect()
@@ -41,6 +42,7 @@ export const createReview = mutation({
     order:       v.number(),
   },
   handler: async (ctx, args) => {
+    if (!await ctx.auth.getUserIdentity()) throw new Error("Unauthorized");
     return await ctx.db.insert("reviews", args);
   },
 });
@@ -59,6 +61,7 @@ export const updateReview = mutation({
     order:       v.optional(v.number()),
   },
   handler: async (ctx, { id, ...fields }) => {
+    if (!await ctx.auth.getUserIdentity()) throw new Error("Unauthorized");
     const cleaned = Object.fromEntries(
       Object.entries(fields).filter(([, val]) => val !== undefined)
     );
@@ -69,6 +72,7 @@ export const updateReview = mutation({
 export const deleteReview = mutation({
   args: { id: v.id("reviews") },
   handler: async (ctx, { id }) => {
+    if (!await ctx.auth.getUserIdentity()) throw new Error("Unauthorized");
     await ctx.db.delete(id);
   },
 });
@@ -80,6 +84,7 @@ export const deleteReview = mutation({
 export const seedDefaultReviews = mutation({
   args: {},
   handler: async (ctx) => {
+    if (!await ctx.auth.getUserIdentity()) throw new Error("Unauthorized");
     const existing = await ctx.db.query("reviews").collect();
     if (existing.length > 0) return { seeded: false };
 

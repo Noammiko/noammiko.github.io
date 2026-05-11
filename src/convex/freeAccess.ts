@@ -22,6 +22,7 @@ export const upsertSettings = mutation({
     weeklySlots: v.number(),
   },
   handler: async (ctx, args) => {
+    if (!await ctx.auth.getUserIdentity()) throw new Error("Unauthorized");
     const existing = await ctx.db.query("freeSettings").first();
     if (existing) {
       await ctx.db.patch(existing._id, args);
@@ -68,6 +69,7 @@ export const getAmountWeek = query({
 export const getFreeTrials = query({
   args: {},
   handler: async (ctx) => {
+    if (!await ctx.auth.getUserIdentity()) throw new Error("Unauthorized");
     return await ctx.db.query("free").order("desc").collect();
   },
 });
@@ -76,6 +78,7 @@ export const getFreeTrials = query({
 export const approveFree = mutation({
   args: { id: v.id("free") },
   handler: async (ctx, { id }) => {
+    if (!await ctx.auth.getUserIdentity()) throw new Error("Unauthorized");
     await ctx.db.patch(id, { approved: true });
   },
 });
@@ -84,6 +87,7 @@ export const approveFree = mutation({
 export const denyFree = mutation({
   args: { id: v.id("free") },
   handler: async (ctx, { id }) => {
+    if (!await ctx.auth.getUserIdentity()) throw new Error("Unauthorized");
     await ctx.db.patch(id, { approved: false });
   },
 });

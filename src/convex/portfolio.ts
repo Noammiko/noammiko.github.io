@@ -7,6 +7,7 @@ import { v } from "convex/values";
 export const listPortfolio = query({
   args: {},
   handler: async (ctx) => {
+    if (!await ctx.auth.getUserIdentity()) throw new Error("Unauthorized");
     return await ctx.db
       .query("portfolio")
       .collect()
@@ -40,6 +41,7 @@ export const createPortfolioItem = mutation({
     active:    v.boolean(),
   },
   handler: async (ctx, args) => {
+    if (!await ctx.auth.getUserIdentity()) throw new Error("Unauthorized");
     return await ctx.db.insert("portfolio", args);
   },
 });
@@ -57,6 +59,7 @@ export const updatePortfolioItem = mutation({
     active:    v.optional(v.boolean()),
   },
   handler: async (ctx, { id, ...fields }) => {
+    if (!await ctx.auth.getUserIdentity()) throw new Error("Unauthorized");
     const cleaned = Object.fromEntries(
       Object.entries(fields).filter(([, val]) => val !== undefined)
     );
@@ -67,6 +70,7 @@ export const updatePortfolioItem = mutation({
 export const deletePortfolioItem = mutation({
   args: { id: v.id("portfolio") },
   handler: async (ctx, { id }) => {
+    if (!await ctx.auth.getUserIdentity()) throw new Error("Unauthorized");
     await ctx.db.delete(id);
   },
 });
@@ -75,6 +79,7 @@ export const deletePortfolioItem = mutation({
 export const generateUploadUrl = mutation({
   args: {},
   handler: async (ctx) => {
+    if (!await ctx.auth.getUserIdentity()) throw new Error("Unauthorized");
     return await ctx.storage.generateUploadUrl();
   },
 });
@@ -95,6 +100,7 @@ export const saveUploadedTrack = mutation({
     active:    v.boolean(),
   },
   handler: async (ctx, { storageId, ...rest }) => {
+    if (!await ctx.auth.getUserIdentity()) throw new Error("Unauthorized");
     const url = await ctx.storage.getUrl(storageId);
     if (!url) throw new Error("Storage URL not available");
     return await ctx.db.insert("portfolio", { ...rest, file: url });
@@ -105,6 +111,7 @@ export const saveUploadedTrack = mutation({
 export const swapOrder = mutation({
   args: { idA: v.id("portfolio"), idB: v.id("portfolio") },
   handler: async (ctx, { idA, idB }) => {
+    if (!await ctx.auth.getUserIdentity()) throw new Error("Unauthorized");
     const a = await ctx.db.get(idA);
     const b = await ctx.db.get(idB);
     if (!a || !b) return;
@@ -120,6 +127,7 @@ export const swapOrder = mutation({
 export const seedDefaultPortfolio = mutation({
   args: {},
   handler: async (ctx) => {
+    if (!await ctx.auth.getUserIdentity()) throw new Error("Unauthorized");
     const existing = await ctx.db.query("portfolio").collect();
     if (existing.length > 0) return { seeded: false };
 

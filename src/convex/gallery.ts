@@ -7,6 +7,7 @@ import { v } from "convex/values";
 export const listGallery = query({
   args: {},
   handler: async (ctx) => {
+    if (!await ctx.auth.getUserIdentity()) throw new Error("Unauthorized");
     return await ctx.db
       .query("gallery")
       .collect()
@@ -38,6 +39,7 @@ export const updateGalleryItem = mutation({
     active:   v.optional(v.boolean()),
   },
   handler: async (ctx, { id, ...fields }) => {
+    if (!await ctx.auth.getUserIdentity()) throw new Error("Unauthorized");
     const cleaned = Object.fromEntries(
       Object.entries(fields).filter(([, val]) => val !== undefined)
     );
@@ -48,6 +50,7 @@ export const updateGalleryItem = mutation({
 export const deleteGalleryItem = mutation({
   args: { id: v.id("gallery") },
   handler: async (ctx, { id }) => {
+    if (!await ctx.auth.getUserIdentity()) throw new Error("Unauthorized");
     await ctx.db.delete(id);
   },
 });
@@ -56,6 +59,7 @@ export const deleteGalleryItem = mutation({
 export const generateUploadUrl = mutation({
   args: {},
   handler: async (ctx) => {
+    if (!await ctx.auth.getUserIdentity()) throw new Error("Unauthorized");
     return await ctx.storage.generateUploadUrl();
   },
 });
@@ -73,6 +77,7 @@ export const saveUploadedImage = mutation({
     active:    v.boolean(),
   },
   handler: async (ctx, { storageId, ...rest }) => {
+    if (!await ctx.auth.getUserIdentity()) throw new Error("Unauthorized");
     const url = await ctx.storage.getUrl(storageId);
     if (!url) throw new Error("Storage URL not available");
     return await ctx.db.insert("gallery", { ...rest, imageUrl: url });
@@ -83,6 +88,7 @@ export const saveUploadedImage = mutation({
 export const swapOrder = mutation({
   args: { idA: v.id("gallery"), idB: v.id("gallery") },
   handler: async (ctx, { idA, idB }) => {
+    if (!await ctx.auth.getUserIdentity()) throw new Error("Unauthorized");
     const a = await ctx.db.get(idA);
     const b = await ctx.db.get(idB);
     if (!a || !b) return;
@@ -99,6 +105,7 @@ export const swapOrder = mutation({
 export const seedDefaultGallery = mutation({
   args: {},
   handler: async (ctx) => {
+    if (!await ctx.auth.getUserIdentity()) throw new Error("Unauthorized");
     const existing = await ctx.db.query("gallery").collect();
     if (existing.length > 0) return { seeded: false };
 

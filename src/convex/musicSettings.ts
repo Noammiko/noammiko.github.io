@@ -30,6 +30,7 @@ export const upsertSettings = mutation({
     discographyUrls:  v.array(v.string()),
   },
   handler: async (ctx, args) => {
+    if (!await ctx.auth.getUserIdentity()) throw new Error("Unauthorized");
     const existing = await ctx.db.query("musicSettings").first();
     if (existing) {
       await ctx.db.patch(existing._id, args);

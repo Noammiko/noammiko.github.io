@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { useQuery, useMutation } from "convex/react";
+import { useQuery, useMutation, useAction } from "convex/react";
 import { api } from "@/convex/_generated/api";
 import pricingJson from "@/data/pricing.json";
 
@@ -144,9 +144,10 @@ function BaseBundleEditor({
 /* ─── Main ───────────────────────────────────────────────────────── */
 export default function DiscountsAdmin() {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const convexConfig = useQuery((api as any).pricingConfig.getPricingConfig);
+  const convexConfig     = useQuery((api as any).pricingConfig.getPricingConfig);
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const upsert = useMutation((api as any).pricingConfig.upsertPricingConfig);
+  const upsert           = useMutation((api as any).pricingConfig.upsertPricingConfig);
+  const updateBaseBundles = useAction(api.deploy.updateBaseBundles);
 
   /* ── Section 1: base bundles (seed from pricing.json) ─── */
   const [baseBundles, setBaseBundles] = useState<BaseBundle[]>(
@@ -202,15 +203,7 @@ export default function DiscountsAdmin() {
     setBaseSaving(true);
     setBaseError(null);
     try {
-      const res = await fetch("/api/update-base-bundles", {
-        method:  "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ bundles: baseBundles }),
-      });
-      if (!res.ok) {
-        const err = await res.json().catch(() => ({ error: res.statusText }));
-        throw new Error(err.error ?? "Request failed");
-      }
+      await updateBaseBundles({ bundles: baseBundles });
       setBaseDirty(false);
       setBaseSaved(true);
       setTimeout(() => setBaseSaved(false), 6000);
