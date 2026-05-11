@@ -43,6 +43,9 @@ export default defineSchema({
     projectGoal:      v.optional(v.string()),
     completionDate:   v.string(),
     budget:           v.string(),
+    /** Admin review workflow */
+    reviewStatus:     v.optional(v.string()),
+    reviewedAt:       v.optional(v.string()),
   }),
 
   /* ── New: Admin tables ──────────────────────────────────────────── */
@@ -66,5 +69,92 @@ export default defineSchema({
      * "completed" | "pending" | "refunded"
      */
     status:      v.string(),
+  }),
+
+  /** Promotional discounts shown on the pricing page */
+  discounts: defineTable({
+    name:            v.string(),
+    description:     v.optional(v.string()),
+    discountPercent: v.number(),
+    /** ISO date string e.g. "2026-05-01" */
+    validFrom:       v.optional(v.string()),
+    /** ISO date string e.g. "2026-06-01" */
+    validUntil:      v.optional(v.string()),
+    active:          v.boolean(),
+    badgeText:       v.optional(v.string()),
+  }),
+
+  /** Portfolio audio tracks */
+  portfolio: defineTable({
+    client:    v.string(),
+    title:     v.string(),
+    /** Path like /portfolio/01.mp3 */
+    file:      v.string(),
+    /** e.g. ["Mixed", "Mastered"] */
+    work:      v.array(v.string()),
+    languages: v.array(v.string()),
+    genres:    v.array(v.string()),
+    order:     v.number(),
+    active:    v.boolean(),
+  }),
+
+  /** Client reviews / testimonials */
+  reviews: defineTable({
+    name:        v.string(),
+    text:        v.string(),
+    rating:      v.number(),
+    date:        v.string(),
+    image:       v.optional(v.string()),
+    imagegoogle: v.optional(v.string()),
+    url:         v.optional(v.string()),
+    active:      v.boolean(),
+    order:       v.number(),
+  }),
+
+  /** Frequently asked questions */
+  faqs: defineTable({
+    question: v.string(),
+    answer:   v.string(),
+    order:    v.number(),
+    active:   v.boolean(),
+  }),
+
+  /** Singleton: free trial feature settings */
+  freeSettings: defineTable({
+    enabled:     v.boolean(),
+    weeklySlots: v.number(),
+  }),
+
+  /** Singleton: music / Spotify settings */
+  musicSettings: defineTable({
+    featuredTitle:    v.string(),
+    featuredTrackUrl: v.string(),
+    promotingTracks:  v.array(v.string()),
+    discographyUrls:  v.array(v.string()),
+  }),
+
+  /**
+   * Singleton: pricing page bundle configuration.
+   * Admin edits these via the Discounts section; the public pricing page reads them.
+   */
+  pricingConfig: defineTable({
+    /** Whether the sale banner is active */
+    saleActive:  v.boolean(),
+    /** Name displayed at top of pricing section, e.g. "Spring Sale" */
+    saleName:    v.optional(v.string()),
+    /** ISO datetime string the countdown timer counts toward */
+    saleEndDate: v.optional(v.string()),
+    /** The three bundle cards */
+    bundles: v.array(v.object({
+      name:            v.string(),
+      subtitle:        v.string(),
+      price:           v.number(),
+      valuePrice:      v.optional(v.number()),
+      discountPercent: v.optional(v.number()),
+      /** Each string can use **bold** and __underline__ markup */
+      includes:        v.array(v.string()),
+      /** Badge text e.g. "MOST POPULAR", "BEST VALUE" */
+      tag:             v.optional(v.string()),
+    })),
   }),
 });

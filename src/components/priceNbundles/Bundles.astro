@@ -1,16 +1,29 @@
 ---
-import BundleList from "./bundleList.tsx";
+import BundleListConvex from "./BundleListConvex.tsx";
 import { getPricesAndBundles } from "@/components/priceNbundles/sheetdb";
 import FullProject from "./fullProject.tsx";
 
-const prices = await getPricesAndBundles();
-const defaultPrice = prices[0];
+// Server-side default: fetched from Google Sheets at build time.
+// The client-side ConvexProvider will override this with live Convex data
+// once the admin has saved a pricing config.
+let defaultPrice;
+try {
+  const prices = await getPricesAndBundles();
+  defaultPrice = prices[0];
+} catch {
+  // If Google Sheets is unavailable at build time, use a minimal fallback
+  defaultPrice = {
+    saleId: "default",
+    groupId: "default",
+    deals: [],
+  };
+}
 ---
 
 <h1 class="text-center text-5xl md:text-7xl font-bold mb-16 tracking-wider">
     PRICES AND BUNDLES
 </h1>
 
-<BundleList defaultCurrentPrice={defaultPrice} client:load />
+<BundleListConvex defaultCurrentPrice={defaultPrice} client:load />
 
 <FullProject client:idle />
