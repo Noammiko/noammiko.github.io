@@ -50,13 +50,8 @@ No environment variables required. On first deploy, visit `/admin` — because n
 
 ## Local Development
 
-Copy `.env.example` to `.env.local` and fill in real values:
+`.env.local` is generated automatically when you run `npx convex dev` for the first time — it sets `CONVEX_DEPLOYMENT` and points `CONVEX_URL` at the local Convex dev server. You don't need `CONVEX_DEPLOY_KEY` locally.
 
-```
-CONVEX_DEPLOY_KEY=prod:...
-CONVEX_URL=https://your-deployment.convex.cloud
-```
+If you want the GitHub deploy trigger, Resend emails, or Discord notifications to work in local dev, add those vars to `.env.local` manually. Otherwise they're silently skipped or throw on use.
 
-`CONVEX_URL` is injected automatically by `bunx convex deploy` during CI, but is needed manually for local dev. All other variables (GitHub, Resend, Discord) should also be set in your local `.env.local` if you want those features to work locally.
-
-`.env.local` is gitignored — never commit real credentials.
+`.env.local` is gitignored — never commit it.
