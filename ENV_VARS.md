@@ -42,14 +42,9 @@ These let the admin panel trigger site rebuilds and update pricing.json via the 
 |---|---|---|
 | `DISCORD_WEBHOOK` | `https://discord.com/api/webhooks/...` | Discord incoming webhook URL. If not set, Discord notifications are silently skipped. Create in Discord server → channel settings → Integrations. |
 
-### Admin account (one-time setup only)
+### Admin account (one-time UI setup — no env vars needed)
 
-These are only needed the first time you create the admin account. Once the account exists in Convex Auth, these are no longer read.
-
-| Variable | Example | Description |
-|---|---|---|
-| `ADMIN_EMAIL` | `admin@miko-recordingstudio.ca` | The email address for the admin login. |
-| `ADMIN_PASSWORD` | *(strong password)* | The initial admin password — minimum 16 characters. Convex Auth hashes it with bcrypt+salt on first sign-up. After setup you can remove this variable. |
+No environment variables required. On first deploy, visit `/admin` — because no users exist yet the page shows "Create Admin Account". Fill in your email and password and submit. Convex Auth hashes it with bcrypt+salt and stores it. After that the sign-up form is gone permanently and only sign-in is shown.
 
 ---
 
