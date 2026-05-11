@@ -1,7 +1,8 @@
 ---
 import { Image, getImage } from "astro:assets";
-import mikoLogo from "@/assets/logo.png";
-import img1    from "@/assets/galary/1.jpeg";
+import mikoLogo    from "@/assets/logo.png";
+import logoNoText  from "@/assets/logo-no-text.png";
+import img1        from "@/assets/galary/1.jpeg";
 
 const heroPoster = await getImage({ src: img1, format: "webp", width: 1920, quality: 75 });
 ---
@@ -41,16 +42,26 @@ const heroPoster = await getImage({ src: img1, format: "webp", width: 1920, qual
 
   <!-- Content -->
   <div class="relative z-10 text-center px-6 w-full max-w-5xl mx-auto flex flex-col items-center pt-28 pb-32">
-    <!-- Logo (large in hero, fades out on scroll → reappears in navbar) -->
-    <div class="mb-10 reveal">
+    <!-- Logo placeholder — maintains layout space; flying-logo overlays it -->
+    <div id="hero-logo-wrapper" class="mb-10 reveal">
       <Image
         id="hero-logo"
         src={mikoLogo}
         alt="Miko Recording Studio"
         class="w-[clamp(160px,20vw,280px)] h-auto mx-auto"
-        style="filter: brightness(1.12) drop-shadow(0 0 30px rgba(201,169,110,0.22)); transition: opacity 0.3s, transform 0.3s;"
+        style="filter: brightness(1.12) drop-shadow(0 0 30px rgba(201,169,110,0.22));"
         loading="eager"
       />
+    </div>
+
+    <!-- Flying logo: position:fixed clone that travels to the navbar slot on scroll -->
+    <div
+      id="flying-logo"
+      aria-hidden="true"
+      style="position:fixed;pointer-events:none;z-index:200;display:none;will-change:transform;"
+    >
+      <img id="flying-logo-text"   src={mikoLogo.src}   alt="" style="position:absolute;inset:0;width:100%;height:100%;object-fit:contain;" />
+      <img id="flying-logo-notext" src={logoNoText.src}  alt="" style="position:absolute;inset:0;width:100%;height:100%;object-fit:contain;opacity:0;" />
     </div>
 
     <!-- Headline -->
@@ -89,22 +100,117 @@ const heroPoster = await getImage({ src: img1, format: "webp", width: 1920, qual
 </section>
 
 <script>
-  // Hero logo fades out as user scrolls → reappears in navbar
-  (function() {
-    const heroLogo = document.getElementById('hero-logo') as HTMLElement | null;
-    if (!heroLogo) return;
-    function update() {
-      const y = window.scrollY;
-      const start = 140, end = 400;
-      const p = Math.max(0, Math.min(1, (y - start) / (end - start)));
-      heroLogo!.style.opacity   = String(1 - p);
-      heroLogo!.style.transform = `scale(${1 - p * 0.11})`;
-    }
-    window.addEventListener('scroll', update, { passive: true });
-    document.addEventListener('astro:page-load', () => {
-      window.addEventListener('scroll', update, { passive: true });
-      update();
+  // ── Hero logo "slots in" to navbar on scroll (home page only) ────────────
+  const SCROLL_START = 60;
+  const SCROLL_END   = 320;
+
+  function ease(t: number) {
+    return t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
+  }
+
+  // Page-relative hero center (set in init, valid at any scrollY)
+  let heroInitCX   = 0;
+  let heroInitCY   = 0; // viewport Y at init time
+  let scrollAtInit = 0;
+  let heroH        = 0;
+  let navCX        = 0;
+  let navCY        = 0;
+  let navH         = 0;
+
+  let navLogoEl:  HTMLElement      | null = null;
+  let flyingEl:   HTMLElement      | null = null;
+  let flyingText: HTMLImageElement | null = null;
+  let flyingNT:   HTMLImageElement | null = null;
+  const ctrl = new AbortController();
+
+  function init() {
+    const wrapper = document.getElementById('hero-logo-wrapper') as HTMLElement | null;
+    const heroImg = document.getElementById('hero-logo')         as HTMLElement | null;
+    navLogoEl  = document.getElementById('navbar-logo-img')   as HTMLElement | null;
+    flyingEl   = document.getElementById('flying-logo')        as HTMLElement | null;
+    flyingText = document.getElementById('flying-logo-text')   as HTMLImageElement | null;
+    flyingNT   = document.getElementById('flying-logo-notext') as HTMLImageElement | null;
+
+    if (!wrapper || !heroImg || !navLogoEl || !flyingEl) return;
+
+    const heroRect = wrapper.getBoundingClientRect();
+    const navRect  = navLogoEl.getBoundingClientRect();
+    scrollAtInit   = window.scrollY;
+
+    // Store viewport-Y at init + scrollAtInit so update() can derive
+    // the correct hero position at any future scrollY
+    heroInitCX = heroRect.left + heroRect.width  / 2;
+    heroInitCY = heroRect.top  + heroRect.height / 2;
+    heroH      = heroRect.height;
+    navCX      = navRect.left + navRect.width  / 2;
+    navCY      = navRect.top  + navRect.height / 2;
+    navH       = navRect.height;
+
+    heroImg.style.opacity      = '0';
+    navLogoEl.style.transition = 'opacity 0.15s ease';
+    navLogoEl.style.opacity    = '0';
+
+    Object.assign(flyingEl.style, {
+      width:           heroRect.width  + 'px',
+      height:          heroRect.height + 'px',
+      left:            heroRect.left   + 'px',
+      top:             heroRect.top    + 'px',
+      transformOrigin: '50% 50%',
+      zIndex:          '9999',
     });
+    // Move to body to escape any ancestor stacking context (e.g. z-10 content div)
+    document.body.appendChild(flyingEl);
+    flyingEl.style.display = 'block';
+
     update();
-  })();
+    // Re-run after anchor-based scroll (e.g. /#portfolio) settles
+    setTimeout(update, 80);
+  }
+
+  function update() {
+    if (!flyingEl?.isConnected) { ctrl.abort(); return; }
+    if (!navLogoEl) return;
+
+    const scrollY = window.scrollY;
+    const raw = Math.max(0, Math.min(1, (scrollY - SCROLL_START) / (SCROLL_END - SCROLL_START)));
+    const p   = ease(raw);
+
+    // Hero center in viewport: correct regardless of when init() ran
+    // heroInitCY is viewport-Y at init; scrollAtInit is the scroll at that moment
+    const heroCY = heroInitCY + scrollAtInit - scrollY;
+    const heroCX = heroInitCX;
+
+    const tx = (heroCX + (navCX - heroCX) * p) - heroInitCX;
+    const ty = (heroCY + (navCY - heroCY) * p) - heroInitCY;
+    const scale = 1 + (navH / heroH - 1) * p;
+
+    flyingEl.style.transform = `translate(${tx}px,${ty}px) scale(${scale})`;
+
+    const shadowA = (0.22 * (1 - raw)).toFixed(3);
+    flyingEl.style.filter = `brightness(${(1.12 - 0.12 * raw).toFixed(3)}) drop-shadow(0 0 30px rgba(201,169,110,${shadowA}))`;
+
+    const xp = Math.max(0, Math.min(1, (raw - 0.4) / 0.55));
+    if (flyingText) flyingText.style.opacity = String(1 - xp);
+    if (flyingNT)   flyingNT.style.opacity   = String(xp);
+
+    if (raw >= 1) {
+      flyingEl.style.opacity  = '0';
+      navLogoEl.style.opacity = '1';
+    } else {
+      flyingEl.style.opacity  = '1';
+      navLogoEl.style.opacity = '0';
+    }
+  }
+
+  document.addEventListener('astro:before-swap', () => {
+    ctrl.abort();
+    flyingEl?.remove();
+    if (navLogoEl) {
+      navLogoEl.style.transition = 'none';
+      navLogoEl.style.opacity    = '1';
+    }
+  }, { once: true });
+
+  window.addEventListener('scroll', update, { passive: true, signal: ctrl.signal });
+  requestAnimationFrame(() => requestAnimationFrame(init));
 </script>

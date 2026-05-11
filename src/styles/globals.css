@@ -685,17 +685,6 @@ html { scroll-behavior: smooth; }
   .contact-grid-ref { grid-template-columns: 1fr; }
 }
 
-/* ─── Navbar logo scroll-in animation ───────────────────────────────── */
-#navbar-logo-img {
-  opacity: 0;
-  transform: scale(0.88) translateY(-4px);
-  transition: opacity 0.48s cubic-bezier(0.22,1,0.36,1),
-              transform 0.48s cubic-bezier(0.22,1,0.36,1);
-}
-.nav-scrolled #navbar-logo-img {
-  opacity: 1;
-  transform: scale(1) translateY(0);
-}
 
 /* ─── Centred gold rule (used in about section) ──────────────────────── */
 .gold-divider-center {
