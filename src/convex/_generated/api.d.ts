@@ -20,6 +20,7 @@ import type * as http from "../http.js";
 import type * as inquiries from "../inquiries.js";
 import type * as musicSettings from "../musicSettings.js";
 import type * as notifyDiscord from "../notifyDiscord.js";
+import type * as notifyEmail from "../notifyEmail.js";
 import type * as portfolio from "../portfolio.js";
 import type * as pricingConfig from "../pricingConfig.js";
 import type * as reviews from "../reviews.js";
@@ -44,6 +45,7 @@ declare const fullApi: ApiFromModules<{
   inquiries: typeof inquiries;
   musicSettings: typeof musicSettings;
   notifyDiscord: typeof notifyDiscord;
+  notifyEmail: typeof notifyEmail;
   portfolio: typeof portfolio;
   pricingConfig: typeof pricingConfig;
   reviews: typeof reviews;

@@ -65,7 +65,17 @@ export const freeTrial = mutation({
         avatar_url: 'https://miko-recordingstudio.ca/logo.png',
         attachments: [],
       }
-    })
+    });
+    ctx.scheduler.runAfter(0, internal.notifyEmail.send, {
+      to: "noamiko.shalit@gmail.com",
+      subject: `🎙 New Free Trial Request — ${args.artistName ?? args.fullName}`,
+      html: freeTrialEmailHtml(args),
+    });
+    ctx.scheduler.runAfter(0, internal.notifyEmail.send, {
+      to: args.email,
+      subject: "We received your free session request — Miko Recording Studio",
+      html: freeTrialConfirmationHtml(args.fullName),
+    });
 
     return newTaskId;
   },
@@ -163,7 +173,17 @@ export const inquary = mutation({
         avatar_url: 'https://miko-recordingstudio.ca/logo.png',
         attachments: [],
       }
-    })
+    });
+    ctx.scheduler.runAfter(0, internal.notifyEmail.send, {
+      to: "noamiko.shalit@gmail.com",
+      subject: `📋 New Project Inquiry — ${args.artistName ?? args.fullName}`,
+      html: inquiryEmailHtml(args),
+    });
+    ctx.scheduler.runAfter(0, internal.notifyEmail.send, {
+      to: args.email,
+      subject: "We received your project inquiry — Miko Recording Studio",
+      html: inquiryConfirmationHtml(args.fullName),
+    });
 
     return newTaskId;
   },
@@ -171,4 +191,88 @@ export const inquary = mutation({
 
 function wrapInBlock(str: string) {
   return '```\n' + str.replace('`', '\\`') + '\n```'
+}
+
+type FreeTrialArgs = {
+  fullName: string;
+  artistName?: string;
+  email: string;
+  phone: string;
+  availableTimes: string;
+  recordingType: string;
+  otherRecordingType?: string;
+  referralSource?: string;
+  otherReferralSource?: string;
+};
+
+type InquiryArgs = {
+  fullName: string;
+  artistName?: string;
+  email: string;
+  phone: string;
+  projectType: string;
+  otherProjectType?: string;
+  services: Record<string, boolean>;
+  otherService?: string;
+  songCount: number;
+  projectGoal?: string;
+  completionDate: string;
+  budget: string;
+};
+
+function row(label: string, value: string) {
+  return `<tr><td style="padding:6px 12px;font-weight:600;color:#555;white-space:nowrap">${label}</td><td style="padding:6px 12px">${value}</td></tr>`;
+}
+
+function emailWrapper(title: string, body: string) {
+  return `<!DOCTYPE html><html><body style="font-family:sans-serif;color:#222;max-width:600px;margin:0 auto;padding:24px">
+<h2 style="margin-bottom:4px">${title}</h2>
+<table style="border-collapse:collapse;width:100%;margin-top:16px;background:#f9f9f9;border-radius:8px">${body}</table>
+</body></html>`;
+}
+
+function freeTrialEmailHtml(args: FreeTrialArgs) {
+  const name = args.artistName ? `${args.artistName} (${args.fullName})` : args.fullName;
+  const rows = [
+    row("Name", name),
+    row("Email", args.email),
+    row("Phone", args.phone),
+    row("Recording type", args.otherRecordingType ? `${args.recordingType} — ${args.otherRecordingType}` : args.recordingType),
+    row("Available times", args.availableTimes.replace(/\n/g, "<br>")),
+    ...(args.referralSource ? [row("Referred by", args.otherReferralSource ?? args.referralSource)] : []),
+  ].join("");
+  return emailWrapper("🎙 New Free Trial Request", rows);
+}
+
+function inquiryEmailHtml(args: InquiryArgs) {
+  const name = args.artistName ? `${args.artistName} (${args.fullName})` : args.fullName;
+  const services = Object.entries(args.services).filter(([, v]) => v).map(([k]) => k).join(", ");
+  const rows = [
+    row("Name", name),
+    row("Email", args.email),
+    row("Phone", args.phone),
+    row("Project type", args.otherProjectType ? `${args.projectType} — ${args.otherProjectType}` : args.projectType),
+    row("Services", args.otherService ? `${services}, ${args.otherService}` : services),
+    row("Song count", String(args.songCount)),
+    row("Budget", args.budget),
+    row("Completion date", args.completionDate),
+    ...(args.projectGoal ? [row("Goal", args.projectGoal.replace(/\n/g, "<br>"))] : []),
+  ].join("");
+  return emailWrapper("📋 New Project Inquiry", rows);
+}
+
+function freeTrialConfirmationHtml(fullName: string) {
+  return `<!DOCTYPE html><html><body style="font-family:sans-serif;color:#222;max-width:600px;margin:0 auto;padding:24px">
+<h2>Hey ${fullName}!</h2>
+<p>We received your free session request and we'll be in touch shortly to confirm your booking.</p>
+<p>Talk soon,<br><strong>Miko Recording Studio</strong></p>
+</body></html>`;
+}
+
+function inquiryConfirmationHtml(fullName: string) {
+  return `<!DOCTYPE html><html><body style="font-family:sans-serif;color:#222;max-width:600px;margin:0 auto;padding:24px">
+<h2>Hey ${fullName}!</h2>
+<p>We received your project inquiry and will review it and get back to you soon.</p>
+<p>Talk soon,<br><strong>Miko Recording Studio</strong></p>
+</body></html>`;
 }
