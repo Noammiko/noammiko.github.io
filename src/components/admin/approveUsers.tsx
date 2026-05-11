@@ -87,16 +87,16 @@ function FreeSettingsPanel() {
         </div>
       </div>
 
-      {slots !== null && (
-        <div className="mt-4 flex gap-3">
-          <button
-            onClick={save}
-            disabled={saving}
-            className="px-5 py-2 bg-[#8B1A1A] hover:bg-[#B22222] text-[#F5F0E8]
-                       text-[0.6rem] tracking-[0.3em] uppercase font-['Josefin_Sans'] transition-colors disabled:opacity-40"
-          >
-            {saving ? "Saving…" : "Save Slots"}
-          </button>
+      <div className="mt-4 flex items-center gap-3">
+        <button
+          onClick={save}
+          disabled={saving || slots === null}
+          className="px-5 py-2 bg-[#8B1A1A] hover:bg-[#B22222] text-[#F5F0E8]
+                     text-[0.6rem] tracking-[0.3em] uppercase font-['Josefin_Sans'] transition-colors disabled:opacity-40"
+        >
+          {saving ? "Saving…" : "Save Slots"}
+        </button>
+        {slots !== null && (
           <button
             onClick={() => setSlots(null)}
             className="px-5 py-2 border border-[rgba(255,255,255,0.1)] text-[rgba(245,240,232,0.4)]
@@ -104,8 +104,8 @@ function FreeSettingsPanel() {
           >
             Cancel
           </button>
-        </div>
-      )}
+        )}
+      </div>
     </div>
   );
 }

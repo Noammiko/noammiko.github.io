@@ -2,7 +2,9 @@
 import Layout from "@/layouts/Layout.astro";
 import Header from "@/layouts/Header.astro";
 import Footer from "@/layouts/Footer.astro";
-import { BundleListStatic } from "@/components/priceNbundles/BundleListStatic.tsx";
+import { BundleListLive } from "@/components/priceNbundles/BundleListLive.tsx";
+import { SaleHeader } from "@/components/priceNbundles/SaleHeader.tsx";
+import { FreeTrialScarcity } from "@/components/priceNbundles/FreeTrialScarcity.tsx";
 import pricingData from "@/data/pricing.json";
 ---
 
@@ -32,28 +34,8 @@ import pricingData from "@/data/pricing.json";
           </p>
         </div>
 
-        <!-- Spring Sale display text -->
-        <div class="text-center reveal mb-4">
-          <span
-            class="font-serif font-light uppercase text-gold block"
-            style="font-size:clamp(3rem,8vw,7rem);line-height:1;letter-spacing:0.06em;"
-          >
-            Spring Sale
-          </span>
-        </div>
-
-        <!-- Spring Sale countdown — centered digits only -->
-        <div class="text-center reveal mb-10">
-          <div style="display:inline-flex;gap:12px;align-items:center;">
-            <div class="cd-unit"><span class="cd-num" id="pb-cd-days">00</span><span class="cd-label">Days</span></div>
-            <span class="cd-sep">:</span>
-            <div class="cd-unit"><span class="cd-num" id="pb-cd-hours">00</span><span class="cd-label">Hrs</span></div>
-            <span class="cd-sep">:</span>
-            <div class="cd-unit"><span class="cd-num" id="pb-cd-mins">00</span><span class="cd-label">Min</span></div>
-            <span class="cd-sep">:</span>
-            <div class="cd-unit"><span class="cd-num" id="pb-cd-secs">00</span><span class="cd-label">Sec</span></div>
-          </div>
-        </div>
+        <!-- Sale name + countdown — driven live from Convex admin -->
+        <SaleHeader client:load />
 
         <!-- Free Trial Card -->
         <div class="free-trial-card reveal">
@@ -73,15 +55,7 @@ import pricingData from "@/data/pricing.json";
             </div>
           </div>
           <div style="display:flex;flex-direction:column;gap:24px;padding-top:16px;">
-            <div class="free-trial-scarcity">
-              <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;">
-                <span class="font-sans text-gold" style="font-size:10px;font-weight:600;letter-spacing:2px;text-transform:uppercase;">Spots This Week</span>
-                <span class="font-serif text-cream" style="font-size:22px;">3 / 5 left</span>
-              </div>
-              <div style="background:rgba(255,255,255,0.08);height:3px;width:100%;border-radius:2px;overflow:hidden;">
-                <div style="height:100%;background:#C9A96E;width:40%;border-radius:2px;"></div>
-              </div>
-            </div>
+            <FreeTrialScarcity client:load />
             <div>
               <span class="eyebrow mb-3">Includes</span>
               <ul style="list-style:none;display:flex;flex-direction:column;gap:10px;">
@@ -103,7 +77,7 @@ import pricingData from "@/data/pricing.json";
 
         <!-- Bundle cards -->
         <div class="reveal reveal-delay-1">
-          <BundleListStatic data={pricingData} client:load />
+          <BundleListLive fallback={pricingData} client:load />
         </div>
 
         <!-- Individual rates -->
@@ -218,32 +192,3 @@ import pricingData from "@/data/pricing.json";
   <Footer />
 </Layout>
 
-<script>
-  // Spring Sale countdown for prices page — targets July 1
-  (function() {
-    const days  = document.getElementById('pb-cd-days');
-    const hours = document.getElementById('pb-cd-hours');
-    const mins  = document.getElementById('pb-cd-mins');
-    const secs  = document.getElementById('pb-cd-secs');
-    if (!days || !hours || !mins || !secs) return;
-
-    const now = new Date();
-    let end = new Date(now.getFullYear(), 6, 1, 0, 0, 0);
-    if (now >= end) end = new Date(now.getFullYear() + 1, 6, 1, 0, 0, 0);
-
-    function pad(n: number) { return String(n).padStart(2, '0'); }
-    function tick() {
-      const diff = end.getTime() - Date.now();
-      if (diff <= 0) {
-        days.textContent = hours.textContent = mins.textContent = secs.textContent = '00';
-        return;
-      }
-      days.textContent  = pad(Math.floor(diff / 86400000));
-      hours.textContent = pad(Math.floor((diff % 86400000) / 3600000));
-      mins.textContent  = pad(Math.floor((diff % 3600000) / 60000));
-      secs.textContent  = pad(Math.floor((diff % 60000) / 1000));
-    }
-    tick();
-    setInterval(tick, 1000);
-  })();
-</script>
