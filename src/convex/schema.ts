@@ -134,27 +134,37 @@ export default defineSchema({
   }),
 
   /**
-   * Singleton: pricing page bundle configuration.
-   * Admin edits these via the Discounts section; the public pricing page reads them.
+   * Singleton: pricing page configuration.
+   * baseBundles/saleBundles are the active fields; legacy `bundles` kept for compat.
    */
   pricingConfig: defineTable({
     /** Whether the sale banner is active */
-    saleActive:  v.boolean(),
-    /** Name displayed at top of pricing section, e.g. "Spring Sale" */
-    saleName:    v.optional(v.string()),
-    /** ISO datetime string the countdown timer counts toward */
-    saleEndDate: v.optional(v.string()),
-    /** The three bundle cards */
-    bundles: v.array(v.object({
+    saleActive:    v.boolean(),
+    /** Sale headline e.g. "Spring Sale" */
+    saleName:      v.optional(v.string()),
+    /** ISO datetime when the sale starts */
+    saleStartDate: v.optional(v.string()),
+    /** ISO datetime the countdown timer counts toward */
+    saleEndDate:   v.optional(v.string()),
+    /**
+     * Bundles included in the active sale.
+     * Only present when admin has configured a sale.
+     * Each entry references a base bundle by its id from pricing.json.
+     */
+    saleBundles: v.optional(v.array(v.object({
+      bundleId:        v.string(),
+      salePrice:       v.number(),
+      discountPercent: v.optional(v.number()),
+    }))),
+    /** Legacy field — full bundle cards from old admin UI. No longer written; kept so old docs stay valid. */
+    bundles: v.optional(v.array(v.object({
       name:            v.string(),
       subtitle:        v.string(),
       price:           v.number(),
       valuePrice:      v.optional(v.number()),
       discountPercent: v.optional(v.number()),
-      /** Each string can use **bold** and __underline__ markup */
       includes:        v.array(v.string()),
-      /** Badge text e.g. "MOST POPULAR", "BEST VALUE" */
       tag:             v.optional(v.string()),
-    })),
+    }))),
   }),
 });

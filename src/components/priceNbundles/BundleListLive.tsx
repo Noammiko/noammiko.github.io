@@ -3,9 +3,15 @@
 /**
  * BundleListLive
  *
- * Reads bundle / sale configuration live from Convex so admin Discounts
- * changes appear on the site immediately without a rebuild.
- * Falls back to the static pricing.json when Convex has no config yet.
+ * Base bundle data (name, subtitle, includes, base price) comes from pricing.json
+ * baked in at build time via the `fallback` prop.
+ *
+ * Sale overrides (which bundles are discounted, at what price) are read live
+ * from Convex so admin sale changes appear immediately — no rebuild needed.
+ *
+ * When no sale is active, base prices are shown with no strikethrough.
+ * When a sale is active and the current time is within the sale window,
+ * selected bundles show their sale price (base price becomes the "was" value).
  */
 
 import { useQuery } from "convex/react";
@@ -13,7 +19,7 @@ import { api } from "@/convex/_generated/api";
 import { withConvexProvider } from "@/lib/convex";
 import { BundleListStatic } from "./BundleListStatic";
 
-/* ── Match the shape BundleListStatic expects ─────────────────────── */
+/* ── Types expected by BundleListStatic ───────────────────────────── */
 interface PricingBundle {
   id: string;
   name: string;
@@ -40,51 +46,53 @@ interface PricingData {
   };
 }
 
+type SaleBundle = { bundleId: string; salePrice: number; discountPercent?: number };
+
 function BundleListInner({ fallback }: { fallback: PricingData }) {
-  // @ts-ignore — pricingConfig generated types may lag behind
+  // @ts-ignore — generated types may lag schema
   const config = useQuery(api.pricingConfig.getPricingConfig);
 
-  /* While loading or no Convex config yet → show static fallback */
-  if (!config || config.bundles.length === 0) {
-    return <BundleListStatic data={fallback} />;
+  /* Determine whether the sale is currently in its active window */
+  const now = new Date();
+  const withinWindow =
+    config?.saleActive === true &&
+    (!config.saleStartDate || new Date(config.saleStartDate) <= now) &&
+    (!config.saleEndDate   || new Date(config.saleEndDate)   >  now);
+
+  /* Build a quick lookup: bundleId → sale override */
+  const saleMap = new Map<string, SaleBundle>();
+  if (withinWindow && Array.isArray(config?.saleBundles)) {
+    (config.saleBundles as SaleBundle[]).forEach((sb) => saleMap.set(sb.bundleId, sb));
   }
 
-  /* Build live data from Convex ─────────────────────────────────── */
+  /* Merge base prices with any sale overrides */
+  const mergedBundles: PricingBundle[] = fallback.bundles.map((base) => {
+    const override = saleMap.get(base.id);
+    if (override) {
+      return {
+        ...base,
+        price:       override.salePrice,
+        valuePrice:  base.price,           // original becomes "was" price
+        discountTag: override.discountPercent != null
+          ? String(override.discountPercent)
+          : undefined,
+      };
+    }
+    /* No sale for this bundle — show base price, no strikethrough */
+    return { ...base, valuePrice: undefined, discountTag: undefined };
+  });
+
   const live: PricingData = {
     ...fallback,
-    bundles: config.bundles.map(
-      (
-        b: {
-          name: string;
-          subtitle: string;
-          price: number;
-          valuePrice?: number;
-          discountPercent?: number;
-          includes: string[];
-          tag?: string;
-        },
-        i: number
-      ) => ({
-        id: `bundle-${i}`,
-        name: b.name,
-        subtitle: b.subtitle,
-        price: b.price,
-        valuePrice: b.valuePrice,
-        discountTag:
-          b.discountPercent != null ? String(b.discountPercent) : undefined,
-        includes: b.includes,
-        tag: b.tag ?? null,
-        order: i,
-      })
-    ),
+    bundles: mergedBundles,
     seasonalOffer: {
-      active: config.saleActive ?? false,
-      name: config.saleName ?? fallback.seasonalOffer.name,
+      active:      withinWindow,
+      name:        config?.saleName        ?? fallback.seasonalOffer.name,
       description: fallback.seasonalOffer.description,
-      discount: fallback.seasonalOffer.discount,
-      validFrom: fallback.seasonalOffer.validFrom,
-      validUntil: config.saleEndDate ?? fallback.seasonalOffer.validUntil,
-      badgeText: fallback.seasonalOffer.badgeText,
+      discount:    fallback.seasonalOffer.discount,
+      validFrom:   config?.saleStartDate   ?? fallback.seasonalOffer.validFrom,
+      validUntil:  config?.saleEndDate     ?? fallback.seasonalOffer.validUntil,
+      badgeText:   fallback.seasonalOffer.badgeText,
     },
   };
 
