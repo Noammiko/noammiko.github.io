@@ -19,12 +19,6 @@ Set these at: **GitHub repo → Settings → Secrets and variables → Actions**
 
 Set these at: **[Convex dashboard](https://dashboard.convex.dev) → your deployment → Settings → Environment Variables**
 
-### Core
-
-| Variable | Example | Description |
-|---|---|---|
-| `CONVEX_SITE_URL` | `https://miko-recordingstudio.ca` | Your site's public URL. Used by Convex Auth for CORS — must match the domain users log in from. |
-
 ### Deploy trigger (GitHub integration)
 
 These let the admin panel trigger site rebuilds and update pricing.json via the GitHub API.
