@@ -8,7 +8,7 @@ const heroPoster = await getImage({ src: img1, format: "webp", width: 1920, qual
 
 <section
   id="home"
-  class="relative min-h-screen flex items-center justify-center overflow-hidden"
+  class="relative min-h-svh flex items-center justify-center overflow-hidden"
 >
   <!-- Video / poster background -->
   <div class="absolute inset-0 z-0">
@@ -18,7 +18,7 @@ const heroPoster = await getImage({ src: img1, format: "webp", width: 1920, qual
       class="absolute inset-0 w-full h-full object-cover opacity-55"
       aria-hidden="true"
     >
-      <source src="/videos/hero.mp4" type="video/mp4" />
+      <source src="/videos/webvidnoaud2.mp4" type="video/mp4" />
     </video>
 
     <!-- Gradient overlay -->
@@ -40,14 +40,14 @@ const heroPoster = await getImage({ src: img1, format: "webp", width: 1920, qual
   />
 
   <!-- Content -->
-  <div class="relative z-10 text-center px-6 w-full max-w-5xl mx-auto flex flex-col items-center pt-28 pb-32">
+  <div class="relative z-10 text-center px-6 w-full max-w-5xl mx-auto flex flex-col items-center pt-20 pb-16 sm:pt-28 sm:pb-32">
     <!-- Logo placeholder — maintains layout space; flying-logo overlays it -->
-    <div id="hero-logo-wrapper" class="mb-10 reveal">
+    <div id="hero-logo-wrapper" class="mb-4 sm:mb-10 reveal">
       <Image
         id="hero-logo"
         src={mikoLogo}
         alt="Miko Recording Studio"
-        class="w-[clamp(160px,20vw,280px)] h-auto mx-auto"
+        class="w-[clamp(120px,20vw,280px)] h-auto mx-auto"
         style="filter: brightness(1.12) drop-shadow(0 0 30px rgba(201,169,110,0.22));"
         loading="eager"
       />
@@ -71,7 +71,7 @@ const heroPoster = await getImage({ src: img1, format: "webp", width: 1920, qual
     </h1>
 
     <p
-      class="font-sans font-light text-cream/60 mb-12 tracking-widest uppercase reveal reveal-delay-2"
+      class="font-sans font-light text-cream/60 mb-6 sm:mb-12 tracking-widest uppercase reveal reveal-delay-2"
       style="font-size: clamp(0.65rem, 1.5vw, 0.8rem); letter-spacing: 0.35em;"
     >
       Where Your Sound Comes to Life
@@ -84,13 +84,13 @@ const heroPoster = await getImage({ src: img1, format: "webp", width: 1920, qual
     </div>
 
     <!-- Inline offer strip -->
-    <div class="hero-inline-offer mt-10 reveal reveal-delay-4">
+    <div class="hero-inline-offer mt-5 sm:mt-10 reveal reveal-delay-4">
       <span class="hero-inline-offer-text">FREE session for new clients</span>
       <a href="#pricing" class="hero-inline-offer-cta">Claim Now</a>
     </div>
 
     <!-- Scroll indicator -->
-    <div class="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-1 scroll-pulse pointer-events-none">
+    <div class="absolute bottom-5 sm:bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-1 scroll-pulse pointer-events-none">
       <span class="text-[0.55rem] tracking-[0.35em] uppercase font-label text-gold/45">Scroll</span>
       <div class="w-px h-9 bg-gradient-to-b from-gold/45 to-transparent mt-1"></div>
     </div>
