@@ -1,8 +1,7 @@
 ---
 import { Image, getImage } from "astro:assets";
-import mikoLogo    from "@/assets/logo.png";
-import logoNoText  from "@/assets/logo-no-text.png";
-import img1        from "@/assets/galary/1.jpeg";
+import mikoLogo from "@/assets/logo.png";
+import img1     from "@/assets/galary/1.jpeg";
 
 const heroPoster = await getImage({ src: img1, format: "webp", width: 1920, quality: 75 });
 ---
@@ -58,10 +57,9 @@ const heroPoster = await getImage({ src: img1, format: "webp", width: 1920, qual
     <div
       id="flying-logo"
       aria-hidden="true"
-      style="position:fixed;pointer-events:none;z-index:200;display:none;will-change:transform;"
+      style="position:fixed;pointer-events:none;z-index:9999;display:none;will-change:transform;"
     >
-      <img id="flying-logo-text"   src={mikoLogo.src}   alt="" style="position:absolute;inset:0;width:100%;height:100%;object-fit:contain;" />
-      <img id="flying-logo-notext" src={logoNoText.src}  alt="" style="position:absolute;inset:0;width:100%;height:100%;object-fit:contain;opacity:0;" />
+      <img src={mikoLogo.src} alt="" style="position:absolute;inset:0;width:100%;height:100%;object-fit:contain;" />
     </div>
 
     <!-- Headline -->
@@ -108,37 +106,33 @@ const heroPoster = await getImage({ src: img1, format: "webp", width: 1920, qual
     return t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
   }
 
-  // Page-relative hero center (set in init, valid at any scrollY)
   let heroInitCX   = 0;
-  let heroInitCY   = 0; // viewport Y at init time
+  let heroInitCY   = 0;
   let scrollAtInit = 0;
   let heroH        = 0;
   let navCX        = 0;
   let navCY        = 0;
   let navH         = 0;
 
-  let navLogoEl:  HTMLElement      | null = null;
-  let flyingEl:   HTMLElement      | null = null;
-  let flyingText: HTMLImageElement | null = null;
-  let flyingNT:   HTMLImageElement | null = null;
+  let navLogoEl: HTMLElement | null = null;
+  let flyingEl:  HTMLElement | null = null;
   const ctrl = new AbortController();
 
   function init() {
     const wrapper = document.getElementById('hero-logo-wrapper') as HTMLElement | null;
     const heroImg = document.getElementById('hero-logo')         as HTMLElement | null;
-    navLogoEl  = document.getElementById('navbar-logo-img')   as HTMLElement | null;
-    flyingEl   = document.getElementById('flying-logo')        as HTMLElement | null;
-    flyingText = document.getElementById('flying-logo-text')   as HTMLImageElement | null;
-    flyingNT   = document.getElementById('flying-logo-notext') as HTMLImageElement | null;
+    navLogoEl = document.getElementById('navbar-logo-img') as HTMLElement | null;
+    flyingEl  = document.getElementById('flying-logo')     as HTMLElement | null;
 
     if (!wrapper || !heroImg || !navLogoEl || !flyingEl) return;
 
-    const heroRect = wrapper.getBoundingClientRect();
+    // Measure the actual <img> inside the wrapper, not the wrapper itself,
+    // to avoid the reveal-class translateY affecting the rect
+    const heroImg2 = wrapper.querySelector('img') as HTMLImageElement | null;
+    const heroRect = (heroImg2 ?? wrapper).getBoundingClientRect();
     const navRect  = navLogoEl.getBoundingClientRect();
     scrollAtInit   = window.scrollY;
 
-    // Store viewport-Y at init + scrollAtInit so update() can derive
-    // the correct hero position at any future scrollY
     heroInitCX = heroRect.left + heroRect.width  / 2;
     heroInitCY = heroRect.top  + heroRect.height / 2;
     heroH      = heroRect.height;
@@ -146,8 +140,9 @@ const heroPoster = await getImage({ src: img1, format: "webp", width: 1920, qual
     navCY      = navRect.top  + navRect.height / 2;
     navH       = navRect.height;
 
-    heroImg.style.opacity      = '0';
-    navLogoEl.style.transition = 'opacity 0.15s ease';
+    heroImg.style.opacity   = '0';
+    // Disable CSS transition — JS sets opacity every frame, a transition causes lag/pop
+    navLogoEl.style.transition = 'none';
     navLogoEl.style.opacity    = '0';
 
     Object.assign(flyingEl.style, {
@@ -158,12 +153,10 @@ const heroPoster = await getImage({ src: img1, format: "webp", width: 1920, qual
       transformOrigin: '50% 50%',
       zIndex:          '9999',
     });
-    // Move to body to escape any ancestor stacking context (e.g. z-10 content div)
     document.body.appendChild(flyingEl);
     flyingEl.style.display = 'block';
 
     update();
-    // Re-run after anchor-based scroll (e.g. /#portfolio) settles
     setTimeout(update, 80);
   }
 
@@ -175,13 +168,11 @@ const heroPoster = await getImage({ src: img1, format: "webp", width: 1920, qual
     const raw = Math.max(0, Math.min(1, (scrollY - SCROLL_START) / (SCROLL_END - SCROLL_START)));
     const p   = ease(raw);
 
-    // Hero center in viewport: correct regardless of when init() ran
-    // heroInitCY is viewport-Y at init; scrollAtInit is the scroll at that moment
     const heroCY = heroInitCY + scrollAtInit - scrollY;
     const heroCX = heroInitCX;
 
-    const tx = (heroCX + (navCX - heroCX) * p) - heroInitCX;
-    const ty = (heroCY + (navCY - heroCY) * p) - heroInitCY;
+    const tx    = (heroCX + (navCX - heroCX) * p) - heroInitCX;
+    const ty    = (heroCY + (navCY - heroCY) * p) - heroInitCY;
     const scale = 1 + (navH / heroH - 1) * p;
 
     flyingEl.style.transform = `translate(${tx}px,${ty}px) scale(${scale})`;
@@ -189,17 +180,10 @@ const heroPoster = await getImage({ src: img1, format: "webp", width: 1920, qual
     const shadowA = (0.22 * (1 - raw)).toFixed(3);
     flyingEl.style.filter = `brightness(${(1.12 - 0.12 * raw).toFixed(3)}) drop-shadow(0 0 30px rgba(201,169,110,${shadowA}))`;
 
-    const xp = Math.max(0, Math.min(1, (raw - 0.4) / 0.55));
-    if (flyingText) flyingText.style.opacity = String(1 - xp);
-    if (flyingNT)   flyingNT.style.opacity   = String(xp);
-
-    if (raw >= 1) {
-      flyingEl.style.opacity  = '0';
-      navLogoEl.style.opacity = '1';
-    } else {
-      flyingEl.style.opacity  = '1';
-      navLogoEl.style.opacity = '0';
-    }
+    // Smooth handoff: crossfade over the last 15% of scroll (no abrupt pop)
+    const fadeP = Math.max(0, Math.min(1, (raw - 0.85) / 0.15));
+    flyingEl.style.opacity  = String(1 - fadeP);
+    navLogoEl.style.opacity = String(fadeP);
   }
 
   document.addEventListener('astro:before-swap', () => {

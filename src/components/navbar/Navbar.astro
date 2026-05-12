@@ -1,6 +1,6 @@
 ---
 import { Image } from "astro:assets";
-import mikoLogo from "@/assets/logo-no-text.png";
+import mikoLogo from "@/assets/logo.png";
 
 interface Props {
   menuItems: Array<{ href: string; label: string; active: boolean }>;
@@ -41,16 +41,22 @@ const rightItems = menuItems.slice(3, 6);
     </nav>
   </div>
 
-  <!-- ── CENTER: Logo (hidden at page-top, slides in when navbar is solid) -->
+  <!-- ── CENTER: Logo -->
   <div class="flex-shrink-0 flex items-center justify-center">
     <a href="/" aria-label="Miko Recording Studio – Home" class="block">
-      <Image
-        id="navbar-logo-img"
-        src={mikoLogo}
-        alt="Miko Recording Studio"
-        class="h-12 w-auto object-contain"
-        loading="eager"
-      />
+      <!--
+        Crop wrapper — change the height value below to tweak how much
+        of the bottom text is hidden. Lower = more cropped, higher = less.
+        (logo natural size: 747×944px; text starts ~200px from the bottom)
+      -->
+      <div id="navbar-logo-img" style="overflow:hidden; height:38px; width:fit-content;">
+        <Image
+          src={mikoLogo}
+          alt="Miko Recording Studio"
+          class="h-12 w-auto object-contain"
+          loading="eager"
+        />
+      </div>
     </a>
   </div>
 
