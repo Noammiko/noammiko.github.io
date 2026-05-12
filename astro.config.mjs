@@ -39,6 +39,7 @@ export default defineConfig({
       CONVEX_URL: envField.string({
         access: "public",
         context: "client",
+        optional: true,
       }),
     },
   },

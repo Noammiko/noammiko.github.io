@@ -11,7 +11,7 @@ interface Props {
 const { songs } = Astro.props;
 ---
 
-<div class="grid max-h-[80vh] overflow-y-auto">
+<div class="music-portfolio-wrap grid max-h-[80vh] overflow-y-auto">
   <div class="overflow-x-auto overflow-y-visible">
     <Table songs={songs} client:load />
   </div>

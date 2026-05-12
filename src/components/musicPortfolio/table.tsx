@@ -8,49 +8,26 @@ import {
   TableRow,
 } from "@/components/ui/table"
 
-import { Badge } from "@/components/ui/badge";
-
 import { Play, ArrowUpAZ, ArrowDownAZ } from "lucide-react"
 import { playing } from "./utils.ts";
-
-import { Input } from "@/components/ui/input"
-import { Button } from "@/components/ui/button";
 
 interface Props {
   songs: Song[];
 }
 
 import {
-  type Table,
-  type Column,
   type ColumnDef,
-  type ColumnFiltersState,
-  type FilterFn,
+  type SortingState,
   flexRender,
   getCoreRowModel,
-  getFacetedRowModel,
-  getFacetedUniqueValues,
-  getFilteredRowModel,
   getSortedRowModel,
-  type SortingState,
   useReactTable,
 } from '@tanstack/react-table'
-import { useEffect, useMemo, useReducer, useState } from "react";
-
-const arrayIncludesFilterFn: FilterFn<Song> = (rows, id, filterValue: string[]) => {
-  const row = rows.getValue<Array<string>>(id).map(v => v.toLowerCase().trim());
-  // doing progressive checks to avoid heavy comparisons
-  return filterValue.every(v => row.some((e) => e == v || e.startsWith(v) || e.includes(v)));
-}
-arrayIncludesFilterFn.autoRemove = (val) => !val;
-// turn string into an array, split on commas, clean up values
-arrayIncludesFilterFn.resolveFilterValue = (filterValue: string) => filterValue.split(',').map(v => v.toString().toLowerCase().trim());
+import { useEffect, useMemo, useState } from "react";
 
 export function Table({ songs }: Props) {
   const [sorting, setSorting] = useState<SortingState>([]);
-  const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([])
   const [data, _setData] = useState(() => [...songs])
-
   const [currentlyPlaying, setCurrentlyPlaying] = useState<Song | null>(null)
 
   useEffect(() => {
@@ -62,76 +39,57 @@ export function Table({ songs }: Props) {
       {
         accessorKey: 'title',
         header: 'Title',
+        cell: ({ row }) => (
+          <span className="portfolio-title-cell">{row.original.title}</span>
+        ),
       },
       {
         accessorKey: 'client',
-        header: 'Client',
+        header: 'Artist',
       },
       {
         accessorKey: 'work',
-        header: 'Work',
+        header: 'Services',
         cell: ({ row }) => {
           const { work } = row.original;
           return (
-            <div className="flex items-center justify-start gap-2">
-              {work.toSorted().map((work, index) => (
-                <Badge key={index} variant="outline">{work}</Badge>
+            <div className="flex items-center justify-start gap-1.5 flex-wrap">
+              {work.toSorted().map((w, index) => (
+                <span key={index} className="portfolio-work-tag">{w}</span>
               ))}
             </div>
           );
         },
         enableSorting: false,
-        filterFn: arrayIncludesFilterFn,
-        getUniqueValues: (table) => table.work
-      },
-      {
-        accessorKey: 'languages',
-        header: 'Language',
-        cell: ({ row }) => {
-          const { languages } = row.original;
-          return (
-            <span>
-              {languages.join(", ")}
-            </span>
-          );
-        },
-        filterFn: arrayIncludesFilterFn,
-        getUniqueValues: (table) => table.languages
       },
       {
         accessorKey: 'genres',
         header: 'Genre',
-        cell: ({ row }) => {
-          const { genres } = row.original;
-          return (
-            <span>
-              {genres.join(", ")}
-            </span>
-          );
-        },
-        filterFn: arrayIncludesFilterFn,
-        getUniqueValues: (table) => table.genres
+        cell: ({ row }) => (
+          <span>{row.original.genres.join(", ")}</span>
+        ),
+        enableSorting: false,
+      },
+      {
+        accessorKey: 'languages',
+        header: 'Language',
+        cell: ({ row }) => (
+          <span>{row.original.languages.join(", ")}</span>
+        ),
+        enableSorting: false,
       },
     ],
     []
   )
-
 
   const table = useReactTable({
     columns,
     data,
     debugTable: false,
     getCoreRowModel: getCoreRowModel(),
-    state: {
-      sorting,
-      columnFilters,
-    },
-    onColumnFiltersChange: setColumnFilters,
+    state: { sorting },
     onSortingChange: setSorting,
-    getFilteredRowModel: getFilteredRowModel(),
     getSortedRowModel: getSortedRowModel(),
-    getFacetedRowModel: getFacetedRowModel(),
-    getFacetedUniqueValues: getFacetedUniqueValues()
   })
 
   return (
@@ -141,201 +99,66 @@ export function Table({ songs }: Props) {
         <TableHeader>
           {table.getHeaderGroups().map(headerGroup => (
             <TableRow key={headerGroup.id}>
-              <TableHead className="sticky left-0 z-10">
-                 {/* TODO: add tooltip that these are play buttons */}
-              </TableHead>
-              {headerGroup.headers.map(header => {
-                return (
-                  <TableHead key={header.id} colSpan={header.colSpan}>
-                    {header.isPlaceholder ? null : (
-                      <>
-                        <div
-                          className={`text-xl flex justify-center pt-1 flex-row-reverse gap-2 items-center ${
-                            header.column.getCanSort()
-                              ? 'cursor-pointer select-none'
-                              : ''
-                          }`}
-                          onClick={header.column.getToggleSortingHandler()}
-                          title={
-                            header.column.getCanSort()
-                              ? header.column.getNextSortingOrder() === 'asc'
-                                ? 'Sort ascending'
-                                : header.column.getNextSortingOrder() === 'desc'
-                                  ? 'Sort descending'
-                                  : 'Clear sort'
-                              : undefined
-                          }
-                        >
-                          {flexRender(
-                            header.column.columnDef.header,
-                            header.getContext()
-                          )}
-                          {header.column.getIsSorted() ? (
-                            {
-                              asc: <ArrowUpAZ className="inline-block w-6 h-6 -ml-8 -translate-y-0.5" />,
-                              desc: <ArrowDownAZ className="inline-block w-6 h-6 -ml-8 -translate-y-0.5" />,
-                            }[header.column.getIsSorted() as string] ?? null
-                          ) : null}
-                        </div>
-                        {header.column.getCanFilter() ? (
-                          <div className="w-full pt-2">
-                            <Filter column={header.column} />
-                          </div>
-                        ) : null}
-                      </>
-                    )}
-                  </TableHead>
-                )
-              })}
+              {/* Play column header — empty */}
+              <TableHead className="sticky left-0 z-10" />
+              {headerGroup.headers.map(header => (
+                <TableHead key={header.id} colSpan={header.colSpan}>
+                  {header.isPlaceholder ? null : (
+                    <div
+                      className={`text-xl flex justify-center pt-1 flex-row-reverse gap-2 items-center ${
+                        header.column.getCanSort() ? 'cursor-pointer select-none' : ''
+                      }`}
+                      onClick={header.column.getToggleSortingHandler()}
+                      title={
+                        header.column.getCanSort()
+                          ? header.column.getNextSortingOrder() === 'asc'
+                            ? 'Sort ascending'
+                            : header.column.getNextSortingOrder() === 'desc'
+                              ? 'Sort descending'
+                              : 'Clear sort'
+                          : undefined
+                      }
+                    >
+                      {flexRender(header.column.columnDef.header, header.getContext())}
+                      {header.column.getIsSorted() ? (
+                        {
+                          asc:  <ArrowUpAZ   className="inline-block w-6 h-6 -ml-8 -translate-y-0.5" />,
+                          desc: <ArrowDownAZ className="inline-block w-6 h-6 -ml-8 -translate-y-0.5" />,
+                        }[header.column.getIsSorted() as string] ?? null
+                      ) : null}
+                    </div>
+                  )}
+                </TableHead>
+              ))}
             </TableRow>
           ))}
         </TableHeader>
         <TableBody>
-          {table
-            .getRowModel()
-            .rows
-            .map(row => {
-              return (
-                <TableRow key={row.id}>
-                  <TableCell className="sticky left-0 z-10 whitespace-nowrap flex justify-center">
-                    <div className="backdrop-blur-md rounded-full">
-                      <Button
-                        disabled={currentlyPlaying === row.original}
-                        className="p-2 w-8 h-8 rounded-full"
-                        onClick={() => playing.set(row.original)}
-                      ><Play /></Button>
-                    </div>
-                  </TableCell>
+          {table.getRowModel().rows.map(row => (
+            <TableRow key={row.id}>
+              {/* Gold play triangle — no circle, no background */}
+              <TableCell className="sticky left-0 z-10 whitespace-nowrap">
+                <button
+                  disabled={currentlyPlaying === row.original}
+                  className="p-1.5 text-[#C9A96E] hover:text-[#E8C98A] transition-colors
+                             disabled:opacity-40 disabled:cursor-default cursor-pointer
+                             bg-transparent border-none outline-none"
+                  onClick={() => playing.set(row.original)}
+                  aria-label={`Play ${row.original.title}`}
+                >
+                  <Play className="w-4 h-4 fill-current" />
+                </button>
+              </TableCell>
 
-                  {row.getVisibleCells().map(cell => {
-                    return (
-                      <TableCell key={cell.id}>
-                        {flexRender(
-                          cell.column.columnDef.cell,
-                          cell.getContext()
-                        )}
-                      </TableCell>
-                    )
-                  })}
-                </TableRow>
-              )
-            })}
+              {row.getVisibleCells().map(cell => (
+                <TableCell key={cell.id}>
+                  {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                </TableCell>
+              ))}
+            </TableRow>
+          ))}
         </TableBody>
       </TableBase>
     </div>
-  )
-}
-
-function Filter({ column }: { column: Column<any, unknown> }) {
-  // @ts-ignore
-  const { filterVariant } = column.columnDef.meta ?? {}
-
-  const columnFilterValue = column.getFilterValue()
-
-  const sortedUniqueValues = useMemo(
-    () =>
-      filterVariant === 'range'
-        ? []
-        : Array.from(column.getFacetedUniqueValues().keys())
-          .sort()
-          .slice(0, 5000),
-    [column.getFacetedUniqueValues(), filterVariant]
-  )
-
-  return filterVariant === 'range' ? (
-    <div>
-      <div className="flex space-x-2">
-        <DebouncedInput
-          type="number"
-          min={Number(column.getFacetedMinMaxValues()?.[0] ?? '')}
-          max={Number(column.getFacetedMinMaxValues()?.[1] ?? '')}
-          value={(columnFilterValue as [number, number])?.[0] ?? ''}
-          onChange={value =>
-            column.setFilterValue((old: [number, number]) => [value, old?.[1]])
-          }
-          placeholder={`Min ${column.getFacetedMinMaxValues()?.[0] !== undefined
-            ? `(${column.getFacetedMinMaxValues()?.[0]})`
-            : ''
-            }`}
-          className="min-w-24 w-full border shadow rounded"
-        />
-        <DebouncedInput
-          type="number"
-          min={Number(column.getFacetedMinMaxValues()?.[0] ?? '')}
-          max={Number(column.getFacetedMinMaxValues()?.[1] ?? '')}
-          value={(columnFilterValue as [number, number])?.[1] ?? ''}
-          onChange={value =>
-            column.setFilterValue((old: [number, number]) => [old?.[0], value])
-          }
-          placeholder={`Max ${column.getFacetedMinMaxValues()?.[1]
-            ? `(${column.getFacetedMinMaxValues()?.[1]})`
-            : ''
-            }`}
-          className="w-24 border shadow rounded"
-        />
-      </div>
-      <div className="h-1" />
-    </div>
-  ) : filterVariant === 'select' ? (
-    <select
-      onChange={e => column.setFilterValue(e.target.value)}
-      value={columnFilterValue?.toString()}
-    >
-      <option value="">All</option>
-      {sortedUniqueValues.map(value => (
-        //dynamically generated select options from faceted values feature
-        <option value={value} key={value}>
-          {value}
-        </option>
-      ))}
-    </select>
-  ) : (
-    <>
-      {/* Autocomplete suggestions from faceted values feature */}
-      <datalist id={column.id + 'list'}>
-        {sortedUniqueValues.map((value: any) => (
-          <option value={value} key={value} />
-        ))}
-      </datalist>
-      <DebouncedInput
-        type="text"
-        value={(columnFilterValue ?? '') as string}
-        onChange={value => column.setFilterValue(value)}
-        placeholder={`Search... (${column.getFacetedUniqueValues().size})`}
-        className="min-w-36 text-sm h-6 w-full backdrop-blur-md"
-        list={column.id + 'list'}
-      />
-      <div className="h-2" />
-    </>
-  )
-}
-
-// A typical debounced input react component
-function DebouncedInput({
-  value: initialValue,
-  onChange,
-  debounce = 500,
-  ...props
-}: {
-  value: string | number
-  onChange: (value: string | number) => void
-  debounce?: number
-} & Omit<React.InputHTMLAttributes<HTMLInputElement>, 'onChange'>) {
-  const [value, setValue] = useState(initialValue)
-
-  useEffect(() => {
-    setValue(initialValue)
-  }, [initialValue])
-
-  useEffect(() => {
-    const timeout = setTimeout(() => {
-      onChange(value)
-    }, debounce)
-
-    return () => clearTimeout(timeout)
-  }, [value])
-
-  return (
-    <Input {...props} value={value} onChange={e => setValue(e.target.value)} />
   )
 }

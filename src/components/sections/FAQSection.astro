@@ -1,0 +1,32 @@
+---
+import FAQLive from "@/components/FAQLive";
+---
+
+<section id="faq" class="section-py section-px">
+  <div class="max-w-4xl mx-auto">
+    <div class="reveal mb-16">
+      <span class="eyebrow mb-5">Help</span>
+      <h2
+        class="font-serif font-light text-cream"
+        style="font-size: clamp(2rem, 4vw, 3.5rem)"
+      >
+        Frequently Asked <em class="italic text-crimson-vivid">Questions</em>
+      </h2>
+    </div>
+
+    <!-- FAQ Accordion — live from Convex, no rebuild needed -->
+    <div class="reveal reveal-delay-1">
+      <FAQLive client:load />
+    </div>
+
+    <div class="mt-16 text-center reveal reveal-delay-2">
+      <p class="text-cream-soft/35 text-xs tracking-[0.3em] uppercase font-sans mb-8">
+        Have more questions?
+      </p>
+      <div class="flex flex-wrap justify-center gap-4">
+        <a href="#contact"      class="btn-gold">Contact Us</a>
+        <a href="#book-session" class="btn-crimson">Book a Session</a>
+      </div>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,71 @@
+---
+import { Image } from "astro:assets";
+import mikoLogo from "@/assets/logo.png";
+
+const navLinks: [string, string][] = [
+  ["/#pricing",     "Prices"],
+  ["/#portfolio",   "Portfolio"],
+  ["/#testimonials","Reviews"],
+  ["/my-music",     "My Music"],
+  ["/#faq",         "FAQ"],
+  ["/#contact",     "Contact"],
+];
+---
+
+<footer class="bg-bg border-t border-gold/10 py-14 px-6">
+  <div class="max-w-6xl mx-auto">
+    <!-- Top row — 3 equal columns, all centre-aligned -->
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-10 mb-10 items-center text-center">
+
+      <!-- Col 1: Logo + tagline -->
+      <div class="flex flex-col items-center gap-2">
+        <Image
+          src={mikoLogo}
+          alt="Miko Recording Studio"
+          class="h-10 w-auto opacity-60"
+        />
+        <p class="text-cream-soft/30 text-[0.6rem] tracking-[0.35em] uppercase font-sans">
+          Professional Audio Production · Guelph, ON
+        </p>
+      </div>
+
+      <!-- Col 2: Nav links -->
+      <nav class="flex flex-wrap justify-center gap-x-6 gap-y-3">
+        {navLinks.map(([href, label]) => (
+          <a
+            href={href}
+            class="text-[0.6rem] tracking-[0.25em] uppercase text-cream-soft/30
+                   hover:text-gold transition-colors font-sans"
+          >
+            {label}
+          </a>
+        ))}
+      </nav>
+
+      <!-- Col 3: Contact -->
+      <div class="flex flex-col items-center gap-3">
+        <a
+          href="tel:+12266062452"
+          class="text-cream-soft/35 text-xs tracking-wide font-sans hover:text-gold transition-colors"
+        >
+          (226) 606-2452
+        </a>
+        <a
+          href="mailto:noam@miko-recordingstudio.ca"
+          class="text-cream-soft/35 text-xs tracking-wide font-sans hover:text-gold transition-colors"
+        >
+          noam@miko-recordingstudio.ca
+        </a>
+      </div>
+
+    </div>
+
+    <!-- Bottom row -->
+    <div class="gold-rule-fade"></div>
+    <div class="pt-6 text-center">
+      <p class="text-cream-soft/20 text-[0.6rem] tracking-widest uppercase font-sans">
+        © {new Date().getFullYear()} Miko Recording Studio · All rights reserved
+      </p>
+    </div>
+  </div>
+</footer>

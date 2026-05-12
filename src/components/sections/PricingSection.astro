@@ -1,0 +1,135 @@
+---
+import pricingData from "@/data/pricing.json";
+import { BundleListLive } from "@/components/priceNbundles/BundleListLive.tsx";
+import { SaleHeader } from "@/components/priceNbundles/SaleHeader.tsx";
+import { FreeTrialScarcity } from "@/components/priceNbundles/FreeTrialScarcity.tsx";
+import FreeSessionFormTrigger from "@/components/FreeSessionFormTrigger.tsx";
+import QuoteFormTrigger from "@/components/QuoteFormTrigger.tsx";
+---
+
+<section id="pricing" class="section-py section-px bg-surface-alt">
+  <div class="gold-rule"></div>
+
+  <div class="max-w-6xl mx-auto py-8 md:py-10">
+    <!-- Header -->
+    <div class="reveal mb-10 text-center">
+      <h2
+        class="font-serif font-light text-cream mb-4"
+        style="font-size: clamp(2rem, 4vw, 3.5rem)"
+      >
+        Prices &amp; <em class="italic text-crimson-vivid">Bundles</em>
+      </h2>
+      <p class="text-cream-soft/40 text-xs tracking-[0.25em] uppercase font-sans">
+        Every package includes unlimited revisions &amp; a 100% satisfaction guarantee
+      </p>
+    </div>
+
+    <!-- Sale name + countdown — driven live from Convex admin -->
+    <SaleHeader client:load />
+
+    <!-- Free Trial Card -->
+    <div class="free-trial-card reveal">
+      <div class="free-trial-badge">Limited Offer — For New Clients</div>
+      <!-- Left: headline + quote -->
+      <div style="display:flex;flex-direction:column;gap:20px;padding-top:16px;">
+        <div>
+          <span class="eyebrow mb-3">First-Time Tryout Session</span>
+          <div class="free-trial-price">FREE</div>
+          <p class="font-sans text-cream/50 text-xs tracking-widest mt-2">
+            30 minutes · Zero Risk · For new Clients
+          </p>
+        </div>
+        <div style="border-left:2px solid #C9A96E;padding-left:20px;">
+          <p class="font-serif italic text-cream" style="font-size:17px;line-height:1.6;">
+            "Come check out the studio and experience what I do best. I'm confident you'll be back."
+          </p>
+        </div>
+      </div>
+      <!-- Right: includes + scarcity + CTA -->
+      <div style="display:flex;flex-direction:column;gap:24px;padding-top:16px;">
+        <FreeTrialScarcity client:load />
+        <div>
+          <span class="eyebrow mb-3">Includes</span>
+          <ul style="list-style:none;display:flex;flex-direction:column;gap:10px;">
+            {[
+              "30 min of studio time",
+              "30-second clip of your song",
+              "Basic studio mix included",
+            ].map(item => (
+              <li class="font-sans text-cream/60" style="font-size:14px;display:flex;align-items:center;gap:10px;">
+                <span style="flex:0 0 16px;width:16px;height:16px;background:rgba(201,169,110,0.08);border:1px solid rgba(201,169,110,0.45);border-radius:2px;display:inline-flex;align-items:center;justify-content:center;">
+                  <svg width="8" height="7" viewBox="0 0 8 7" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <polyline points="1,3.5 3,5.5 7,1" stroke="#C9A96E" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
+                </span>
+                {item}
+              </li>
+            ))}
+          </ul>
+        </div>
+        <FreeSessionFormTrigger client:load />
+      </div>
+    </div>
+
+    <!-- Bundle cards -->
+    <div class="reveal reveal-delay-1">
+      <BundleListLive fallback={pricingData} client:load />
+    </div>
+
+    <!-- Individual rates -->
+    <div class="mt-24 grid md:grid-cols-2 gap-16 reveal reveal-delay-2">
+      <div>
+        <span class="eyebrow mb-7">Current Rates</span>
+        <ul class="space-y-0">
+          {pricingData.rates.map((rate) => (
+            <li class="flex items-center justify-between py-4 border-b border-gold/10">
+              <span class="text-cream-soft/60 text-sm tracking-wide font-sans">
+                {rate.name}
+              </span>
+              <div class="text-right">
+                <span class="font-serif font-light text-2xl text-gold">
+                  ${rate.price.toFixed(2)}
+                </span>
+                <span class="text-cream-soft/30 text-xs ml-1 font-sans">
+                  {rate.unit}
+                </span>
+              </div>
+            </li>
+          ))}
+        </ul>
+      </div>
+
+      <div>
+        <span class="eyebrow mb-7">Instrumentals &amp; Beats</span>
+        <ul class="space-y-0">
+          {pricingData.instrumentals.map((inst) => (
+            <li class="flex items-center justify-between py-4 border-b border-gold/10">
+              <span class="text-cream-soft/60 text-sm tracking-wide font-sans">
+                {inst.name}
+              </span>
+              <span class="font-serif font-light text-2xl text-gold">
+                ${inst.price.toFixed(2)}
+              </span>
+            </li>
+          ))}
+        </ul>
+        <p class="text-cream-soft/30 text-xs tracking-wide mt-5 font-sans italic">
+          Exclusive rights pricing negotiable
+        </p>
+      </div>
+    </div>
+
+    <!-- Custom Quote card -->
+    <div class="mt-20 text-center border border-gold/18 py-14 px-10 reveal reveal-delay-3">
+      <p
+        class="font-serif font-light italic text-cream/65 mb-8"
+        style="font-size:clamp(1.1rem,2vw,1.45rem);line-height:1.65;"
+      >
+        Working on an EP, album, or a larger project?<br/>Get a personalised quote.
+      </p>
+      <QuoteFormTrigger client:load />
+    </div>
+  </div>
+
+  <div class="gold-rule"></div>
+</section>

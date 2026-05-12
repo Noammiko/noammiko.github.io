@@ -1,7 +1,7 @@
 # How do I book a session?
-Booking a session at Miko Recording Studio is easy! You can book directly through our online calendar system on the [Prices & Bundles](/prices-and-bundles#book-session) page. Simply select your preferred date and time, choose your session type, and complete the booking form.
+Booking a session at Miko Recording Studio is easy! You can book directly through our online calendar system in the [Book a Session](/#book-session) section. Simply select your preferred date and time, choose your session type, and complete the booking form.
 
-Alternatively, you can [contact us](/contact) directly via email or phone to discuss your project needs and schedule a session.
+Alternatively, you can [contact us](/#contact) directly via email or phone to discuss your project needs and schedule a session.
 
 
 # How much does it cost?
@@ -11,7 +11,7 @@ We offer several pricing options to fit different needs and budgets:
 - **2 Songs Bundle**: $199.95 (includes 4 hours of studio time, 2 professional mixes, and 2 professional masters)
 - **Mix & Master Bundle**: $74.95 (includes 1 professional mix and 1 professional master)
 
-Individual rates are also available: $29.95 per hour of studio time, $59.95 per mix, and $29.95 per master. For more detailed pricing information, please visit our [Prices & Bundles](/prices-and-bundles) page.
+Individual rates are also available: $29.95 per hour of studio time, $59.95 per mix, and $29.95 per master. For more detailed pricing information, please visit our [Prices & Bundles](/#pricing) section.
 
 
 # How long until I get my mix back?

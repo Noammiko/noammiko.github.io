@@ -1,0 +1,200 @@
+---
+import { Image, getImage } from "astro:assets";
+import mikoLogo from "@/assets/logo.png";
+import img1     from "@/assets/galary/1.jpeg";
+
+const heroPoster = await getImage({ src: img1, format: "webp", width: 1920, quality: 75 });
+---
+
+<section
+  id="home"
+  class="relative min-h-screen flex items-center justify-center overflow-hidden"
+>
+  <!-- Video / poster background -->
+  <div class="absolute inset-0 z-0">
+    <video
+      autoplay muted loop playsinline
+      poster={heroPoster.src}
+      class="absolute inset-0 w-full h-full object-cover opacity-55"
+      aria-hidden="true"
+    >
+      <source src="/videos/hero.mp4" type="video/mp4" />
+    </video>
+
+    <!-- Gradient overlay -->
+    <div
+      class="absolute inset-0"
+      style="background: linear-gradient(to bottom,
+        rgba(8,8,8,0.6)  0%,
+        rgba(8,8,8,0.2)  40%,
+        rgba(8,8,8,0.6)  70%,
+        rgba(8,8,8,0.98) 100%)"
+    ></div>
+  </div>
+
+  <!-- Subtle text-glow: dark radial halo centred on the hero copy -->
+  <div
+    aria-hidden="true"
+    class="absolute inset-0 pointer-events-none"
+    style="z-index:1;background:radial-gradient(ellipse 72% 58% at 50% 46%, rgba(10,3,3,0.70) 0%, rgba(8,4,4,0.28) 52%, transparent 82%);"
+  />
+
+  <!-- Content -->
+  <div class="relative z-10 text-center px-6 w-full max-w-5xl mx-auto flex flex-col items-center pt-28 pb-32">
+    <!-- Logo placeholder — maintains layout space; flying-logo overlays it -->
+    <div id="hero-logo-wrapper" class="mb-10 reveal">
+      <Image
+        id="hero-logo"
+        src={mikoLogo}
+        alt="Miko Recording Studio"
+        class="w-[clamp(160px,20vw,280px)] h-auto mx-auto"
+        style="filter: brightness(1.12) drop-shadow(0 0 30px rgba(201,169,110,0.22));"
+        loading="eager"
+      />
+    </div>
+
+    <!-- Flying logo: position:fixed clone that travels to the navbar slot on scroll -->
+    <div
+      id="flying-logo"
+      aria-hidden="true"
+      style="position:fixed;pointer-events:none;z-index:9999;display:none;will-change:transform;"
+    >
+      <img src={mikoLogo.src} alt="" style="position:absolute;inset:0;width:100%;height:100%;object-fit:contain;" />
+    </div>
+
+    <!-- Headline -->
+    <h1
+      class="font-serif font-light text-cream tracking-wide mb-4 reveal reveal-delay-1"
+      style="font-size: clamp(2.8rem, 8vw, 6.5rem); line-height: 1.0; text-shadow: 0 0 80px rgba(139,26,26,0.28), 0 2px 40px rgba(0,0,0,0.85), 0 4px 60px rgba(0,0,0,0.5)"
+    >
+      The Top Recording<br/><em class="italic text-crimson-vivid">Studio in Guelph</em>
+    </h1>
+
+    <p
+      class="font-sans font-light text-cream/60 mb-12 tracking-widest uppercase reveal reveal-delay-2"
+      style="font-size: clamp(0.65rem, 1.5vw, 0.8rem); letter-spacing: 0.35em;"
+    >
+      Where Your Sound Comes to Life
+    </p>
+
+    <!-- CTAs -->
+    <div class="flex gap-4 items-center flex-wrap justify-center reveal reveal-delay-3">
+      <a href="#book-session" class="btn-crimson">Book a Session</a>
+      <a href="#about" class="btn-ghost-cream">Learn More</a>
+    </div>
+
+    <!-- Inline offer strip -->
+    <div class="hero-inline-offer mt-10 reveal reveal-delay-4">
+      <span class="hero-inline-offer-text">FREE session for new clients</span>
+      <a href="#pricing" class="hero-inline-offer-cta">Claim Now</a>
+    </div>
+
+    <!-- Scroll indicator -->
+    <div class="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-1 scroll-pulse pointer-events-none">
+      <span class="text-[0.55rem] tracking-[0.35em] uppercase font-label text-gold/45">Scroll</span>
+      <div class="w-px h-9 bg-gradient-to-b from-gold/45 to-transparent mt-1"></div>
+    </div>
+  </div>
+</section>
+
+<script>
+  // ── Hero logo "slots in" to navbar on scroll (home page only) ────────────
+  const SCROLL_START = 60;
+  const SCROLL_END   = 320;
+
+  function ease(t: number) {
+    return t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
+  }
+
+  let heroInitCX   = 0;
+  let heroInitCY   = 0;
+  let scrollAtInit = 0;
+  let heroH        = 0;
+  let navCX        = 0;
+  let navCY        = 0;
+  let navH         = 0;
+
+  let navLogoEl: HTMLElement | null = null;
+  let flyingEl:  HTMLElement | null = null;
+  const ctrl = new AbortController();
+
+  function init() {
+    const wrapper = document.getElementById('hero-logo-wrapper') as HTMLElement | null;
+    const heroImg = document.getElementById('hero-logo')         as HTMLElement | null;
+    navLogoEl = document.getElementById('navbar-logo-img') as HTMLElement | null;
+    flyingEl  = document.getElementById('flying-logo')     as HTMLElement | null;
+
+    if (!wrapper || !heroImg || !navLogoEl || !flyingEl) return;
+
+    // Measure the actual <img> inside the wrapper, not the wrapper itself,
+    // to avoid the reveal-class translateY affecting the rect
+    const heroImg2 = wrapper.querySelector('img') as HTMLImageElement | null;
+    const heroRect = (heroImg2 ?? wrapper).getBoundingClientRect();
+    const navRect  = navLogoEl.getBoundingClientRect();
+    scrollAtInit   = window.scrollY;
+
+    heroInitCX = heroRect.left + heroRect.width  / 2;
+    heroInitCY = heroRect.top  + heroRect.height / 2;
+    heroH      = heroRect.height;
+    navCX      = navRect.left + navRect.width  / 2;
+    navCY      = navRect.top  + navRect.height / 2;
+    navH       = navRect.height;
+
+    heroImg.style.opacity   = '0';
+    // Disable CSS transition — JS sets opacity every frame, a transition causes lag/pop
+    navLogoEl.style.transition = 'none';
+    navLogoEl.style.opacity    = '0';
+
+    Object.assign(flyingEl.style, {
+      width:           heroRect.width  + 'px',
+      height:          heroRect.height + 'px',
+      left:            heroRect.left   + 'px',
+      top:             heroRect.top    + 'px',
+      transformOrigin: '50% 50%',
+      zIndex:          '9999',
+    });
+    document.body.appendChild(flyingEl);
+    flyingEl.style.display = 'block';
+
+    update();
+    setTimeout(update, 80);
+  }
+
+  function update() {
+    if (!flyingEl?.isConnected) { ctrl.abort(); return; }
+    if (!navLogoEl) return;
+
+    const scrollY = window.scrollY;
+    const raw = Math.max(0, Math.min(1, (scrollY - SCROLL_START) / (SCROLL_END - SCROLL_START)));
+    const p   = ease(raw);
+
+    const heroCY = heroInitCY + scrollAtInit - scrollY;
+    const heroCX = heroInitCX;
+
+    const tx    = (heroCX + (navCX - heroCX) * p) - heroInitCX;
+    const ty    = (heroCY + (navCY - heroCY) * p) - heroInitCY;
+    const scale = 1 + (navH / heroH - 1) * p;
+
+    flyingEl.style.transform = `translate(${tx}px,${ty}px) scale(${scale})`;
+
+    const shadowA = (0.22 * (1 - raw)).toFixed(3);
+    flyingEl.style.filter = `brightness(${(1.12 - 0.12 * raw).toFixed(3)}) drop-shadow(0 0 30px rgba(201,169,110,${shadowA}))`;
+
+    // Smooth handoff: crossfade over the last 15% of scroll (no abrupt pop)
+    const fadeP = Math.max(0, Math.min(1, (raw - 0.85) / 0.15));
+    flyingEl.style.opacity  = String(1 - fadeP);
+    navLogoEl.style.opacity = String(fadeP);
+  }
+
+  document.addEventListener('astro:before-swap', () => {
+    ctrl.abort();
+    flyingEl?.remove();
+    if (navLogoEl) {
+      navLogoEl.style.transition = 'none';
+      navLogoEl.style.opacity    = '1';
+    }
+  }, { once: true });
+
+  window.addEventListener('scroll', update, { passive: true, signal: ctrl.signal });
+  requestAnimationFrame(() => requestAnimationFrame(init));
+</script>

@@ -1,41 +1,95 @@
 ---
-import { Link } from "@/components/ui/link.tsx";
-import StudioTitle from "@/components/StudioTitle.astro";
-import { SocialDropdown } from "./socialDropdown";
+import { Image } from "astro:assets";
+import mikoLogo from "@/assets/logo.png";
 
 interface Props {
   menuItems: Array<{ href: string; label: string; active: boolean }>;
 }
 
 const { menuItems } = Astro.props;
+
+// Split: first 3 on left, last 3 on right
+const leftItems  = menuItems.slice(0, 3);
+const rightItems = menuItems.slice(3, 6);
 ---
 
-<div class="flex justify-between items-center w-full">
-  <a href="/">
-    <StudioTitle size="sm" />
-  </a>
+<!-- Desktop Navbar (center-logo, equal item spacing) -->
+<div
+  class="hidden xl:grid w-full items-center"
+  style="grid-template-columns: 1fr auto 1fr;"
+  id="desktop-nav"
+>
 
-  {/* Desktop Menu */}
-  <div class="hidden xl:flex gap-6 text-white items-center px-4 text-center">
+  <!-- ── LEFT: 3 nav links, right-aligned toward center logo ──── -->
+  <div class="flex items-center justify-end pr-7">
+    <nav class="flex items-center gap-7">
+      {
+        leftItems.map((item) => (
+          <a
+            href={item.href}
+            class:list={[
+              "text-[0.7rem] tracking-[0.2em] uppercase font-jose transition-colors duration-200 whitespace-nowrap",
+              item.active
+                ? "text-[#C9A96E]"
+                : "text-[rgba(245,240,232,0.65)] hover:text-[#ede5d0]",
+            ]}
+          >
+            {item.label}
+          </a>
+        ))
+      }
+    </nav>
+  </div>
+
+  <!-- ── CENTER: Logo -->
+  <div class="flex-shrink-0 flex items-center justify-center">
+    <a href="/" aria-label="Miko Recording Studio – Home" class="block">
+      <!--
+        Crop wrapper — change the height value below to tweak how much
+        of the bottom text is hidden. Lower = more cropped, higher = less.
+        (logo natural size: 747×944px; text starts ~200px from the bottom)
+      -->
+      <div id="navbar-logo-img" style="overflow:hidden; height:34px; width:fit-content;">
+        <Image
+          src={mikoLogo}
+          alt="Miko Recording Studio"
+          class="h-12 w-auto object-contain"
+          loading="eager"
+        />
+      </div>
+    </a>
+  </div>
+
+  <!-- ── RIGHT: 3 nav links + Book a Session CTA (far right) ─── -->
+  <div class="flex items-center justify-start pl-7 gap-7">
     {
-      menuItems.map((item) => (
+      rightItems.map((item) => (
         <a
           href={item.href}
-          class={`hover:text-red-300 transition ${item.active ? "text-red-300" : ""}`}
+          class:list={[
+            "text-[0.7rem] tracking-[0.2em] uppercase font-jose transition-colors duration-200 whitespace-nowrap",
+            item.active
+              ? "text-[#C9A96E]"
+              : "text-[rgba(245,240,232,0.65)] hover:text-[#ede5d0]",
+          ]}
         >
           {item.label}
         </a>
       ))
     }
-    <SocialDropdown client:idle />
-  </div>
 
-  <div class="flex items-center gap-2">
-    <Link
-      href="/prices-and-bundles#book-session"
-      className="bg-red-600 hover:bg-red-700 text-white"
+    <!-- Thin vertical divider before CTA -->
+    <div class="h-4 w-px bg-[rgba(201,169,110,0.25)] flex-shrink-0"></div>
+
+    <!-- Book a Session CTA -->
+    <a
+      href="#book-session"
+      class="flex-shrink-0 border border-[#C9A96E] text-[#C9A96E] hover:bg-[#C9A96E] hover:text-[#080808]
+             px-5 py-2.5 text-[0.65rem] font-[400] tracking-[0.3em] uppercase transition-all duration-300
+             font-jose whitespace-nowrap"
     >
       Book a Session
-    </Link>
+    </a>
   </div>
+
 </div>

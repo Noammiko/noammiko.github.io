@@ -1,0 +1,20 @@
+---
+/**
+ * Admin Dashboard — /admin
+ *
+ * Protected by Convex Auth. Non-authenticated users are redirected
+ * to the login page. Static content (portfolio, pricing, FAQs) is
+ * updated by editing JSON/MDX source files and clicking Deploy;
+ * sales data is live via Convex.
+ */
+import Layout from "@/layouts/Layout.astro";
+import AdminWithConvex from "@/components/admin/AdminWithConvex.tsx";
+---
+
+<Layout title="Admin" description="Miko Recording Studio admin dashboard">
+  <slot name="head" slot="head">
+    <!-- No navbar/footer inside admin -->
+  </slot>
+
+  <AdminWithConvex client:load />
+</Layout>

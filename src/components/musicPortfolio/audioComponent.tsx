@@ -238,41 +238,86 @@ export function AudioPlayer({ src, title, artist, playOnStart = false, onClose }
   }
 
   return (
-    <Card className="w-full md:max-w-md bg-black/30 backdrop-blur-md rounded-lg group border border-red-500/30 hover:border-red-500/50 transition">
-      <CardHeader className="pb-2 pt-4 px-4 flex flex-row items-center justify-between">
-        <CardTitle className="text-base font-medium truncate pr-2">{title}</CardTitle>
-        <Button variant="ghost" size="icon" onClick={stopPlayback} className="h-8 w-8">
+    <Card
+      className="w-full md:max-w-md rounded-none group transition-all duration-300"
+      style={{
+        background: 'linear-gradient(160deg, #0f0d09 0%, #080806 100%)',
+        border: '1px solid rgba(201,169,110,0.3)',
+        boxShadow: '0 8px 48px rgba(0,0,0,0.65), 0 0 0 1px rgba(201,169,110,0.04)',
+      }}
+    >
+      <CardHeader className="pb-2 pt-4 px-5 flex flex-row items-center justify-between"
+        style={{ borderBottom: '1px solid rgba(201,169,110,0.1)' }}>
+        <CardTitle
+          className="truncate pr-2"
+          style={{
+            fontFamily: "'Playfair Display', Georgia, serif",
+            fontSize: '16px',
+            fontWeight: 400,
+            color: '#ede5d0',
+            letterSpacing: '0.02em',
+          }}
+        >
+          {title}
+        </CardTitle>
+        <Button
+          variant="ghost"
+          size="icon"
+          onClick={stopPlayback}
+          className="h-8 w-8 flex-shrink-0"
+          style={{ color: 'rgba(201,169,110,0.55)' }}
+        >
           <X className="h-4 w-4" />
           <span className="sr-only">Close</span>
         </Button>
       </CardHeader>
-      <CardContent className="px-4 pb-4 pt-0">
+
+      <CardContent className="px-5 pb-5 pt-4">
+        {artist && (
+          <p style={{
+            fontFamily: "'Josefin Sans', sans-serif",
+            fontSize: '10px',
+            fontWeight: 600,
+            letterSpacing: '2.5px',
+            textTransform: 'uppercase',
+            color: '#C9A96E',
+            marginBottom: '14px',
+          }}>
+            {artist}
+          </p>
+        )}
+
         <audio ref={audioRef} src={src} />
 
         <div className="space-y-4">
-          <div className="flex items-center justify-between text-xs text-muted-foreground">
+          {/* Time display */}
+          <div className="flex items-center justify-between"
+            style={{ fontFamily: "'Josefin Sans', sans-serif", fontSize: '10px', letterSpacing: '1.5px', color: 'rgba(237,229,208,0.38)' }}>
             <span>{formatTime(currentTime)}</span>
             <span>{formatTime(duration)}</span>
           </div>
 
+          {/* Progress slider */}
           <Slider
             value={[currentTime]}
             max={duration || 100}
             step={0.1}
             onValueChange={handleSeek}
-            className="w-full"
+            className="w-full audio-slider-gold"
           />
 
-          <div className="flex items-center justify-between">
+          {/* Controls row */}
+          <div className="flex items-center justify-between pt-1">
+            {/* Volume */}
             <div className="flex items-center gap-2">
-              <Button variant="ghost" size="icon" onClick={toggleMute} className="h-8 w-8">
-                {isMuted ? (
-                  <VolumeX className="h-4 w-4" />
-                ) : volume < 0.5 ? (
-                  <Volume1 className="h-4 w-4" />
-                ) : (
-                  <Volume2 className="h-4 w-4" />
-                )}
+              <Button
+                variant="ghost"
+                size="icon"
+                onClick={toggleMute}
+                className="h-8 w-8"
+                style={{ color: 'rgba(201,169,110,0.55)' }}
+              >
+                {isMuted ? <VolumeX className="h-4 w-4" /> : volume < 0.5 ? <Volume1 className="h-4 w-4" /> : <Volume2 className="h-4 w-4" />}
                 <span className="sr-only">{isMuted ? "Unmute" : "Mute"}</span>
               </Button>
               <Slider
@@ -280,22 +325,41 @@ export function AudioPlayer({ src, title, artist, playOnStart = false, onClose }
                 max={1}
                 step={0.01}
                 onValueChange={handleVolumeChange}
-                className="w-20"
+                className="w-20 audio-slider-gold"
               />
             </div>
 
+            {/* Playback */}
             <div className="flex items-center gap-2">
-              <Button variant="ghost" size="icon" onClick={seekBackward} className="h-9 w-9">
+              <Button
+                variant="ghost"
+                size="icon"
+                onClick={seekBackward}
+                className="h-9 w-9"
+                style={{ color: 'rgba(237,229,208,0.55)' }}
+              >
                 <Rewind className="h-5 w-5" />
                 <span className="sr-only">Rewind 10 seconds</span>
               </Button>
 
-              <Button variant="default" size="icon" onClick={togglePlayPause} className="h-10 w-10 rounded-full">
+              <Button
+                variant="default"
+                size="icon"
+                onClick={togglePlayPause}
+                className="h-10 w-10 rounded-full"
+                style={{ background: '#8B1A1A', border: '1px solid rgba(201,169,110,0.25)', color: '#ede5d0' }}
+              >
                 {isPlaying ? <Pause className="h-5 w-5" /> : <Play className="h-5 w-5 ml-0.5" />}
                 <span className="sr-only">{isPlaying ? "Pause" : "Play"}</span>
               </Button>
 
-              <Button variant="ghost" size="icon" onClick={seekForward} className="h-9 w-9">
+              <Button
+                variant="ghost"
+                size="icon"
+                onClick={seekForward}
+                className="h-9 w-9"
+                style={{ color: 'rgba(237,229,208,0.55)' }}
+              >
                 <FastForward className="h-5 w-5" />
                 <span className="sr-only">Forward 10 seconds</span>
               </Button>

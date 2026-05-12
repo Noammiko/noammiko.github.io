@@ -1,0 +1,77 @@
+---
+import { getCollection, render } from "astro:content";
+
+const siteEntries = await getCollection("site");
+const aboutEntry  = siteEntries.find((e) => e.id === "about");
+const { Content: AboutContent } = aboutEntry
+  ? await render(aboutEntry)
+  : { Content: null };
+---
+
+<section id="about" class="section-py section-px">
+  <div class="gold-rule"></div>
+
+  <div class="max-w-[720px] mx-auto py-8 md:py-10 text-center">
+    <div class="reveal">
+      <span class="eyebrow mb-5 block" style="text-align:center;letter-spacing:0.42em;font-size:0.975rem;">
+        Miko Recording Studio
+      </span>
+      <h2
+        class="font-serif font-light text-cream"
+        style="font-size:clamp(2.4rem,5.5vw,5rem);line-height:1.05;margin-bottom:24px;"
+      >
+        Where Your Sound<br/><em class="italic text-crimson-vivid">Comes to Life</em>
+      </h2>
+
+      <!-- Centred gold rule -->
+      <div class="gold-divider-center"></div>
+
+      <!-- Body text -->
+      <div
+        class="text-cream/60 text-[0.95rem] leading-relaxed font-sans font-light tracking-wide"
+        style="max-width:560px;margin:0 auto 40px;"
+      >
+        {
+          AboutContent ? (
+            <AboutContent />
+          ) : (
+            <p>
+              Miko Recording Studio is a space where creativity comes
+              first. Open to every genre, language, and
+              level, designed to give you the freedom to create while
+              delivering the clarity and quality your music deserves.
+              From your first idea to the final record, every session is
+              focused on capturing your vision exactly how you hear it.
+              Your satisfaction is guaranteed.
+            </p>
+          )
+        }
+      </div>
+
+      <!-- Stats row — centred -->
+      <div class="stat-row" style="justify-content:center;margin-top:24px;">
+        <div class="stat-item">
+          <span class="stat-num">100%</span>
+          <span class="stat-desc">Satisfaction<br/>Guaranteed</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-num">∞</span>
+          <span class="stat-desc">Mix & Master<br/>Revisions</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-num">24h</span>
+          <span class="stat-desc">Turnaround<br/>Time</span>
+        </div>
+      </div>
+
+      <!-- CTAs — centred -->
+      <div class="flex flex-wrap gap-4 justify-center mt-8">
+        <a href="#book-session" class="btn-crimson">Book a Session</a>
+        <a href="#pricing"      class="btn-gold">See Pricing</a>
+        <a href="#portfolio"    class="btn-gold">See Portfolio</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="gold-rule"></div>
+</section>

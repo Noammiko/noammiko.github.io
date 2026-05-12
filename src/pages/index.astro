@@ -1,165 +1,56 @@
 ---
-import Page from "@/layouts/Page.astro";
-import Gallery from "@/components/Gallery.tsx";
-import { getImages } from "@/assets/galary/images";
+import Layout from "@/layouts/Layout.astro";
+import Header from "@/layouts/Header.astro";
 
-const images = await getImages({
-  densities: [1.5, 2],
-  imageTransform: {
-    format: "webp",
-  },
-});
-
-import StudioTitle from "@/components/StudioTitle.astro";
-import PlatformIcon from "@/components/platformIcon.astro";
-import { ReviewsSection } from "@/components/Reviews.tsx";
-import platforms from "@/lib/platforms";
+// ── Section components ────────────────────────────────────────────────────
+import HeroSection        from "@/components/sections/HeroSection.astro";
+import AboutSection       from "@/components/sections/AboutSection.astro";
+import GallerySection     from "@/components/sections/GallerySection.astro";
+import TestimonialsSection from "@/components/sections/TestimonialsSection.astro";
+import PricingSection     from "@/components/sections/PricingSection.astro";
+import PortfolioSection   from "@/components/sections/PortfolioSection.astro";
+import FAQSection         from "@/components/sections/FAQSection.astro";
+import ContactSection     from "@/components/sections/ContactSection.astro";
+import LocationSection    from "@/components/sections/LocationSection.astro";
+import BookSessionSection from "@/components/sections/BookSessionSection.astro";
+import SiteFooter         from "@/components/SiteFooter.astro";
 ---
 
-<Page
-  title="Home"
-  description="Guelph audio recording and editing studio"
-  currentPage="home"
+<Layout
+  title="The Top Recording Studio in Guelph"
+  description="Miko Recording Studio — Professional recording, mixing & mastering in Guelph, Ontario. Open to all genres & languages. Book your session today."
 >
-  {/* Hero Section */}
-  <div class="text-center">
-    <div class="flex justify-center mb-6">
-      <StudioTitle size="lg" />
-    </div>
-    <div class="w-32 h-1 bg-red-500 mx-auto mb-8"></div>
+  <!-- Navigation (persists across view-transition navigations) -->
+  <Header currentPage="home" hidden={false} />
 
-    {/* Social Icons */}
-    <div class="flex justify-center gap-6 mb-16">
-      <a
-        href={platforms.tiktok.href}
-        class="text-white hover:text-red-300 transition"
-      >
-        <PlatformIcon platform="tiktok" text={false} class="w-8 h-8" />
-      </a>
-      <a
-        href={platforms.youtube.href}
-        class="text-white hover:text-red-300 transition"
-      >
-        <PlatformIcon platform="youtube" text={false} class="w-8 h-8" />
-      </a>
-      <a
-        href={platforms.spotify.href}
-        class="text-white hover:text-red-300 transition"
-      >
-        <PlatformIcon platform="spotify" text={false} class="w-8 h-8" />
-      </a>
-      <a
-        href={platforms.instagram.href}
-        class="text-white hover:text-red-300 transition"
-      >
-        <PlatformIcon platform="instagram" text={false} class="w-8 h-8" />
-      </a>
-      <a
-        href={platforms.location.href}
-        class="text-white hover:text-red-300 transition"
-      >
-        <PlatformIcon platform="location" text={false} class="w-8 h-8" />
-      </a>
-    </div>
+  <main>
+    <HeroSection />
+    <AboutSection />
+    <GallerySection />
+    <TestimonialsSection />
+    <PricingSection />
 
-    <h2
-      class="text-3xl md:text-4xl font-bold mb-12 border-b-2 border-red-500 pb-2 inline-block"
-    >
-      PROFESSIONAL RECORDING STUDIO IN GUELPH
-    </h2>
+    <!-- Divider: Portfolio → FAQ -->
+    <PortfolioSection />
+    <div class="gold-rule-fade" style="margin:0;"></div>
 
-    {/* Main Navigation Buttons */}
-    <div class="grid md:grid-cols-2 gap-6 max-w-4xl mx-auto mb-16">
-      <a href="/prices-and-bundles" class="block">
-        <div
-          class="border border-red-500/50 hover:border-red-500 rounded-lg p-8 transition-all hover:bg-black/20 backdrop-blur-sm"
-        >
-          <h3 class="text-2xl font-bold mb-2">Prices and Bundles</h3>
-          <p class="text-gray-300">View our recording packages and rates</p>
-        </div>
-      </a>
-      <a href="/prices-and-bundles#book-session" class="block">
-        <!-- TODO: add call to action, shiny animation or something -->
-        <div
-          class="border border-red-500/50 hover:border-red-500 rounded-lg p-8 transition-all hover:bg-black/20 backdrop-blur-sm"
-        >
-          <h3 class="text-2xl font-bold mb-2">Book a Session</h3>
-          <p class="text-gray-300">Schedule your recording time</p>
-        </div>
-      </a>
-      <a href="/portfolio" class="block">
-        <div
-          class="border border-red-500/50 hover:border-red-500 rounded-lg p-8 transition-all hover:bg-black/20 backdrop-blur-sm"
-        >
-          <h3 class="text-2xl font-bold mb-2">Portfolio</h3>
-          <p class="text-gray-300">Listen to our production work</p>
-        </div>
-      </a>
-      <a href="/my-music" class="block">
-        <div
-          class="border border-red-500/50 hover:border-red-500 rounded-lg p-8 transition-all hover:bg-black/20 backdrop-blur-sm"
-        >
-          <h3 class="text-2xl font-bold mb-2">My Music</h3>
-          <p class="text-gray-300">Listen to my original music</p>
-        </div>
-      </a>
-    </div>
+    <FAQSection />
+    <ContactSection />
+    <LocationSection />
+    <BookSessionSection />
+  </main>
 
-    {/* Gallery Section */}
-    <h2
-      id="gallery"
-      class="text-4xl font-bold mb-8 border-b-2 border-red-500 pb-2 inline-block"
-    >
-      GALLERY
-    </h2>
-    <div class="max-w-4xl mx-auto mb-16">
-      <Gallery images={images} client:idle />
-    </div>
+  <SiteFooter />
+</Layout>
 
-    {/* Location Section */}
-    <h2
-      id="location"
-      class="text-4xl font-bold mb-8 border-b-2 border-red-500 pb-2 inline-block"
-    >
-      LOCATION
-    </h2>
-    <div class="max-w-4xl mx-auto mb-16">
-      <div
-        class="rounded-lg overflow-hidden shadow-lg border border-red-500/30"
-      >
-        <iframe
-          width="100%"
-          height="450"
-          style="border:0;"
-          allowfullscreen=""
-          loading="lazy"
-          src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d1446.818467179641!2d-80.226072!3d43.509909!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x882bf77fb6007e8b%3A0x81459b0f458033f1!2sMiko%20Recording%20Studio!5e0!3m2!1sen!2sus!4v1746235360629!5m2!1sen!2sus"
-          title="Miko Recording Studio Location"
-          aria-label="Google Maps showing Miko Recording Studio location"
-          referrerpolicy="no-referrer-when-downgrade"></iframe>
-      </div>
-      <div class="mt-4 text-xl">
-        <p>502 Kortright Rd W, Guelph, ON</p>
-        <p class="mt-2">
-          <a
-            href="https://maps.google.com/maps?q=Miko+Recording+Studio"
-            target="_blank"
-            rel="noopener noreferrer"
-            class="text-red-300 hover:text-red-400 transition underline"
-          >
-            Get Directions
-          </a>
-        </p>
-      </div>
-    </div>
-
-    {/* Reviews Section - Added under Location */}
-    <div class="mb-16">
-      <ReviewsSection
-        client:visible
-        subtitle="See what our clients have to say about their experience"
-      />
-    </div>
-  </div>
-  <!-- <LocalBusinessStructuredData /> TODO: research if this is needed for SEO -->
-</Page>
+<style is:global>
+  /* ── About MDX prose ────────────────────────────────────────────────── */
+  #about .prose-body p {
+    color: rgba(245,240,232,0.6);
+    font-family: 'Josefin Sans', sans-serif;
+    font-weight: 300;
+    font-size: 0.95rem;
+    line-height: 1.8;
+    letter-spacing: 0.02em;
+  }
+</style>
