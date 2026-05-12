@@ -2,11 +2,6 @@
   "bundles": [
     {
       "id": "1-song",
-      "name": "1 Song Bundle",
-      "subtitle": "Everything you need for a single release",
-      "price": 149.95,
-      "valuePrice": 200,
-      "discountTag": "25",
       "includes": [
         "**2 Hours** of Studio Time",
         "**1** Professional Mix",
@@ -14,16 +9,14 @@
         "__Unlimited__ Revisions",
         "*Satisfaction Guaranteed*"
       ],
-      "tag": "MOST POPULAR",
-      "order": 1
+      "name": "1 Song Bundle",
+      "order": 1,
+      "price": 200,
+      "subtitle": "Everything you need for a single release",
+      "tag": "MOST POPULAR"
     },
     {
       "id": "2-songs",
-      "name": "2 Songs Bundle",
-      "subtitle": "Perfect for an EP or double release",
-      "price": 259.95,
-      "valuePrice": 400,
-      "discountTag": "35",
       "includes": [
         "**4 Hours** of Studio Time",
         "**2** Professional Mixes",
@@ -31,34 +24,55 @@
         "__Unlimited__ Revisions",
         "*Satisfaction Guaranteed*"
       ],
-      "tag": "BEST VALUE",
-      "order": 0
+      "name": "2 Songs Bundle",
+      "order": 0,
+      "price": 400,
+      "subtitle": "Perfect for an EP or double release",
+      "tag": "BEST VALUE"
     },
     {
       "id": "mix-master",
-      "name": "Mix & Master Bundle",
-      "subtitle": "Already recorded? We'll make it shine",
-      "price": 94.95,
-      "valuePrice": 120,
-      "discountTag": "20",
       "includes": [
         "**1** Professional Mix",
         "**1** Professional Master",
         "__Unlimited__ Revisions",
         "*Satisfaction Guaranteed*"
       ],
-      "tag": null,
-      "order": 2
+      "name": "Mix & Master Bundle",
+      "order": 2,
+      "price": 120,
+      "subtitle": "Already recorded? We'll make it shine",
+      "tag": null
     }
   ],
   "rates": [
-    { "name": "Studio Time", "price": 39.95, "unit": "/ hour" },
-    { "name": "Professional Mix", "price": 79.95, "unit": "/ song" },
-    { "name": "Professional Master", "price": 39.95, "unit": "/ song" }
+    {
+      "name": "Studio Time",
+      "price": 39.95,
+      "unit": "/ hour"
+    },
+    {
+      "name": "Professional Mix",
+      "price": 79.95,
+      "unit": "/ song"
+    },
+    {
+      "name": "Professional Master",
+      "price": 39.95,
+      "unit": "/ song"
+    }
   ],
   "instrumentals": [
-    { "name": "Existing Beat", "price": 49.95, "note": "Exclusive pricing negotiable" },
-    { "name": "Custom Beat", "price": 149.95, "note": "Exclusive pricing negotiable" }
+    {
+      "name": "Existing Beat",
+      "price": 49.95,
+      "note": "Exclusive pricing negotiable"
+    },
+    {
+      "name": "Custom Beat",
+      "price": 149.95,
+      "note": "Exclusive pricing negotiable"
+    }
   ],
   "seasonalOffer": {
     "active": false,
