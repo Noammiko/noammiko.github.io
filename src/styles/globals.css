@@ -961,6 +961,68 @@ html { scroll-behavior: smooth; }
   .tsc-card { flex: 0 0 50%; }
 }
 
+/* ─── Review columns (rcol-*) ───────────────────────────────────────── */
+.rcol-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2px;
+  margin-top: 64px;
+}
+.rcol-wrapper {
+  position: relative;
+  overflow: hidden;
+  background: var(--bg2);
+}
+.rcol-track {
+  display: flex;
+  flex-direction: column;
+  will-change: transform;
+}
+.rcol-track .tsc-card {
+  flex: none;
+  width: 100%;
+  box-sizing: border-box;
+  height: 320px;    /* fixed — all cards identical height so translate offset is always correct */
+  overflow: hidden; /* clip any review text that exceeds the card */
+}
+.rcol-track .tsc-quote {
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 6;
+  -webkit-box-orient: vertical;
+}
+.rcol-arrow {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 20;
+  width: 36px;
+  height: 36px;
+  background: rgba(8,8,8,0.75);
+  border: 1px solid rgba(201,169,110,0.35);
+  color: #C9A96E;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: opacity 0.25s, background 0.2s;
+  backdrop-filter: blur(8px);
+  padding: 0;
+}
+.rcol-arrow:hover { background: rgba(201,169,110,0.1); }
+.rcol-arrow-up { top: 16px; }
+.rcol-arrow-dn { bottom: 16px; }
+.rcol-wrapper:hover .rcol-arrow { opacity: 1; }
+@media (max-width: 900px) {
+  .rcol-grid { grid-template-columns: 1fr; }
+  .rcol-grid > *:not(:first-child) { display: none; }
+}
+@media (min-width: 601px) and (max-width: 900px) {
+  .rcol-grid { grid-template-columns: repeat(2, 1fr); }
+  .rcol-grid > *:last-child { display: none; }
+}
+
 /* ─── Legacy glitch (keep for backward compat) ──────────────────────── */
 .glitch-text {
   position: relative;
