@@ -1,5 +1,5 @@
 ---
-import TestimonialsLive from "@/components/TestimonialsLive";
+import TestimonialsColumns from "@/components/TestimonialsColumns";
 ---
 
 <section id="testimonials" class="section-py section-px bg-surface-warm">
@@ -16,8 +16,8 @@ import TestimonialsLive from "@/components/TestimonialsLive";
       </h2>
     </div>
 
-    <!-- Live carousel — reads from Convex, no rebuild needed -->
-    <TestimonialsLive client:visible />
+    <!-- Vertical columns — reads from Convex, no rebuild needed -->
+    <TestimonialsColumns client:visible />
 
     <div class="text-center mt-14 reveal">
       <a
