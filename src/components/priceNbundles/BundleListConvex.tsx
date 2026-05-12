@@ -24,7 +24,7 @@ function BundleListConnected({ defaultCurrentPrice }: PricingComponentProps) {
   let convexPrice: Price | null = null;
   if (raw && Array.isArray(raw.bundles) && raw.bundles.length > 0) {
     try {
-      convexPrice = convexConfigToPrice(raw);
+      convexPrice = convexConfigToPrice({ ...raw, bundles: raw.bundles! });
     } catch {
       // Malformed config — fall back to Google Sheets
     }
