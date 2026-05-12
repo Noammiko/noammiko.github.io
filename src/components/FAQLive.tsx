@@ -7,7 +7,7 @@
  *   **bold**, *italic*, and line breaks are rendered.
  */
 
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import { Plus, Minus } from "lucide-react";
 import { useQuery } from "convex/react";
 import { api } from "@/convex/_generated/api";
@@ -76,10 +76,15 @@ function AccordionItem({
 function FAQInner() {
   const faqs  = useQuery(api.faqs.listActiveFaqs);
   const [openId, setOpenId] = useState<string | null>(null);
+  const didInit = useRef(false);
 
-  // Open first item once loaded
-  const firstId = faqs?.[0]?._id ?? null;
-  const effectiveOpen = openId ?? firstId;
+  // Open the first item once data arrives — only on first load
+  useEffect(() => {
+    if (faqs && faqs.length > 0 && !didInit.current) {
+      didInit.current = true;
+      setOpenId(faqs[0]._id);
+    }
+  }, [faqs]);
 
   if (!faqs) return null; // render nothing while loading (section shell is already visible)
   if (faqs.length === 0) return null;
@@ -92,7 +97,7 @@ function FAQInner() {
           id={faq._id}
           question={faq.question}
           answer={faq.answer}
-          isOpen={effectiveOpen === faq._id}
+          isOpen={openId === faq._id}
           onToggle={() => setOpenId((p) => (p === faq._id ? null : faq._id))}
         />
       ))}
