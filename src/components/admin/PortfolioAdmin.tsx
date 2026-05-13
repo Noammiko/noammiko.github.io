@@ -34,25 +34,62 @@ function ChipSelect({
   options,
   selected,
   onChange,
+  allowCustom = false,
 }: {
   options: string[];
   selected: string[];
   onChange: (v: string[]) => void;
+  allowCustom?: boolean;
 }) {
+  const [newValue, setNewValue] = useState("");
+
+  const allOptions = [...new Set([...options, ...selected])];
+
   const toggle = (opt: string) =>
     onChange(selected.includes(opt) ? selected.filter((x) => x !== opt) : [...selected, opt]);
+
+  const addCustom = () => {
+    const trimmed = newValue.trim();
+    if (trimmed && !selected.includes(trimmed)) {
+      onChange([...selected, trimmed]);
+    }
+    setNewValue("");
+  };
+
   return (
-    <div className="flex flex-wrap gap-2 mt-1">
-      {options.map((opt) => (
-        <button key={opt} type="button" onClick={() => toggle(opt)}
-          className={`px-3 py-1 text-[0.6rem] tracking-widest uppercase font-['Josefin_Sans'] border transition-colors ${
-            selected.includes(opt)
-              ? "border-[#C9A96E] bg-[rgba(201,169,110,0.12)] text-[#C9A96E]"
-              : "border-[rgba(255,255,255,0.1)] text-[rgba(245,240,232,0.4)] hover:border-[rgba(255,255,255,0.25)]"
-          }`}>
-          {opt}
-        </button>
-      ))}
+    <div>
+      <div className="flex flex-wrap gap-2 mt-1">
+        {allOptions.map((opt) => (
+          <button key={opt} type="button" onClick={() => toggle(opt)}
+            className={`px-3 py-1 text-[0.6rem] tracking-widest uppercase font-['Josefin_Sans'] border transition-colors ${
+              selected.includes(opt)
+                ? "border-[#C9A96E] bg-[rgba(201,169,110,0.12)] text-[#C9A96E]"
+                : "border-[rgba(255,255,255,0.1)] text-[rgba(245,240,232,0.4)] hover:border-[rgba(255,255,255,0.25)]"
+            }`}>
+            {opt}
+          </button>
+        ))}
+      </div>
+      {allowCustom && (
+        <div className="flex gap-2 mt-2">
+          <input
+            type="text"
+            value={newValue}
+            placeholder="Add custom…"
+            onChange={(e) => setNewValue(e.target.value)}
+            onKeyDown={(e) => { if (e.key === "Enter") { e.preventDefault(); addCustom(); } }}
+            className="bg-[#111] border border-[rgba(255,255,255,0.1)] text-[#F5F0E8] px-2 py-1
+                       text-[0.6rem] font-['Josefin_Sans'] focus:outline-none focus:border-[rgba(201,169,110,0.4)]
+                       placeholder:text-[rgba(245,240,232,0.2)] w-32"
+          />
+          <button type="button" onClick={addCustom}
+            className="px-3 py-1 text-[0.6rem] tracking-widest uppercase font-['Josefin_Sans']
+                       border border-[rgba(255,255,255,0.1)] text-[rgba(245,240,232,0.4)]
+                       hover:border-[rgba(201,169,110,0.4)] hover:text-[#C9A96E] transition-colors">
+            + Add
+          </button>
+        </div>
+      )}
     </div>
   );
 }
@@ -97,13 +134,13 @@ function MetaFields({
         <div>
           <label className={labelCls}>Languages</label>
           <ChipSelect options={LANGUAGE_OPTIONS} selected={form.languages}
-            onChange={(v) => setForm((p) => ({ ...p, languages: v }))} />
+            onChange={(v) => setForm((p) => ({ ...p, languages: v }))} allowCustom />
         </div>
       </div>
       <div>
         <label className={labelCls}>Genres</label>
         <ChipSelect options={GENRE_OPTIONS} selected={form.genres}
-          onChange={(v) => setForm((p) => ({ ...p, genres: v }))} />
+          onChange={(v) => setForm((p) => ({ ...p, genres: v }))} allowCustom />
       </div>
       <div className="flex items-center gap-3">
         <input type="checkbox" checked={form.active} className="accent-[#C9A96E] w-4 h-4"
@@ -388,7 +425,7 @@ export default function PortfolioAdmin() {
 
               {/* Order badge */}
               <span className="text-xs text-[rgba(245,240,232,0.25)] font-['Josefin_Sans'] w-5 text-right flex-shrink-0">
-                {item.order + 1}
+                {index + 1}
               </span>
 
               {/* Info */}

@@ -410,18 +410,17 @@ html { scroll-behavior: smooth; }
   height: 600px;
   overflow: hidden;
   position: relative;
+  background: #0a0a0a;
 }
 .gallery-h-item img {
   width: 100%;
   height: 100%;
-  object-fit: cover;
+  object-fit: contain;
   display: block;
-  transition: transform 0.6s cubic-bezier(0.22,1,0.36,1),
-              filter 0.5s ease;
+  transition: filter 0.5s ease;
   filter: grayscale(25%) brightness(0.75);
 }
 .gallery-h-item:hover img {
-  transform: scale(1.04);
   filter: grayscale(0%) brightness(0.95);
 }
 .gallery-arrow-btn {

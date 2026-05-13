@@ -58,12 +58,12 @@ const displayCount = usingConvex ? convexImages.length : staticImages.length;
       {usingConvex
         ? convexImages.map(({ imageUrl, alt }) => (
             <div class="gallery-h-item">
-              <img src={imageUrl} alt={alt} class="w-full h-full object-cover" loading="lazy" decoding="async" />
+              <img src={imageUrl} alt={alt} class="w-full h-full object-contain" loading="lazy" decoding="async" />
             </div>
           ))
         : staticImages.map(({ src, alt }) => (
             <div class="gallery-h-item">
-              <Image src={src} alt={alt} widths={[600, 900]} class="w-full h-full object-cover" loading="lazy" />
+              <Image src={src} alt={alt} widths={[600, 900]} class="w-full h-full object-contain" loading="lazy" />
             </div>
           ))
       }

@@ -342,7 +342,7 @@ export default function GalleryAdmin() {
 
               {/* Order badge */}
               <span className="text-xs text-[rgba(245,240,232,0.25)] font-['Josefin_Sans'] w-5 text-right flex-shrink-0">
-                {item.order + 1}
+                {index + 1}
               </span>
 
               {/* Thumbnail */}

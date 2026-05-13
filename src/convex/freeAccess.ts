@@ -55,8 +55,12 @@ export const getAmountWeek = query({
 
     const tasks = await ctx.db
       .query("free")
-      .withIndex("by_creation_time", (q) => q.gte("_creationTime", milliseconds))
-      .filter((q) => q.eq(q.field("approved"), true))
+      .filter((q) =>
+        q.and(
+          q.eq(q.field("approved"), true),
+          q.gte(q.field("approvedAt"), milliseconds)
+        )
+      )
       .collect();
 
     return tasks.length;
@@ -79,7 +83,7 @@ export const approveFree = mutation({
   args: { id: v.id("free") },
   handler: async (ctx, { id }) => {
     if (!await ctx.auth.getUserIdentity()) throw new Error("Unauthorized");
-    await ctx.db.patch(id, { approved: true });
+    await ctx.db.patch(id, { approved: true, approvedAt: Date.now() });
   },
 });
 

@@ -19,6 +19,7 @@ export default defineSchema({
     referralSource:       v.optional(v.string()),
     otherReferralSource:  v.optional(v.string()),
     approved:             v.union(v.boolean(), v.null()),
+    approvedAt:           v.optional(v.number()),
   }),
 
   /** Project inquiry submissions */

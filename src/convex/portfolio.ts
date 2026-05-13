@@ -107,16 +107,20 @@ export const saveUploadedTrack = mutation({
   },
 });
 
-/** Swap order values of two adjacent items (for reordering). */
+/** Swap two items and normalize all orders to 0,1,2,… (fixes gaps/duplicates). */
 export const swapOrder = mutation({
   args: { idA: v.id("portfolio"), idB: v.id("portfolio") },
   handler: async (ctx, { idA, idB }) => {
     if (!await ctx.auth.getUserIdentity()) throw new Error("Unauthorized");
-    const a = await ctx.db.get(idA);
-    const b = await ctx.db.get(idB);
-    if (!a || !b) return;
-    await ctx.db.patch(idA, { order: b.order });
-    await ctx.db.patch(idB, { order: a.order });
+    const all = await ctx.db.query("portfolio").collect();
+    all.sort((a, b) => a.order - b.order);
+    const iA = all.findIndex((x) => x._id === idA);
+    const iB = all.findIndex((x) => x._id === idB);
+    if (iA === -1 || iB === -1) return;
+    [all[iA], all[iB]] = [all[iB], all[iA]];
+    for (let i = 0; i < all.length; i++) {
+      await ctx.db.patch(all[i]._id, { order: i });
+    }
   },
 });
 
