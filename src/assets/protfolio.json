@@ -3,7 +3,7 @@
     "client": "Josh",
     "title": "Momento",
     "file": "/portfolio/01. Josh.mp3",
-    "work": ["Mixed", "Mastered"],
+    "work": ["Recorded", "Mixed & Mastered"],
     "languages": ["Romanian"],
     "genres": ["RNB"]
   },
@@ -11,7 +11,7 @@
     "client": "Noam Miko",
     "title": "Wanna See you Again",
     "file": "/portfolio/02. Noam.mp3",
-    "work": ["Produced", "Mixed", "Mastered", "Written"],
+    "work": ["Recorded", "Produced", "Mixed & Mastered", "Written"],
     "languages": ["English"],
     "genres": ["Pop Rock"]
   },
@@ -19,7 +19,7 @@
     "client": "GRANDVIEW",
     "title": "Why Live For Later",
     "file": "/portfolio/03. Grandview.mp3",
-    "work": ["Produced"],
+    "work": ["Recorded", "Produced"],
     "languages": ["English"],
     "genres": ["Hip Hop"]
   },
@@ -27,7 +27,7 @@
     "client": "Sharan",
     "title": "Allta Gama",
     "file": "/portfolio/04. Sharan.mp3",
-    "work": ["Mixed", "Mastered"],
+    "work": ["Recorded", "Mixed & Mastered"],
     "languages": ["Punjabi"],
     "genres": ["Rap"]
   },
@@ -35,7 +35,7 @@
     "client": "Niles Baby",
     "title": "Who Are We",
     "file": "/portfolio/05. Niles Baby.mp3",
-    "work": ["Produced", "Mixed", "Mastered"],
+    "work": ["Recorded", "Produced", "Mixed & Mastered"],
     "languages": ["English"],
     "genres": ["Afro Beats"]
   },
@@ -43,7 +43,7 @@
     "client": "Noam Miko",
     "title": "Love Again",
     "file": "/portfolio/06. Noam.mp3",
-    "work": ["Produced", "Mixed", "Mastered", "Written"],
+    "work": ["Recorded", "Produced", "Mixed & Mastered", "Written"],
     "languages": ["English"],
     "genres": ["Hip Hop"]
   },
@@ -51,7 +51,7 @@
     "client": "Josh",
     "title": "Berders",
     "file": "/portfolio/08. Josh.mp3",
-    "work": ["Mixed", "Mastered"],
+    "work": ["Recorded", "Mixed & Mastered"],
     "languages": ["Romanian"],
     "genres": ["RNB"]
   },
@@ -59,7 +59,7 @@
     "client": "IVY",
     "title": "Healer",
     "file": "/portfolio/10. IVY.mp3",
-    "work": ["Mixed", "Mastered"],
+    "work": ["Recorded", "Mixed & Mastered"],
     "languages": ["English"],
     "genres": ["Afro Beats"]
   },
@@ -67,7 +67,7 @@
     "client": "Noam Miko",
     "title": "Page In Your Book",
     "file": "/portfolio/11. noam.mp3",
-    "work": ["Produced", "Mixed", "Mastered", "Written"],
+    "work": ["Recorded", "Produced", "Mixed & Mastered", "Written"],
     "languages": ["English"],
     "genres": ["Pop"]
   },
@@ -75,7 +75,7 @@
     "client": "Niles Baby",
     "title": "Who are we (Noam Miko REMIX)",
     "file": "/portfolio/13 Niles Baby.mp3",
-    "work": ["Produced", "Mixed", "Mastered"],
+    "work": ["Recorded", "Produced", "Mixed & Mastered"],
     "languages": ["English"],
     "genres": ["EDM"]
   },
@@ -83,7 +83,7 @@
     "client": "Noam Miko",
     "title": "The Moment Our Lips Touched",
     "file": "/portfolio/14. noam.mp3",
-    "work": ["Produced", "Mixed", "Mastered", "Written"],
+    "work": ["Recorded", "Produced", "Mixed & Mastered", "Written"],
     "languages": ["English"],
     "genres": ["Pop"]
   }
