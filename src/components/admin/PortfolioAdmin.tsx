@@ -12,7 +12,7 @@ const inputCls =
 const labelCls =
   `block text-[0.6rem] tracking-[0.25em] uppercase font-['Cinzel'] text-[rgba(201,169,110,0.7)] mb-1.5`;
 
-const WORK_OPTIONS     = ["Produced", "Mixed", "Mastered", "Written"];
+const WORK_OPTIONS     = ["Recorded", "Produced", "Mixed & Mastered", "Written"];
 const LANGUAGE_OPTIONS = ["English", "Romanian", "Punjabi", "French", "Spanish", "Other"];
 const GENRE_OPTIONS    = ["RNB", "Pop", "Pop Rock", "Hip Hop", "Rap", "Afro Beats", "EDM", "Country", "Classical", "Other"];
 
