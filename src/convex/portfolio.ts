@@ -1,4 +1,4 @@
-import { mutation, query } from "./_generated/server";
+import { internalMutation, mutation, query } from "./_generated/server";
 import { v } from "convex/values";
 
 /* ─── Queries ───────────────────────────────────────────────────── */
@@ -157,10 +157,9 @@ export const seedDefaultPortfolio = mutation({
   },
 });
 
-export const migrateWorkTags = mutation({
+export const migrateWorkTags = internalMutation({
   args: {},
   handler: async (ctx) => {
-    if (!await ctx.auth.getUserIdentity()) throw new Error("Unauthorized");
     const rows = await ctx.db.query("portfolio").collect();
     let updated = 0;
     for (const row of rows) {
