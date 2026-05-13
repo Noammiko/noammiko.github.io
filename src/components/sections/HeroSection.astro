@@ -101,6 +101,8 @@ const heroPoster = await getImage({ src: img1, format: "webp", width: 1920, qual
   // ── Hero logo "slots in" to navbar on scroll (home page only) ────────────
   const SCROLL_START = 60;
   const SCROLL_END   = 320;
+  const NAV_IMG_H    = 48;   // navbar logo rendered height (h-12 = 3rem = 48px)
+  const NAV_CROP_H   = 34;   // navbar wrapper height (visible portion)
 
   function ease(t: number) {
     return t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
@@ -137,8 +139,8 @@ const heroPoster = await getImage({ src: img1, format: "webp", width: 1920, qual
     heroInitCY = heroRect.top  + heroRect.height / 2;
     heroH      = heroRect.height;
     navCX      = navRect.left + navRect.width  / 2;
-    navCY      = navRect.top  + navRect.height / 2;
-    navH       = navRect.height;
+    navCY      = navRect.top  + NAV_IMG_H      / 2; // center of full image, not the cropped wrapper
+    navH       = NAV_IMG_H;                          // scale flying logo to full image height
 
     heroImg.style.opacity   = '0';
     // Disable CSS transition — JS sets opacity every frame, a transition causes lag/pop
@@ -176,6 +178,7 @@ const heroPoster = await getImage({ src: img1, format: "webp", width: 1920, qual
     const scale = 1 + (navH / heroH - 1) * p;
 
     flyingEl.style.transform = `translate(${tx}px,${ty}px) scale(${scale})`;
+    flyingEl.style.clipPath  = `inset(0 0 ${(1 - NAV_CROP_H / NAV_IMG_H) * 100 * p}% 0)`;
 
     const shadowA = (0.22 * (1 - raw)).toFixed(3);
     flyingEl.style.filter = `brightness(${(1.12 - 0.12 * raw).toFixed(3)}) drop-shadow(0 0 30px rgba(201,169,110,${shadowA}))`;
