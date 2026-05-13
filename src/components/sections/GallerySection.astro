@@ -58,12 +58,12 @@ const displayCount = usingConvex ? convexImages.length : staticImages.length;
       {usingConvex
         ? convexImages.map(({ imageUrl, alt }) => (
             <div class="gallery-h-item">
-              <img src={imageUrl} alt={alt} class="w-full h-full object-contain" loading="lazy" decoding="async" />
+              <img src={imageUrl} alt={alt} class="h-full w-auto" loading="lazy" decoding="async" />
             </div>
           ))
         : staticImages.map(({ src, alt }) => (
             <div class="gallery-h-item">
-              <Image src={src} alt={alt} widths={[600, 900]} class="w-full h-full object-contain" loading="lazy" />
+              <Image src={src} alt={alt} widths={[600, 900]} class="h-full w-auto" loading="lazy" />
             </div>
           ))
       }
@@ -79,22 +79,26 @@ const displayCount = usingConvex ? convexImages.length : staticImages.length;
 </section>
 
 <script>
-  // Gallery horizontal drag + arrow scroll
+  // Gallery horizontal drag + arrow scroll (variable-width items)
   (function() {
-    const track  = document.getElementById('gallery-h-track') as HTMLElement | null;
+    const track   = document.getElementById('gallery-h-track') as HTMLElement | null;
     const prevBtn = document.getElementById('gallery-h-prev');
     const nextBtn = document.getElementById('gallery-h-next');
     const countEl = document.getElementById('gallery-h-count');
     if (!track) return;
 
-    const itemW = () => (track.firstElementChild as HTMLElement)?.offsetWidth + 3 || 483;
     let current = 0;
     const total = track.children.length;
 
+    // Natural left offset of each item (ignores any track transform)
+    function offsets() {
+      return Array.from(track!.children).map((el) => (el as HTMLElement).offsetLeft);
+    }
+
     function scrollTo(idx: number) {
       current = Math.max(0, Math.min(idx, total - 1));
-      track.style.transform = `translateX(-${current * itemW()}px)`;
-      track.style.transition = 'transform 0.5s cubic-bezier(0.22,1,0.36,1)';
+      track!.style.transform  = `translateX(-${offsets()[current]}px)`;
+      track!.style.transition = 'transform 0.5s cubic-bezier(0.22,1,0.36,1)';
       if (countEl) countEl.textContent = `${current + 1} / ${total}`;
     }
 
@@ -104,25 +108,29 @@ const displayCount = usingConvex ? convexImages.length : staticImages.length;
     // Drag
     let startX = 0, startScroll = 0, isDragging = false;
     track.addEventListener('mousedown', (e) => {
-      isDragging = true; startX = e.clientX; startScroll = current * itemW();
-      track.style.transition = 'none';
+      isDragging = true;
+      startX = e.clientX;
+      startScroll = offsets()[current];
+      track!.style.transition = 'none';
     });
     window.addEventListener('mousemove', (e) => {
       if (!isDragging) return;
-      const delta = startX - e.clientX;
-      track.style.transform = `translateX(-${startScroll + delta}px)`;
+      track!.style.transform = `translateX(-${startScroll + (startX - e.clientX)}px)`;
     });
     window.addEventListener('mouseup', (e) => {
       if (!isDragging) return;
       isDragging = false;
       const delta = startX - e.clientX;
-      scrollTo(current + (delta > itemW() / 3 ? 1 : delta < -itemW() / 3 ? -1 : 0));
+      const os = offsets();
+      const step = (os[current + 1] ?? os[current] + 480) - os[current];
+      scrollTo(current + (delta > step / 3 ? 1 : delta < -step / 3 ? -1 : 0));
     });
 
     // Touch
     track.addEventListener('touchstart', (e) => {
-      startX = e.touches[0].clientX; startScroll = current * itemW();
-      track.style.transition = 'none';
+      startX = e.touches[0].clientX;
+      startScroll = offsets()[current];
+      track!.style.transition = 'none';
     }, { passive: true });
     track.addEventListener('touchend', (e) => {
       const delta = startX - e.changedTouches[0].clientX;

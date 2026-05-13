@@ -406,16 +406,20 @@ html { scroll-behavior: smooth; }
 .gallery-h-track:active { cursor: grabbing; }
 .gallery-h-item {
   flex: 0 0 auto;
-  width: 480px;
   height: 600px;
   overflow: hidden;
   position: relative;
-  background: #0a0a0a;
+  transition: transform 0.55s cubic-bezier(0.22,1,0.36,1),
+              margin   0.55s cubic-bezier(0.22,1,0.36,1);
+}
+.gallery-h-item:hover {
+  transform: scale(1.06);
+  margin-inline: 22px;
+  z-index: 1;
 }
 .gallery-h-item img {
-  width: 100%;
   height: 100%;
-  object-fit: contain;
+  width: auto;
   display: block;
   transition: filter 0.5s ease;
   filter: grayscale(25%) brightness(0.75);
@@ -449,7 +453,7 @@ html { scroll-behavior: smooth; }
   margin-left: 8px;
 }
 @media (max-width: 768px) {
-  .gallery-h-item { width: 300px; height: 380px; }
+  .gallery-h-item { height: 380px; }
 }
 
 /* ─── Reference design: Testimonials 3-column ───────────────────────── */
