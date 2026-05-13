@@ -101,8 +101,8 @@ const heroPoster = await getImage({ src: img1, format: "webp", width: 1920, qual
   // ── Hero logo "slots in" to navbar on scroll (home page only) ────────────
   const SCROLL_START = 60;
   const SCROLL_END   = 320;
-  const NAV_IMG_H    = 56;   // navbar logo rendered height (h-14 = 3.5rem = 56px)
-  const NAV_CROP_H   = 40;   // navbar wrapper height (visible portion)
+  const NAV_IMG_H    = 72;   // navbar logo rendered height (h-[72px])
+  const NAV_CROP_H   = 52;   // navbar wrapper height (visible portion)
 
   function ease(t: number) {
     return t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
