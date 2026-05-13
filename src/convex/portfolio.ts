@@ -1,4 +1,4 @@
-import { internalMutation, mutation, query } from "./_generated/server";
+import { mutation, query } from "./_generated/server";
 import { v } from "convex/values";
 
 /* ─── Queries ───────────────────────────────────────────────────── */
@@ -154,29 +154,5 @@ export const seedDefaultPortfolio = mutation({
     }
 
     return { seeded: true };
-  },
-});
-
-export const migrateWorkTags = internalMutation({
-  args: {},
-  handler: async (ctx) => {
-    const rows = await ctx.db.query("portfolio").collect();
-    let updated = 0;
-    for (const row of rows) {
-      const hasMixed = row.work.includes("Mixed");
-      const hasMastered = row.work.includes("Mastered");
-      const hasMixedMastered = row.work.includes("Mixed & Mastered");
-      const hasRecorded = row.work.includes("Recorded");
-      if (!hasMixed && !hasMastered && hasMixedMastered && hasRecorded) continue;
-      const work = row.work
-        .filter((t: string) => t !== "Mixed" && t !== "Mastered")
-        .concat(hasMixedMastered ? [] : (hasMixed || hasMastered ? ["Mixed & Mastered"] : []))
-        .concat(hasRecorded ? [] : ["Recorded"]);
-      // Put Recorded first
-      const ordered = ["Recorded", ...work.filter((t: string) => t !== "Recorded")];
-      await ctx.db.patch(row._id, { work: ordered });
-      updated++;
-    }
-    return { updated };
   },
 });
