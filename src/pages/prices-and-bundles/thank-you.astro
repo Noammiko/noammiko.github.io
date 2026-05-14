@@ -17,77 +17,88 @@ import {
 >
 	<script>
 		import { setupIdleRedirect } from "../../lib/idleRedirect.ts";
-		setupIdleRedirect(30 * 1000); // Redirect after 30 seconds of inactivity
+		setupIdleRedirect(30 * 1000);
 	</script>
 
 	{/* Success Message */}
-	<div class="max-w-3xl mx-auto text-center mb-12">
+	<div class="max-w-3xl mx-auto text-center mb-14 reveal">
 		<div
-			class="inline-flex items-center justify-center w-20 h-20 rounded-full bg-green-500/20 mb-6"
+			class="inline-flex items-center justify-center w-20 h-20 rounded-full border border-[rgba(201,169,110,0.45)] bg-[rgba(201,169,110,0.06)] mb-8"
 		>
-			<CheckCircle className="h-10 w-10 text-green-500" />
+			<CheckCircle className="h-9 w-9 text-[#C9A96E]" />
 		</div>
-		<h1 class="text-4xl md:text-5xl font-bold mb-4">
+		<span class="eyebrow mb-4">Session Confirmed</span>
+		<h1 class="display-md text-[#ede5d0] mb-5">
 			Thank You for Securing Your Spot!
 		</h1>
-		<p class="text-xl text-gray-300 mb-8">
+		<p class="text-[rgba(245,240,232,0.7)] text-base tracking-wide leading-relaxed mb-8">
 			Your free First-Time Tryout Session has been reserved. We're excited
-			to help you create something amazing!
+			to help you create something amazing.
 		</p>
-		<div class="h-1 w-24 bg-red-600 mx-auto mb-8"></div>
+		<div class="gold-rule w-24 mx-auto"></div>
 	</div>
 
 	{/* What Happens Next */}
 	<div
-		class="max-w-3xl mx-auto bg-gradient-to-b from-gray-900 to-black border border-gray-800 rounded-lg p-8 mb-12"
+		class="max-w-3xl mx-auto border border-[rgba(201,169,110,0.25)] rounded-sm p-8 mb-12 reveal reveal-delay-1"
+		style="background: linear-gradient(160deg, #0f0d09 0%, #080806 100%);"
 	>
-		<h2 class="text-2xl font-bold mb-6 text-center">What Happens Next</h2>
+		<span class="eyebrow text-center block mb-2">The Process</span>
+		<h2 class="font-display font-light text-2xl text-[#ede5d0] mb-8 text-center tracking-wide">
+			What Happens Next
+		</h2>
 
-		<div class="space-y-6">
-			<div class="flex items-start">
+		<div class="space-y-8">
+			<div class="flex items-start gap-5">
 				<div
-					class="flex-shrink-0 bg-red-600 text-white rounded-full w-8 h-8 flex items-center justify-center mr-4 mt-1"
+					class="flex-shrink-0 border border-[rgba(201,169,110,0.5)] text-[#C9A96E] rounded-full w-9 h-9 flex items-center justify-center font-label text-sm"
 				>
 					1
 				</div>
 				<div>
-					<h3 class="text-xl font-semibold mb-2">
+					<h3 class="font-display font-light text-lg text-[#ede5d0] mb-2 tracking-wide">
 						I'll Contact You Within 24 Hours
 					</h3>
-					<p class="text-gray-300">
+					<p class="text-[rgba(245,240,232,0.6)] text-sm leading-relaxed tracking-wide">
 						I will personally reach out to confirm your session
 						details and schedule a time that works for you.
 					</p>
 				</div>
 			</div>
 
-			<div class="flex items-start">
+			<div class="gold-rule-fade"></div>
+
+			<div class="flex items-start gap-5">
 				<div
-					class="flex-shrink-0 bg-red-600 text-white rounded-full w-8 h-8 flex items-center justify-center mr-4 mt-1"
+					class="flex-shrink-0 border border-[rgba(201,169,110,0.5)] text-[#C9A96E] rounded-full w-9 h-9 flex items-center justify-center font-label text-sm"
 				>
 					2
 				</div>
 				<div>
-					<h3 class="text-xl font-semibold mb-2">
+					<h3 class="font-display font-light text-lg text-[#ede5d0] mb-2 tracking-wide">
 						Prepare for Your Session
 					</h3>
-					<p class="text-gray-300">
-						Have your song ready (lyrics, reference tracks, any
-						ideas you want to incorporate). Don't worry if
-						everything isn't perfect - that's what we're here for!
+					<p class="text-[rgba(245,240,232,0.6)] text-sm leading-relaxed tracking-wide">
+						Have your song ready — lyrics, reference tracks, any
+						ideas you want to incorporate. Don't worry if
+						everything isn't perfect; that's what we're here for.
 					</p>
 				</div>
 			</div>
 
-			<div class="flex items-start">
+			<div class="gold-rule-fade"></div>
+
+			<div class="flex items-start gap-5">
 				<div
-					class="flex-shrink-0 bg-red-600 text-white rounded-full w-8 h-8 flex items-center justify-center mr-4 mt-1"
+					class="flex-shrink-0 border border-[rgba(201,169,110,0.5)] text-[#C9A96E] rounded-full w-9 h-9 flex items-center justify-center font-label text-sm"
 				>
 					3
 				</div>
 				<div>
-					<h3 class="text-xl font-semibold mb-2">Record Your Song</h3>
-					<p class="text-gray-300">
+					<h3 class="font-display font-light text-lg text-[#ede5d0] mb-2 tracking-wide">
+						Record Your Song
+					</h3>
+					<p class="text-[rgba(245,240,232,0.6)] text-sm leading-relaxed tracking-wide">
 						Come and record your song with professional equipment
 						and get guidance from an experienced engineer who's
 						dedicated to making your music sound its absolute best.
@@ -98,43 +109,56 @@ import {
 	</div>
 
 	{/* Session Preparation */}
-	<div class="max-w-3xl mx-auto mb-12">
-		<h2 class="text-2xl font-bold mb-6 text-center">
+	<div class="max-w-3xl mx-auto mb-12 reveal reveal-delay-2">
+		<span class="eyebrow text-center block mb-2">Be Ready</span>
+		<h2 class="font-display font-light text-2xl text-[#ede5d0] mb-8 text-center tracking-wide">
 			How to Prepare for Your Session
 		</h2>
 
-		<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-			<div class="bg-gray-900 border border-gray-800 rounded-lg p-6">
-				<div class="flex items-center mb-4">
-					<Clock className="h-6 w-6 text-yellow-500 mr-3" />
-					<h3 class="text-xl font-semibold">Arrive On Time</h3>
+		<div class="grid grid-cols-1 md:grid-cols-2 gap-5 mb-6">
+			<div
+				class="border border-[rgba(201,169,110,0.2)] rounded-sm p-6"
+				style="background: linear-gradient(160deg, #0f0d09 0%, #080806 100%);"
+			>
+				<div class="flex items-center mb-4 gap-3">
+					<Clock className="h-5 w-5 text-[#C9A96E]" />
+					<h3 class="font-display font-light text-base text-[#ede5d0] tracking-wide">
+						Arrive On Time
+					</h3>
 				</div>
-				<p class="text-gray-300">
+				<p class="text-[rgba(245,240,232,0.6)] text-sm leading-relaxed tracking-wide">
 					Please arrive at your scheduled time. If you're late or miss
 					your session, there will not be a makeup session offered.
 				</p>
 			</div>
 
-			<div class="bg-gray-900 border border-gray-800 rounded-lg p-6">
-				<div class="flex items-center mb-4">
-					<Calendar className="h-6 w-6 text-yellow-500 mr-3" />
-					<h3 class="text-xl font-semibold">Bring Your Materials</h3>
+			<div
+				class="border border-[rgba(201,169,110,0.2)] rounded-sm p-6"
+				style="background: linear-gradient(160deg, #0f0d09 0%, #080806 100%);"
+			>
+				<div class="flex items-center mb-4 gap-3">
+					<Calendar className="h-5 w-5 text-[#C9A96E]" />
+					<h3 class="font-display font-light text-base text-[#ede5d0] tracking-wide">
+						Bring Your Materials
+					</h3>
 				</div>
-				<p class="text-gray-300">
+				<p class="text-[rgba(245,240,232,0.6)] text-sm leading-relaxed tracking-wide">
 					Lyrics, reference tracks, beats, or any other materials that
 					will help us understand your vision.
 				</p>
 			</div>
 		</div>
 
-		<div class="mt-6 bg-red-900/20 border border-red-800 rounded-lg p-4">
-			<div class="flex items-start">
+		<div class="border border-[rgba(139,26,26,0.5)] rounded-sm p-5"
+			style="background: rgba(139,26,26,0.08);"
+		>
+			<div class="flex items-start gap-4">
 				<AlertTriangle
-					className="h-6 w-6 text-red-500 mr-3 flex-shrink-0 mt-1"
+					className="h-5 w-5 text-[#C9A96E] flex-shrink-0 mt-0.5"
 				/>
-				<p class="text-gray-300">
-					<span class="font-semibold text-red-400">Important:</span> This
-					free session is a one-time offer. If you're unable to attend
+				<p class="text-[rgba(245,240,232,0.6)] text-sm leading-relaxed tracking-wide">
+					<span class="text-[#C9A96E] font-normal tracking-widest uppercase text-xs font-label">Important — </span>
+					This free session is a one-time offer. If you're unable to attend
 					your scheduled time, please give us at least 24 hours notice
 					to reschedule. No-shows or late cancellations will forfeit the
 					free session opportunity.
@@ -144,13 +168,30 @@ import {
 	</div>
 
 	{/* CTA */}
-	<div class="max-w-3xl mx-auto text-center">
+	<div class="max-w-3xl mx-auto text-center reveal reveal-delay-3">
+		<div class="gold-rule w-24 mx-auto mb-8"></div>
 		<Link
 			href="/prices-and-bundles"
-			className="inline-flex items-center bg-gradient-to-r from-red-600 to-red-700 text-white px-8 py-4 rounded-lg text-lg font-semibold hover:from-red-700 hover:to-red-800 transition-all transform hover:scale-105"
+			className="btn-gold inline-flex items-center gap-2"
 		>
 			Explore Our Full Services
-			<ArrowRight className="ml-2 h-5 w-5" />
+			<ArrowRight className="h-4 w-4" />
 		</Link>
 	</div>
+
+	<script>
+		document.addEventListener("DOMContentLoaded", () => {
+			const observer = new IntersectionObserver(
+				(entries) => {
+					entries.forEach((entry) => {
+						if (entry.isIntersecting) {
+							entry.target.classList.add("revealed");
+						}
+					});
+				},
+				{ threshold: 0.1 }
+			);
+			document.querySelectorAll(".reveal").forEach((el) => observer.observe(el));
+		});
+	</script>
 </Page>

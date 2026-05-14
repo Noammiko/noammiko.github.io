@@ -1,4 +1,6 @@
 ---
+import { Image } from "astro:assets";
+import mikoLogo from "@/assets/Logo Final transparent_1.png";
 import NavigationBar from "@/components/navbar/Navbar.astro";
 import { NavigationBar as MobileNav } from "@/components/navbar/NavbarMobile.tsx";
 
@@ -59,6 +61,21 @@ const menuItems = [
   >
     <NavigationBar menuItems={menuItems} />
     <MobileNav menuItems={menuItems} client:load />
+    <!-- Mobile-only: centered logo that the flying-logo animation morphs into -->
+    <a
+      href="/"
+      aria-label="Miko Recording Studio – Home"
+      class="xl:hidden absolute left-1/2 -translate-x-1/2 inset-y-0 flex items-center"
+    >
+      <div id="navbar-logo-mobile" style="overflow:hidden; height:36px; width:fit-content;">
+        <Image
+          src={mikoLogo}
+          alt="Miko Recording Studio"
+          class="h-[52px] w-auto object-contain"
+          loading="eager"
+        />
+      </div>
+    </a>
   </nav>
 
   <script>

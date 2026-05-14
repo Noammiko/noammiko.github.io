@@ -101,49 +101,96 @@ const heroPoster = await getImage({ src: img1, format: "webp", width: 1920, qual
   // ── Hero logo "slots in" to navbar on scroll (home page only) ────────────
   const SCROLL_START = 60;
   const SCROLL_END   = 320;
-  const NAV_IMG_H    = 72;   // navbar logo rendered height (h-[72px])
-  const NAV_CROP_H   = 52;   // navbar wrapper height (visible portion)
+  let NAV_IMG_H  = 72;
+  let NAV_CROP_H = 52;
 
   function ease(t: number) {
     return t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
   }
 
-  let heroInitCX   = 0;
-  let heroInitCY   = 0;
-  let scrollAtInit = 0;
-  let heroH        = 0;
-  let navCX        = 0;
-  let navCY        = 0;
-  let navH         = 0;
-
+  let heroInitCX = 0, heroInitCY = 0, scrollAtInit = 0, heroH = 0;
+  let navCX = 0, navCY = 0, navH = 0;
   let navLogoEl: HTMLElement | null = null;
   let flyingEl:  HTMLElement | null = null;
+  let rafPending = false;
   const ctrl = new AbortController();
+
+  function update() {
+    rafPending = false;
+    if (!flyingEl?.isConnected || !navLogoEl) return;
+
+    const scrollY = window.scrollY;
+    const raw = Math.max(0, Math.min(1, (scrollY - SCROLL_START) / (SCROLL_END - SCROLL_START)));
+    const p   = ease(raw);
+
+    const heroCY = heroInitCY + scrollAtInit - scrollY;
+    const tx     = (heroInitCX + (navCX - heroInitCX) * p) - heroInitCX;
+    const ty     = (heroCY     + (navCY - heroCY) * p)     - heroInitCY;
+    const scale  = 1 + (navH / heroH - 1) * p;
+
+    flyingEl.style.transform = `translate(${tx}px,${ty}px) scale(${scale})`;
+
+    // Feathered gradient mask — soft fade instead of a hard crop line
+    const visibleFrac = 1 - (1 - NAV_CROP_H / NAV_IMG_H) * p;
+    const featherFrac = 0.09 * p;
+    const solidPct    = Math.max(0, (visibleFrac - featherFrac) * 100).toFixed(1);
+    const fadePct     = (visibleFrac * 100).toFixed(1);
+    const mask = `linear-gradient(to bottom, black 0%, black ${solidPct}%, transparent ${fadePct}%)`;
+    flyingEl.style.maskImage = mask;
+    (flyingEl.style as any).webkitMaskImage = mask;
+
+    const shadowA = (0.22 * (1 - raw)).toFixed(3);
+    flyingEl.style.filter = `brightness(${(1.12 - 0.12 * raw).toFixed(3)}) drop-shadow(0 0 30px rgba(201,169,110,${shadowA}))`;
+
+    // Crossfade over the last 15% of scroll
+    const fadeP = Math.max(0, Math.min(1, (raw - 0.85) / 0.15));
+    flyingEl.style.opacity  = String(1 - fadeP);
+    navLogoEl.style.opacity = String(fadeP);
+  }
+
+  function scheduleUpdate() {
+    if (!rafPending) {
+      rafPending = true;
+      requestAnimationFrame(update);
+    }
+  }
 
   function init() {
     const wrapper = document.getElementById('hero-logo-wrapper') as HTMLElement | null;
     const heroImg = document.getElementById('hero-logo')         as HTMLElement | null;
-    navLogoEl = document.getElementById('navbar-logo-img') as HTMLElement | null;
-    flyingEl  = document.getElementById('flying-logo')     as HTMLElement | null;
+    flyingEl  = document.getElementById('flying-logo')           as HTMLElement | null;
+
+    const isDesktop = window.matchMedia('(min-width: 1280px)').matches;
+    navLogoEl = document.getElementById(isDesktop ? 'navbar-logo-img' : 'navbar-logo-mobile') as HTMLElement | null;
+    if (isDesktop) { NAV_IMG_H = 72; NAV_CROP_H = 52; }
+    else           { NAV_IMG_H = 52; NAV_CROP_H = 36; }
 
     if (!wrapper || !heroImg || !navLogoEl || !flyingEl) return;
 
-    // Measure the actual <img> inside the wrapper, not the wrapper itself,
-    // to avoid the reveal-class translateY affecting the rect
+    const scrollY = window.scrollY;
+
+    // Page loaded already scrolled past the animation — snap to final state cleanly
+    if (scrollY >= SCROLL_END) {
+      navLogoEl.style.transition = 'none';
+      navLogoEl.style.opacity    = '1';
+      heroImg.style.opacity      = '0';
+      return;
+    }
+
+    // Measure actual <img> inside wrapper (avoid reveal-class translateY skewing the rect)
     const heroImg2 = wrapper.querySelector('img') as HTMLImageElement | null;
     const heroRect = (heroImg2 ?? wrapper).getBoundingClientRect();
     const navRect  = navLogoEl.getBoundingClientRect();
-    scrollAtInit   = window.scrollY;
+    scrollAtInit   = scrollY;
 
     heroInitCX = heroRect.left + heroRect.width  / 2;
     heroInitCY = heroRect.top  + heroRect.height / 2;
     heroH      = heroRect.height;
     navCX      = navRect.left + navRect.width  / 2;
-    navCY      = navRect.top  + NAV_IMG_H      / 2; // center of full image, not the cropped wrapper
-    navH       = NAV_IMG_H;                          // scale flying logo to full image height
+    navCY      = navRect.top  + NAV_IMG_H      / 2;
+    navH       = NAV_IMG_H;
 
-    heroImg.style.opacity   = '0';
-    // Disable CSS transition — JS sets opacity every frame, a transition causes lag/pop
+    heroImg.style.opacity      = '0';
     navLogoEl.style.transition = 'none';
     navLogoEl.style.opacity    = '0';
 
@@ -153,40 +200,16 @@ const heroPoster = await getImage({ src: img1, format: "webp", width: 1920, qual
       left:            heroRect.left   + 'px',
       top:             heroRect.top    + 'px',
       transformOrigin: '50% 50%',
+      clipPath:        '',
       zIndex:          '9999',
     });
     document.body.appendChild(flyingEl);
     flyingEl.style.display = 'block';
 
     update();
-    setTimeout(update, 80);
-  }
-
-  function update() {
-    if (!flyingEl?.isConnected) { ctrl.abort(); return; }
-    if (!navLogoEl) return;
-
-    const scrollY = window.scrollY;
-    const raw = Math.max(0, Math.min(1, (scrollY - SCROLL_START) / (SCROLL_END - SCROLL_START)));
-    const p   = ease(raw);
-
-    const heroCY = heroInitCY + scrollAtInit - scrollY;
-    const heroCX = heroInitCX;
-
-    const tx    = (heroCX + (navCX - heroCX) * p) - heroInitCX;
-    const ty    = (heroCY + (navCY - heroCY) * p) - heroInitCY;
-    const scale = 1 + (navH / heroH - 1) * p;
-
-    flyingEl.style.transform = `translate(${tx}px,${ty}px) scale(${scale})`;
-    flyingEl.style.clipPath  = `inset(0 0 ${(1 - NAV_CROP_H / NAV_IMG_H) * 100 * p}% 0)`;
-
-    const shadowA = (0.22 * (1 - raw)).toFixed(3);
-    flyingEl.style.filter = `brightness(${(1.12 - 0.12 * raw).toFixed(3)}) drop-shadow(0 0 30px rgba(201,169,110,${shadowA}))`;
-
-    // Smooth handoff: crossfade over the last 15% of scroll (no abrupt pop)
-    const fadeP = Math.max(0, Math.min(1, (raw - 0.85) / 0.15));
-    flyingEl.style.opacity  = String(1 - fadeP);
-    navLogoEl.style.opacity = String(fadeP);
+    // Second call after a short delay catches scroll position updates that
+    // arrive after init (e.g. anchor-jump scroll firing before the listener attached)
+    setTimeout(scheduleUpdate, 120);
   }
 
   document.addEventListener('astro:before-swap', () => {
@@ -198,6 +221,6 @@ const heroPoster = await getImage({ src: img1, format: "webp", width: 1920, qual
     }
   }, { once: true });
 
-  window.addEventListener('scroll', update, { passive: true, signal: ctrl.signal });
+  window.addEventListener('scroll', scheduleUpdate, { passive: true, signal: ctrl.signal });
   requestAnimationFrame(() => requestAnimationFrame(init));
 </script>
