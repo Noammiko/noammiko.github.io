@@ -101,7 +101,19 @@ import pricingData from "@/data/pricing.json";
             <ul class="space-y-0">
               {pricingData.instrumentals.map((inst) => (
                 <li class="flex items-baseline justify-between py-4 border-b border-gold/10">
-                  <span class="text-cream-soft/60 text-sm tracking-wide font-sans">{inst.name}</span>
+                  <span class="text-cream-soft/60 text-sm tracking-wide font-sans flex items-center gap-3">
+                    {inst.name}
+                    {inst.name === "Existing Beat" && (
+                      <a
+                        href="https://drive.google.com/drive/folders/1YFV9CJBSTU6vdFWLRnuUUaOTTXMcU06o?usp=drive_link"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        class="text-xs border border-gold/40 text-gold/70 hover:text-gold hover:border-gold px-2 py-0.5 tracking-wider font-sans transition-colors duration-200"
+                      >
+                        Browse Beats
+                      </a>
+                    )}
+                  </span>
                   <span class="font-serif font-light text-2xl text-gold">${inst.price.toFixed(2)}</span>
                 </li>
               ))}
