@@ -75,22 +75,10 @@ export const deletePortfolioItem = mutation({
   },
 });
 
-/** Step 1 of file upload: returns a short-lived upload URL from Convex Storage. */
-export const generateUploadUrl = mutation({
-  args: {},
-  handler: async (ctx) => {
-    if (!await ctx.auth.getUserIdentity()) throw new Error("Unauthorized");
-    return await ctx.storage.generateUploadUrl();
-  },
-});
-
-/**
- * Step 2 of file upload: resolves the storage ID to a permanent URL,
- * then inserts a new portfolio item with that URL as the file path.
- */
-export const saveUploadedTrack = mutation({
+/** Inserts a new portfolio track using a URL returned by the GitHub upload action. */
+export const saveTrackWithUrl = mutation({
   args: {
-    storageId: v.id("_storage"),
+    file:      v.string(),
     client:    v.string(),
     title:     v.string(),
     work:      v.array(v.string()),
@@ -99,11 +87,9 @@ export const saveUploadedTrack = mutation({
     order:     v.number(),
     active:    v.boolean(),
   },
-  handler: async (ctx, { storageId, ...rest }) => {
+  handler: async (ctx, args) => {
     if (!await ctx.auth.getUserIdentity()) throw new Error("Unauthorized");
-    const url = await ctx.storage.getUrl(storageId);
-    if (!url) throw new Error("Storage URL not available");
-    return await ctx.db.insert("portfolio", { ...rest, file: url });
+    return await ctx.db.insert("portfolio", args);
   },
 });
 

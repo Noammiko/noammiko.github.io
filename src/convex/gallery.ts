@@ -55,32 +55,18 @@ export const deleteGalleryItem = mutation({
   },
 });
 
-/** Step 1 of image upload: returns a short-lived upload URL from Convex Storage. */
-export const generateUploadUrl = mutation({
-  args: {},
-  handler: async (ctx) => {
-    if (!await ctx.auth.getUserIdentity()) throw new Error("Unauthorized");
-    return await ctx.storage.generateUploadUrl();
-  },
-});
-
-/**
- * Step 2 of image upload: resolves the storage ID to a permanent URL,
- * then inserts a new gallery item with that URL as imageUrl.
- */
-export const saveUploadedImage = mutation({
+/** Inserts a new gallery item using a URL returned by the GitHub upload action. */
+export const saveImageWithUrl = mutation({
   args: {
-    storageId: v.id("_storage"),
-    alt:       v.string(),
-    caption:   v.optional(v.string()),
-    order:     v.number(),
-    active:    v.boolean(),
+    imageUrl: v.string(),
+    alt:      v.string(),
+    caption:  v.optional(v.string()),
+    order:    v.number(),
+    active:   v.boolean(),
   },
-  handler: async (ctx, { storageId, ...rest }) => {
+  handler: async (ctx, args) => {
     if (!await ctx.auth.getUserIdentity()) throw new Error("Unauthorized");
-    const url = await ctx.storage.getUrl(storageId);
-    if (!url) throw new Error("Storage URL not available");
-    return await ctx.db.insert("gallery", { ...rest, imageUrl: url });
+    return await ctx.db.insert("gallery", args);
   },
 });
 

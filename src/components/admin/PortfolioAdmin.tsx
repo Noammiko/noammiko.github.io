@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useRef } from "react";
-import { useQuery, useMutation } from "convex/react";
+import { useQuery, useMutation, useAction } from "convex/react";
 import { api } from "@/convex/_generated/api";
 import type { Id } from "@/convex/_generated/dataModel";
 
@@ -154,9 +154,9 @@ function MetaFields({
 /* ─── MP3 Upload Form ────────────────────────────────────────────── */
 function UploadForm({ nextOrder, onDone }: { nextOrder: number; onDone: () => void }) {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const generateUploadUrl = useMutation((api as any).portfolio.generateUploadUrl);
+  const uploadToGitHub   = useAction((api as any).githubUpload.uploadToGitHub);
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const saveUploadedTrack = useMutation((api as any).portfolio.saveUploadedTrack);
+  const saveTrackWithUrl = useMutation((api as any).portfolio.saveTrackWithUrl);
 
   const fileRef = useRef<HTMLInputElement>(null);
   const [meta, setMeta] = useState<MetaState>({
@@ -173,24 +173,29 @@ function UploadForm({ nextOrder, onDone }: { nextOrder: number; onDone: () => vo
 
     setStatus("uploading"); setMsg("");
     try {
-      /* 1. Get a Convex Storage upload URL */
-      const uploadUrl = await generateUploadUrl();
-
-      /* 2. PUT the file */
-      const res = await fetch(uploadUrl, {
-        method: "POST",
-        headers: { "Content-Type": file.type },
-        body: file,
+      /* 1. Read file as base64 */
+      const fileContent = await new Promise<string>((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onload = () => {
+          const result = reader.result as string;
+          resolve(result.split(",")[1]);
+        };
+        reader.onerror = reject;
+        reader.readAsDataURL(file);
       });
-      if (!res.ok) throw new Error(`Upload failed: ${res.statusText}`);
-      const { storageId } = await res.json();
 
-      /* 3. Save metadata + storageId in Convex */
+      /* 2. Upload to GitHub via Convex action */
+      const fileUrl = await uploadToGitHub({
+        fileName:    file.name,
+        fileContent,
+        folder:      "portfolio",
+      });
+
+      /* 3. Save metadata + GitHub URL in Convex */
       setStatus("saving");
-      await saveUploadedTrack({ storageId, ...meta, order: nextOrder });
+      await saveTrackWithUrl({ file: fileUrl, ...meta, order: nextOrder });
       setStatus("done");
       setMsg("Track uploaded successfully!");
-      // Reset form
       setMeta({ client: "", title: "", work: [], languages: [], genres: [], active: true });
       if (fileRef.current) fileRef.current.value = "";
       setTimeout(() => { setStatus("idle"); setMsg(""); onDone(); }, 1500);
@@ -282,7 +287,7 @@ function EditForm({
         <input required className={inputCls} placeholder="/portfolio/01. Josh.mp3" value={file}
           onChange={(e) => setFile(e.target.value)} />
         <p className="text-[0.55rem] text-[rgba(245,240,232,0.25)] font-['Josefin_Sans'] mt-1">
-          Path relative to /public or a full Convex storage URL
+          Path relative to /public or a full GitHub raw URL
         </p>
       </div>
 
@@ -349,7 +354,7 @@ export default function PortfolioAdmin() {
           Note
         </p>
         <p className="text-[rgba(245,240,232,0.4)] text-xs font-['Josefin_Sans'] leading-relaxed">
-          Portfolio items are stored live in Convex. The deploy button below rebuilds the static portfolio page so changes appear on the site.
+          Portfolio items are stored live in Convex. Audio files are hosted on GitHub — new uploads commit directly to the repo. The deploy button below rebuilds the static portfolio page so changes appear on the site.
         </p>
       </div>
 

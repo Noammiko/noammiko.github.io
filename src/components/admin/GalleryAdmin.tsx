@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useRef } from "react";
-import { useQuery, useMutation } from "convex/react";
+import { useQuery, useMutation, useAction } from "convex/react";
 import { api } from "@/convex/_generated/api";
 import type { Id } from "@/convex/_generated/dataModel";
 
@@ -25,9 +25,9 @@ type GalleryItem = {
 /* ─── Image Upload Form ──────────────────────────────────────────── */
 function UploadForm({ nextOrder, onDone }: { nextOrder: number; onDone: () => void }) {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const generateUploadUrl  = useMutation((api as any).gallery.generateUploadUrl);
+  const uploadToGitHub   = useAction((api as any).githubUpload.uploadToGitHub);
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const saveUploadedImage  = useMutation((api as any).gallery.saveUploadedImage);
+  const saveImageWithUrl = useMutation((api as any).gallery.saveImageWithUrl);
 
   const fileRef = useRef<HTMLInputElement>(null);
   const [alt,     setAlt]     = useState("");
@@ -51,19 +51,25 @@ function UploadForm({ nextOrder, onDone }: { nextOrder: number; onDone: () => vo
 
     setStatus("uploading"); setMsg("");
     try {
-      const uploadUrl = await generateUploadUrl();
-
-      const res = await fetch(uploadUrl, {
-        method: "POST",
-        headers: { "Content-Type": file.type },
-        body: file,
+      const fileContent = await new Promise<string>((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onload = () => {
+          const result = reader.result as string;
+          resolve(result.split(",")[1]);
+        };
+        reader.onerror = reject;
+        reader.readAsDataURL(file);
       });
-      if (!res.ok) throw new Error(`Upload failed: ${res.statusText}`);
-      const { storageId } = await res.json();
+
+      const imageUrl = await uploadToGitHub({
+        fileName:    file.name,
+        fileContent,
+        folder:      "gallery",
+      });
 
       setStatus("saving");
-      await saveUploadedImage({
-        storageId,
+      await saveImageWithUrl({
+        imageUrl,
         alt:     alt.trim(),
         caption: caption.trim() || undefined,
         order:   nextOrder,
@@ -191,7 +197,7 @@ function EditForm({
         <input required className={inputCls} value={imageUrl}
           onChange={(e) => setImageUrl(e.target.value)} />
         <p className="text-[0.5rem] text-[rgba(245,240,232,0.25)] font-['Josefin_Sans'] mt-1">
-          Convex Storage URL or public path (e.g. /galary/1.jpeg). To replace the image, delete this entry and upload a new one.
+          GitHub raw URL or public path (e.g. /galary/1.jpeg). To replace the image, delete this entry and upload a new one.
         </p>
       </div>
 
@@ -275,7 +281,7 @@ export default function GalleryAdmin() {
         <p className="text-[0.6rem] tracking-[0.2em] uppercase font-['Cinzel'] text-amber-400/70 mb-1">Note</p>
         <p className="text-[rgba(245,240,232,0.4)] text-xs font-['Josefin_Sans'] leading-relaxed">
           Gallery images are baked into the site at build time. Use the Deploy button below to publish changes.
-          The 7 default photos are served from <code className="text-[rgba(201,169,110,0.6)]">/galary/</code> — new uploads go to Convex Storage.
+          The 7 default photos are served from <code className="text-[rgba(201,169,110,0.6)]">/galary/</code> — new uploads are hosted on GitHub.
         </p>
       </div>
 
