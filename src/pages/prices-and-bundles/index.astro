@@ -5,6 +5,7 @@ import Footer from "@/layouts/Footer.astro";
 import { BundleListLive } from "@/components/priceNbundles/BundleListLive.tsx";
 import { SaleHeader } from "@/components/priceNbundles/SaleHeader.tsx";
 import { FreeTrialScarcity } from "@/components/priceNbundles/FreeTrialScarcity.tsx";
+import QuoteFormTrigger from "@/components/QuoteFormTrigger.tsx";
 import pricingData from "@/data/pricing.json";
 ---
 
@@ -132,7 +133,7 @@ import pricingData from "@/data/pricing.json";
           >
             Working on an EP, album, or a larger project?<br/>Get a personalised quote.
           </p>
-          <a href="#book-session" class="btn-crimson">Request a Custom Quote</a>
+          <QuoteFormTrigger client:load />
         </div>
 
         <!-- Guarantee -->
