@@ -16,7 +16,6 @@ import {
   Dialog,
   DialogContent,
   DialogDescription,
-  DialogFooter,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
@@ -30,7 +29,6 @@ import type { ReactNode } from "react"
 const servicesSchema = z.object({
   vocalRecording: z.boolean(),
   instrumentRecording: z.boolean(),
-  drumKitRecording: z.boolean(),
   mixing: z.boolean(),
   mastering: z.boolean(),
   production: z.boolean(),
@@ -73,7 +71,6 @@ export default function ProjectInquiryModal({ children }: Props) {
       services: {
         vocalRecording: false,
         instrumentRecording: false,
-        drumKitRecording: false,
         mixing: false,
         mastering: false,
         production: false,
@@ -99,7 +96,7 @@ export default function ProjectInquiryModal({ children }: Props) {
       services: {
         vocalRecording: values.services.vocalRecording,
         instrumentRecording: values.services.instrumentRecording,
-        drumKitRecording: values.services.drumKitRecording,
+        drumKitRecording: false,
         mixing: values.services.mixing,
         mastering: values.services.mastering,
         production: values.services.production,
@@ -121,13 +118,17 @@ export default function ProjectInquiryModal({ children }: Props) {
       <DialogTrigger asChild>
         {children}
       </DialogTrigger>
-      <DialogContent className="text-white sm:max-w-3xl w-full max-h-[95vh] sm:max-h-[90vh] overflow-y-auto bg-background border-background" >
+      <DialogContent className="text-cream sm:max-w-3xl w-full max-h-[95vh] sm:max-h-[90vh] overflow-y-auto bg-background border border-gold/20">
         <DialogHeader>
-          <DialogTitle>Full Project Inquiry – Miko Recording Studio</DialogTitle>
+          <DialogTitle className="font-bentham text-gold text-xl tracking-wide">
+            Full Project Inquiry – Miko Recording Studio
+          </DialogTitle>
           <DialogDescription asChild>
             <div>
-              <h3 className="text-lg font-jose font-semibold mb-2">Ready to take your music to the next level?</h3>
-              <p className="text-gray-300">
+              <h3 className="text-base font-jose font-semibold mb-2 text-gold/90">
+                Ready to take your music to the next level?
+              </h3>
+              <p className="text-cream/70 font-jose text-sm">
                 Fill out this form to tell me about your project — whether it's an EP, album, or something else. I'll
                 review your submission and reach out to discuss the best way to bring your vision to life.
               </p>
@@ -145,10 +146,13 @@ interface FormProps {
   form: UseFormReturn<z.infer<typeof formSchema>>
 }
 
+const inputClass = "bg-[#181818] border-gold/20 text-cream placeholder:text-cream/30 focus-visible:border-gold/50 focus-visible:ring-gold/20"
+const labelClass = "font-jose text-cream/80 text-sm"
+const sectionLabelClass = "font-jose text-cream font-medium"
+
 function FormPage({ onSubmit, form }: FormProps) {
   const projectType = form.watch("projectType")
   const services = form.watch("services")
-  // const budget = form.watch("budget")
 
   return (
     <Form {...form}>
@@ -158,11 +162,11 @@ function FormPage({ onSubmit, form }: FormProps) {
           name="fullName"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>
-                Full Name <span className="text-red-500">*</span>
+              <FormLabel className={sectionLabelClass}>
+                Full Name <span className="text-crimson">*</span>
               </FormLabel>
               <FormControl>
-                <Input {...field} />
+                <Input className={inputClass} {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -174,9 +178,9 @@ function FormPage({ onSubmit, form }: FormProps) {
           name="artistName"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Artist/Band Name</FormLabel>
+              <FormLabel className={labelClass}>Artist/Band Name</FormLabel>
               <FormControl>
-                <Input {...field} />
+                <Input className={inputClass} {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -188,11 +192,11 @@ function FormPage({ onSubmit, form }: FormProps) {
           name="email"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>
-                Email Address <span className="text-red-500">*</span>
+              <FormLabel className={sectionLabelClass}>
+                Email Address <span className="text-crimson">*</span>
               </FormLabel>
               <FormControl>
-                <Input type="email" {...field} />
+                <Input type="email" className={inputClass} {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -204,11 +208,11 @@ function FormPage({ onSubmit, form }: FormProps) {
           name="phone"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>
-                Phone Number <span className="text-red-500">*</span>
+              <FormLabel className={sectionLabelClass}>
+                Phone Number <span className="text-crimson">*</span>
               </FormLabel>
               <FormControl>
-                <Input type="tel" {...field} />
+                <Input type="tel" className={inputClass} {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -221,51 +225,23 @@ function FormPage({ onSubmit, form }: FormProps) {
           name="projectType"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>
-                What type of project are you working on? <span className="text-red-500">*</span>
+              <FormLabel className={sectionLabelClass}>
+                What type of project are you working on? <span className="text-crimson">*</span>
               </FormLabel>
               <FormControl>
                 <RadioGroup
-                  className="grid grid-cols-2 gap-4"
+                  className="grid grid-cols-2 gap-3 mt-1"
                   onValueChange={field.onChange}
                   value={field.value}
                 >
-                  <FormItem className="flex items-center space-x-2">
-                    <FormControl>
-                      <RadioGroupItem value="Single" />
-                    </FormControl>
-                    <FormLabel className="font-normal">Single</FormLabel>
-                  </FormItem>
-                  <FormItem className="flex items-center space-x-2">
-                    <FormControl>
-                      <RadioGroupItem value="EP" />
-                    </FormControl>
-                    <FormLabel className="font-normal">EP</FormLabel>
-                  </FormItem>
-                  <FormItem className="flex items-center space-x-2">
-                    <FormControl>
-                      <RadioGroupItem value="Album" />
-                    </FormControl>
-                    <FormLabel className="font-normal">Album</FormLabel>
-                  </FormItem>
-                  <FormItem className="flex items-center space-x-2">
-                    <FormControl>
-                      <RadioGroupItem value="Voiceover" />
-                    </FormControl>
-                    <FormLabel className="font-normal">Voiceover</FormLabel>
-                  </FormItem>
-                  <FormItem className="flex items-center space-x-2">
-                    <FormControl>
-                      <RadioGroupItem value="Podcast" />
-                    </FormControl>
-                    <FormLabel className="font-normal">Podcast</FormLabel>
-                  </FormItem>
-                  <FormItem className="flex items-center space-x-2">
-                    <FormControl>
-                      <RadioGroupItem value="Other" />
-                    </FormControl>
-                    <FormLabel className="font-normal">Other</FormLabel>
-                  </FormItem>
+                  {["Single", "EP", "Album", "Voiceover", "Podcast", "Other"].map((val) => (
+                    <FormItem key={val} className="flex items-center space-x-2">
+                      <FormControl>
+                        <RadioGroupItem value={val} className="border-gold/40 text-gold" />
+                      </FormControl>
+                      <FormLabel className={labelClass}>{val}</FormLabel>
+                    </FormItem>
+                  ))}
                 </RadioGroup>
               </FormControl>
               <FormMessage />
@@ -275,9 +251,9 @@ function FormPage({ onSubmit, form }: FormProps) {
                   name="otherProjectType"
                   render={({ field }) => (
                     <FormItem className="mt-2">
-                      <FormLabel>Please specify</FormLabel>
+                      <FormLabel className={labelClass}>Please specify</FormLabel>
                       <FormControl>
-                        <Input placeholder="Describe your project type" {...field} />
+                        <Input className={inputClass} placeholder="Describe your project type" {...field} />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -294,10 +270,10 @@ function FormPage({ onSubmit, form }: FormProps) {
           name="services"
           render={() => (
             <FormItem>
-              <FormLabel>
-                What services do you need? (Check all that apply) <span className="text-red-500">*</span>
+              <FormLabel className={sectionLabelClass}>
+                What services do you need? (Check all that apply) <span className="text-crimson">*</span>
               </FormLabel>
-              <div className="grid grid-cols-2 gap-4">
+              <div className="grid grid-cols-2 gap-3 mt-1">
                 <FormField
                   control={form.control}
                   name="services.vocalRecording"
@@ -308,9 +284,10 @@ function FormPage({ onSubmit, form }: FormProps) {
                           checked={field.value}
                           onCheckedChange={field.onChange}
                           id="vocalRecording"
+                          className="border-gold/40 data-[state=checked]:bg-gold data-[state=checked]:border-gold"
                         />
                       </FormControl>
-                      <FormLabel htmlFor="vocalRecording" className="font-normal">
+                      <FormLabel htmlFor="vocalRecording" className={labelClass}>
                         Vocal Recording
                       </FormLabel>
                     </FormItem>
@@ -326,28 +303,11 @@ function FormPage({ onSubmit, form }: FormProps) {
                           checked={field.value}
                           onCheckedChange={field.onChange}
                           id="instrumentRecording"
+                          className="border-gold/40 data-[state=checked]:bg-gold data-[state=checked]:border-gold"
                         />
                       </FormControl>
-                      <FormLabel htmlFor="instrumentRecording" className="font-normal">
-                        Instrument recording (Guitar, Bass, Saxophone etc.)
-                      </FormLabel>
-                    </FormItem>
-                  )}
-                />
-                <FormField
-                  control={form.control}
-                  name="services.drumKitRecording"
-                  render={({ field }) => (
-                    <FormItem className="flex items-center space-x-2">
-                      <FormControl>
-                        <Checkbox
-                          checked={field.value}
-                          onCheckedChange={field.onChange}
-                          id="drumKitRecording"
-                        />
-                      </FormControl>
-                      <FormLabel htmlFor="drumKitRecording" className="font-normal">
-                        Drum Kit Recording
+                      <FormLabel htmlFor="instrumentRecording" className={labelClass}>
+                        Instrument Recording (Guitar, Bass, Saxophone etc.)
                       </FormLabel>
                     </FormItem>
                   )}
@@ -362,9 +322,10 @@ function FormPage({ onSubmit, form }: FormProps) {
                           checked={field.value}
                           onCheckedChange={field.onChange}
                           id="mixing"
+                          className="border-gold/40 data-[state=checked]:bg-gold data-[state=checked]:border-gold"
                         />
                       </FormControl>
-                      <FormLabel htmlFor="mixing" className="font-normal">
+                      <FormLabel htmlFor="mixing" className={labelClass}>
                         Mixing
                       </FormLabel>
                     </FormItem>
@@ -380,9 +341,10 @@ function FormPage({ onSubmit, form }: FormProps) {
                           checked={field.value}
                           onCheckedChange={field.onChange}
                           id="mastering"
+                          className="border-gold/40 data-[state=checked]:bg-gold data-[state=checked]:border-gold"
                         />
                       </FormControl>
-                      <FormLabel htmlFor="mastering" className="font-normal">
+                      <FormLabel htmlFor="mastering" className={labelClass}>
                         Mastering
                       </FormLabel>
                     </FormItem>
@@ -398,9 +360,10 @@ function FormPage({ onSubmit, form }: FormProps) {
                           checked={field.value}
                           onCheckedChange={field.onChange}
                           id="production"
+                          className="border-gold/40 data-[state=checked]:bg-gold data-[state=checked]:border-gold"
                         />
                       </FormControl>
-                      <FormLabel htmlFor="production" className="font-normal">
+                      <FormLabel htmlFor="production" className={labelClass}>
                         Production (Beats/Instrumentals)
                       </FormLabel>
                     </FormItem>
@@ -416,9 +379,10 @@ function FormPage({ onSubmit, form }: FormProps) {
                           checked={field.value}
                           onCheckedChange={field.onChange}
                           id="other"
+                          className="border-gold/40 data-[state=checked]:bg-gold data-[state=checked]:border-gold"
                         />
                       </FormControl>
-                      <FormLabel htmlFor="other" className="font-normal">
+                      <FormLabel htmlFor="other" className={labelClass}>
                         Other
                       </FormLabel>
                     </FormItem>
@@ -430,9 +394,9 @@ function FormPage({ onSubmit, form }: FormProps) {
                     name="otherService"
                     render={({ field }) => (
                       <FormItem className="col-span-2 mt-2">
-                        <FormLabel>Please specify</FormLabel>
+                        <FormLabel className={labelClass}>Please specify</FormLabel>
                         <FormControl>
-                          <Input placeholder="Please specify" {...field} />
+                          <Input className={inputClass} placeholder="Please specify" {...field} />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
@@ -450,11 +414,11 @@ function FormPage({ onSubmit, form }: FormProps) {
           name="songCount"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>
-                Roughly how many songs will be on this project? <span className="text-red-500">*</span>
+              <FormLabel className={sectionLabelClass}>
+                Roughly how many songs will be on this project? <span className="text-crimson">*</span>
               </FormLabel>
               <FormControl>
-                <Input type="number" min={1} placeholder="e.g., 6" {...field} />
+                <Input type="number" min={1} placeholder="e.g., 6" className={inputClass} {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -466,13 +430,14 @@ function FormPage({ onSubmit, form }: FormProps) {
           name="projectGoal"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>
+              <FormLabel className={sectionLabelClass}>
                 What's your goal with this project?
               </FormLabel>
               <FormControl>
                 <Textarea
                   placeholder="Tell us about your vision, goals, and what you hope to achieve with this project"
                   rows={3}
+                  className={inputClass}
                   {...field}
                 />
               </FormControl>
@@ -486,12 +451,13 @@ function FormPage({ onSubmit, form }: FormProps) {
           name="completionDate"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>
-                When would you ideally like to have this project completed by? <span className="text-red-500">*</span>
+              <FormLabel className={sectionLabelClass}>
+                When would you ideally like to have this project completed by? <span className="text-crimson">*</span>
               </FormLabel>
               <FormControl>
                 <Input
-                  placeholder="e.g., End of summer, October 2025, Within 3 months, etc."
+                  placeholder="e.g., End of summer, October, Within 3 months, etc."
+                  className={inputClass}
                   {...field}
                 />
               </FormControl>
@@ -506,51 +472,30 @@ function FormPage({ onSubmit, form }: FormProps) {
           name="budget"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>
-                What is your estimated budget for this project? <span className="text-red-500">*</span>
+              <FormLabel className={sectionLabelClass}>
+                What is your estimated budget for this project? <span className="text-crimson">*</span>
               </FormLabel>
               <FormControl>
                 <RadioGroup
-                  className="space-y-3"
+                  className="space-y-3 mt-1"
                   onValueChange={field.onChange}
                   value={field.value}
                 >
-                  <FormItem className="flex items-center space-x-2">
-                    <FormControl>
-                      <RadioGroupItem value="Under $500" />
-                    </FormControl>
-                    <FormLabel className="font-normal">Under $500</FormLabel>
-                  </FormItem>
-                  <FormItem className="flex items-center space-x-2">
-                    <FormControl>
-                      <RadioGroupItem value="$500 - $1000" />
-                    </FormControl>
-                    <FormLabel className="font-normal">$500 - $1000</FormLabel>
-                  </FormItem>
-                  <FormItem className="flex items-center space-x-2">
-                    <FormControl>
-                      <RadioGroupItem value="$1000 - $1500" />
-                    </FormControl>
-                    <FormLabel className="font-normal">$1000 - $1500</FormLabel>
-                  </FormItem>
-                  <FormItem className="flex items-center space-x-2">
-                    <FormControl>
-                      <RadioGroupItem value="$1500 - $2000" />
-                    </FormControl>
-                    <FormLabel className="font-normal">$1500 - $2000</FormLabel>
-                  </FormItem>
-                  <FormItem className="flex items-center space-x-2">
-                    <FormControl>
-                      <RadioGroupItem value="$2000+" />
-                    </FormControl>
-                    <FormLabel className="font-normal">$2000+</FormLabel>
-                  </FormItem>
-                  <FormItem className="flex items-center space-x-2">
-                    <FormControl>
-                      <RadioGroupItem value="Not sure yet / Lets Talk" />
-                    </FormControl>
-                    <FormLabel className="font-normal">Not sure yet / Let's Talk</FormLabel>
-                  </FormItem>
+                  {[
+                    "Under $500",
+                    "$500 - $1000",
+                    "$1000 - $1500",
+                    "$1500 - $2000",
+                    "$2000+",
+                    "Not sure yet / Let's Talk",
+                  ].map((val) => (
+                    <FormItem key={val} className="flex items-center space-x-2">
+                      <FormControl>
+                        <RadioGroupItem value={val === "Not sure yet / Let's Talk" ? "Not sure yet / Lets Talk" : val} className="border-gold/40 text-gold" />
+                      </FormControl>
+                      <FormLabel className={labelClass}>{val}</FormLabel>
+                    </FormItem>
+                  ))}
                 </RadioGroup>
               </FormControl>
               <FormMessage />
@@ -558,10 +503,10 @@ function FormPage({ onSubmit, form }: FormProps) {
           )}
         />
 
-        <div className="pt-4 border-t border-gray-800">
+        <div className="pt-4 border-t border-gold/20">
           <Button
             type="submit"
-            className="w-full bg-red-600 text-white font-bold py-3 rounded hover:bg-red-700 transition-colors focus:ring-2 focus:ring-red-600 focus:ring-offset-2 focus:ring-offset-gray-900"
+            className="w-full btn-crimson font-jose font-bold py-3 rounded text-sm tracking-wide"
           >
             Submit Project Inquiry
           </Button>

@@ -1,13 +1,12 @@
 import { z } from "zod"
 import { useForm, type UseFormReturn } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
-import { useState, type ReactNode } from "react"
+import { type ReactNode } from "react"
 
 import {
   Dialog,
   DialogContent,
   DialogDescription,
-  DialogFooter,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
@@ -74,7 +73,6 @@ export default function BookingFormModal({ children }: Props) {
       otherReferralSource: values.otherReferralSource,
     }).then(() => {
       form.reset();
-
       history.pushState(null, "", "/prices-and-bundles/thank-you");
       window.location.reload();
     });
@@ -85,17 +83,21 @@ export default function BookingFormModal({ children }: Props) {
       <DialogTrigger asChild>
         {children}
       </DialogTrigger>
-      <DialogContent className="text-white sm:max-w-3xl w-full max-h-[95vh] sm:max-h-[90vh] overflow-y-auto bg-background border-background" >
+      <DialogContent className="text-cream sm:max-w-3xl w-full max-h-[95vh] sm:max-h-[90vh] overflow-y-auto bg-background border border-gold/20">
         <DialogHeader>
-          <DialogTitle>First-Time Tryout Session</DialogTitle>
+          <DialogTitle className="font-bentham text-gold text-xl tracking-wide">
+            First-Time Tryout Session
+          </DialogTitle>
           <DialogDescription asChild>
             <div>
-              <h3 className="text-lg font-jose font-semibold mb-2">Claim your FREE 30-minute tryout session</h3>
-              <p className="text-gray-300 mb-4">
+              <h3 className="text-base font-jose font-semibold mb-2 text-gold/90">
+                Claim your FREE 30-minute tryout session
+              </h3>
+              <p className="text-cream/70 font-jose text-sm mb-3">
                 Includes studio time, a 30-second clip of your song, and a basic mix. This is for new clients only.
                 Limited spots each week.
               </p>
-              <p className="text-gray-300">
+              <p className="text-cream/70 font-jose text-sm">
                 Please fill out the short form below to apply. We'll reach out to confirm your booking.
               </p>
             </div>
@@ -112,8 +114,11 @@ interface FormProps {
   form: UseFormReturn<z.infer<typeof formSchema>>
 }
 
+const inputClass = "bg-[#181818] border-gold/20 text-cream placeholder:text-cream/30 focus-visible:border-gold/50 focus-visible:ring-gold/20"
+const labelClass = "font-jose text-cream/80 text-sm"
+const sectionLabelClass = "font-jose text-cream font-medium"
+
 function BookingForm({ onSubmit, form }: FormProps) {
-  // Watch for conditional fields
   const recordingType = form.watch("recordingType")
   const referralSource = form.watch("referralSource")
 
@@ -125,11 +130,11 @@ function BookingForm({ onSubmit, form }: FormProps) {
           name="fullName"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>
-                Full Name <span className="text-red-500">*</span>
+              <FormLabel className={sectionLabelClass}>
+                Full Name <span className="text-crimson">*</span>
               </FormLabel>
               <FormControl>
-                <Input {...field} />
+                <Input className={inputClass} {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -141,9 +146,9 @@ function BookingForm({ onSubmit, form }: FormProps) {
           name="artistName"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Artist Name (if applicable)</FormLabel>
+              <FormLabel className={labelClass}>Artist Name (if applicable)</FormLabel>
               <FormControl>
-                <Input {...field} />
+                <Input className={inputClass} {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -155,11 +160,11 @@ function BookingForm({ onSubmit, form }: FormProps) {
           name="email"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>
-                Email <span className="text-red-500">*</span>
+              <FormLabel className={sectionLabelClass}>
+                Email <span className="text-crimson">*</span>
               </FormLabel>
               <FormControl>
-                <Input type="email" {...field} />
+                <Input type="email" className={inputClass} {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -171,11 +176,11 @@ function BookingForm({ onSubmit, form }: FormProps) {
           name="phone"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>
-                Phone Number <span className="text-red-500">*</span>
+              <FormLabel className={sectionLabelClass}>
+                Phone Number <span className="text-crimson">*</span>
               </FormLabel>
               <FormControl>
-                <Input type="tel" {...field} />
+                <Input type="tel" className={inputClass} {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -187,13 +192,14 @@ function BookingForm({ onSubmit, form }: FormProps) {
           name="availableTimes"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>
-                Please indicate at least 3 times that work for you this week <span className="text-red-500">*</span>
+              <FormLabel className={sectionLabelClass}>
+                Please indicate at least 3 times that work for you this week <span className="text-crimson">*</span>
               </FormLabel>
               <FormControl>
                 <Textarea
                   placeholder="Example: Tuesday, May 20th at 6:30PM"
                   rows={3}
+                  className={inputClass}
                   {...field}
                 />
               </FormControl>
@@ -208,43 +214,23 @@ function BookingForm({ onSubmit, form }: FormProps) {
           name="recordingType"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>What would you like to record during your session?</FormLabel>
+              <FormLabel className={sectionLabelClass}>
+                What would you like to record during your session? <span className="text-crimson">*</span>
+              </FormLabel>
               <FormControl>
                 <RadioGroup
-                  className="grid grid-cols-2 gap-4"
+                  className="grid grid-cols-2 gap-3 mt-1"
                   onValueChange={field.onChange}
                   value={field.value}
                 >
-                  <FormItem className="flex items-center space-x-2">
-                    <FormControl>
-                      <RadioGroupItem value="Original Song" />
-                    </FormControl>
-                    <FormLabel className="font-normal">Original Song</FormLabel>
-                  </FormItem>
-                  <FormItem className="flex items-center space-x-2">
-                    <FormControl>
-                      <RadioGroupItem value="Cover" />
-                    </FormControl>
-                    <FormLabel className="font-normal">Cover</FormLabel>
-                  </FormItem>
-                  <FormItem className="flex items-center space-x-2">
-                    <FormControl>
-                      <RadioGroupItem value="Parody" />
-                    </FormControl>
-                    <FormLabel className="font-normal">Parody</FormLabel>
-                  </FormItem>
-                  <FormItem className="flex items-center space-x-2">
-                    <FormControl>
-                      <RadioGroupItem value="Freestyle" />
-                    </FormControl>
-                    <FormLabel className="font-normal">Freestyle</FormLabel>
-                  </FormItem>
-                  <FormItem className="flex items-center space-x-2">
-                    <FormControl>
-                      <RadioGroupItem value="Other" />
-                    </FormControl>
-                    <FormLabel className="font-normal">Other</FormLabel>
-                  </FormItem>
+                  {["Original Song", "Cover", "Parody", "Freestyle", "Other"].map((val) => (
+                    <FormItem key={val} className="flex items-center space-x-2">
+                      <FormControl>
+                        <RadioGroupItem value={val} className="border-gold/40 text-gold" />
+                      </FormControl>
+                      <FormLabel className={labelClass}>{val}</FormLabel>
+                    </FormItem>
+                  ))}
                 </RadioGroup>
               </FormControl>
               <FormMessage />
@@ -254,9 +240,9 @@ function BookingForm({ onSubmit, form }: FormProps) {
                   name="otherRecordingType"
                   render={({ field }) => (
                     <FormItem className="mt-2">
-                      <FormLabel>Please specify</FormLabel>
+                      <FormLabel className={labelClass}>Please specify</FormLabel>
                       <FormControl>
-                        <Input placeholder="Describe what you'd like to record" {...field} />
+                        <Input className={inputClass} placeholder="Describe what you'd like to record" {...field} />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -273,51 +259,23 @@ function BookingForm({ onSubmit, form }: FormProps) {
           name="referralSource"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>
-                How did you hear about us? <span className="text-red-500">*</span>
+              <FormLabel className={sectionLabelClass}>
+                How did you hear about us? <span className="text-crimson">*</span>
               </FormLabel>
               <FormControl>
                 <RadioGroup
-                  className="grid grid-cols-2 gap-4"
+                  className="grid grid-cols-2 gap-3 mt-1"
                   onValueChange={field.onChange}
                   value={field.value}
                 >
-                  <FormItem className="flex items-center space-x-2">
-                    <FormControl>
-                      <RadioGroupItem value="Instagram" />
-                    </FormControl>
-                    <FormLabel className="font-normal">Instagram</FormLabel>
-                  </FormItem>
-                  <FormItem className="flex items-center space-x-2">
-                    <FormControl>
-                      <RadioGroupItem value="Tiktok" />
-                    </FormControl>
-                    <FormLabel className="font-normal">Tiktok</FormLabel>
-                  </FormItem>
-                  <FormItem className="flex items-center space-x-2">
-                    <FormControl>
-                      <RadioGroupItem value="Google search/maps" />
-                    </FormControl>
-                    <FormLabel className="font-normal">Google search/maps</FormLabel>
-                  </FormItem>
-                  <FormItem className="flex items-center space-x-2">
-                    <FormControl>
-                      <RadioGroupItem value="Referral" />
-                    </FormControl>
-                    <FormLabel className="font-normal">Referral</FormLabel>
-                  </FormItem>
-                  <FormItem className="flex items-center space-x-2">
-                    <FormControl>
-                      <RadioGroupItem value="Ads" />
-                    </FormControl>
-                    <FormLabel className="font-normal">Ads</FormLabel>
-                  </FormItem>
-                  <FormItem className="flex items-center space-x-2">
-                    <FormControl>
-                      <RadioGroupItem value="Other" />
-                    </FormControl>
-                    <FormLabel className="font-normal">Other</FormLabel>
-                  </FormItem>
+                  {["Instagram", "Tiktok", "Google search/maps", "Referral", "Ads", "Other"].map((val) => (
+                    <FormItem key={val} className="flex items-center space-x-2">
+                      <FormControl>
+                        <RadioGroupItem value={val} className="border-gold/40 text-gold" />
+                      </FormControl>
+                      <FormLabel className={labelClass}>{val}</FormLabel>
+                    </FormItem>
+                  ))}
                 </RadioGroup>
               </FormControl>
               <FormMessage />
@@ -327,9 +285,9 @@ function BookingForm({ onSubmit, form }: FormProps) {
                   name="otherReferralSource"
                   render={({ field }) => (
                     <FormItem className="mt-2">
-                      <FormLabel>Please specify</FormLabel>
+                      <FormLabel className={labelClass}>Please specify</FormLabel>
                       <FormControl>
-                        <Input placeholder="How did you hear about us?" {...field} />
+                        <Input className={inputClass} placeholder="How did you hear about us?" {...field} />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -340,10 +298,10 @@ function BookingForm({ onSubmit, form }: FormProps) {
           )}
         />
 
-        <div className="pt-4 border-t border-gray-800">
+        <div className="pt-4 border-t border-gold/20">
           <Button
             type="submit"
-            className="w-full bg-yellow-500 text-black font-bold py-3 rounded hover:bg-yellow-600 transition-colors focus:ring-2 focus:ring-yellow-600 focus:ring-offset-2 focus:ring-offset-gray-900"
+            className="w-full btn-gold font-jose font-bold py-3 rounded text-sm tracking-wide"
           >
             Submit Booking Request
           </Button>
