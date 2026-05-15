@@ -4,6 +4,7 @@ import { useState, useRef } from "react";
 import { useQuery, useMutation, useAction } from "convex/react";
 import { api } from "@/convex/_generated/api";
 import type { Id } from "@/convex/_generated/dataModel";
+import { uploadFileToGitHub } from "@/lib/githubUpload";
 
 const inputCls =
   `w-full bg-[#111] border border-[rgba(255,255,255,0.1)] text-[#F5F0E8] px-3 py-2.5
@@ -154,7 +155,7 @@ function MetaFields({
 /* ─── MP3 Upload Form ────────────────────────────────────────────── */
 function UploadForm({ nextOrder, onDone }: { nextOrder: number; onDone: () => void }) {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const uploadToGitHub   = useAction((api as any).githubUpload.uploadToGitHub);
+  const getGitHubToken   = useAction((api as any).githubUpload.getGitHubToken);
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const saveTrackWithUrl = useMutation((api as any).portfolio.saveTrackWithUrl);
 
@@ -173,23 +174,9 @@ function UploadForm({ nextOrder, onDone }: { nextOrder: number; onDone: () => vo
 
     setStatus("uploading"); setMsg("");
     try {
-      /* 1. Read file as base64 */
-      const fileContent = await new Promise<string>((resolve, reject) => {
-        const reader = new FileReader();
-        reader.onload = () => {
-          const result = reader.result as string;
-          resolve(result.split(",")[1]);
-        };
-        reader.onerror = reject;
-        reader.readAsDataURL(file);
-      });
-
-      /* 2. Upload to GitHub via Convex action */
-      const fileUrl = await uploadToGitHub({
-        fileName:    file.name,
-        fileContent,
-        folder:      "portfolio",
-      });
+      /* 1. Get token from Convex, upload file directly to GitHub */
+      const token   = await getGitHubToken({});
+      const fileUrl = await uploadFileToGitHub(token, file, "portfolio");
 
       /* 3. Save metadata + GitHub URL in Convex */
       setStatus("saving");

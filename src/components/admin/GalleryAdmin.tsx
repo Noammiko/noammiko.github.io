@@ -4,6 +4,7 @@ import { useState, useRef } from "react";
 import { useQuery, useMutation, useAction } from "convex/react";
 import { api } from "@/convex/_generated/api";
 import type { Id } from "@/convex/_generated/dataModel";
+import { uploadFileToGitHub } from "@/lib/githubUpload";
 
 const inputCls =
   `w-full bg-[#111] border border-[rgba(255,255,255,0.1)] text-[#F5F0E8] px-3 py-2.5
@@ -25,7 +26,7 @@ type GalleryItem = {
 /* ─── Image Upload Form ──────────────────────────────────────────── */
 function UploadForm({ nextOrder, onDone }: { nextOrder: number; onDone: () => void }) {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const uploadToGitHub   = useAction((api as any).githubUpload.uploadToGitHub);
+  const getGitHubToken   = useAction((api as any).githubUpload.getGitHubToken);
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const saveImageWithUrl = useMutation((api as any).gallery.saveImageWithUrl);
 
@@ -51,21 +52,8 @@ function UploadForm({ nextOrder, onDone }: { nextOrder: number; onDone: () => vo
 
     setStatus("uploading"); setMsg("");
     try {
-      const fileContent = await new Promise<string>((resolve, reject) => {
-        const reader = new FileReader();
-        reader.onload = () => {
-          const result = reader.result as string;
-          resolve(result.split(",")[1]);
-        };
-        reader.onerror = reject;
-        reader.readAsDataURL(file);
-      });
-
-      const imageUrl = await uploadToGitHub({
-        fileName:    file.name,
-        fileContent,
-        folder:      "gallery",
-      });
+      const token    = await getGitHubToken({});
+      const imageUrl = await uploadFileToGitHub(token, file, "gallery");
 
       setStatus("saving");
       await saveImageWithUrl({
