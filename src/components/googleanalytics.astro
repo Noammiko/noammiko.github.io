@@ -14,3 +14,17 @@
     gtag('config', 'AW-17106276576');
     gtag('config', 'AW-18157221904');
 </script>
+<script is:inline>
+function gtag_report_conversion(url) {
+  var callback = function () {
+    if (typeof(url) != 'undefined') {
+      window.location = url;
+    }
+  };
+  gtag('event', 'conversion', {
+      'send_to': 'AW-18157221904/pordCO_O-60cEJDwhNJD',
+      'event_callback': callback
+  });
+  return false;
+}
+</script>

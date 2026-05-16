@@ -73,6 +73,9 @@ export default function BookingFormModal({ children }: Props) {
       otherReferralSource: values.otherReferralSource,
     }).then(() => {
       form.reset();
+      if (typeof (window as any).gtag_report_conversion === "function") {
+        (window as any).gtag_report_conversion();
+      }
       history.pushState(null, "", "/prices-and-bundles/thank-you");
       window.location.reload();
     });
