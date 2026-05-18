@@ -15,6 +15,16 @@ import {
 	description="Thank you for filling out the form"
 	currentPage=""
 >
+	<Fragment slot="head">
+		<!-- Event snippet for Submit lead form (1) conversion page -->
+		<script is:inline>
+			gtag('event', 'conversion', {'send_to': 'AW-18157221904/pordCO_O-60cEJDwhNJD'});
+		</script>
+		<!-- Google tag (gtag.js) event -->
+		<script is:inline>
+			gtag('event', 'ads_conversion_Submit_lead_form_1', {});
+		</script>
+	</Fragment>
 	<script>
 		import { setupIdleRedirect } from "../../lib/idleRedirect.ts";
 		setupIdleRedirect(30 * 1000);
